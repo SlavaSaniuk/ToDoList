@@ -1,2 +1,4 @@
 by\beltelecom\todolist\unit\services\tasks\TasksServiceImplUnitTests.class
+by\beltelecom\todolist\integration\serviecs\tasks\TasksServiceTestsCase.class
+by\beltelecom\todolist\integration\data\repository\TasksRepositoryTestCase.class
 by\beltelecom\todolist\ToDoListApplicationTests.class
