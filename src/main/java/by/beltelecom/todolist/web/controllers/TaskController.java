@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.web.controllers;
 
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +24,20 @@ public class TaskController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class);
 
     @GetMapping("/task")
-    public String getTaskPage(@RequestParam(value = "id") long aId) {
+    public ModelAndView getTaskPage(@RequestParam(value = "id") long aId) {
+        // Create model and view:
+        ModelAndView mav = new ModelAndView("task");
 
+        // Get task from db by id:
+        Task task = null;
+        try {
+            task = this.tasksService.getTaskById(aId);
+        }catch (NotFoundException exc) {
+            LOGGER.warn(exc.getMessage());
+        }
 
-
-        return "task";
+        mav.addObject("task", task);
+        return mav;
     }
 
     @GetMapping("/create-task")

@@ -5,6 +5,7 @@ import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -34,5 +35,10 @@ public class TasksServiceImpl implements TasksService{
 
         // Save task in db and assist it id parameter:
         return this.tasksRepository.save(aTask);
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return (List<Task>) this.tasksRepository.findAll();
     }
 }

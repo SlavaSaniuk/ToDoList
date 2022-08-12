@@ -1,4 +1,5 @@
 by\beltelecom\todolist\services\tasks\TasksService.class
+by\beltelecom\todolist\web\WebmvcConfiguration.class
 by\beltelecom\todolist\exceptions\NotFoundException.class
 by\beltelecom\todolist\data\models\Task.class
 by\beltelecom\todolist\services\ServicesConfiguration.class

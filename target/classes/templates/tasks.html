@@ -2,11 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Tasks</title>
-    <h1 th:text="${task.name}"> Task name! </h1>
-    <p th:text="${task.description}"> Task description. </p>
-    <p th:text="${task.dateCreation}"> Task date creation. </p>
-    <p th:text="${task.dateCompletion}"> Task date completion. </p>
+    <title>All tasks </title>
+    <div th:each="task : ${tasks}">
+        <h1 th:text="${task.name}"> Task name! </h1>
+        <p th:text="${task.description}"> Task description. </p>
+        <p th:text="${task.dateCreation}"> Task date creation. </p>
+        <hr>
+    </div>
 </head>
 <body>
 

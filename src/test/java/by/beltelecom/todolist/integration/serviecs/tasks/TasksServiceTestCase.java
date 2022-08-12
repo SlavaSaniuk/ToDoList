@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class TasksServiceTestsCase {
+public class TasksServiceTestCase {
 
     @Autowired
     private TasksService tasksService;
@@ -50,6 +52,13 @@ public class TasksServiceTestsCase {
         Assertions.assertNotNull(foundedTask);
         Assertions.assertNotEquals(0L, foundedTask.getId());
         Assertions.assertEquals(createdTask.getId(), foundedTask.getId());
+    }
+
+    @Test
+    void getAllTasks_emptyTasksTable_shouldReturnEmptyList() {
+        List<Task> tasks = this.tasksService.getAllTasks();
+        Assertions.assertNotNull(tasks);
+        Assertions.assertEquals(0, tasks.size());
     }
 
 }
