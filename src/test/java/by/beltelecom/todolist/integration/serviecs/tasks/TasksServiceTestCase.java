@@ -74,4 +74,23 @@ public class TasksServiceTestCase {
         this.tasksService.deleteById(expectedId);
         Assertions.assertThrows(NotFoundException.class, () -> this.tasksService.getTaskById(expectedId));
     }
+
+    @Test
+    void updateTask_newName_shouldReturnTaskWithNewName() {
+        String name = "UpdateTask test!";
+        Task taskToSave = Task.newTask();
+        taskToSave.setName(name);
+        taskToSave = this.tasksService.createTask(taskToSave);
+        Assertions.assertNotEquals(0L, taskToSave.getId());
+
+        // Update task
+        String expectedName = "New name for task!";
+        taskToSave.setName(expectedName);
+        Task updatedTask = this.tasksService.updateTask(taskToSave);
+
+        Assertions.assertNotNull(updatedTask);
+        Assertions.assertNotEquals(0L, updatedTask.getId());
+        Assertions.assertNotNull(updatedTask.getName());
+        Assertions.assertEquals(expectedName, updatedTask.getName());
+    }
 }

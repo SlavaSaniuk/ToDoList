@@ -58,7 +58,7 @@ public class TasksServiceImpl implements TasksService{
     }
 
     @Override
-    public Task updateEntity(Task aTask) {
+    public Task updateTask(Task aTask) {
         LOGGER.debug("Try to update entity object{} in db: ", aTask);
         // Check id:
         if (aTask.getId() == 0L) throw new IllegalArgumentException("Parameter aTask should have a nonzero id value");
@@ -66,7 +66,7 @@ public class TasksServiceImpl implements TasksService{
         // Check if already exist in db:
         if(!this.tasksRepository.existsById(aTask.getId())) throw new NotFoundException(Task.class);
 
-        return null;
+        return this.tasksRepository.save(aTask);
     }
 
 

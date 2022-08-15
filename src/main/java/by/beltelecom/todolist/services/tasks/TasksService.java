@@ -37,5 +37,5 @@ public interface TasksService {
      * @param aTask - entity object to update (with new properties);
      * @return - updated entity object.
      */
-    Task updateEntity(Task aTask);
+    Task updateTask(Task aTask);
 }
