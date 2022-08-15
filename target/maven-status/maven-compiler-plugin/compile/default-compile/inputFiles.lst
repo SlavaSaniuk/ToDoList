@@ -1,6 +1,7 @@
 D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\data\DataConfiguration.java
 D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\exceptions\NotFoundException.java
 D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\services\tasks\TasksServiceImpl.java
+D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\web\WebmvcConfiguration.java
 D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\web\controllers\HomeController.java
 D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\data\models\Task.java
 D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\java\by\beltelecom\todolist\data\repositories\TasksRepository.java

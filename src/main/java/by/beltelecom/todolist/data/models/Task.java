@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -21,9 +21,9 @@ public class Task {
     @Column
     private String description;
     @Column(name = "created")
-    private Date dateCreation;
+    private LocalDate dateCreation;
     @Column(name = "completion")
-    private Date dateCompletion;
+    private LocalDate dateCompletion;
 
     public Task(long a_id) {
         this.id = a_id;
@@ -31,7 +31,7 @@ public class Task {
 
     public static Task newTask() {
         Task task = new Task();
-        task.setDateCreation(new Date());
+        task.setDateCreation(LocalDate.now());
         return task;
     }
 }

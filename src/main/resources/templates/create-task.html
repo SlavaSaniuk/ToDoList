@@ -6,8 +6,9 @@
 </head>
 <body>
     <form th:action="@{/create-task}" th:object="${task}" method="post">
-        <input type="text" placeholder="Name of task" th:field="*{name}">
-        <input type="text" placeholder="Description of new task" th:field="*{description}">
+        <input type="text" placeholder="Name of task" th:field="*{name}" />
+        <input type="text" placeholder="Description of new task" th:field="*{description}" />
+        <input type="date" placeholder="Date of completion" th:field="*{dateCompletion}" />
         <input type="submit" value="Create">
     </form>
 </body>

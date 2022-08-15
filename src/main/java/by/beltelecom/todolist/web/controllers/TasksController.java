@@ -6,6 +6,7 @@ import by.beltelecom.todolist.services.tasks.TasksService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -62,7 +64,8 @@ public class TasksController {
 
     @PostMapping("/create-task")
     public String createTask(@ModelAttribute("task") Task aTask) {
-        aTask.setDateCreation(new Date());
+        aTask.setDateCreation(LocalDate.now());
+        LOGGER.warn("date of completion: " +aTask.getDateCreation().toString());
         Task createdTask = this.tasksService.createTask(aTask);
 
         return "redirect:/task?id=" +createdTask.getId();
