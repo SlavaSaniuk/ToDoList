@@ -4,31 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Started at notebook!">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked updateTask method in TasksService">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/TasksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/TasksService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/TasksServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/TasksServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/tasks/TasksServiceTestCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/tasks/TasksServiceTestCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/tasks/TasksServiceImplUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/tasks/TasksServiceImplUnitTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ToDoList-0.0.1-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/ToDoList-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/by/beltelecom/todolist/ToDoListApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/by/beltelecom/todolist/data/models/Task.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/by/beltelecom/todolist/services/tasks/TasksService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/by/beltelecom/todolist/services/tasks/TasksServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/by/beltelecom/todolist/web/controllers/HomeController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/by/beltelecom/todolist/web/controllers/TasksController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/home.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/tasks.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/by/beltelecom/todolist/ToDoListApplicationTests.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/by/beltelecom/todolist/unit/services/tasks/TasksServiceImplUnitTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/TasksController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/TasksController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/task.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/task.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +91,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.TasksServiceTestCase">
+  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
     <configuration name="TasksServiceImplUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -187,7 +166,7 @@
       <workItem from="1659093519727" duration="520000" />
       <workItem from="1659341500222" duration="42000" />
       <workItem from="1659341811037" duration="633000" />
-      <workItem from="1660593506595" duration="2339000" />
+      <workItem from="1660593506595" duration="3507000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -203,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660594219397</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Worked updateTask method in TasksService">
+      <created>1660595888191</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1660595888191</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +213,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Started at notebook!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Started at notebook!" />
+    <MESSAGE value="Worked updateTask method in TasksService" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked updateTask method in TasksService" />
   </component>
 </project>

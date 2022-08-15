@@ -76,4 +76,16 @@ public class TasksController {
 
         return "redirect:/tasks";
     }
+
+    @PostMapping("/update-task")
+    public String updateTask(@ModelAttribute("task") Task aTask) {
+        aTask.setDateCreation(LocalDate.now());
+        try {
+            this.tasksService.updateTask(aTask);
+        }catch (NotFoundException exc) {
+            LOGGER.warn(exc.getMessage());
+        }
+
+        return "redirect:/task?id=" +aTask.getId();
+    }
 }
