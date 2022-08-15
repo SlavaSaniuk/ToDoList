@@ -7,6 +7,10 @@
         <h1 th:text="${task.name}"> Task name! </h1>
         <p th:text="${task.description}"> Task description. </p>
         <p th:text="${task.dateCreation}"> Task date creation. </p>
+        <form method="post" th:action="@{/delete-task}">
+            <input type="hidden" th:value="${task.id}" id="delete-id" th:name="delete-id">
+            <input type="submit" value="Delete">
+        </form>
         <hr>
     </div>
 </head>
