@@ -79,4 +79,17 @@ public class TasksServiceImplUnitTests {
 
     }
 
+    @Test
+    void updateEntity_entityWithoutId_shouldThrowIAE() {
+        Assertions.assertThrows(IllegalArgumentException.class, ()-> this.taskService.updateEntity(Task.newTask()));
+    }
+
+    @Test
+    void updateEntity_entityNofFoundInDb_shouldThrowNFE() {
+        Mockito.when(this.tasksRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
+        Task task = Task.newTask();
+        task.setId(55L);
+        Assertions.assertThrows(NotFoundException.class, () -> this.taskService.updateEntity(Task.newTask()));
+    }
+
 }
