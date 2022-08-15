@@ -4,8 +4,9 @@ import by.beltelecom.todolist.data.models.Task;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+/**
+ * Class for work with {@link Task} objects in database/
+ */
 @Repository("tasksRepository")
 public interface TasksRepository extends CrudRepository<Task, Long> {
 }

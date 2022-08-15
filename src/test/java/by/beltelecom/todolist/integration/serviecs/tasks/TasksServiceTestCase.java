@@ -60,5 +60,18 @@ public class TasksServiceTestCase {
         Assertions.assertNotNull(tasks);
         Assertions.assertEquals(0, tasks.size());
     }
+    @Test
+    void deleteById_idIsZero_shouldThrowIAE() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.tasksService.deleteById(0));
+    }
 
+    @Test
+    void deleteById_idIsNonZero_shouldDeleteTask() {
+        Task createdTask = this.tasksService.createTask(Task.newTask());
+        long expectedId = createdTask.getId();
+        Assertions.assertNotEquals(0L, expectedId);
+
+        this.tasksService.deleteById(expectedId);
+        Assertions.assertThrows(NotFoundException.class, () -> this.tasksService.getTaskById(expectedId));
+    }
 }

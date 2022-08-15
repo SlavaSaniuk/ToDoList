@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Interface for work with {@link Task} objects in application.
+ */
 @Service("TasksService")
 public interface TasksService {
 
@@ -22,5 +25,7 @@ public interface TasksService {
      * @return - List of all tasks.
      */
     List<Task> getAllTasks();
+
+    void deleteById(long aId);
 
 }

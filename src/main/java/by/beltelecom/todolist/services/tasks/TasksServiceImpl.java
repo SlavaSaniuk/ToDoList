@@ -14,7 +14,7 @@ public class TasksServiceImpl implements TasksService{
     private final TasksRepository tasksRepository; // Autowired in ServicesConfiguration.class
 
     public TasksServiceImpl(TasksRepository aTaskRepository) {
-        Objects.requireNonNull(aTaskRepository, "TaskRepository parameter constructor must be notnull");
+        Objects.requireNonNull(aTaskRepository, "TaskRepository parameter constructor must be not null");
         this.tasksRepository = aTaskRepository;
     }
 
@@ -40,5 +40,13 @@ public class TasksServiceImpl implements TasksService{
     @Override
     public List<Task> getAllTasks() {
         return (List<Task>) this.tasksRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(long aId) {
+        //Check at zero:
+        if (aId == 0L) throw new IllegalArgumentException("Requested ID must be not zero.");
+
+        this.tasksRepository.deleteById(aId);
     }
 }
