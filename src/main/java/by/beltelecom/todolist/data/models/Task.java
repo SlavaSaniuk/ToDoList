@@ -26,6 +26,9 @@ public class Task {
     private LocalDate dateCreation;
     @Column(name = "completion")
     private LocalDate dateCompletion;
+    @ManyToOne
+    @JoinColumn(name = "fkOwner")
+    private User user;
 
     public Task(long a_id) {
         this.id = a_id;
