@@ -2,14 +2,15 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Task</title>
+    <title th:text="${task.name}">Task</title>
 </head>
 <body>
     <form method="post" th:object="${task}" th:action="@{/update-task}">
         <input type="hidden" th:value="${task.id}" id="id" th:name="id">
         <label> Name: <input type="text" th:field="*{name}"> </label>
-        <input type="text">
-        <input type="date">
+        <label> Description: <input type="text" th:field="*{description}"> </label>
+        <label> Date of completion: <input type="date" th:value="${taskDto.getHtmlFormatDateCompletion()}" th:name="dateCompletion"> </label>
+        <p> Date of creation: <span th:text="${task.dateCreation}"> </span></p>
         <input type="submit">
     </form>
 </body>

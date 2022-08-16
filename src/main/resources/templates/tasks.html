@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>All tasks </title>
+</head>
+<body>
     <div th:each="task : ${tasks}">
         <h1 th:text="${task.name}"> Task name! </h1>
         <p th:text="${task.description}"> Task description. </p>
         <p th:text="${task.dateCreation}"> Task date creation. </p>
         <p> Date of completion: <span th:text="${task.dateCompletion}"></span> </p>
+        <a th:href="@{/task(id=${task.id})}"> Edit </a>
         <form method="post" th:action="@{/delete-task}">
             <input type="hidden" th:value="${task.id}" id="delete-id" th:name="delete-id">
             <input type="submit" value="Delete">
         </form>
         <hr>
     </div>
-</head>
-<body>
-
 </body>
 </html>

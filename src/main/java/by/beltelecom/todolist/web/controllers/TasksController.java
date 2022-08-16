@@ -3,6 +3,7 @@ package by.beltelecom.todolist.web.controllers;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
+import by.beltelecom.todolist.web.dto.TaskDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,8 @@ public class TasksController {
         }
 
         mav.addObject("task", task);
+        mav.addObject("taskDto", new TaskDto(task));
+
         return mav;
     }
 
