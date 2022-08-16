@@ -52,6 +52,10 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 
 
 
@@ -96,6 +100,10 @@
                 <configuration>
                     <disableXmlReport>true</disableXmlReport>
                     <useFile>false</useFile>
+                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                    <forkCount>0</forkCount>
+                    <reuseForks>true</reuseForks>
+                    <runOrder>alphabetical</runOrder>
                 </configuration>
             </plugin>
         </plugins>
