@@ -3,15 +3,17 @@ package by.beltelecom.todolist.data.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity(name = "accounts")
 @Getter @Setter
 @NoArgsConstructor
+@ToString
 public class Account {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private long id;
 
     @Column(nullable = false, unique = true)
@@ -21,7 +23,8 @@ public class Account {
     private String password;
 
     @OneToOne(targetEntity = User.class)
-    @JoinColumn(name = "fk_owner", nullable = false, unique = true)
+    @MapsId
+    @JoinColumn(name = "fk_owner")
     private User userAccount;
 
 }

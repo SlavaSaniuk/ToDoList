@@ -19,8 +19,8 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @OneToOne(targetEntity = Account.class)
-    @JoinColumn(name = "fk_account", nullable = false, unique = true)
+    @OneToOne(targetEntity = Account.class, cascade = CascadeType.ALL, mappedBy = "userAccount")
+    @JoinColumn
     private Account userAccount;
 
     @OneToMany(mappedBy = "userOwner", cascade = CascadeType.ALL)

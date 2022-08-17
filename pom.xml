@@ -100,7 +100,7 @@
                 <configuration>
                     <disableXmlReport>true</disableXmlReport>
                     <useFile>false</useFile>
-                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                    <argLine>-Xmx1024m</argLine>
                     <forkCount>0</forkCount>
                     <reuseForks>true</reuseForks>
                     <runOrder>alphabetical</runOrder>
