@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Created entity objects, but tests are not working!">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Imported schema">
+      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/DatabaseAuthenticationProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/todolist_accounts.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sql/todolist_accounts.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/todolist_accounts0.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/todolist_tasks0.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/todolist_users.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sql/todolist_users.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sql/todolist_users0.sql" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,7 +169,7 @@
       <workItem from="1659341811037" duration="633000" />
       <workItem from="1660593506595" duration="3770000" />
       <workItem from="1660673847175" duration="2906000" />
-      <workItem from="1660762157982" duration="313000" />
+      <workItem from="1660762157982" duration="2978000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -210,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660676746029</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Imported schema">
+      <created>1660762622544</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1660762622545</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,6 +240,7 @@
     <MESSAGE value="Worked updateTask method in TasksService" />
     <MESSAGE value="Worked updateTask method in TaskController" />
     <MESSAGE value="Created entity objects, but tests are not working!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created entity objects, but tests are not working!" />
+    <MESSAGE value="Imported schema" />
+    <option name="LAST_COMMIT_MESSAGE" value="Imported schema" />
   </component>
 </project>
