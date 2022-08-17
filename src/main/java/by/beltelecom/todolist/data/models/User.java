@@ -7,20 +7,23 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "tasks-user")
+@Entity(name = "users")
 @Getter @Setter
 @NoArgsConstructor
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
     private String name;
 
     @OneToOne(targetEntity = Account.class)
-    private Account account;
+    @JoinColumn(name = "fk_account", nullable = false, unique = true)
+    private Account userAccount;
 
-    @OneToMany
-    private List<Task> userTasks;
+    @OneToMany(mappedBy = "userOwner", cascade = CascadeType.ALL)
+    private List<Task> tasks;
+
 }

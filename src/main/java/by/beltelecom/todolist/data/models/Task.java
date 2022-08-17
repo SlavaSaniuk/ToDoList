@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,15 +21,16 @@ public class Task {
     private long id;
     @Column
     private String name;
-    @Column
+    @Column(length = 65535, columnDefinition = "TEXT")
+    @Type(type = "text")
     private String description;
     @Column(name = "created")
     private LocalDate dateCreation;
     @Column(name = "completion")
     private LocalDate dateCompletion;
     @ManyToOne
-    @JoinColumn(name = "fkOwner")
-    private User user;
+    @JoinColumn(name = "fk_owner")
+    private User userOwner;
 
     public Task(long a_id) {
         this.id = a_id;
