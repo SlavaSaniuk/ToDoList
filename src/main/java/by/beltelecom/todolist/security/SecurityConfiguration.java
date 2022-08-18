@@ -4,8 +4,8 @@ import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationMana
 import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationProvider;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
 import by.beltelecom.todolist.services.security.AccountsService;
-import by.beltelecom.todolist.services.security.SignService;
-import by.beltelecom.todolist.services.security.SignServiceImpl;
+import by.beltelecom.todolist.security.authentication.SignService;
+import by.beltelecom.todolist.security.authentication.SignServiceImpl;
 import by.beltelecom.todolist.services.security.UsersService;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class SecurityConfiguration {
     @Bean("signService")
     public SignService signService() {
         LOGGER.debug(SpringLogging.Creation.createBean(SignService.class));
-        return new SignServiceImpl(this.accountsService, this.passwordEncoder(), this.usersService);
+        return new SignServiceImpl(this.accountsService, this.passwordEncoder(), this.usersService, this.authenticationManager());
     }
 
 

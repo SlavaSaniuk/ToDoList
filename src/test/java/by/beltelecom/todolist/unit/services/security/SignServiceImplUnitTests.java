@@ -4,7 +4,7 @@ import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
 import by.beltelecom.todolist.services.security.AccountsService;
-import by.beltelecom.todolist.services.security.SignServiceImpl;
+import by.beltelecom.todolist.security.authentication.SignServiceImpl;
 import by.beltelecom.todolist.services.security.UsersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -28,11 +29,14 @@ public class SignServiceImplUnitTests {
     @MockBean
     private UsersService usersService;
 
+    @MockBean
+    private AuthenticationManager authenticationManager;
+
     private SignServiceImpl signService;
 
     @BeforeEach
     void beforeEach() {
-        this.signService = new SignServiceImpl(accountsService, passwordEncoder, usersService);
+        this.signService = new SignServiceImpl(accountsService, passwordEncoder, usersService, authenticationManager);
     }
 
     @Test

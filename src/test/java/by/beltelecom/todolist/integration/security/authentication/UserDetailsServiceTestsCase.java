@@ -2,7 +2,7 @@ package by.beltelecom.todolist.integration.security.authentication;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.services.security.SignService;
+import by.beltelecom.todolist.security.authentication.SignService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

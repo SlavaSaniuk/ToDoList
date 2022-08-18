@@ -1,10 +1,17 @@
-package by.beltelecom.todolist.services.security;
+package by.beltelecom.todolist.security.authentication;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
+import by.beltelecom.todolist.services.security.AccountsService;
+import by.beltelecom.todolist.services.security.UsersService;
+import by.beltelecom.todolist.utilities.logging.Checks;
+import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +22,25 @@ import java.util.Objects;
  */
 public class SignServiceImpl implements SignService {
 
-
+    private final AuthenticationManager authenticationManager; // (mapped in constructor);
     private final AccountsService accountsService; // Repository bean (mapped in constructor);
     private final PasswordEncoder passwordEncoder; // SecurityService bean (mapped in constructor);
     private final UsersService usersService; // Users service bean (mapped in constructor);
     private static final Logger LOGGER = LoggerFactory.getLogger(SignServiceImpl.class);
 
     public SignServiceImpl(AccountsService anAccountsService, PasswordEncoder aPasswordEncoder,
-                           UsersService aUsersService) {
+                           UsersService aUsersService, AuthenticationManager anAuthenticationManager) {
+        LOGGER.debug(SpringLogging.Creation.createBean(SignServiceImpl.class));
+
+        // Check arguments:
+        Objects.requireNonNull(anAuthenticationManager,
+                Checks.argumentNotNull("anAuthenticationManager", AuthenticationManager.class));
+
+        // Maps arguments
         this.accountsService = anAccountsService;
         this.passwordEncoder = aPasswordEncoder;
         this.usersService = aUsersService;
+        this.authenticationManager = anAuthenticationManager;
     }
 
     @Override
@@ -57,5 +72,17 @@ public class SignServiceImpl implements SignService {
 
         // Save in database:
         return this.accountsService.saveAccount(anAccount);
+    }
+
+    @Override
+    public Account loginAccount(Account anAccount) throws AuthenticationException {
+        // Check parameters:
+        Objects.requireNonNull(anAccount, Checks.argumentNotNull("anAccount", Account.class));
+
+        // May throw BCE:
+        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(anAccount.getEmail(), anAccount.getPassword()));
+
+        // If account authenticated, get account from DB:
+        return this.accountsService.getAccountByEmail(anAccount.getEmail());
     }
 }

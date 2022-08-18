@@ -3,7 +3,7 @@ package by.beltelecom.todolist.web.controllers.security;
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
-import by.beltelecom.todolist.services.security.SignService;
+import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.web.dto.AccountUserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SignController {
 
-    private SignService signService; // Security service bean (mapped in constructor);
+    private final SignService signService; // Security service bean (mapped in constructor);
     private static final Logger LOGGER = LoggerFactory.getLogger(SignController.class);
 
     @Autowired
