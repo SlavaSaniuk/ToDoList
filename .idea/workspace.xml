@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Imported schema">
-      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/DatabaseAuthenticationProvider.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService">
+      <change afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/DatabaseAuthenticationProviderTestsCase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/security/DatabaseUserDetailsServiceUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/security/authentication/DatabaseUserDetailsServiceUnitTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +93,22 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
+  <component name="RunManager" selected="JUnit.DatabaseAuthenticationProviderTestsCase">
+    <configuration name="DatabaseAuthenticationProviderTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.security.authentication.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.security.authentication" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.security.authentication.DatabaseAuthenticationProviderTestsCase" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TasksServiceImplUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -148,6 +164,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DatabaseAuthenticationProviderTestsCase" />
         <item itemvalue="JUnit.TasksServiceTestCase" />
         <item itemvalue="JUnit.TasksServiceImplUnitTests" />
         <item itemvalue="JUnit.TasksServiceImplUnitTests.createTask_aTaskIsNull_shouldThrowNPE" />
@@ -169,7 +186,8 @@
       <workItem from="1659341811037" duration="633000" />
       <workItem from="1660593506595" duration="3770000" />
       <workItem from="1660673847175" duration="2906000" />
-      <workItem from="1660762157982" duration="2978000" />
+      <workItem from="1660762157982" duration="3090000" />
+      <workItem from="1660843851595" duration="1357000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -213,7 +231,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660762622545</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService">
+      <created>1660766208275</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1660766208275</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,6 +266,7 @@
     <MESSAGE value="Worked updateTask method in TaskController" />
     <MESSAGE value="Created entity objects, but tests are not working!" />
     <MESSAGE value="Imported schema" />
-    <option name="LAST_COMMIT_MESSAGE" value="Imported schema" />
+    <MESSAGE value="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService" />
+    <option name="LAST_COMMIT_MESSAGE" value="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService" />
   </component>
 </project>

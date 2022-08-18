@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.unit.security;
+package by.beltelecom.todolist.unit.security.authentication;
 
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
