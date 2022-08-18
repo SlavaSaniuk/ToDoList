@@ -22,8 +22,6 @@ public class ServicesConfiguration {
 
     private AccountsRepository accountsRepository;
 
-    private PasswordEncoder passwordEncoder;
-
     @Bean("tasksService")
     public TasksService tasksService() {
         return new TasksServiceImpl(this.tasksRepository);
@@ -36,11 +34,6 @@ public class ServicesConfiguration {
     @Bean("accountsService")
     public AccountsService accountsService() {
         return new AccountsServiceImpl(this.accountsRepository);
-    }
-    @Bean("signService")
-    public SignService signService() {
-        LOGGER.debug("Create {} service bean", SignService.class);
-        return new SignServiceImpl(this.accountsRepository, this.passwordEncoder, this.usersService());
     }
 
     @Autowired
@@ -61,11 +54,5 @@ public class ServicesConfiguration {
         LOGGER.debug("Autowire {} repository bean in {} configuration.", AccountsRepository.class,
                 ServicesConfiguration.class);
         this.accountsRepository = anAccountsRepository;
-    }
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder aPasswordEncoder) {
-        LOGGER.debug("Autowire {} repository bean in {} configuration.", PasswordEncoder.class,
-                ServicesConfiguration.class);
-        this.passwordEncoder = aPasswordEncoder;
     }
 }
