@@ -41,13 +41,15 @@ public class SecurityConfiguration {
                 .antMatchers("/").permitAll()
                 .antMatchers("/sign/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin()
-                .and().httpBasic();
+                .and().formLogin().loginPage("/sign");
 
         return  security.build();
     }
 
 
+    /**
+     * {@link SignService} security service bean used to register and authenticate users in application.
+     */
     @Bean("signService")
     public SignService signService() {
         LOGGER.debug(SpringLogging.Creation.createBean(SignService.class));
