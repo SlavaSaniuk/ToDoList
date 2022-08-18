@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.security;
 
+import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationManager;
 import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationProvider;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
 import by.beltelecom.todolist.services.security.AccountsService;
@@ -13,16 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
@@ -48,24 +47,23 @@ public class SecurityConfiguration {
         return  security.build();
     }
 
-    @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        InMemoryUserDetailsManager userDetailsManager = new InMemoryUserDetailsManager();
-        UserDetails user1 = User.withUsername("user")
-                .password(this.passwordEncoder().encode("123")).roles("USER").build();
-        UserDetails user2 = User.withUsername("admin")
-                .password(this.passwordEncoder().encode("111")).roles("ADMIN").build();
 
-        userDetailsManager.createUser(user1);
-        userDetailsManager.createUser(user2);
-
-        return userDetailsManager;
+    @Bean("signService")
+    public SignService signService() {
+        LOGGER.debug(SpringLogging.Creation.createBean(SignService.class));
+        return new SignServiceImpl(this.accountsService, this.passwordEncoder(), this.usersService);
     }
 
+
+    /**
+     * Database implementation of {@link AuthenticationManager} service bean.
+     * Used to authenticate request and save user in {@link org.springframework.security.core.context.SecurityContext} context.
+     */
     @Bean
     @Primary
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager() {
+        LOGGER.debug(SpringLogging.Creation.createBean(AuthenticationManager.class));
+        return new DatabaseAuthenticationManager(this.authenticationProvider());
     }
 
     /**
@@ -91,10 +89,10 @@ public class SecurityConfiguration {
         return new DatabaseUserDetailsService(this.accountsService);
     }
 
-    @Bean("signService")
-    public SignService signService() {
-        LOGGER.debug("Create {} service bean", SignService.class);
-        return new SignServiceImpl(this.accountsService, this.passwordEncoder(), this.usersService);
+    @Bean
+    @Primary
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Autowired
