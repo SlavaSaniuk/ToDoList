@@ -12,4 +12,12 @@ public class SpringLogging {
         }
 
     }
+
+    public static class Creation {
+        private static final String START_CREATE_BEAN = "Create new Spring bean[%s];";
+
+        public static String createBean(Class<?> aBeanType) {
+            return String.format(Creation.START_CREATE_BEAN, aBeanType.getCanonicalName());
+        }
+    }
 }

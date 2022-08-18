@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.security;
 
+import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationProvider;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.services.security.SignService;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -66,11 +69,25 @@ public class SecurityConfiguration {
     }
 
     /**
+     * Database implementation of {@link  AuthenticationProvider} class.
+     * {@link DatabaseAuthenticationProvider#authenticate(Authentication)} method to used to
+     * compare specified password and db password.
+     */
+    @Bean
+    @Primary
+    public AuthenticationProvider authenticationProvider() {
+        LOGGER.debug(SpringLogging.Creation.createBean(AuthenticationProvider.class));
+        return new DatabaseAuthenticationProvider(this.userDetailsService(), this.passwordEncoder());
+    }
+
+    /**
      * {@link DatabaseUserDetailsService} is implementation of {@link UserDetailsService} service bean.
      * Used to retrieve information about users from database.
      */
     @Bean
+    @Primary
     public UserDetailsService userDetailsService() {
+        LOGGER.debug(SpringLogging.Creation.createBean(UserDetailsService.class));
         return new DatabaseUserDetailsService(this.accountsService);
     }
 
