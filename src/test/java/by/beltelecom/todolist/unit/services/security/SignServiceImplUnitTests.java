@@ -2,8 +2,8 @@ package by.beltelecom.todolist.unit.services.security;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
+import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.services.security.SignServiceImpl;
 import by.beltelecom.todolist.services.security.UsersService;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class SignServiceImplUnitTests {
 
     @MockBean
-    private AccountsRepository accountsRepository;
+    private AccountsService accountsService;
     @MockBean
     private PasswordEncoder passwordEncoder;
     @MockBean
@@ -32,7 +32,7 @@ public class SignServiceImplUnitTests {
 
     @BeforeEach
     void beforeEach() {
-        this.signService = new SignServiceImpl(accountsRepository, passwordEncoder, usersService);
+        this.signService = new SignServiceImpl(accountsService, passwordEncoder, usersService);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class SignServiceImplUnitTests {
         account.setEmail("any-email");
         account.setPassword("any-password");
 
-        Mockito.when(this.accountsRepository.findByEmail(ArgumentMatchers.anyString())).thenReturn(Optional.of(account));
+        Mockito.when(this.accountsService.getAccountOptByEmail(ArgumentMatchers.anyString())).thenReturn(Optional.of(account));
 
         Assertions.assertThrows(AccountAlreadyRegisteredException.class, () -> this.signService.registerAccount(account, new User()));
     }

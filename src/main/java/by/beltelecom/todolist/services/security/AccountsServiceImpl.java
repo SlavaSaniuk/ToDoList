@@ -6,6 +6,7 @@ import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -40,5 +41,24 @@ public class AccountsServiceImpl implements AccountsService {
         Optional<Account> founded = this.getAccountOptByEmail(aEmail);
         if (founded.isEmpty()) throw new NotFoundException(Account.class);
         return founded.get();
+    }
+
+    @Override
+    @Transactional
+    public Account saveAccount(Account anAccount) {
+        LOGGER.debug("Try to save [Account] entity in database.");
+
+        // Check parameters:
+        Objects.requireNonNull(anAccount, Checks.argumentNotNull("anAccount", Account.class));
+        Objects.requireNonNull(anAccount.getUserAccount(), Checks.propertyOfArgumentNotNull("userAccount", "anAccount", Account.class));
+        Objects.requireNonNull(anAccount.getEmail(), Checks.propertyOfArgumentNotNull("email", "anAccount", Account.class));
+        Objects.requireNonNull(anAccount.getPassword(), Checks.propertyOfArgumentNotNull("password", "anAccount", Account.class));
+        if (anAccount.getEmail().length() == 0)
+            throw new IllegalArgumentException(Checks.Strings.stringNotEmpty("Email"));
+        if (anAccount.getPassword().length() == 0)
+            throw new IllegalArgumentException(Checks.Strings.stringNotEmpty("Password"));
+
+        // Save account in database:
+        return this.accountsRepository.save(anAccount);
     }
 }

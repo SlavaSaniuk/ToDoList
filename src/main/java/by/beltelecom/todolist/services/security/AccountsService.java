@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.services.security;
 
 import by.beltelecom.todolist.data.models.Account;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,4 +28,14 @@ public interface AccountsService {
      * @throws by.beltelecom.todolist.exceptions.NotFoundException - when account is not found.
      */
     Account getAccountByEmail(String aEmail);
+
+    /**
+     * Save account entity in database.
+     * @param anAccount - account entity to save;
+     * @return - saved account entity (with id parameter);
+     * @throws NullPointerException - if anAccount, User(in Account) argument is null.
+     * @throws IllegalArgumentException if email, password or name properties of account is blank.
+     */
+    @Transactional
+    Account saveAccount(Account anAccount);
 }

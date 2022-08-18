@@ -2,7 +2,6 @@ package by.beltelecom.todolist.services.security;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +16,14 @@ import java.util.Objects;
 public class SignServiceImpl implements SignService {
 
 
-    private AccountsRepository accountsRepository; // Repository bean (mapped in constructor);
-    private PasswordEncoder passwordEncoder; // SecurityService bean (mapped in constructor);
-    private UsersService usersService; // Users service bean (mapped in constructor);
+    private final AccountsService accountsService; // Repository bean (mapped in constructor);
+    private final PasswordEncoder passwordEncoder; // SecurityService bean (mapped in constructor);
+    private final UsersService usersService; // Users service bean (mapped in constructor);
     private static final Logger LOGGER = LoggerFactory.getLogger(SignServiceImpl.class);
 
-    public SignServiceImpl(AccountsRepository anAccountsRepository, PasswordEncoder aPasswordEncoder,
+    public SignServiceImpl(AccountsService anAccountsService, PasswordEncoder aPasswordEncoder,
                            UsersService aUsersService) {
-        this.accountsRepository = anAccountsRepository;
+        this.accountsService = anAccountsService;
         this.passwordEncoder = aPasswordEncoder;
         this.usersService = aUsersService;
     }
@@ -34,7 +33,7 @@ public class SignServiceImpl implements SignService {
     public Account registerAccount(Account anAccount, User aUser) {
         Objects.requireNonNull(anAccount, "[Account] parameter must be not <null>.");
         Objects.requireNonNull(aUser, "[User] parameter must be not <null>.");
-        LOGGER.debug("Try to register new Account{}.", anAccount);
+        LOGGER.debug("Try to register new [Account] entity.");
 
         // Check parameters:
         Objects.requireNonNull(anAccount.getEmail(), "[Email] field in [Account] parameter must be not <null>.");
@@ -45,7 +44,7 @@ public class SignServiceImpl implements SignService {
             throw new IllegalArgumentException("[Password] field in [Account] parameter must be not empty.");
 
         // Check if account already registered:
-        if(this.accountsRepository.findByEmail(anAccount.getEmail()).isPresent())
+        if(this.accountsService.getAccountOptByEmail(anAccount.getEmail()).isPresent())
             throw new AccountAlreadyRegisteredException(anAccount);
 
         // Try to create new user with name:
@@ -57,6 +56,6 @@ public class SignServiceImpl implements SignService {
         anAccount.setPassword(this.passwordEncoder.encode(anAccount.getPassword()));
 
         // Save in database:
-        return this.accountsRepository.save(anAccount);
+        return this.accountsService.saveAccount(anAccount);
     }
 }

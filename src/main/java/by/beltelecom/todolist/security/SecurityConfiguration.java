@@ -1,8 +1,6 @@
 package by.beltelecom.todolist.security;
 
-import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
-import by.beltelecom.todolist.services.ServicesConfiguration;
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.services.security.SignService;
 import by.beltelecom.todolist.services.security.SignServiceImpl;
@@ -32,7 +30,6 @@ public class SecurityConfiguration {
     private AccountsService accountsService; // Service bean (autowired via setter);
 
     private UsersService usersService; // Service bean (autowired via setter);
-    private AccountsRepository accountsRepository; // Repository bean (autowired via setter);
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfiguration.class);
 
     @Bean
@@ -80,7 +77,7 @@ public class SecurityConfiguration {
     @Bean("signService")
     public SignService signService() {
         LOGGER.debug("Create {} service bean", SignService.class);
-        return new SignServiceImpl(this.accountsRepository, this.passwordEncoder(), this.usersService);
+        return new SignServiceImpl(this.accountsService, this.passwordEncoder(), this.usersService);
     }
 
     @Autowired
@@ -89,12 +86,6 @@ public class SecurityConfiguration {
         this.accountsService = anAccountsService;
     }
 
-    @Autowired
-    public void setAccountsRepository(AccountsRepository anAccountsRepository) {
-        LOGGER.debug("Autowire {} repository bean in {} configuration.", AccountsRepository.class,
-                ServicesConfiguration.class);
-        this.accountsRepository = anAccountsRepository;
-    }
     @Autowired
     public void setUsersService(UsersService aUsersService) {
         LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(UsersService.class, SecurityConfiguration.class));
