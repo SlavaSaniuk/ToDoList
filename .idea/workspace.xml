@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Created DatabaseAuthenticationManager">
-      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/SignService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/SignService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/SignServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/SignServiceImpl.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Created SignService#loginAccount method">
       <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/security/SignController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/security/SignController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/DatabaseAuthenticationProviderTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/DatabaseAuthenticationProviderTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/UserDetailsServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/UserDetailsServiceTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/security/AccountsServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/security/AccountsServiceTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/security/SignServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/security/SignServiceTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/security/SignServiceImplUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/security/SignServiceImplUnitTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/sign.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/sign.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +92,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="JUnit.DatabaseAuthenticationProviderTestsCase">
+  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
     <configuration name="DatabaseAuthenticationProviderTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -195,7 +186,7 @@
       <workItem from="1660593506595" duration="3770000" />
       <workItem from="1660673847175" duration="2906000" />
       <workItem from="1660762157982" duration="3090000" />
-      <workItem from="1660843851595" duration="4530000" />
+      <workItem from="1660843851595" duration="5017000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -260,7 +251,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660847584469</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Created SignService#loginAccount method">
+      <created>1660848899871</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1660848899871</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,6 +289,7 @@
     <MESSAGE value="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService" />
     <MESSAGE value="Worked and Tested DatabaseAuthenticationProvider/" />
     <MESSAGE value="Created DatabaseAuthenticationManager" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created DatabaseAuthenticationManager" />
+    <MESSAGE value="Created SignService#loginAccount method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created SignService#loginAccount method" />
   </component>
 </project>

@@ -5,12 +5,20 @@
     <title>Sign</title>
 </head>
 <body>
+
     <h1> Registration form </h1>
     <form method="post" th:action="@{/sign/register-account}" th:object="${dto}">
         <label> Your name: <input type="text" th:field="*{userName}" /> </label>
         <label> Your email: <input type="text" th:field="*{accountEmail}" /> </label>
         <label> Your password: <input type="password" th:field="*{accountPassword}" /> </label>
         <input type="submit" value="Sign up">
+    </form>
+    <hr>
+    <h1> Login form </h1>
+    <form method="post" th:action="@{/sign/login-account}" th:object="${dto}">
+        <label> Your email: <input type="text" th:field="*{accountEmail}" /> </label>
+        <label> Your password: <input type="password" th:field="*{accountPassword}" /> </label>
+        <input type="submit" value="Sign in">
     </form>
     <hr>
 

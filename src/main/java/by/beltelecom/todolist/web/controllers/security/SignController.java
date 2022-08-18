@@ -8,6 +8,7 @@ import by.beltelecom.todolist.web.dto.AccountUserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -53,4 +54,22 @@ public class SignController {
 
         return "redirect:/";
     }
+
+    @PostMapping("/sign/login-account")
+    public String loginAccount(@ModelAttribute(name = "dto") AccountUserDto dto) {
+        LOGGER.debug("Try to login account.");
+
+        // Get account object from dto:
+        Account account = dto.toEntity();
+
+        // Try to log in account:
+        try {
+            account = this.signService.loginAccount(account);
+        }catch (BadCredentialsException exc) {
+            LOGGER.warn(exc.getMessage());
+        }
+
+        return "redirect:/";
+    }
+
 }
