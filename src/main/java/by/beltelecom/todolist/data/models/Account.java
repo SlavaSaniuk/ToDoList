@@ -22,7 +22,7 @@ public class Account {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(targetEntity = User.class)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name = "fk_owner")
     private User userAccount;
