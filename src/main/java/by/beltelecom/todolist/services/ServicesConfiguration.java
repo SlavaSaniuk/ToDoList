@@ -3,10 +3,7 @@ package by.beltelecom.todolist.services;
 import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
-import by.beltelecom.todolist.services.security.SignService;
-import by.beltelecom.todolist.services.security.SignServiceImpl;
-import by.beltelecom.todolist.services.security.UsersService;
-import by.beltelecom.todolist.services.security.UsersServiceImpl;
+import by.beltelecom.todolist.services.security.*;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
 import org.slf4j.Logger;
@@ -27,17 +24,20 @@ public class ServicesConfiguration {
 
     private PasswordEncoder passwordEncoder;
 
-    @Bean("taskService")
+    @Bean("tasksService")
     public TasksService tasksService() {
         return new TasksServiceImpl(this.tasksRepository);
 
     }
-    @Bean
+    @Bean("usersService")
     public UsersService usersService() {
         return new UsersServiceImpl(this.usersRepository);
     }
-
-    @Bean
+    @Bean("accountsService")
+    public AccountsService accountsService() {
+        return new AccountsServiceImpl(this.accountsRepository);
+    }
+    @Bean("signService")
     public SignService signService() {
         LOGGER.debug("Create {} service bean", SignService.class);
         return new SignServiceImpl(this.accountsRepository, this.passwordEncoder, this.usersService());
