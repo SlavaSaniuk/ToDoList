@@ -25,6 +25,6 @@ public class Account {
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @MapsId
     @JoinColumn(name = "fk_owner")
-    private User userAccount;
+    private User userOwner;
 
 }
