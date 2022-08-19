@@ -6,6 +6,7 @@ import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.Optional;
 /**
  * Default service implementation of {@link TasksService} bean.
  */
+@Transactional
 public class TasksServiceImpl implements TasksService{
 
     private final TasksRepository tasksRepository; // Autowired in ServicesConfiguration.class
@@ -52,7 +54,7 @@ public class TasksServiceImpl implements TasksService{
      * @return - Task with id attribute.
      */
     @Transactional
-    private Task createTask(Task aTask) {
+    public Task createTask(Task aTask) {
 
         // Check parameters:
         if (aTask.getName().isEmpty()) // check if name is empty;
@@ -61,7 +63,9 @@ public class TasksServiceImpl implements TasksService{
         LOGGER.debug("Save new task[{}] in database:", aTask);
 
         // Save task in db and assist it id parameter:
-        return this.tasksRepository.save(aTask);
+        Task task = this.tasksRepository.save(aTask);
+        Hibernate.initialize(task.getUserOwner().getTasks());
+        return task;
     }
 
     @Override
@@ -69,7 +73,7 @@ public class TasksServiceImpl implements TasksService{
     public Task createTask(Task aTask, User aUser) {
         // Check parameters:
         Objects.requireNonNull(aTask, Checks.argumentNotNull("aTask", Task.class));
-        Objects.requireNonNull(aTask.getUserOwner(), // Check owner;
+        Objects.requireNonNull(aUser, // Check owner;
                 Checks.propertyOfArgumentNotNull("userOwner", "aTask", Task.class));
 
         LOGGER.debug("Save new task[{}] of user[{}] in database:", aTask, aUser);
@@ -80,7 +84,8 @@ public class TasksServiceImpl implements TasksService{
 
         // Create task:
         aTask = this.createTask(aTask);
-        aUser.getTasks().add(aTask);
+        Hibernate.initialize(aTask.getUserOwner().getTasks());
+        aTask.getUserOwner().getTasks().add(aTask);
 
         return aTask;
     }

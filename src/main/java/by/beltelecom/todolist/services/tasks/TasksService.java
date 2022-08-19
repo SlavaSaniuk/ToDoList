@@ -11,6 +11,7 @@ import java.util.List;
  * Interface for work with {@link Task} objects in application.
  */
 @Service("TasksService")
+@Transactional
 public interface TasksService {
 
     Task getTaskById (long aId);
@@ -39,5 +40,6 @@ public interface TasksService {
      * @param aTask - entity object to update (with new properties);
      * @return - updated entity object.
      */
+    @Transactional
     Task updateTask(Task aTask);
 }

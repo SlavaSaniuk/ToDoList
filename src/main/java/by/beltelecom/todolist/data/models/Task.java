@@ -28,8 +28,8 @@ public class Task {
     private LocalDate dateCreation;
     @Column(name = "completion")
     private LocalDate dateCompletion;
-    @ManyToOne
-    @JoinColumn(name = "fk_owner")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "fk_owner", nullable = false)
     private User userOwner;
 
     public Task(long a_id) {

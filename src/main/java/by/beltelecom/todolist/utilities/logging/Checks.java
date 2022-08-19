@@ -22,4 +22,13 @@ public class Checks {
         }
 
     }
+
+    public static class Numbers {
+
+        private static final String numberNotZero = "Argument[%s] of type[%s] must be not zero.";
+
+        public static String argNotZero(String aName, Class<? extends Number> aType) {
+            return String.format(Numbers.numberNotZero, aName, aType.getCanonicalName());
+        }
+    }
 }

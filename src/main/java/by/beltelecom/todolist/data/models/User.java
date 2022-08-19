@@ -3,13 +3,16 @@ package by.beltelecom.todolist.data.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "users")
 @Getter @Setter
 @NoArgsConstructor
+@ToString
 public class User {
 
     @Id
@@ -23,7 +26,7 @@ public class User {
     @JoinColumn
     private Account userAccount;
 
-    @OneToMany(mappedBy = "userOwner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userOwner", targetEntity = Task.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Task> tasks;
 
 }

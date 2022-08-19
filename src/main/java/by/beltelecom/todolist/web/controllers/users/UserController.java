@@ -59,7 +59,6 @@ public class UserController {
             modelAndView.setViewName("redirect:/");
         }
 
-        modelAndView.addObject("user", user);
         return modelAndView;
     }
 

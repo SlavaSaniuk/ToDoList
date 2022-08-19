@@ -1,7 +1,9 @@
 package by.beltelecom.todolist.integration.data.repository;
 
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
+import by.beltelecom.todolist.data.repositories.UsersRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,10 +18,14 @@ public class TasksRepositoryTestCase {
 
     @Autowired
     private TasksRepository repository;
+    @Autowired
+    private UsersRepository usersRepository;
 
+    /*
     private Task createTask() {
         return Task.newTask();
     }
+
 
     @Test
     public void save_newTask_shouldReturnCreatedTask() {
@@ -39,5 +45,35 @@ public class TasksRepositoryTestCase {
         Assertions.assertNotNull(actualTask);
         Assertions.assertNotNull(actualTask.getDateCreation());
         Assertions.assertEquals(expected_id, actualTask.getId());
+    }
+
+     */
+
+    @Test
+    void findAllByUserOwner_noTasks_shouldReturnEmptyList() {
+        User owner = new User();
+        owner.setId(2);
+
+        Assertions.assertEquals(0, this.repository.findAllByUserOwner(owner).size());
+    }
+
+    @Test
+    void findAllByUserOwner_2tasks_shouldReturnListWith2tasks() {
+        User owner = new User();
+        owner.setName("TestName");
+        owner = usersRepository.save(owner);
+
+        Task task1 = Task.newTask();
+        task1.setName("anyName");
+        task1.setUserOwner(owner);
+        Task task2 = Task.newTask();
+        task2.setName("anyName");
+        task2.setUserOwner(owner);
+
+        this.repository.save(task1);
+        this.repository.save(task2);
+
+        Assertions.assertEquals(2, this.repository.findAllByUserOwner(owner).size());
+
     }
 }
