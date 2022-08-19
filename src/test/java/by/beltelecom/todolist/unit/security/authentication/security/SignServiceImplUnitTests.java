@@ -1,11 +1,11 @@
-package by.beltelecom.todolist.unit.services.security;
+package by.beltelecom.todolist.unit.security.authentication.security;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.security.authentication.SignServiceImpl;
-import by.beltelecom.todolist.services.security.UsersService;
+import by.beltelecom.todolist.services.users.UsersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

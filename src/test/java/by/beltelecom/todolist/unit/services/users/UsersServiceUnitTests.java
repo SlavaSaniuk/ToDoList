@@ -1,8 +1,9 @@
-package by.beltelecom.todolist.unit.services.security;
+package by.beltelecom.todolist.unit.services.users;
 
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
-import by.beltelecom.todolist.services.security.UsersServiceImpl;
+import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.services.users.UsersServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 @ExtendWith({SpringExtension.class})
 public class UsersServiceUnitTests {
@@ -45,6 +48,27 @@ public class UsersServiceUnitTests {
         User created = this.usersService.createUser("anyName");
         Assertions.assertNotNull(created);
         Assertions.assertNotNull(created.getName());
+    }
+
+    @Test
+    void getUserById_idIsZero_shouldThrowIAE() {
+        Assertions.assertThrows(IllegalArgumentException.class, ()-> this.usersService.getUserById(0L));
+    }
+
+    @Test
+    void getUserById_userNotFound_shouldThrowNFE() {
+        Mockito.when(this.usersRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
+        Assertions.assertThrows(NotFoundException.class, ()-> this.usersService.getUserById(1L));
+    }
+
+    @Test
+    void getUserById_userIsFounded_shouldReturnUser() {
+        long id = 1L;
+        User user = new User();
+        user.setId(id);
+
+        Mockito.when(this.usersRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(user));
+        Assertions.assertNotNull(this.usersService.getUserById(id));
     }
 
 }

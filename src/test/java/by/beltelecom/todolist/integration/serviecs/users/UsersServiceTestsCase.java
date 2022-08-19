@@ -1,7 +1,8 @@
-package by.beltelecom.todolist.integration.serviecs.security;
+package by.beltelecom.todolist.integration.serviecs.users;
 
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.services.security.UsersService;
+import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.services.users.UsersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,4 +26,23 @@ public class UsersServiceTestsCase {
         Assertions.assertNotEquals(0L, user.getId());
         Assertions.assertEquals(name, user.getName());
     }
+
+    @Test
+    void getUserById_userNotFound_shouldThrowNFE() {
+        Assertions.assertThrows(NotFoundException.class, () -> this.usersService.getUserById(5L));
+    }
+
+    @Test
+    void getUserById_userFounded_shouldReturnUser() {
+        String name = "testName";
+        User user = this.usersService.createUser(name);
+        long createdId = user.getId();
+
+        User founded = this.usersService.getUserById(createdId);
+
+        Assertions.assertNotNull(founded);
+        Assertions.assertEquals(createdId, founded.getId());
+        Assertions.assertEquals(user.getName(), founded.getName());
+    }
+
 }

@@ -6,6 +6,9 @@ import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.services.security.*;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
+import by.beltelecom.todolist.services.users.UsersService;
+import by.beltelecom.todolist.services.users.UsersServiceImpl;
+import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +20,34 @@ public class ServicesConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServicesConfiguration.class);
     private TasksRepository tasksRepository;
-    private UsersRepository usersRepository;
-
+    private UsersRepository usersRepository; // Spring repository bean (Autowired via setter);
     private AccountsRepository accountsRepository;
+
+    /**
+     * Construct new application services configuration bean.
+     */
+    public ServicesConfiguration() {
+        LOGGER.debug(SpringLogging.Creation.createBean(ServicesConfiguration.class));
+    }
+
 
     @Bean("tasksService")
     public TasksService tasksService() {
         return new TasksServiceImpl(this.tasksRepository);
 
     }
+
+    /**
+     * UsersService service bean used to manipulate {@link by.beltelecom.todolist.data.models.User} entities objects
+     * in application;
+     * @return - {@link UsersService} service bean/
+     */
     @Bean("usersService")
     public UsersService usersService() {
+        LOGGER.debug(SpringLogging.Creation.createBean(UsersService.class));
         return new UsersServiceImpl(this.usersRepository);
     }
+
     @Bean("accountsService")
     public AccountsService accountsService() {
         return new AccountsServiceImpl(this.accountsRepository);
@@ -41,10 +59,14 @@ public class ServicesConfiguration {
                 ServicesConfiguration.class);
         this.tasksRepository = aTaskRepository;
     }
+
+    /**
+     * Autowire {@link UsersRepository} repository bean.
+     * @param aUsersRepository - repository bean.
+     */
     @Autowired
     public void setUsersRepository(UsersRepository aUsersRepository) {
-        LOGGER.debug("Autowire {} repository bean in {} configuration.", UsersRepository.class,
-                ServicesConfiguration.class);
+        LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(UsersRepository.class, ServicesConfiguration.class));
         this.usersRepository = aUsersRepository;
     }
 
