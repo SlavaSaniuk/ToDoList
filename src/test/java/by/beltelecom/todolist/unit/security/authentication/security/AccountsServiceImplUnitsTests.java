@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.unit.services.security;
+package by.beltelecom.todolist.unit.security.authentication.security;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.repositories.AccountsRepository;

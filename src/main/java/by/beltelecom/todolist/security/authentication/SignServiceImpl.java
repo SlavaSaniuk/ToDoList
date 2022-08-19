@@ -4,7 +4,7 @@ import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
 import by.beltelecom.todolist.services.security.AccountsService;
-import by.beltelecom.todolist.services.security.UsersService;
+import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;

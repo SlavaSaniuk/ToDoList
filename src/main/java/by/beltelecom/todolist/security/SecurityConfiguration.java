@@ -6,7 +6,7 @@ import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.security.authentication.SignServiceImpl;
-import by.beltelecom.todolist.services.security.UsersService;
+import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
