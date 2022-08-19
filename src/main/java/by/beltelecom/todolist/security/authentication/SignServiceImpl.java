@@ -65,7 +65,7 @@ public class SignServiceImpl implements SignService {
         // Try to create new user with name:
         User createdUser = this.usersService.createUser(aUser.getName());
         createdUser.setUserAccount(anAccount);
-        anAccount.setUserAccount(createdUser);
+        anAccount.setUserOwner(createdUser);
 
         // Encode password:
         anAccount.setPassword(this.passwordEncoder.encode(anAccount.getPassword()));

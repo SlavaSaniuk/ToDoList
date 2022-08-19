@@ -50,7 +50,7 @@ public class AccountsServiceImpl implements AccountsService {
 
         // Check parameters:
         Objects.requireNonNull(anAccount, Checks.argumentNotNull("anAccount", Account.class));
-        Objects.requireNonNull(anAccount.getUserAccount(), Checks.propertyOfArgumentNotNull("userAccount", "anAccount", Account.class));
+        Objects.requireNonNull(anAccount.getUserOwner(), Checks.propertyOfArgumentNotNull("userAccount", "anAccount", Account.class));
         Objects.requireNonNull(anAccount.getEmail(), Checks.propertyOfArgumentNotNull("email", "anAccount", Account.class));
         Objects.requireNonNull(anAccount.getPassword(), Checks.propertyOfArgumentNotNull("password", "anAccount", Account.class));
         if (anAccount.getEmail().length() == 0)

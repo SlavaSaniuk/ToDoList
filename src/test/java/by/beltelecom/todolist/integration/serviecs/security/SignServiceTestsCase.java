@@ -29,10 +29,10 @@ public class SignServiceTestsCase {
         Assertions.assertNotNull(created);
         Assertions.assertNotNull(created.getEmail());
         Assertions.assertNotNull(created.getPassword());
-        Assertions.assertNotNull(created.getUserAccount());
-        Assertions.assertNotNull(created.getUserAccount().getName());
+        Assertions.assertNotNull(created.getUserOwner());
+        Assertions.assertNotNull(created.getUserOwner().getName());
 
         Assertions.assertNotEquals(0L, created.getId());
-        Assertions.assertNotEquals(0L, created.getUserAccount().getId());
+        Assertions.assertNotEquals(0L, created.getUserOwner().getId());
     }
 }

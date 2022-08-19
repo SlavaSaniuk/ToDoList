@@ -52,7 +52,7 @@ public class SignController {
             LOGGER.warn(exc.getMessage());
         }
 
-        return "redirect:/";
+        return "redirect:/user/" +registeredAccount.getUserOwner().getId();
     }
 
     @PostMapping("/sign/login-account")
@@ -69,7 +69,7 @@ public class SignController {
             LOGGER.warn(exc.getMessage());
         }
 
-        return "redirect:/";
+        return "redirect:/user/" +account.getUserOwner().getId();
     }
 
 }

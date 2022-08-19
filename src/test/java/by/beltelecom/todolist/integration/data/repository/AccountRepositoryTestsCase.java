@@ -42,7 +42,7 @@ public class AccountRepositoryTestsCase {
         userToSave.setName("anyName");
         userToSave = this.usersRepository.save(userToSave);
 
-        accountToSave.setUserAccount(userToSave);
+        accountToSave.setUserOwner(userToSave);
         this.accountsRepository.save(accountToSave);
 
         Optional<Account> accountFounded = this.accountsRepository.findByEmail(email);
