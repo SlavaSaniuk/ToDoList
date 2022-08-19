@@ -1,8 +1,5 @@
 package by.beltelecom.todolist.integration.serviecs.tasks;
 
-import by.beltelecom.todolist.data.models.Task;
-import by.beltelecom.todolist.data.repositories.TasksRepository;
-import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -19,14 +15,13 @@ public class TasksServiceTestCase {
 
     @Autowired
     private TasksService tasksService;
-    @Autowired
-    private TasksRepository tasksRepository;
 
     @Test
     void newTasksService_autowiredParameter_shouldReturnCreatedService() {
         Assertions.assertNotNull(tasksService);
     }
 
+    /*
     @Test
     void createTask_newTask_shouldReturnTask() {
         Task task = Task.newTask();
@@ -93,4 +88,6 @@ public class TasksServiceTestCase {
         Assertions.assertNotNull(updatedTask.getName());
         Assertions.assertEquals(expectedName, updatedTask.getName());
     }
+
+     */
 }

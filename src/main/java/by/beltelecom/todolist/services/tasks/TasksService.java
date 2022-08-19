@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,12 +16,13 @@ public interface TasksService {
     Task getTaskById (long aId);
 
     /**
-     * Create task object based on aTask parameter, save it in database, assign id attribute to it ard return it.
-     * @param aTask - Base {@link Task} object.
-     * @return - Task with id attribute.
+     * Create new {@link Task} entity object in database;
+     * @param aTask - task to create;
+     * @param aUser - user which create task;
+     * @return created task.
      */
     @Transactional
-    Task createTask(Task aTask);
+    Task createTask(Task aTask, User aUser);
 
     /**
      * Return all tasks from database without filters.

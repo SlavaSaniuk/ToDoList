@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * HTTP controller endpoint used to register and authenticate http request's.
  * For get sign page(sign.html) use {@link SignController#getSignPage()} method.
@@ -80,7 +82,7 @@ public class SignController {
      * @return - String that redirect to users page.
      */
     @RequestMapping(value = "/sign/login-account", method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginAccount(@ModelAttribute(name = "dto") AccountUserDto dto) {
+    public String loginAccount(@ModelAttribute(name = "dto") AccountUserDto dto, HttpSession httpSession) {
         LOGGER.debug("Try to login account.");
 
         // Get account object from dto:
@@ -92,6 +94,9 @@ public class SignController {
         }catch (BadCredentialsException exc) {
             LOGGER.warn(exc.getMessage());
         }
+
+        // Put user object in session:
+        httpSession.setAttribute("userObj", account.getUserOwner());
 
         return "redirect:/user/" +account.getUserOwner().getId();
     }

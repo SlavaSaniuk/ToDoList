@@ -1,8 +1,11 @@
 package by.beltelecom.todolist.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.utilities.logging.Checks;
+import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +20,19 @@ import java.util.Optional;
 public class TasksServiceImpl implements TasksService{
 
     private final TasksRepository tasksRepository; // Autowired in ServicesConfiguration.class
-    private static final Logger LOGGER = LoggerFactory.getLogger(TasksServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TasksServiceImpl.class); // Logger;
 
+    /**
+     * Construct new {@link TasksServiceImpl} service bean;
+     * @param aTaskRepository - {@link TasksRepository} repository bean.
+     */
     public TasksServiceImpl(TasksRepository aTaskRepository) {
-        Objects.requireNonNull(aTaskRepository, "TaskRepository parameter constructor must be not null");
+        LOGGER.debug(SpringLogging.Creation.createBean(TasksServiceImpl.class));
+
+        // Check arguments:
+        Objects.requireNonNull(aTaskRepository, Checks.argumentNotNull("aTaskRepository", TasksRepository.class));
+
+        // maps arguments:
         this.tasksRepository = aTaskRepository;
     }
 
@@ -34,13 +46,43 @@ public class TasksServiceImpl implements TasksService{
         return taskOpt.get();
     }
 
-    @Override
+    /**
+     * Create task object based on aTask parameter, save it in database, assign id attribute to it ard return it.
+     * @param aTask - Base {@link Task} object.
+     * @return - Task with id attribute.
+     */
     @Transactional
-    public Task createTask(Task aTask) {
-        Objects.requireNonNull(aTask, "Task mast be not null.");
+    private Task createTask(Task aTask) {
+
+        // Check parameters:
+        if (aTask.getName().isEmpty()) // check if name is empty;
+            throw new IllegalArgumentException(Checks.Strings.stringNotEmpty("name"));
+
+        LOGGER.debug("Save new task[{}] in database:", aTask);
 
         // Save task in db and assist it id parameter:
         return this.tasksRepository.save(aTask);
+    }
+
+    @Override
+    @Transactional
+    public Task createTask(Task aTask, User aUser) {
+        // Check parameters:
+        Objects.requireNonNull(aTask, Checks.argumentNotNull("aTask", Task.class));
+        Objects.requireNonNull(aTask.getUserOwner(), // Check owner;
+                Checks.propertyOfArgumentNotNull("userOwner", "aTask", Task.class));
+
+        LOGGER.debug("Save new task[{}] of user[{}] in database:", aTask, aUser);
+
+
+        // Map properties:
+        aTask.setUserOwner(aUser);
+
+        // Create task:
+        aTask = this.createTask(aTask);
+        aUser.getTasks().add(aTask);
+
+        return aTask;
     }
 
     @Override

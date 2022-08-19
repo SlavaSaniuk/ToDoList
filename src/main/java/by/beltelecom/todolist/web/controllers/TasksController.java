@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.web.controllers;
 
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.web.dto.TaskDto;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -63,10 +65,13 @@ public class TasksController {
     }
 
     @PostMapping("/create-task")
-    public String createTask(@ModelAttribute("task") Task aTask) {
+    public String createTask(@ModelAttribute("task") Task aTask, HttpSession httpSession) {
         aTask.setDateCreation(LocalDate.now());
-        LOGGER.warn("date of completion: " +aTask.getDateCreation().toString());
-        Task createdTask = this.tasksService.createTask(aTask);
+
+        // Get user session attribute:
+        User user = (User) httpSession.getAttribute("userObj");
+
+        Task createdTask = this.tasksService.createTask(aTask, user);
 
         return "redirect:/task?id=" +createdTask.getId();
     }
