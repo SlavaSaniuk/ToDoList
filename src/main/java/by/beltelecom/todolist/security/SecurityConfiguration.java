@@ -24,16 +24,32 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
+/**
+ * Spring security configuration class. Class declare a various bean for requests authorization and users registration.
+ * The core of security logic declared in {@link SignService} service bean.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
     private AccountsService accountsService; // Service bean (autowired via setter);
-
     private UsersService usersService; // Service bean (autowired via setter);
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfiguration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfiguration.class); // Logger;
 
+    /**
+     * Construct new security configuration service bean.
+     */
+    public SecurityConfiguration() {
+        LOGGER.debug(SpringLogging.Creation.createBean(SecurityConfiguration.class));
+    }
+
+    /**
+     * Defines a filter chain which is capable of being matched against an HttpServletRequest.
+     * Шn order to decide whether it applies to that request.
+     * @param security - {@link HttpSecurity} security;
+     * @return - {@link SecurityFilterChain} service bean;
+     * @throws Exception - if any exception occurs.
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         security.csrf().disable()
@@ -46,7 +62,6 @@ public class SecurityConfiguration {
         return  security.build();
     }
 
-
     /**
      * {@link SignService} security service bean used to register and authenticate users in application.
      */
@@ -55,7 +70,6 @@ public class SecurityConfiguration {
         LOGGER.debug(SpringLogging.Creation.createBean(SignService.class));
         return new SignServiceImpl(this.accountsService, this.passwordEncoder(), this.usersService, this.authenticationManager());
     }
-
 
     /**
      * Database implementation of {@link AuthenticationManager} service bean.
@@ -91,18 +105,30 @@ public class SecurityConfiguration {
         return new DatabaseUserDetailsService(this.accountsService);
     }
 
+    /**
+     * Service interface for encoding passwords. The preferred implementation is BCryptPasswordEncoder.
+     * @return - {@link PasswordEncoder} service bean.
+     */
     @Bean
     @Primary
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Autowire {@link AccountsService} service bean.
+     * @param anAccountsService - service bean.
+     */
     @Autowired
     public void setAccountsService(AccountsService anAccountsService) {
         LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(AccountsService.class, SecurityConfiguration.class));
         this.accountsService = anAccountsService;
     }
 
+    /**
+     * Auutowire {@link UsersService} service bean.
+     * @param aUsersService - service bean.
+     */
     @Autowired
     public void setUsersService(UsersService aUsersService) {
         LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(UsersService.class, SecurityConfiguration.class));
