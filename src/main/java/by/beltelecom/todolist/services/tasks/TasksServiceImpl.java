@@ -111,5 +111,20 @@ public class TasksServiceImpl implements TasksService{
         return this.tasksRepository.save(aTask);
     }
 
+    @Override
+    public List<Task> getUserTasks(User aUser) {
+        // Check arguments:
+        Objects.requireNonNull(aUser, Checks.argumentNotNull("aUser", User.class));
+        if (aUser.getId() == 0L) throw new IllegalArgumentException(Checks.Numbers.argNotZero("id", Long.class));
+
+        LOGGER.debug("Try to get user[{}] tasks;", aUser);
+
+        // Get tasks:
+        List<Task> tasks = this.tasksRepository.findAllByOwner(aUser);
+        aUser.setTasks(tasks);
+
+        return tasks;
+    }
+
 
 }

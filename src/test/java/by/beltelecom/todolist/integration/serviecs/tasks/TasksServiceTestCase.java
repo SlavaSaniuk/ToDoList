@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -38,6 +40,42 @@ public class TasksServiceTestCase {
 
         Assertions.assertNotNull(createdTask);
         Assertions.assertNotNull(createdTask.getOwner());
+    }
+
+    @Test
+    void getUserTasks_userIsNUll_shouldThrowNPE() {
+        Assertions.assertThrows(NullPointerException.class, () -> this.tasksService.getUserTasks(null));
+    }
+
+    @Test
+    void getUserTasks_userIdIsZero_shouldThrowIAE() {
+        User user = new User();
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.tasksService.getUserTasks(user));
+    }
+
+    @Test
+    void getUserTasks_userHasNotAnyTasks_shouldReturnEmptyList() {
+        User user = this.usersService.createUser("Test name");
+
+        List<Task> tasks = this.tasksService.getUserTasks(user);
+        Assertions.assertNotNull(tasks);
+        Assertions.assertTrue(tasks.isEmpty());
+    }
+
+    @Test
+    void getUserTasks_userHasTasks_shouldReturnListOfTasks() {
+        User user = this.usersService.createUser("User name");
+
+        Task task = Task.newTask();
+        task.setName("Task1");
+
+        this.tasksService.createTask(task, user);
+
+        List<Task> tasks = this.tasksService.getUserTasks(user);
+
+        Assertions.assertNotNull(tasks);
+        Assertions.assertFalse(tasks.isEmpty());
+        Assertions.assertEquals(1, tasks.size());
     }
 
     /*

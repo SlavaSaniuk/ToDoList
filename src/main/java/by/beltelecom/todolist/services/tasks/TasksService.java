@@ -42,4 +42,6 @@ public interface TasksService {
      */
     @Transactional
     Task updateTask(Task aTask);
+
+    List<Task> getUserTasks(User aUser);
 }

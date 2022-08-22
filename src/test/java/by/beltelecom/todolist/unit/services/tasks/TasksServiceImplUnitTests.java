@@ -31,7 +31,7 @@ public class TasksServiceImplUnitTests {
 
     @BeforeEach
     public void beforeAll() {
-        this.taskService = new TasksServiceImpl(this.tasksRepository, this.usersRepository);
+        this.taskService = new TasksServiceImpl(this.tasksRepository);
     }
 
     /*
