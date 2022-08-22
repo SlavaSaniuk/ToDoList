@@ -2,6 +2,7 @@ package by.beltelecom.todolist.unit.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
+import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
@@ -24,15 +25,13 @@ public class TasksServiceImplUnitTests {
 
     @MockBean
     private TasksRepository tasksRepository;
+    @MockBean
+    private UsersRepository usersRepository;
 
-    @Test
-    void newTasksServiceImpl_aRepositoryIsNull_shouldThrowNPE() {
-        Assertions.assertThrows(NullPointerException.class,() -> new TasksServiceImpl(null));
-    }
 
     @BeforeEach
     public void beforeAll() {
-        this.taskService = new TasksServiceImpl(this.tasksRepository);
+        this.taskService = new TasksServiceImpl(this.tasksRepository, this.usersRepository);
     }
 
     /*

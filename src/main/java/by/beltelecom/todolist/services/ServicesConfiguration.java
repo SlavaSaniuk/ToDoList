@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.services;
 
+import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
@@ -30,11 +31,13 @@ public class ServicesConfiguration {
         LOGGER.debug(SpringLogging.Creation.createBean(ServicesConfiguration.class));
     }
 
-
+    /**
+     * Interface for work with {@link Task} objects in application.
+     */
     @Bean("tasksService")
     public TasksService tasksService() {
-        return new TasksServiceImpl(this.tasksRepository);
-
+        LOGGER.debug(SpringLogging.Creation.createBean(TasksService.class));
+        return new TasksServiceImpl(this.tasksRepository, this.usersRepository);
     }
 
     /**
@@ -53,10 +56,14 @@ public class ServicesConfiguration {
         return new AccountsServiceImpl(this.accountsRepository);
     }
 
+    /**
+     * Autowire {@link TasksRepository} repository bean.
+     * @param aTaskRepository - repository bean.
+     */
     @Autowired
     public void setTasksRepository(TasksRepository aTaskRepository) {
-        LOGGER.debug("Autowire {} repository bean in {} configuration.", TasksRepository.class,
-                ServicesConfiguration.class);
+        LOGGER.debug(SpringLogging.Autowiring
+                .autowireInConfiguration(TasksRepository.class, ServicesConfiguration.class));
         this.tasksRepository = aTaskRepository;
     }
 

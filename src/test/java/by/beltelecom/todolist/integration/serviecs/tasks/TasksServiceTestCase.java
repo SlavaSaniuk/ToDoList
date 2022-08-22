@@ -1,6 +1,9 @@
 package by.beltelecom.todolist.integration.serviecs.tasks;
 
+import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.services.tasks.TasksService;
+import by.beltelecom.todolist.services.users.UsersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,9 +19,25 @@ public class TasksServiceTestCase {
     @Autowired
     private TasksService tasksService;
 
+    @Autowired
+    private UsersService usersService;
+
     @Test
     void newTasksService_autowiredParameter_shouldReturnCreatedService() {
         Assertions.assertNotNull(tasksService);
+    }
+
+    @Test
+    void createTask_newUserAndTask_shouldCreateTask() {
+        Task task = new Task();
+        task.setName("Test name");
+
+        User user = this.usersService.createUser("Test name");
+
+        Task createdTask = this.tasksService.createTask(task, user);
+
+        Assertions.assertNotNull(createdTask);
+        Assertions.assertNotNull(createdTask.getOwner());
     }
 
     /*
