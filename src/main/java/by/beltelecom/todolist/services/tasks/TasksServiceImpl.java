@@ -7,7 +7,6 @@ import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
