@@ -10,11 +10,14 @@
         <p th:text="${task.description}"> Task description. </p>
         <p th:text="${task.dateCreation}"> Task date creation. </p>
         <p> Date of completion: <span th:text="${task.dateCompletion}"></span> </p>
-        <a th:href="@{/task(id=${task.id})}"> Edit </a>
-        <form method="post" th:action="@{/delete-task}">
-            <input type="hidden" th:value="${task.id}" id="delete-id" th:name="delete-id">
-            <input type="submit" value="Delete">
-        </form>
+        <div id="taskEditBlock" th:if="${isOwnPage}">
+            <a th:href="@{/task(id=${task.id})}"> Edit </a>
+            <form method="post" th:action="@{/delete-task}">
+                <input type="hidden" th:value="${task.id}" id="delete-id" th:name="delete-id">
+                <input type="submit" value="Delete">
+            </form>
+        </div>
+
         <hr>
     </div>
 </body>

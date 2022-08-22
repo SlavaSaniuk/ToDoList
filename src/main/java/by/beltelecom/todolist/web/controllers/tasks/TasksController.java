@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,12 +44,17 @@ public class TasksController {
     /**
      * Controller method handle HTTP requests to access user tasks web page at '/tasks/[USER_ID]' URL.
      * @param userId - user identifier;
+     * @param httpSession - user session;
      * @return - {@link ModelAndView} mav object with list of user tasks.
      */
     @GetMapping("/{id}")
-    public ModelAndView getUserTasksPage(@PathVariable("id") long userId) {
+    public ModelAndView getUserTasksPage(@PathVariable("id") long userId, HttpSession httpSession) {
         LOGGER.debug("Handle http request at '/tasks/{}' url;", userId);
         ModelAndView mav = new ModelAndView("tasks");
+
+        // Check if user want to access your task page:
+        User userObj = (User) httpSession.getAttribute("userObj");
+        if (userId == userObj.getId()) mav.addObject("isOwnPage", true);
 
         // Get user tasks:
         User user = new User();

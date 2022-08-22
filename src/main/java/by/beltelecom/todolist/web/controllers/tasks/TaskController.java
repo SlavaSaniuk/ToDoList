@@ -64,13 +64,23 @@ public class TaskController {
         return "redirect:/task?id=" +createdTask.getId();
     }
 
+    /**
+     * Method handle http request to delete user specified task.
+     * @param aId - task identifier;
+     * @param httpSession - HTTP session;
+     * @return - {@link String} redirect to user tasks page.
+     */
     @PostMapping("/delete-task")
-    public String deleteTaskById(@ModelAttribute("delete-id") long aId) {
+    public String deleteTaskById(@ModelAttribute("delete-id") long aId, HttpSession httpSession) {
+
+        // Get user object from session:
+        User userObj = (User) httpSession.getAttribute("userObj");
 
         // Delete task:
         this.tasksService.deleteById(aId);
 
-        return "redirect:/tasks";
+        // Redirect:
+        return String.format("redirect:/tasks/%d", userObj.getId());
     }
 
     /**
