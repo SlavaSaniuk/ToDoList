@@ -40,7 +40,11 @@ public class TasksController {
         this.tasksService = aTasksService;
     }
 
-
+    /**
+     * Controller method handle HTTP requests to access user tasks web page at '/tasks/[USER_ID]' URL.
+     * @param userId - user identifier;
+     * @return - {@link ModelAndView} mav object with list of user tasks.
+     */
     @GetMapping("/{id}")
     public ModelAndView getUserTasksPage(@PathVariable("id") long userId) {
         LOGGER.debug("Handle http request at '/tasks/{}' url;", userId);
