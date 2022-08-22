@@ -37,7 +37,7 @@ public class ServicesConfiguration {
     @Bean("tasksService")
     public TasksService tasksService() {
         LOGGER.debug(SpringLogging.Creation.createBean(TasksService.class));
-        return new TasksServiceImpl(this.tasksRepository, this.usersRepository);
+        return new TasksServiceImpl(this.tasksRepository);
     }
 
     /**

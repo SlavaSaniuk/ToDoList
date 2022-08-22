@@ -22,23 +22,20 @@ import java.util.Optional;
 public class TasksServiceImpl implements TasksService{
 
     private final TasksRepository tasksRepository; // Autowired in ServicesConfiguration.class;
-    private final UsersRepository usersRepository; // Autowired in ServicesConfiguration class;
     private static final Logger LOGGER = LoggerFactory.getLogger(TasksServiceImpl.class); // Logger;
 
     /**
      * Construct new {@link TasksServiceImpl} service bean;
      * @param aTaskRepository - {@link TasksRepository} repository bean.
      */
-    public TasksServiceImpl(TasksRepository aTaskRepository, UsersRepository aUsersRepository) {
+    public TasksServiceImpl(TasksRepository aTaskRepository) {
         LOGGER.debug(SpringLogging.Creation.createBean(TasksServiceImpl.class));
 
         // Check arguments:
         Objects.requireNonNull(aTaskRepository, Checks.argumentNotNull("aTaskRepository", TasksRepository.class));
-        Objects.requireNonNull(aUsersRepository, Checks.argumentNotNull("aUserRepository", UsersRepository.class));
 
         // maps arguments:
         this.tasksRepository = aTaskRepository;
-        this.usersRepository = aUsersRepository;
     }
 
     @Override
