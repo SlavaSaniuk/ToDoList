@@ -3,6 +3,7 @@ package by.beltelecom.todolist.services.tasks;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
+import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -21,21 +22,24 @@ import java.util.Optional;
 @Transactional
 public class TasksServiceImpl implements TasksService{
 
-    private final TasksRepository tasksRepository; // Autowired in ServicesConfiguration.class
+    private final TasksRepository tasksRepository; // Autowired in ServicesConfiguration.class;
+    private final UsersRepository usersRepository; // Autowired in ServicesConfiguration class;
     private static final Logger LOGGER = LoggerFactory.getLogger(TasksServiceImpl.class); // Logger;
 
     /**
      * Construct new {@link TasksServiceImpl} service bean;
      * @param aTaskRepository - {@link TasksRepository} repository bean.
      */
-    public TasksServiceImpl(TasksRepository aTaskRepository) {
+    public TasksServiceImpl(TasksRepository aTaskRepository, UsersRepository aUsersRepository) {
         LOGGER.debug(SpringLogging.Creation.createBean(TasksServiceImpl.class));
 
         // Check arguments:
         Objects.requireNonNull(aTaskRepository, Checks.argumentNotNull("aTaskRepository", TasksRepository.class));
+        Objects.requireNonNull(aUsersRepository, Checks.argumentNotNull("aUserRepository", UsersRepository.class));
 
         // maps arguments:
         this.tasksRepository = aTaskRepository;
+        this.usersRepository = aUsersRepository;
     }
 
     @Override
@@ -63,9 +67,7 @@ public class TasksServiceImpl implements TasksService{
         LOGGER.debug("Save new task[{}] in database:", aTask);
 
         // Save task in db and assist it id parameter:
-        Task task = this.tasksRepository.save(aTask);
-        Hibernate.initialize(task.getUserOwner().getTasks());
-        return task;
+        return this.tasksRepository.save(aTask);
     }
 
     @Override
@@ -78,21 +80,22 @@ public class TasksServiceImpl implements TasksService{
 
         LOGGER.debug("Save new task[{}] of user[{}] in database:", aTask, aUser);
 
-
         // Map properties:
-        aTask.setUserOwner(aUser);
+        aTask.setOwner(aUser);
 
         // Create task:
         aTask = this.createTask(aTask);
-        Hibernate.initialize(aTask.getUserOwner().getTasks());
-        aTask.getUserOwner().getTasks().add(aTask);
+        aTask.getOwner().getTasks().add(aTask);
+
+        // Update user:
+        this.usersRepository.save(aTask.getOwner());
 
         return aTask;
     }
 
     @Override
     public List<Task> getAllTasks() {
-        return (List<Task>) this.tasksRepository.findAll();
+        return this.tasksRepository.findAll();
     }
 
     @Override
