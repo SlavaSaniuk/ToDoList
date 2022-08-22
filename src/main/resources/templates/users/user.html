@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
     <title th:text="${session.userObj.name}"> [USER_NAME] </title>
@@ -8,7 +8,7 @@
     <h1> Hello <span th:text="${session.userObj.name}"> [USER_NAME] </span></h1>
     <ul>
         <li><a th:href="@{/create-task}"> Create task </a></li>
-        <li><a th:href="@{/tasks}"> My tasks </a></li>
+        <li><a th:href="@{/tasks/{id}(id=${session.userObj.id})}"> My tasks </a></li>
     </ul>
 </body>
 </html>

@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.web.controllers;
+package by.beltelecom.todolist.web.controllers.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
@@ -21,21 +21,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-public class TasksController {
+public class TaskController {
 
     @Autowired
     private TasksService tasksService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(TasksController.class); // Logger;
-
-    @GetMapping("/tasks")
-    public String getTasks(Model aModel) {
-
-        List<Task> tasks = this.tasksService.getAllTasks();
-        aModel.addAttribute("tasks", tasks);
-
-        return "tasks";
-    }
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskController.class); // Logger;
 
     @GetMapping("/task")
     public ModelAndView getTaskPage(@RequestParam(value = "id") long aId) {
