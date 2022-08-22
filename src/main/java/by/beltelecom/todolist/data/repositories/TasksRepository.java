@@ -15,6 +15,6 @@ import java.util.List;
 @Repository("tasksRepository")
 public interface TasksRepository extends JpaRepository<Task, Long> {
 
-    List<Task> findAllByUserOwner(User userOwner);
+    List<Task> findAllByOwner(User userOwner);
 
 }

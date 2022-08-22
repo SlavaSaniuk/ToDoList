@@ -44,23 +44,29 @@ public class UsersRepositoryTestsCase {
         toSave = this.usersRepository.save(toSave);
         Assertions.assertNotNull(toSave);
         Assertions.assertNotEquals(0L, toSave.getId());
+        long userId = toSave.getId();
 
         Task task1 = Task.newTask();
         task1.setName("testName");
-        task1.setUserOwner(toSave);
+        task1.setOwner(toSave);
 
         Task task2 = Task.newTask();
         task2.setName("testName");
-        task2.setUserOwner(toSave);
+        task2.setOwner(toSave);
 
-        this.tasksRepository.save(task1);
-        this.tasksRepository.save(task2);
+        task1 = this.tasksRepository.save(task1);
+        task2 = this.tasksRepository.save(task2);
 
-        List<Task> foundedTasks = this.tasksRepository.findAllByUserOwner(toSave);
+        toSave.getTasks().add(task1);
+        toSave.getTasks().add(task2);
+        this.usersRepository.save(toSave);
+
+        List<Task> foundedTasks = this.tasksRepository.findAllByOwner(toSave);
         Assertions.assertEquals(2, foundedTasks.size());
         foundedTasks.forEach(task -> LOGGER.info("Task: " +task));
 
-        User founded = this.usersRepository.findUserByIdWithTasks(toSave.getId());
+
+        User founded = this.usersRepository.findUserByIdWithTasks(userId);
         LOGGER.info("Founded user: " +founded.toString());
 
         Assertions.assertNotNull(founded.getTasks());

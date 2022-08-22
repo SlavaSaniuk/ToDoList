@@ -54,7 +54,7 @@ public class TasksRepositoryTestCase {
         User owner = new User();
         owner.setId(2);
 
-        Assertions.assertEquals(0, this.repository.findAllByUserOwner(owner).size());
+        Assertions.assertEquals(0, this.repository.findAllByOwner(owner).size());
     }
 
     @Test
@@ -65,15 +65,15 @@ public class TasksRepositoryTestCase {
 
         Task task1 = Task.newTask();
         task1.setName("anyName");
-        task1.setUserOwner(owner);
+        task1.setOwner(owner);
         Task task2 = Task.newTask();
         task2.setName("anyName");
-        task2.setUserOwner(owner);
+        task2.setOwner(owner);
 
         this.repository.save(task1);
         this.repository.save(task2);
 
-        Assertions.assertEquals(2, this.repository.findAllByUserOwner(owner).size());
+        Assertions.assertEquals(2, this.repository.findAllByOwner(owner).size());
 
     }
 }

@@ -3,16 +3,19 @@ package by.beltelecom.todolist.data.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This model class represent a user of application.
+ */
 @Entity(name = "users")
+@Table(name = "users")
 @Getter @Setter
 @NoArgsConstructor
-@ToString
+@NamedEntityGraph(name = "User.tasks", attributeNodes = @NamedAttributeNode("tasks"))
 public class User {
 
     @Id
@@ -25,8 +28,7 @@ public class User {
     @OneToOne(targetEntity = Account.class, cascade = CascadeType.ALL, mappedBy = "userOwner")
     @JoinColumn
     private Account userAccount;
-
-    @OneToMany(mappedBy = "userOwner", targetEntity = Task.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
 
 }

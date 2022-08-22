@@ -11,9 +11,8 @@ import java.time.LocalDate;
 
 @Getter @Setter
 @NoArgsConstructor
-@Entity
+@Entity(name = "tasks")
 @Table(name = "tasks")
-@ToString
 public class Task {
 
 
@@ -30,7 +29,7 @@ public class Task {
     private LocalDate dateCompletion;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "fk_owner", nullable = false)
-    private User userOwner;
+    private User owner;
 
     public Task(long a_id) {
         this.id = a_id;
