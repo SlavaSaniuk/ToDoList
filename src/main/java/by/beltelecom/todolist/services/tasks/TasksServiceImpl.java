@@ -84,10 +84,6 @@ public class TasksServiceImpl implements TasksService{
 
         // Create task:
         aTask = this.createTask(aTask);
-        aTask.getOwner().getTasks().add(aTask);
-
-        // Update user:
-        this.usersRepository.save(aTask.getOwner());
 
         return aTask;
     }
