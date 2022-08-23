@@ -1,0 +1,9 @@
+.welcome-message {
+    top: 50%;
+    left: 35%;
+    position: absolute;
+
+    width: 30%;
+
+    text-align: center;
+}
