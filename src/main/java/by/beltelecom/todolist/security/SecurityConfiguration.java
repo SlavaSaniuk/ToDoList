@@ -56,6 +56,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/sign/**").permitAll()
+                .antMatchers("/rest/sign/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/sign");
 
