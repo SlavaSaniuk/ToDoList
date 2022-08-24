@@ -1,16 +1,16 @@
 import './App.css';
 import Home from './components/routes/Home.js'
-import {BrowserRouter, Route} from "react-router-dom";
+import SignPage from "./components/routes/Sign";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 
 function App() {
   return (
       <BrowserRouter>
-
-        <Route path="/" render={() => {
-            return (<h1> Hello world! </h1>);
-        }} />
-
+          <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/sign" element={<SignPage />} />
+          </Routes>
       </BrowserRouter>
   );
 }
