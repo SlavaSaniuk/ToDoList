@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Customized login pape">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Npm worked at notebook">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/DataConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/DataConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/sign/SignRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/sign/SignRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/sign/SignRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/sign/SignRestControllerTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +113,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SignRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.web.rest.sign.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.web.rest.sign" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.web.rest.sign.SignRestControllerTestsCase" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TasksServiceImplUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -164,6 +183,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SignRestControllerTestsCase" />
         <item itemvalue="JUnit.DatabaseAuthenticationProviderTestsCase" />
         <item itemvalue="JUnit.TasksServiceTestCase" />
         <item itemvalue="JUnit.TasksServiceImplUnitTests" />
@@ -188,7 +208,7 @@
       <workItem from="1660673847175" duration="2906000" />
       <workItem from="1660762157982" duration="3090000" />
       <workItem from="1660843851595" duration="5934000" />
-      <workItem from="1661364700534" duration="762000" />
+      <workItem from="1661364700534" duration="4578000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -274,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660850171847</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Npm worked at notebook">
+      <created>1661365575261</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1661365575261</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +335,8 @@
     <MESSAGE value="Created SignService#loginAccount method" />
     <MESSAGE value="Worked SignController#loginAccount method" />
     <MESSAGE value="Customized login pape" />
-    <option name="LAST_COMMIT_MESSAGE" value="Customized login pape" />
+    <MESSAGE value="Npm worked at notebook" />
+    <option name="LAST_COMMIT_MESSAGE" value="Npm worked at notebook" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
