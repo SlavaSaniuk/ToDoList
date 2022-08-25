@@ -1,15 +1,23 @@
-.sign-block {
+.sign-container {
+    display: flex;
+    flex-direction: column;
+
     top: 15%;
     left: 35%;
     position: absolute;
-
     width: 30%;
+
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+
+}
+
+.sign-block {
+    width: 100%;
     padding: 1%;
 
     display: flex;
     flex-direction: row;
 
-    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
 }
 
 .sign-form-block {
@@ -163,3 +171,14 @@
     color: #db655c;
     cursor: pointer;
 }
+
+.sign-exception-message-block p {
+    width: 100%;
+
+    text-align: center;
+    font-family: UZSans, serif;
+    font-size: 15px;
+
+    color: #73322e;
+}
+

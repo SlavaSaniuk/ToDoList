@@ -3,10 +3,14 @@ import '../../styles/common.css';
 import '../../styles/sign.css';
 
 class SignExceptionMessageBlock extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
-            <div>
-                <p>  </p>
+            <div className={"sign-exception-message-block"}>
+                <p> {this.props.exceptionMessage} </p>
             </div>
         );
     }
@@ -91,6 +95,8 @@ class SignInForm extends React.Component {
     logIn = async (event) => {
         event.preventDefault();
 
+        this.props.hideExceptionMessageFunc();
+
         console.log("Try to login account:");
         // Construct account object
         let loginAccount = {
@@ -110,6 +116,11 @@ class SignInForm extends React.Component {
 
         // Handle result:
         let signRestDto = await response.json();
+        if (signRestDto.exception) {
+            // If 601 Bad credentials' exception:
+            if (signRestDto.exceptionCode === 601)
+                this.props.showExceptionMessageFunc("Email or password is incorrect");
+        }
 
     }
 
@@ -136,7 +147,9 @@ class SignFormBlock extends React.Component {
     }
 
     render() {
-        let signForm = this.props.isSignIn ? <SignInForm /> : <SignUpForm />;
+        let signForm = this.props.isSignIn ?
+            <SignInForm showExceptionMessageFunc={this.props.showExceptionMessageFunc}
+                        hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/> : <SignUpForm />;
         let signFormText = this.props.isSignIn ? "Please, sign in" : "Please, sign up";
         return (
             <div className={"sign-form-block"}>
@@ -154,6 +167,7 @@ class SignSwitchText extends React.Component {
     }
 
     handleSwitchClick = () => {
+        this.props.hideExceptionMessageFunc();
         this.props.changeFormFunc();
     }
 
@@ -189,7 +203,8 @@ class SignSwitch extends React.Component {
         return (
             <div className={"sign-switch"}>
                 <SignSwitchImage isSignIn={this.props.isSignIn}/>
-                <SignSwitchText changeFormFunc={this.props.changeFormFunc} isSignIn={this.props.isSignIn}/>
+                <SignSwitchText changeFormFunc={this.props.changeFormFunc} isSignIn={this.props.isSignIn}
+                                hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} />
             </div>
         );
     }
@@ -212,17 +227,63 @@ class SignBlock extends React.Component {
     render() {
         return (
             <div className={"sign-block"}>
-                <SignFormBlock isSignIn={this.state.isSignForm}/>
-                <SignSwitch changeFormFunc={this.changeForm} isSignIn={this.state.isSignForm} />
+                <SignFormBlock isSignIn={this.state.isSignForm} showExceptionMessageFunc={this.props.showExceptionMessageFunc}
+                               hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/>
+                <SignSwitch changeFormFunc={this.changeForm} isSignIn={this.state.isSignForm}
+                            hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/>
+            </div>
+        );
+    }
+}
+
+class SignContainer extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.hideExceptionMessage.bind(this);
+        this.showExceptionMessage.bind(this);
+
+        this.state = {
+            isException: false,
+            exceptionMessage: ""
+        };
+    }
+
+    hideExceptionMessage = () => {
+        this.setState({
+            isException: false,
+            exceptionMessage: ""
+        });
+    }
+
+    showExceptionMessage = (anExceptionMessage) => {
+        // Render exception message block:
+        this.setState({
+            isException: true,
+            exceptionMessage: anExceptionMessage
+        });
+    }
+
+    render() {
+        let signExceptionMessageBlock;
+        if(this.state.isException)
+            signExceptionMessageBlock = <SignExceptionMessageBlock exceptionMessage={this.state.exceptionMessage} />;
+        return(
+            <div className={"sign-container"}>
+                <SignBlock showExceptionMessageFunc={this.showExceptionMessage} hideExceptionMessageFunc={this.hideExceptionMessage}/>
+                {signExceptionMessageBlock}
             </div>
         );
     }
 }
 
 class SignPage extends React.Component {
+
+
+
     render() {
         return (
-            <SignBlock />
+            <SignContainer />
         );
     }
 }
