@@ -10,7 +10,7 @@ class SignSubmitBlock extends React.Component {
     render() {
         return (
             <div className={"sign-submit-block"}>
-                <input className={"sign-submit"} type="submit" value={this.props.inputValue} />
+                <input className={"sign-submit"} type="submit" value={this.props.inputValue} onClick={this.props.clickFunc} />
             </div>
         );
     }
@@ -24,7 +24,10 @@ class SignInputBlock extends React.Component {
         return (
             <div className={"sign-input-block"}>
                 <div className={"sign-input-img " +this.props.signImgClass} />
-                <input className={"sign-input " +this.props.signInputClass} id={this.props.id} type={this.props.type} name={this.props.name} placeholder={this.props.placeholder}/>
+                <input className={"sign-input " +this.props.signInputClass} id={this.props.id}
+                       type={this.props.type} name={this.props.name} placeholder={this.props.placeholder}
+                        ref={this.props.inputRef}
+                />
             </div>
         );
     }
@@ -63,15 +66,51 @@ class SignUpForm extends React.Component {
 }
 
 class SignInForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logIn.bind(this);
+
+        // Create refs to child inputs:
+        this.emailInputRef = React.createRef();
+        this.passwordInputRef = React.createRef();
+    }
+
+
+    logIn = async (event) => {
+        event.preventDefault();
+
+        console.log("Try to login account:");
+        // Construct account object
+        let loginAccount = {
+            email: this.emailInputRef.current.value,
+            password: this.passwordInputRef.current.value
+        };
+        console.log("Account to login: ", JSON.stringify(loginAccount));
+
+        // Fetch date:
+        let response = await fetch("http://localhost:8080/rest/sign/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'},
+            body: JSON.stringify(loginAccount)
+        });
+
+        // Handle result:
+        let jsonStr = await response.json();
+        console.log(jsonStr)
+    }
+
     render() {
         return (
             <div>
                 <form className={"sign-form"}>
                     <SignInputBlock id="sign-email" type="text" name="email" placeholder="Your email address"
-                                    signImgClass="sign-input-img-email" />
+                                    signImgClass="sign-input-img-email" inputRef={this.emailInputRef} />
                     <SignInputBlock id="sign-password" type="password" name="password" placeholder="Your password"
-                                    signImgClass="sign-input-img-password" signInputClass="sign-input-password" />
-                    <SignSubmitBlock inputValue={"Sign In"}/>
+                                    signImgClass="sign-input-img-password" signInputClass="sign-input-password"
+                                    inputRef={this.passwordInputRef} />
+                    <SignSubmitBlock inputValue={"Sign In"} clickFunc={this.logIn} />
                 </form>
             </div>
         );
