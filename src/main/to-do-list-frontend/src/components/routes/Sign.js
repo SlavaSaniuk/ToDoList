@@ -2,6 +2,16 @@ import React from "react";
 import '../../styles/common.css';
 import '../../styles/sign.css';
 
+class SignExceptionMessageBlock extends React.Component {
+    render() {
+        return (
+            <div>
+                <p>  </p>
+            </div>
+        );
+    }
+}
+
 class SignSubmitBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -73,6 +83,8 @@ class SignInForm extends React.Component {
         // Create refs to child inputs:
         this.emailInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
+
+        this.state = {isException: false};
     }
 
 
@@ -97,8 +109,8 @@ class SignInForm extends React.Component {
         });
 
         // Handle result:
-        let jsonStr = await response.json();
-        console.log(jsonStr)
+        let signRestDto = await response.json();
+
     }
 
     render() {
