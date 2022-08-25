@@ -3,6 +3,8 @@ package by.beltelecom.todolist.integration.web.rest.sign;
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.security.authentication.SignService;
+import by.beltelecom.todolist.web.ExceptionStatusCodes;
+import by.beltelecom.todolist.web.dto.rest.SignRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,7 +37,7 @@ public class SignRestControllerTestsCase {
 
     @Test
     @Rollback
-    void logInAccount_accountEntityIsNotRegister_shouldReturnZero() throws Exception {
+    void logInAccount_accountEntityIsNotRegister_shouldReturnExceptionDtoWithStatusCode() throws Exception {
         Account accountToLogin = new Account();
         accountToLogin.setEmail("notfound@mail.com");
         accountToLogin.setPassword("1234QWERty");
@@ -51,13 +53,17 @@ public class SignRestControllerTestsCase {
                 .andReturn();
 
         String responseJson = result.getResponse().getContentAsString();
-        long userId = this.mapper.readValue(responseJson, Long.class);
-        Assertions.assertEquals(0L, userId);
+        LOGGER.debug("Response JSON: " +responseJson);
+        SignRestDto signRestDto = this.mapper.readValue(responseJson, SignRestDto.class);
+
+        Assertions.assertTrue(signRestDto.isException());
+        Assertions.assertEquals(ExceptionStatusCodes.BAD_CREDENTIALS_EXCEPTION.getStatusCode(),
+                signRestDto.getExceptionCode());
     }
 
     @Test
     @Rollback
-    void logInAccount_accountEntityIsRegister_shouldReturnAccountUserId() throws Exception {
+    void logInAccount_accountEntityIsRegister_shouldReturnDtoWithAccountUserId() throws Exception {
         Account toRegister = new Account();
         toRegister.setEmail("test1@mail.com");
         toRegister.setPassword("1234QWERty");
@@ -83,7 +89,11 @@ public class SignRestControllerTestsCase {
                 .andReturn();
 
         String responseJson = result.getResponse().getContentAsString();
-        long userId = this.mapper.readValue(responseJson, Long.class);
-        Assertions.assertEquals(expectedId, userId);
+        LOGGER.debug("Response JSON: " +responseJson);
+        SignRestDto signRestDto = this.mapper.readValue(responseJson, SignRestDto.class);
+
+        Assertions.assertNotNull(signRestDto);
+        Assertions.assertFalse(signRestDto.isException());
+        Assertions.assertNotEquals(0L, signRestDto.getUserId());
     }
 }

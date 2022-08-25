@@ -4,6 +4,8 @@ import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
+import by.beltelecom.todolist.web.ExceptionStatusCodes;
+import by.beltelecom.todolist.web.dto.rest.SignRestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,15 +32,14 @@ public class SignRestController {
     }
 
     @PostMapping(value = "/login", consumes = "application/json")
-    public long logInAccount(@RequestBody Account account) {
+    public SignRestDto logInAccount(@RequestBody Account account) {
         LOGGER.debug("Try to login account via SignRestController#logInAccount;");
 
         try {
             Account loggedAccount = this.signService.loginAccount(account);
-            return loggedAccount.getUserOwner().getId();
+            return new SignRestDto(loggedAccount.getUserOwner().getId());
         }catch (BadCredentialsException exc) {
-            LOGGER.warn(exc.getMessage());
-            return 0L;
+            return new SignRestDto(ExceptionStatusCodes.BAD_CREDENTIALS_EXCEPTION);
         }
     }
 
