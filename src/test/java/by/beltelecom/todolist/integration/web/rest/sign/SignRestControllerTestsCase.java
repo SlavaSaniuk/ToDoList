@@ -4,6 +4,7 @@ import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.web.ExceptionStatusCodes;
+import by.beltelecom.todolist.web.dto.AccountUserDto;
 import by.beltelecom.todolist.web.dto.rest.SignRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -96,4 +97,69 @@ public class SignRestControllerTestsCase {
         Assertions.assertFalse(signRestDto.isException());
         Assertions.assertNotEquals(0L, signRestDto.getUserId());
     }
+
+    @Test
+    @Rollback
+    void registerAccount_accountEntityAlreadyRegister_shouldReturnDtoWithExceptionStatusCode() throws Exception {
+        Account toRegister = new Account();
+        toRegister.setEmail("test2@mail.com");
+        toRegister.setPassword("1234QWERty");
+        User userToRegister = new User();
+        userToRegister.setName("testName");
+        Account registered = this.signService.registerAccount(toRegister, userToRegister);
+        Assertions.assertNotNull(registered);
+        long expectedId = registered.getUserOwner().getId();
+        Assertions.assertNotEquals(0L, expectedId);
+
+        AccountUserDto toLogin = new AccountUserDto(toRegister, userToRegister);
+
+        String accountJson = this.mapper.writeValueAsString(toLogin);
+        LOGGER.info("Account JSON String: " +accountJson);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/rest/sign/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(accountJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = result.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+        SignRestDto signRestDto = this.mapper.readValue(responseJson, SignRestDto.class);
+
+        Assertions.assertNotNull(signRestDto);
+        Assertions.assertTrue(signRestDto.isException());
+        Assertions.assertEquals(ExceptionStatusCodes.ACCOUNT_ALREADY_REGISTERED_EXCEPTION.getStatusCode(), signRestDto.getExceptionCode());
+    }
+
+    @Test
+    @Rollback
+    void registerAccount_accountEntityIsNotRegister_shouldReturnDtoWithInitializedUserId() throws Exception {
+        Account toRegister = new Account();
+        toRegister.setEmail("test3@mail.com");
+        toRegister.setPassword("1234QWERty");
+        User userToRegister = new User();
+        userToRegister.setName("testName");
+
+        AccountUserDto toLogin = new AccountUserDto(toRegister, userToRegister);
+
+        String accountJson = this.mapper.writeValueAsString(toLogin);
+        LOGGER.info("Account JSON String: " +accountJson);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/rest/sign/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(accountJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = result.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+        SignRestDto signRestDto = this.mapper.readValue(responseJson, SignRestDto.class);
+
+        Assertions.assertNotNull(signRestDto);
+        Assertions.assertFalse(signRestDto.isException());
+        Assertions.assertNotEquals(0L, signRestDto.getUserId());
+    }
+
 }

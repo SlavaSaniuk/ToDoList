@@ -45,7 +45,7 @@ public class SignServiceImpl implements SignService {
 
     @Override
     @Transactional
-    public Account registerAccount(Account anAccount, User aUser) {
+    public Account registerAccount(Account anAccount, User aUser) throws AccountAlreadyRegisteredException {
         Objects.requireNonNull(anAccount, "[Account] parameter must be not <null>.");
         Objects.requireNonNull(aUser, "[User] parameter must be not <null>.");
         LOGGER.debug("Try to register new [Account] entity.");

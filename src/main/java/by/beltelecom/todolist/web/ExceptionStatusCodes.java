@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionStatusCodes {
 
-    BAD_CREDENTIALS_EXCEPTION (601);
+    BAD_CREDENTIALS_EXCEPTION (601),
+    ACCOUNT_ALREADY_REGISTERED_EXCEPTION (602);
 
     @Getter
     private final int statusCode;
