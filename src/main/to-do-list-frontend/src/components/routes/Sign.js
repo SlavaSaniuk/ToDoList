@@ -118,9 +118,13 @@ class SignInForm extends React.Component {
         let signRestDto = await response.json();
         if (signRestDto.exception) {
             // If 601 Bad credentials' exception:
-            if (signRestDto.exceptionCode === 601)
+            if (signRestDto.exceptionCode === 601) {
                 this.props.showExceptionMessageFunc("Email or password is incorrect");
+        }}else {
+            window.location.href = "/user/" +signRestDto.userId;
         }
+
+
 
     }
 
