@@ -62,17 +62,67 @@ class SignText extends React.Component {
 }
 
 class SignUpForm extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // Bind functions:
+        this.register.bind(this);
+
+        // Create refs:
+        this.emailInputRef = React.createRef();
+        this.usernameInputRef = React.createRef();
+        this.passwordInputRef = React.createRef();
+    }
+
+    register = async(event) => {
+        // Disable form submissions:
+        event.preventDefault();
+
+        // Hide exception message:
+        this.props.hideExceptionMessageFunc();
+
+        // Get form inputs values:
+        let accountUserDto = {
+            accountEmail: this.emailInputRef.current.value,
+            userName: this.usernameInputRef.current.value,
+            accountPassword: this.passwordInputRef.current.value
+        };
+
+        // Fetch data:
+        let request = await fetch("http://localhost:8080/rest/sign/register", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'},
+            body: JSON.stringify(accountUserDto)
+        });
+
+        // Handle result:
+        let signRestDto = await request.json();
+        if (signRestDto.exception) {
+            // If 602 account already registered:
+            if (signRestDto.exceptionCode === 602) {
+                console.log("Account already registered!")
+                this.props.showExceptionMessageFunc("Account with email " +this.emailInputRef.current.value +" already registered");}
+        }else {
+            window.location.href = "/user/" +signRestDto.userId;
+        }
+
+
+    }
+
     render() {
         return (
             <div>
                 <form className={"sign-form"}>
                     <SignInputBlock id="sign-email" type="text" name="email" placeholder="Your email address"
-                                    signImgClass="sign-input-img-email" />
+                                    signImgClass="sign-input-img-email" inputRef={this.emailInputRef} />
                     <SignInputBlock id="sign-name" type="text" name="name" placeholder="Your name"
-                                    signImgClass="sign-input-img-name" />
+                                    signImgClass="sign-input-img-name" inputRef={this.usernameInputRef} />
                     <SignInputBlock id="sign-password" type="password" name="password" placeholder="Your password"
-                                    signImgClass="sign-input-img-password" signInputClass="sign-input-password" />
-                    <SignSubmitBlock inputValue={"Sign Up"}/>
+                                    signImgClass="sign-input-img-password" signInputClass="sign-input-password"
+                                    inputRef={this.passwordInputRef}/>
+                    <SignSubmitBlock inputValue={"Sign Up"} clickFunc={this.register}/>
                 </form>
             </div>
         );
@@ -97,15 +147,13 @@ class SignInForm extends React.Component {
 
         this.props.hideExceptionMessageFunc();
 
-        console.log("Try to login account:");
         // Construct account object
         let loginAccount = {
             email: this.emailInputRef.current.value,
             password: this.passwordInputRef.current.value
         };
-        console.log("Account to login: ", JSON.stringify(loginAccount));
 
-        // Fetch date:
+        // Fetch data:
         let response = await fetch("http://localhost:8080/rest/sign/login", {
             method: 'POST',
             headers: {
@@ -123,9 +171,6 @@ class SignInForm extends React.Component {
         }}else {
             window.location.href = "/user/" +signRestDto.userId;
         }
-
-
-
     }
 
     render() {
@@ -153,7 +198,10 @@ class SignFormBlock extends React.Component {
     render() {
         let signForm = this.props.isSignIn ?
             <SignInForm showExceptionMessageFunc={this.props.showExceptionMessageFunc}
-                        hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/> : <SignUpForm />;
+                        hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/> :
+            <SignUpForm showExceptionMessageFunc={this.props.showExceptionMessageFunc}
+                        hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} />;
+
         let signFormText = this.props.isSignIn ? "Please, sign in" : "Please, sign up";
         return (
             <div className={"sign-form-block"}>
