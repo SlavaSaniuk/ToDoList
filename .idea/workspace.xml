@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="LogIn method work well, when BCE occurs.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked register method in Sign.js">
+      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/configuration/properties/SecurityProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/configuration/properties/SecurityPropertiesTestsCase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/Sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/Sign.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/ToDoListApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/ToDoListApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/TasksService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/TasksService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/tasks/TasksServiceTestCase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +25,8 @@
       <list>
         <option value="Interface" />
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -57,6 +64,7 @@
       <MavenGeneralSettings>
         <option name="outputLevel" value="DEBUG" />
         <option name="printErrorStackTraces" value="true" />
+        <option name="workOffline" value="true" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -85,7 +93,7 @@
     &quot;com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable&quot;: &quot;ALL&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/01_DEV/IdeaProjects/ToDoList/ToDoList&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
     &quot;spring.configuration.checksum&quot;: &quot;79916f3936c4395971c7ad0f1ab0c480&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -94,7 +102,13 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn compile" />
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.SecurityPropertiesTestsCase">
     <configuration name="DatabaseAuthenticationProviderTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -105,6 +119,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.security.authentication" />
       <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.security.authentication.DatabaseAuthenticationProviderTestsCase" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SecurityPropertiesTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.configuration.properties.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.configuration.properties" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.configuration.properties.SecurityPropertiesTestsCase" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -140,22 +169,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TasksServiceImplUnitTests.createTask_aTaskIsNull_shouldThrowNPE" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ToDoList" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.beltelecom.todolist.unit.services.tasks.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.unit.services.tasks" />
-      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.unit.services.tasks.TasksServiceImplUnitTests" />
-      <option name="METHOD_NAME" value="createTask_aTaskIsNull_shouldThrowNPE" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TasksServiceTestCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -180,11 +193,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SecurityPropertiesTestsCase" />
         <item itemvalue="JUnit.SignRestControllerTestsCase" />
         <item itemvalue="JUnit.DatabaseAuthenticationProviderTestsCase" />
         <item itemvalue="JUnit.TasksServiceTestCase" />
         <item itemvalue="JUnit.TasksServiceImplUnitTests" />
-        <item itemvalue="JUnit.TasksServiceImplUnitTests.createTask_aTaskIsNull_shouldThrowNPE" />
       </list>
     </recent_temporary>
   </component>
@@ -209,6 +222,7 @@
       <workItem from="1661450950698" duration="3949000" />
       <workItem from="1661456058692" duration="2726000" />
       <workItem from="1661588456343" duration="2211000" />
+      <workItem from="1661802210230" duration="3629000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
