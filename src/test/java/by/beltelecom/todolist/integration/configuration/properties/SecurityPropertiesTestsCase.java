@@ -19,10 +19,14 @@ public class SecurityPropertiesTestsCase {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityPropertiesTestsCase.class);
 
     @Test
-    void getHelloString_helloStringIsSet_shouldReturnHelloString() {
+    void getMinLength_minLengthIsInitialized_shouldReturnPropertyValue() {
         Assertions.assertNotNull(securityProperties);
-        Assertions.assertNotNull(securityProperties.getHelloString());
+        Assertions.assertEquals(2, securityProperties.getPasswords().getMinLength());
+        LOGGER.debug("Passwords min-length: " +securityProperties.getPasswords().getMinLength());
+    }
 
-        LOGGER.warn("Hello world: " +securityProperties.getHelloString());
+    @Test
+    void isUseNumbers_propertyNotInitialized_shouldReturnDefaultValue() {
+        Assertions.assertFalse(securityProperties.getPasswords().isUseNumbers());
     }
 }

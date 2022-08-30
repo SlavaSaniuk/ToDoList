@@ -9,8 +9,6 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties("to.do.security")
 public class SecurityProperties {
 
-    private String helloString = "default-value";
-
     @NestedConfigurationProperty
     private Passwords passwords;
 
