@@ -1,11 +1,8 @@
 package by.beltelecom.todolist.security;
 
-import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationManager;
-import by.beltelecom.todolist.security.authentication.DatabaseAuthenticationProvider;
-import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
+import by.beltelecom.todolist.configuration.properties.SecurityProperties;
+import by.beltelecom.todolist.security.authentication.*;
 import by.beltelecom.todolist.services.security.AccountsService;
-import by.beltelecom.todolist.security.authentication.SignService;
-import by.beltelecom.todolist.security.authentication.SignServiceImpl;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
@@ -34,6 +31,7 @@ public class SecurityConfiguration {
 
     private AccountsService accountsService; // Service bean (autowired via setter);
     private UsersService usersService; // Service bean (autowired via setter);
+    private SecurityProperties securityProperties; // Configuration bean (autowired via setter);
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfiguration.class); // Logger;
 
     /**
@@ -117,6 +115,16 @@ public class SecurityConfiguration {
     }
 
     /**
+     * {@link CredentialsValidator} security service bean used to validate accounts properties (e.g. mail, password, username).
+     * @return - {@link CredentialsValidator} security configuration bean.
+     */
+    @Bean
+    public CredentialsValidator credentialsValidator() {
+        LOGGER.debug(SpringLogging.Creation.createBean(CredentialsValidator.class));
+        return new CredentialsValidatorImpl(this.securityProperties);
+    }
+
+    /**
      * Autowire {@link AccountsService} service bean.
      * @param anAccountsService - service bean.
      */
@@ -127,13 +135,23 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Auutowire {@link UsersService} service bean.
+     * Autowire {@link UsersService} service bean.
      * @param aUsersService - service bean.
      */
     @Autowired
     public void setUsersService(UsersService aUsersService) {
         LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(UsersService.class, SecurityConfiguration.class));
         this.usersService = aUsersService;
+    }
+
+    /**
+     * Autowire {@link SecurityProperties} configuration bean.
+     * @param aSecurityProperties - configuration bean.
+     */
+    @Autowired
+    public void setSecurityProperties(SecurityProperties aSecurityProperties) {
+        LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(SecurityProperties.class, SecurityConfiguration.class));
+        this.securityProperties = aSecurityProperties;
     }
 
 }
