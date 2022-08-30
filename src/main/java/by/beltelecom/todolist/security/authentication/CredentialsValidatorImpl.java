@@ -10,7 +10,11 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Default implementation of {@link CredentialsValidator} security service bean.
@@ -57,10 +61,35 @@ public class CredentialsValidatorImpl implements CredentialsValidator {
         // Check with rules:
         if (!this.passwordHasMinimumLength(aPassword))
             throw new PasswordNotValidException(ValidationRule.PASSWORD_MIN_LENGTH);
-        if (!this.isContainNumbers(aPassword))
-            throw new PasswordNotValidException(ValidationRule.PASSWORD_USE_NUMBERS);
+
+        if (this.passwordShouldUseNumbers) {
+            if (!this.isContainNumbers(aPassword))
+                throw new PasswordNotValidException(ValidationRule.PASSWORD_USE_NUMBERS);
+        }
+
+        if (this.passwordShouldUseUppercaseLetters) {
+            if (!this.isContainUppercaseLetters(aPassword))
+                throw new PasswordNotValidException(ValidationRule.PASSWORD_USE_UPPERCASE_LETTERS);
+        }
+
+        if (this.passwordShouldUseSpecialSymbols) {
+            if (!this.isContainSpecialSymbols(aPassword))
+                throw new PasswordNotValidException(ValidationRule.PASSWORD_USE_SPECIAL_SYMBOLS);
+        }
 
         return true;
+    }
+
+    @Override
+    public Map<String, Object> validationRules() {
+
+        Map<String, Object> validationRules = new HashMap<>();
+        validationRules.put("to.do.security.passwords.min-length", this.passwordMinLength);
+        validationRules.put("to.do.security.passwords.use-numbers", this.passwordShouldUseNumbers);
+        validationRules.put("to.do.security.passwords.use-uppercase-letter", this.passwordShouldUseUppercaseLetters);
+        validationRules.put("to.do.security.passwords.use-special-symbols", this.passwordShouldUseSpecialSymbols);
+
+        return validationRules;
     }
 
     public boolean passwordHasMinimumLength(String aPassword) {
@@ -69,5 +98,15 @@ public class CredentialsValidatorImpl implements CredentialsValidator {
 
     public boolean isContainNumbers(String aPassword) {
         return aPassword.matches(".*\\d.*");
+    }
+
+    public boolean isContainUppercaseLetters(String aPassword) {
+        return aPassword.matches(".*[A-Z].*");
+    }
+
+    public boolean isContainSpecialSymbols(String aPassword) {
+        Pattern p = Pattern.compile("[^a-z\\d ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(aPassword);
+        return m.find();
     }
 }

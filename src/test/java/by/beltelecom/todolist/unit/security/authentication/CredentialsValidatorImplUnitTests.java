@@ -65,4 +65,39 @@ public class CredentialsValidatorImplUnitTests {
         Assertions.assertTrue(this.credentialsValidator.isContainNumbers(password3));
     }
 
+    @Test
+    void isContainsUppercaseLetters_notContain_shouldReturnFalse() {
+        String password = "password";
+
+        Assertions.assertFalse(this.credentialsValidator.isContainUppercaseLetters(password));
+    }
+
+    @Test
+    void isContainsUppercaseLetters_containUppercaseLetters_shouldReturnTrue() {
+        String password1 = "Password";
+        String password2 = "pasSword";
+        String password3 = "passworD";
+
+        Assertions.assertTrue(this.credentialsValidator.isContainUppercaseLetters(password1));
+        Assertions.assertTrue(this.credentialsValidator.isContainUppercaseLetters(password2));
+        Assertions.assertTrue(this.credentialsValidator.isContainUppercaseLetters(password3));
+    }
+
+    @Test
+    void isContainSpecialSymbols_notContain_shouldReturnFalse() {
+        String password = "password";
+
+        Assertions.assertFalse(this.credentialsValidator.isContainSpecialSymbols(password));
+    }
+
+    @Test
+    void isContainSpecialSymbols_containSpecialSymbols_shouldReturnTruee() {
+        String password1 = "!Password";
+        String password2 = "pas.Sword";
+        String password3 = "passworD%";
+
+        Assertions.assertTrue(this.credentialsValidator.isContainSpecialSymbols(password1));
+        Assertions.assertTrue(this.credentialsValidator.isContainSpecialSymbols(password2));
+        Assertions.assertTrue(this.credentialsValidator.isContainSpecialSymbols(password3));
+    }
 }

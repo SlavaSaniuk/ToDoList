@@ -4,6 +4,8 @@ import by.beltelecom.todolist.configuration.properties.SecurityProperties;
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.exceptions.PasswordNotValidException;
 
+import java.util.Map;
+
 /**
  * {@link CredentialsValidator} security service bean used to validate accounts properties (e.g. mail, password, username).
  * Note: Implementation of {@link CredentialsValidator} should consider configuration properties
@@ -20,5 +22,7 @@ public interface CredentialsValidator {
      * @return - true, if password is valid.
      */
     boolean validatePassword(String aPassword) throws PasswordNotValidException;
+
+    Map<String, Object> validationRules();
 
 }
