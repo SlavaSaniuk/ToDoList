@@ -5,7 +5,6 @@ import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.exceptions.PasswordNotValidException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
-import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +22,13 @@ public class CredentialsValidatorImpl implements CredentialsValidator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CredentialsValidatorImpl.class); // Logger;
     // Password validation rules:
-    @Setter @Getter
+    @Setter
     private int passwordMinLength;
-    @Setter @Getter
+    @Setter
     private boolean passwordShouldUseNumbers;
-    @Setter @Getter
+    @Setter
     private boolean passwordShouldUseUppercaseLetters;
-    @Setter @Getter
+    @Setter
     private boolean passwordShouldUseSpecialSymbols;
 
     /**
@@ -49,8 +48,12 @@ public class CredentialsValidatorImpl implements CredentialsValidator {
     }
 
     @Override
-    public boolean validate(Account anAccount) {
-        return false;
+    public boolean validate(Account anAccount) throws PasswordNotValidException {
+        Objects.requireNonNull(anAccount, Checks.argumentNotNull("anAccount", Account.class));
+        LOGGER.debug("Try to validate account entity:");
+
+        // Validate password in account:
+        return this.validatePassword(anAccount.getPassword());
     }
 
     @Override
@@ -92,18 +95,38 @@ public class CredentialsValidatorImpl implements CredentialsValidator {
         return validationRules;
     }
 
+    /**
+     * Method check if specified password string has minimum password length.
+     * @param aPassword - password string.
+     * @return - true if password is valid, in other cases - false.
+     */
     public boolean passwordHasMinimumLength(String aPassword) {
         return aPassword.length() >= this.passwordMinLength;
     }
 
+    /**
+     * Method check if specified password string contains any numbers.
+     * @param aPassword - password string.
+     * @return - true if password is valid, in other cases - false.
+     */
     public boolean isContainNumbers(String aPassword) {
         return aPassword.matches(".*\\d.*");
     }
 
+    /**
+     * Method check if specified password string contains letters in uppercase.
+     * @param aPassword - password string.
+     * @return - true if password is valid, in other cases - false.
+     */
     public boolean isContainUppercaseLetters(String aPassword) {
         return aPassword.matches(".*[A-Z].*");
     }
 
+    /**
+     * Method check if specified password string contains special symbols.
+     * @param aPassword - password string.
+     * @return - true if password is valid, in other cases - false.
+     */
     public boolean isContainSpecialSymbols(String aPassword) {
         Pattern p = Pattern.compile("[^a-z\\d ]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(aPassword);
