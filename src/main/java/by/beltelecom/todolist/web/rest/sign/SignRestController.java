@@ -17,8 +17,14 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
+/**
+ * {@link SignRestController} controller bean handle HTTP REST request for login, register accounts
+ * and getting validation rules.
+ */
 @RestController
 @RequestMapping(value = "/rest/sign", produces = "application/json")
 @CrossOrigin(origins = "*")
@@ -66,6 +72,15 @@ public class SignRestController {
         }
     }
 
+    /**
+     * Method handle REST POST HTTP requests to register user account.
+     * If account successfully registerd method return {@link SignRestDto} object with initialized userId property.
+     * In other cases method return {@link SignRestDto} object with initialized {@link SignRestDto#getExceptionCode()}
+     * and {@link SignRestDto#isException()} properties. Method handle {@link AccountAlreadyRegisteredException}
+     * and {@link PasswordNotValidException} exceptions.
+     * @param accountUserDto - {@link AccountUserDto} to register;
+     * @return - {@link SignRestDto} object.
+     */
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SignRestDto registerAccount(@RequestBody AccountUserDto accountUserDto) {
         LOGGER.debug("Try to register account via SignRestController#registerAccount;");
@@ -86,5 +101,22 @@ public class SignRestController {
         }catch (PasswordNotValidException exc) {
             return new SignRestDto(ExceptionStatusCodes.PASSWORD_NOT_VALID_EXCEPTION);
         }
+    }
+
+    /**
+     * Method handle REST GET HTTP requests for getting password validation rules (e.g. properties).
+     * @return - {@link Map} password validation rules.
+     */
+    @GetMapping(value = "/validation_rules_passwords", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> passwordValidationRules() {
+        LOGGER.debug("Try to get passwords validation rules;");
+        Map<String, Object> passwordValidationRules = new HashMap<>();
+
+        passwordValidationRules.put("minLength", this.credentialsValidator.validationRules().get("to.do.security.passwords.min-length"));
+        passwordValidationRules.put("isUseNumbers", this.credentialsValidator.validationRules().get("to.do.security.passwords.use-numbers"));
+        passwordValidationRules.put("isUseUppercaseLetters", this.credentialsValidator.validationRules().get("to.do.security.passwords.use-uppercase-letter"));
+        passwordValidationRules.put("isUseSpecialSymbols", this.credentialsValidator.validationRules().get("to.do.security.passwords.use-special-symbols"));
+
+        return passwordValidationRules;
     }
 }

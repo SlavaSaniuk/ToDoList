@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashMap;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @EnableConfigurationProperties(SecurityProperties.class)
@@ -193,6 +195,26 @@ public class SignRestControllerTestsCase {
         Assertions.assertNotNull(signRestDto);
         Assertions.assertFalse(signRestDto.isException());
         Assertions.assertNotEquals(0L, signRestDto.getUserId());
+    }
+
+    @Test
+    void passwordValidationRules_getRequest_shouldReturnValidationRules() throws Exception {
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/rest/sign/validation_rules_passwords")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = result.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+        HashMap validationRules = new HashMap(this.mapper.readValue(responseJson, HashMap.class));
+
+
+        Assertions.assertNotNull(validationRules);
+        Assertions.assertEquals(4, validationRules.size());
+        validationRules.forEach((key, value) -> {
+            LOGGER.debug("{}: {}", key, value);
+        });
     }
 
 }
