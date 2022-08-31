@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.integration.web.rest.sign;
 
+import by.beltelecom.todolist.configuration.properties.SecurityProperties;
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.security.authentication.SignService;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@EnableConfigurationProperties(SecurityProperties.class)
 public class SignRestControllerTestsCase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SignRestControllerTestsCase.class);
@@ -103,7 +106,7 @@ public class SignRestControllerTestsCase {
     void registerAccount_accountEntityAlreadyRegister_shouldReturnDtoWithExceptionStatusCode() throws Exception {
         Account toRegister = new Account();
         toRegister.setEmail("test2@mail.com");
-        toRegister.setPassword("1234QWERty");
+        toRegister.setPassword("1234QWERty!");
         User userToRegister = new User();
         userToRegister.setName("testName");
         Account registered = this.signService.registerAccount(toRegister, userToRegister);
@@ -134,10 +137,40 @@ public class SignRestControllerTestsCase {
 
     @Test
     @Rollback
+    void registerAccount_accountsPasswordPropertyIsInvalid_shouldReturnDtoWithExceptionStatusCode603() throws Exception {
+        Account toRegister = new Account();
+        toRegister.setEmail("test5@mail.com");
+        toRegister.setPassword("1234");
+        User userToRegister = new User();
+        userToRegister.setName("testName");
+
+        AccountUserDto toRegist = new AccountUserDto(toRegister, userToRegister);
+
+        String accountJson = this.mapper.writeValueAsString(toRegist);
+        LOGGER.info("Account JSON String: " +accountJson);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/rest/sign/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(accountJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = result.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+        SignRestDto signRestDto = this.mapper.readValue(responseJson, SignRestDto.class);
+
+        Assertions.assertNotNull(signRestDto);
+        Assertions.assertTrue(signRestDto.isException());
+        Assertions.assertEquals(ExceptionStatusCodes.PASSWORD_NOT_VALID_EXCEPTION.getStatusCode(), signRestDto.getExceptionCode());
+    }
+
+    @Test
+    @Rollback
     void registerAccount_accountEntityIsNotRegister_shouldReturnDtoWithInitializedUserId() throws Exception {
         Account toRegister = new Account();
         toRegister.setEmail("test3@mail.com");
-        toRegister.setPassword("1234QWERty");
+        toRegister.setPassword("1234QWERty!");
         User userToRegister = new User();
         userToRegister.setName("testName");
 
