@@ -69,7 +69,7 @@ public class UsersRestControllerTestsCase {
     void userById_userNotFound_shouldReturnDtoWithExceptionStatusCode669() throws Exception {
         long unexpectedId = 5678945;
 
-        MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/users/" +unexpectedId)
+        MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/rest/users/" +unexpectedId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(MockMvcResultMatchers.status().isOk())
@@ -89,7 +89,7 @@ public class UsersRestControllerTestsCase {
     @WithMockUser("test6000@mail.com")
     void userById_userIsFound_shouldReturnDtoWithUserIdAndName() throws Exception {
 
-        MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/users/" +this.registeredUser.getId())
+        MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/rest/users/" +this.registeredUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andExpect(MockMvcResultMatchers.status().isOk())

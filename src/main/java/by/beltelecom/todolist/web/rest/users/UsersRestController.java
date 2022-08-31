@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 @RestController
-@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")
+@RequestMapping(value = "/rest/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UsersRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersRestController.class);

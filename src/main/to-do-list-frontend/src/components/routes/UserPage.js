@@ -9,12 +9,49 @@ import MenuHeader from "../fragments/MenuHeader";
 class UserPageWrapper extends React.Component {
     constructor(props) {
         super(props);
+
+        // Bind functions:
+        this.fetchUserByID.bind(this);
+
+        // User object:
+        this.userObj = {
+            userId: null,
+            userName: null }
     }
+
+    componentDidMount() {
+        this.fetchUserByID(this.props.userId);
+    }
+
+    fetchUserByID = async (userId) => {
+
+        let request = await fetch("http://localhost:8080/rest/users/" +userId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'}
+        });
+
+        let userRestDto = await request.json();
+
+        if (userRestDto.exception) {
+            if (userRestDto.exceptionCode === 669) {
+                console.log("User not found.");
+                return;
+            }
+        }
+
+        // Map properties:
+        this.userObj.userId = userRestDto.userId;
+        this.userObj.userName = userRestDto.userName;
+
+    }
+
     render() {
         return(
             <div>
                 <MenuHeader />
-                Hello user {this.props.userId}!
+                <h1> Hello user {this.userObj.userName}! </h1>
             </div>
         );
     }

@@ -47,7 +47,7 @@ public class TasksRepositoryTestCase {
         Assertions.assertEquals(expected_id, actualTask.getId());
     }
 
-     */
+
 
     @Test
     void findAllByUserOwner_noTasks_shouldReturnEmptyList() {
@@ -76,4 +76,6 @@ public class TasksRepositoryTestCase {
         Assertions.assertEquals(2, this.repository.findAllByOwner(owner).size());
 
     }
+
+     */
 }

@@ -20,6 +20,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Spring security configuration class. Class declare a various bean for requests authorization and users registration.
@@ -56,10 +58,13 @@ public class SecurityConfiguration {
                 .antMatchers("/sign/**").permitAll()
                 .antMatchers("/rest/sign/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/sign");
+                .and().formLogin().loginPage("/sign")
+                .and().cors()
+                .and().httpBasic();
 
         return  security.build();
     }
+
 
     /**
      * {@link SignService} security service bean used to register and authenticate users in application.
