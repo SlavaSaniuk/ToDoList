@@ -67,11 +67,45 @@ class SignUpForm extends React.Component {
 
         // Bind functions:
         this.register.bind(this);
+        this.getPasswordValidationRules.bind(this);
 
         // Create refs:
         this.emailInputRef = React.createRef();
         this.usernameInputRef = React.createRef();
         this.passwordInputRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.getPasswordValidationRules();
+    }
+
+    async getPasswordValidationRules() {
+
+        let request = await fetch("http://localhost:8080/rest/sign/validation_rules_passwords", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'}
+        });
+
+        let validationRules =  await request.json();
+        this.passwordValidationMessage = 'Password should';
+
+        if (validationRules.minLength !== 0) {
+            this.passwordValidationMessage += " has at least " +validationRules.minLength +" characters";
+        }
+
+        if (validationRules.isUseNumbers)
+            this.passwordValidationMessage += ", has at least one number"
+
+        if (validationRules.isUseUppercaseLetters)
+            this.passwordValidationMessage += ", has at least one uppercase letter"
+
+        if (validationRules.isUseSpecialSymbols)
+            this.passwordValidationMessage += ", has at least one special symbol"
+
+        this.passwordValidationMessage +=".";
+
     }
 
     register = async(event) => {
@@ -102,8 +136,11 @@ class SignUpForm extends React.Component {
         if (signRestDto.exception) {
             // If 602 account already registered:
             if (signRestDto.exceptionCode === 602) {
-                console.log("Account already registered!")
                 this.props.showExceptionMessageFunc("Account with email " +this.emailInputRef.current.value +" already registered");}
+            // If 603 password not valid exception:
+            if (signRestDto.exceptionCode === 603) {
+                console.log("Password not valid exception.")
+                this.props.showExceptionMessageFunc(this.passwordValidationMessage);}
         }else {
             window.location.href = "/user/" +signRestDto.userId;
         }
