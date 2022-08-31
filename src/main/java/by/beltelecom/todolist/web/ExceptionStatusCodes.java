@@ -25,7 +25,13 @@ public enum ExceptionStatusCodes {
      * ExceptionStatusCodes#PASSWORD_NOT_VALID_EXCEPTION 603 code describe exception, when accounts password property is invalid;
      * @see by.beltelecom.todolist.web.rest.sign.SignRestController#registerAccount;
      */
-    PASSWORD_NOT_VALID_EXCEPTION (603);
+    PASSWORD_NOT_VALID_EXCEPTION (603),
+
+    /**
+     * ExceptionStatusCodes#NOT_FOUND_EXCEPTION 669 code describe exception, when requested object is not found;
+     * @see by.beltelecom.todolist.web.rest.users.UsersRestController#userById;
+     */
+    NOT_FOUND_EXCEPTION (669);
 
     @Getter
     private final int statusCode;
