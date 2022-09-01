@@ -17,7 +17,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -65,7 +64,7 @@ public class UsersRestControllerTestsCase {
 
     @Test
     @Rollback
-    @WithMockUser("test6000@mail.com")
+    @Disabled
     void userById_userNotFound_shouldReturnDtoWithExceptionStatusCode669() throws Exception {
         long unexpectedId = 5678945;
 
@@ -86,7 +85,7 @@ public class UsersRestControllerTestsCase {
 
     @Test
     @Rollback
-    @WithMockUser("test6000@mail.com")
+    @Disabled
     void userById_userIsFound_shouldReturnDtoWithUserIdAndName() throws Exception {
 
         MvcResult result = this.mvc.perform(MockMvcRequestBuilders.get("/rest/users/" +this.registeredUser.getId())

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,8 +21,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Spring security configuration class. Class declare a various bean for requests authorization and users registration.
@@ -44,28 +43,61 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Defines a filter chain which is capable of being matched against an HttpServletRequest.
-     * Шn order to decide whether it applies to that request.
-     * @param security - {@link HttpSecurity} security;
-     * @return - {@link SecurityFilterChain} service bean;
-     * @throws Exception - if any exception occurs.
+     * Spring security configuration class for REST HTTP API.
      */
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
-        security.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/sign/**").permitAll()
-                .antMatchers("/rest/sign/**").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().loginPage("/sign")
-                .and().cors()
-                .and().httpBasic();
+    @Order(1)
+    @Configuration
+    public static class RestSecurityConfiguration {
 
-        return  security.build();
+        /**
+         * Defines a filter chain which is capable of being matched against an HttpServletRequest.
+         * In order to decide whether it applies to that request.
+         * @param http - {@link HttpSecurity} security bean.
+         * @return - {@link  SecurityFilterChain} configuration bean.
+         * @throws Exception - If any exception occurs.
+         */
+        @Bean(name = "RestFilterChain")
+        public SecurityFilterChain restFilterChain(HttpSecurity http) throws Exception {
+
+            // Configure requests security
+            http.authorizeRequests()
+                    .antMatchers("/rest/sign/**").permitAll()
+                    .antMatchers("/rest/**").authenticated();
+
+            // Allow basic authentication
+            http.httpBasic();
+
+            return http.build();
+        }
+
     }
 
+    @Order(2)
+    @Configuration
+    public static class WebSecurityConfiguration {
 
+        /**
+         * Defines a filter chain which is capable of being matched against an HttpServletRequest.
+         * In order to decide whether it applies to that request.
+         * @param security - {@link HttpSecurity} security;
+         * @return - {@link SecurityFilterChain} service bean;
+         * @throws Exception - if any exception occurs.
+         */
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
+            security.csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers("/").permitAll()
+                    .antMatchers("/sign/**").permitAll()
+                    .antMatchers("/rest/sign/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and().formLogin().loginPage("/sign")
+                    .and().cors()
+                    .and().httpBasic();
+
+            return security.build();
+        }
+    }
     /**
      * {@link SignService} security service bean used to register and authenticate users in application.
      */
