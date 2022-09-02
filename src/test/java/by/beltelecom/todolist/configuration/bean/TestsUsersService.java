@@ -6,17 +6,16 @@ import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.Checks;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 
+/**
+ * {@link TestsUsersService} service bean used in integration tests to simplify process registration users and accounts.
+ * Use {@link TestsUsersService#registerUser()} method to get {@link TestUser} object
+ * and {@link TestsUsersService#deleteUser(TestUser)} method to delete test user.
+ */
 public class TestsUsersService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestsUsersService.class);
 
     public static final String USER_NAME = "userName";
     public static final String ACCOUNT_EMAIL = "email@mail.com";
@@ -29,9 +28,6 @@ public class TestsUsersService {
     @Autowired
     private JsonWebTokenService jsonWebTokenService;
 
-    @Getter
-    public TestUser testUser;
-
     public TestUser registerUser() {
         Account account = new Account();
         account.setEmail(ACCOUNT_EMAIL);
@@ -43,7 +39,7 @@ public class TestsUsersService {
         account = this.signService.registerAccount(account, user);
 
         // Generate JWT:
-        String jwt = this.jsonWebTokenService.generateToken(user.getName());
+        String jwt = this.jsonWebTokenService.generateToken(account.getEmail());
 
         return new TestUser(account.getUserOwner(), account, jwt);
     }
@@ -53,13 +49,4 @@ public class TestsUsersService {
         this.usersService.deleteUser(aTestUser.getUser());
     }
 
-
-    @Getter
-    @AllArgsConstructor
-    public static class TestUser {
-
-        private User user;
-        private Account account;
-        private String jwtToken;
-    }
 }
