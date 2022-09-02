@@ -27,4 +27,11 @@ public interface UsersService {
      */
     @Transactional
     User createUser(String aName);
+
+    /**
+     * Delete specified {@link User} entiti object with their account.
+     * @param aUser - {@link User} to delete.
+     */
+    @Transactional
+    void deleteUser(User aUser);
 }

@@ -68,4 +68,13 @@ public class UsersServiceImpl implements UsersService {
         // Save user in db:
         return this.usersRepository.save(user);
     }
+
+    @Override
+    public void deleteUser(User aUser) {
+        Objects.requireNonNull(aUser, Checks.argumentNotNull("aUser", User.class));
+        if (aUser.getId() == 0L) throw new IllegalArgumentException(Checks.Numbers.argNotZero("id", Long.class));
+
+        LOGGER.debug("Try to delete user: {};" , aUser);
+        this.usersRepository.deleteById(aUser.getId());
+    }
 }
