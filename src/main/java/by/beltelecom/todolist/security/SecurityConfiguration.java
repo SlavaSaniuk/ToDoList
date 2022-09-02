@@ -2,10 +2,12 @@ package by.beltelecom.todolist.security;
 
 import by.beltelecom.todolist.configuration.properties.SecurityProperties;
 import by.beltelecom.todolist.security.authentication.*;
+import by.beltelecom.todolist.security.rest.JsonWebTokenFilter;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenServiceImpl;
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.services.users.UsersService;
+import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Objects;
 
 /**
  * Spring security configuration class. Class declare a various bean for requests authorization and users registration.
@@ -51,6 +56,22 @@ public class SecurityConfiguration {
     @Configuration
     public static class RestSecurityConfiguration {
 
+        private static final Logger LOGGER = LoggerFactory.getLogger(RestSecurityConfiguration.class); //Logger;
+
+        private final JsonWebTokenFilter jsonWebTokenFilter; // Security filter bean.
+
+        /**
+         * Construct new {@link RestSecurityConfiguration} configuration bean.
+         * @param aJsonWebTokenFilter - Security filter bean.
+         */
+        @Autowired
+        public RestSecurityConfiguration(JsonWebTokenFilter aJsonWebTokenFilter) {
+            Objects.requireNonNull(aJsonWebTokenFilter,
+                    Checks.argumentNotNull("aJsonWebTokenFilter", JsonWebTokenFilter.class));
+            LOGGER.debug(SpringLogging.Creation.createBean(RestSecurityConfiguration.class));
+            this.jsonWebTokenFilter = aJsonWebTokenFilter;
+        }
+
         /**
          * Defines a filter chain which is capable of being matched against an HttpServletRequest.
          * In order to decide whether it applies to that request.
@@ -72,32 +93,32 @@ public class SecurityConfiguration {
             // Allow basic authentication
             http.httpBasic();
 
+            // Set filters:
+            http.addFilterBefore(this.jsonWebTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
             return http.build();
         }
 
     }
 
-    /**
-     * Spring security configuration class for WEB HTTP API.
-     */
+    @Bean
+    public JsonWebTokenFilter jsonWebTokenFilter() {
+        LOGGER.debug(SpringLogging.Creation.createBean(JsonWebTokenFilter.class));
+        return new JsonWebTokenFilter(this.jsonWebTokenService(), this.userDetailsService());
+    }
+
+
+    /*
     @Order(2)
     @Configuration
     public static class WebSecurityConfiguration {
 
-        /**
-         * Defines a filter chain which is capable of being matched against an HttpServletRequest.
-         * In order to decide whether it applies to that request.
-         * @param security - {@link HttpSecurity} security;
-         * @return - {@link SecurityFilterChain} service bean;
-         * @throws Exception - if any exception occurs.
-         */
         @Bean(name = "WebFilterChain")
         public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
             security.csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/").permitAll()
                     .antMatchers("/sign/**").permitAll()
-                    .antMatchers("/rest/sign/**").permitAll()
                     .anyRequest().authenticated()
                     .and().formLogin().loginPage("/sign")
                     .and().cors()
@@ -106,6 +127,7 @@ public class SecurityConfiguration {
             return security.build();
         }
     }
+    */
 
     @Bean("jsonWebTokenService")
     @Primary
