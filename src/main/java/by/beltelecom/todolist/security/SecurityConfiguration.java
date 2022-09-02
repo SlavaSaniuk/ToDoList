@@ -2,6 +2,8 @@ package by.beltelecom.todolist.security;
 
 import by.beltelecom.todolist.configuration.properties.SecurityProperties;
 import by.beltelecom.todolist.security.authentication.*;
+import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
+import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenServiceImpl;
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -98,6 +100,14 @@ public class SecurityConfiguration {
             return security.build();
         }
     }
+
+    @Bean("jsonWebTokenService")
+    @Primary
+    public JsonWebTokenService jsonWebTokenService() {
+        LOGGER.debug(SpringLogging.Creation.createBean(JsonWebTokenService.class));
+        return new JsonWebTokenServiceImpl(this.securityProperties.getJwt());
+    }
+
     /**
      * {@link SignService} security service bean used to register and authenticate users in application.
      */
