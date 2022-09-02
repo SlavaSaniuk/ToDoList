@@ -101,25 +101,6 @@ public class SecurityConfiguration {
             return http.build();
         }
 
-        /**
-         * Configure web mvc configuration.
-         * @return {@link WebMvcConfigurer} bean.
-         */
-        @Bean
-        public WebMvcConfigurer corsConfiguration() {
-            return new WebMvcConfigurer() {
-                @Override
-                public void addCorsMappings(CorsRegistry registry) {
-                    registry
-                            .addMapping("/rest/**")
-                            .allowedOrigins("*")
-                            .allowedHeaders("Authorization");
-
-                    WebMvcConfigurer.super.addCorsMappings(registry);
-                }
-            };
-        }
-
     }
 
     @Bean

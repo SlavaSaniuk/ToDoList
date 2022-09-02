@@ -52,6 +52,13 @@ public class JsonWebTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
+        // Check request method:
+        String method = request.getMethod();
+        if (!method.equals("GET") && !method.equals("POST")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // Get "AUTHORIZATION" header and check it:
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || authorizationHeader.isBlank() || !authorizationHeader.startsWith("Beaver ")) {

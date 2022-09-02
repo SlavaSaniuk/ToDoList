@@ -1,6 +1,7 @@
 import React from "react";
 import {useParams, Outlet} from "react-router-dom";
 import MenuHeader from "../fragments/MenuHeader";
+import {HttpConfiguration} from "../../objects/HttpConfiguration";
 
 /**
  * UserPageWrapper is the root dynamic element of user page.
@@ -25,11 +26,16 @@ class UserPageWrapper extends React.Component {
 
     fetchUserByID = async (userId) => {
 
+        console.log("JWT: ", HttpConfiguration.jwt);
+
         let request = await fetch("http://localhost:8080/rest/users/" +userId, {
             method: 'GET',
+            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'}
+                'Accept': 'application/json',
+                'Authentication': 'Beaver ' +HttpConfiguration.jwt
+            }
         });
 
         let userRestDto = await request.json();

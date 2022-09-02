@@ -28,6 +28,7 @@ import java.util.Objects;
  */
 @RestController
 @RequestMapping(value = "/rest/sign", produces = "application/json")
+@CrossOrigin(origins = "*")
 public class SignRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SignRestController.class); // Logger;

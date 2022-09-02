@@ -1,6 +1,8 @@
 import React from "react";
 import '../../styles/common.css';
 import '../../styles/sign.css';
+import {HttpConfiguration} from "../../objects/HttpConfiguration";
+import {useNavigate} from "react-router-dom";
 
 class SignExceptionMessageBlock extends React.Component {
     constructor(props) {
@@ -206,7 +208,13 @@ class SignInForm extends React.Component {
             if (signRestDto.exceptionCode === 601) {
                 this.props.showExceptionMessageFunc("Email or password is incorrect");
         }}else {
-            window.location.href = "/user/" +signRestDto.userId;
+            // Get and set JWT:
+            HttpConfiguration.jwt = signRestDto.jwt;
+            console.log(signRestDto.jwt);
+            console.log("Http Configuration ", signRestDto.jwt);
+            this.props.navigate("/user/"+signRestDto.userId);
+
+            //window.location.href = "/user/" +signRestDto.userId;
         }
     }
 
@@ -226,6 +234,18 @@ class SignInForm extends React.Component {
     }
 }
 
+function SignFormWrapper(props) {
+    let navigate = useNavigate();
+    let signForm = props.isSignIn ?
+        <SignInForm showExceptionMessageFunc={props.showExceptionMessageFunc}
+                    hideExceptionMessageFunc={props.hideExceptionMessageFunc}
+                    navigate={navigate}/> :
+        <SignUpForm showExceptionMessageFunc={props.showExceptionMessageFunc}
+                    hideExceptionMessageFunc={props.hideExceptionMessageFunc}
+                    navigate={navigate}/>;
+    return(<div> {signForm} </div>);
+}
+
 class SignFormBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -233,17 +253,13 @@ class SignFormBlock extends React.Component {
     }
 
     render() {
-        let signForm = this.props.isSignIn ?
-            <SignInForm showExceptionMessageFunc={this.props.showExceptionMessageFunc}
-                        hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/> :
-            <SignUpForm showExceptionMessageFunc={this.props.showExceptionMessageFunc}
-                        hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} />;
 
         let signFormText = this.props.isSignIn ? "Please, sign in" : "Please, sign up";
         return (
             <div className={"sign-form-block"}>
                 <SignText text={signFormText}/>
-                {signForm}
+                <SignFormWrapper isSignIn={this.props.isSignIn} showExceptionMessageFunc={this.props.showExceptionMessageFunc}
+                                 hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} />
             </div>
         );
     }
