@@ -101,6 +101,8 @@ public class SignRestControllerTestsCase {
         Assertions.assertNotNull(signRestDto);
         Assertions.assertFalse(signRestDto.isException());
         Assertions.assertNotEquals(0L, signRestDto.getUserId());
+        Assertions.assertNotNull(signRestDto.getJwt());
+        Assertions.assertFalse(signRestDto.getJwt().isEmpty());
     }
 
     @Test
@@ -195,6 +197,8 @@ public class SignRestControllerTestsCase {
         Assertions.assertNotNull(signRestDto);
         Assertions.assertFalse(signRestDto.isException());
         Assertions.assertNotEquals(0L, signRestDto.getUserId());
+        Assertions.assertNotNull(signRestDto.getJwt());
+        Assertions.assertFalse(signRestDto.getJwt().isEmpty());
     }
 
     @Test

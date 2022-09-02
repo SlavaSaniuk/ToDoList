@@ -58,8 +58,11 @@ public class SecurityConfiguration {
          * @return - {@link  SecurityFilterChain} configuration bean.
          * @throws Exception - If any exception occurs.
          */
-        @Bean(name = "RestFilterChain")
+        @Bean
         public SecurityFilterChain restFilterChain(HttpSecurity http) throws Exception {
+
+            // Disable CSRF security:
+            http.csrf().disable();
 
             // Configure requests security
             http.authorizeRequests()
@@ -74,6 +77,9 @@ public class SecurityConfiguration {
 
     }
 
+    /**
+     * Spring security configuration class for WEB HTTP API.
+     */
     @Order(2)
     @Configuration
     public static class WebSecurityConfiguration {
@@ -85,7 +91,7 @@ public class SecurityConfiguration {
          * @return - {@link SecurityFilterChain} service bean;
          * @throws Exception - if any exception occurs.
          */
-        @Bean
+        @Bean(name = "WebFilterChain")
         public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
             security.csrf().disable()
                     .authorizeRequests()

@@ -6,6 +6,7 @@ import by.beltelecom.todolist.exceptions.AccountAlreadyRegisteredException;
 import by.beltelecom.todolist.exceptions.PasswordNotValidException;
 import by.beltelecom.todolist.security.authentication.CredentialsValidator;
 import by.beltelecom.todolist.security.authentication.SignService;
+import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import by.beltelecom.todolist.web.ExceptionStatusCodes;
@@ -33,22 +34,29 @@ public class SignRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SignRestController.class); // Logger;
     private final SignService signService; // Spring security bean (Autowired in constructor);
     private final CredentialsValidator credentialsValidator; // Spring security bean (Autowired in constructor);
+    private final JsonWebTokenService jsonWebTokenService; // Security service bean (mapped in constructor);
 
     /**
      * Construct new {@link SignRestController} REST HTTP Controller bean.
      * @param aSignService - {@link SignService} service bean.
      * @param aCredentialsValidator - {@link CredentialsValidator} security service bean.
      */
-    public SignRestController(SignService aSignService, CredentialsValidator aCredentialsValidator) {
+    public SignRestController(SignService aSignService, CredentialsValidator aCredentialsValidator,
+                              JsonWebTokenService aJsonWebTokenService) {
         // Check parameters:
-        Objects.requireNonNull(aSignService, Checks.argumentNotNull("aSignService", SignService.class));
-        Objects.requireNonNull(aCredentialsValidator, Checks.argumentNotNull("aCredentialsValidator", CredentialsValidator.class));
+        Objects.requireNonNull(aSignService,
+                Checks.argumentNotNull("aSignService", SignService.class));
+        Objects.requireNonNull(aCredentialsValidator,
+                Checks.argumentNotNull("aCredentialsValidator", CredentialsValidator.class));
+        Objects.requireNonNull(aJsonWebTokenService,
+                Checks.argumentNotNull("aJsonWebTokenService", JsonWebTokenService.class));
 
         LOGGER.debug(SpringLogging.Creation.createBean(SignRestController.class));
 
         // Map arguments:
         this.signService = aSignService;
         this.credentialsValidator = aCredentialsValidator;
+        this.jsonWebTokenService = aJsonWebTokenService;
     }
 
     /**
@@ -66,7 +74,10 @@ public class SignRestController {
 
         try {
             Account loggedAccount = this.signService.loginAccount(account);
-            return new SignRestDto(loggedAccount.getUserOwner().getId());
+
+            // Generate JWT and return:
+            return new SignRestDto(loggedAccount.getUserOwner().getId(),
+                    this.jsonWebTokenService.generateToken(loggedAccount.getEmail()));
         }catch (BadCredentialsException exc) {
             return new SignRestDto(ExceptionStatusCodes.BAD_CREDENTIALS_EXCEPTION);
         }
@@ -94,7 +105,9 @@ public class SignRestController {
 
             // Register account:
             account = this.signService.registerAccount(account, user);
-            return new SignRestDto(account.getUserOwner().getId());
+            // Generate JWT and return:
+            return new SignRestDto(account.getUserOwner().getId(),
+                    this.jsonWebTokenService.generateToken(account.getEmail()));
 
         }catch (AccountAlreadyRegisteredException exc) {
             return new SignRestDto(ExceptionStatusCodes.ACCOUNT_ALREADY_REGISTERED_EXCEPTION);
