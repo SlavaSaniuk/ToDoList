@@ -2,12 +2,13 @@ import React from "react";
 import {useParams, Outlet} from "react-router-dom";
 import MenuHeader from "../fragments/MenuHeader";
 import {HttpConfiguration} from "../../objects/HttpConfiguration";
+import '../../styles/common.css';
 
 /**
- * UserPageWrapper is the root dynamic element of user page.
+ * UserPageContent REACT component user to render user page content.
  * @property userId - user ID path variable.
  */
-class UserPageWrapper extends React.Component {
+class UserPageContent extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,6 +19,13 @@ class UserPageWrapper extends React.Component {
         this.userObj = {
             userId: null,
             userName: null }
+
+        // User content statuses:
+        this.contentStatus = ["LOADING", "LOADED"];
+
+        this.state = {
+            "contentStatus": this.contentStatus.LOADING
+        }
     }
 
     componentDidMount() {
@@ -26,15 +34,13 @@ class UserPageWrapper extends React.Component {
 
     fetchUserByID = async (userId) => {
 
-        console.log("JWT: ", HttpConfiguration.jwt);
-
         let request = await fetch("http://localhost:8080/rest/users/" +userId, {
             method: 'GET',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': 'Beaver ' +HttpConfiguration.jwt
+                'Authorization': sessionStorage.getItem('JWT')
             }
         });
 
@@ -54,20 +60,35 @@ class UserPageWrapper extends React.Component {
     }
 
     render() {
+        // Check content status:
+        let contentBlock;
+        if (this.state.contentStatus === this.contentStatus.LOADING) {
+            contentBlock = <div className={"red-loader"}></div>
+        }
+
+
         return(
             <div>
                 <MenuHeader />
-                <h1> Hello user {this.userObj.userName}! </h1>
+                {contentBlock}
             </div>
         );
     }
 }
 
-const UserContent = () => {
+/**
+ * UserPageFunctional is React component which define router hooks.
+ * @returns {JSX.Element} - not arguments.
+ * @constructor - empty constructor.
+ */
+const UserPageFunctional = () => {
     let params = useParams();
-    return (<UserPageWrapper userId={params.userId} />);
+    return (<UserPageContent userId={params.userId} />);
 }
 
+/**
+ * UserPage REACT component is the root component, which render users page.
+ */
 class UserPage extends React.Component {
     constructor(props) {
         super(props);
@@ -82,4 +103,4 @@ class UserPage extends React.Component {
     }
 }
 
-export {UserPage, UserContent};
+export {UserPage, UserPageFunctional};

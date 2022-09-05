@@ -209,12 +209,8 @@ class SignInForm extends React.Component {
                 this.props.showExceptionMessageFunc("Email or password is incorrect");
         }}else {
             // Get and set JWT:
-            HttpConfiguration.jwt = signRestDto.jwt;
-            console.log(signRestDto.jwt);
-            console.log("Http Configuration ", signRestDto.jwt);
+            sessionStorage.setItem('JWT', "Beaver " +signRestDto.jwt);
             this.props.navigate("/user/"+signRestDto.userId);
-
-            //window.location.href = "/user/" +signRestDto.userId;
         }
     }
 
