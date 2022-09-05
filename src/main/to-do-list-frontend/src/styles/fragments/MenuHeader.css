@@ -1,0 +1,30 @@
+.menu-header-block {
+    width: 100%;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background-color: #db655c;
+
+}
+
+.menu-header-content {
+    width: 60%;
+    margin: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.menu-category {
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.menu-category:hover {
+    cursor: pointer;
+    background-color: #73322e
+}

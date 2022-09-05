@@ -2,6 +2,8 @@ import React from "react";
 import {useParams, Outlet} from "react-router-dom";
 import MenuHeader from "../fragments/MenuHeader";
 import '../../styles/common.css';
+import '../../styles/userpage.css';
+
 
 /**
  * UserPageContent REACT component user to render user page content.
@@ -31,6 +33,11 @@ class UserPageContent extends React.Component {
         this.fetchUserByID(this.props.userId);
     }
 
+    /**
+     * Method get user object from server by its ID.
+     * @param userId - user ID (Specified by properties).
+     * @returns {Promise<void>} - nothing.
+     */
     fetchUserByID = async (userId) => {
 
         let request = await fetch("http://localhost:8080/rest/users/" +userId, {
@@ -56,8 +63,14 @@ class UserPageContent extends React.Component {
         this.userObj.userId = userRestDto.userId;
         this.userObj.userName = userRestDto.userName;
 
+        // Change content status to LOADED:
+        this.setState({"contentStatus": this.contentStatus.LOADED});
     }
 
+    /**
+     * Render user content block.
+     * @returns {JSX.Element} - User content block.
+     */
     render() {
         // Check content status:
         let contentBlock;
@@ -65,10 +78,17 @@ class UserPageContent extends React.Component {
             contentBlock = <div className={"red-loader"}></div>
         }
 
+        if (this.state.contentStatus === this.contentStatus.LOADED) {
+            contentBlock = (
+                <div className={"user-page-content"}>
+                    <MenuHeader userObj={this.userObj} />
+                    <h1> Hello {this.userObj.userName} </h1>
+                </div>
+            );
+        }
 
         return(
             <div>
-                <MenuHeader />
                 {contentBlock}
             </div>
         );

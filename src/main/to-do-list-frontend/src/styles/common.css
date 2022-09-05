@@ -32,3 +32,40 @@ a:active { text-decoration: none; }
 *.focus {
     outline: none;
 }
+
+
+.red-loader,
+.red-loader:after {
+    border-radius: 50%;
+    width: 20em;
+    height: 20em;
+}
+.red-loader {
+    margin: 60px auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    border-top: 2em solid #db655c;
+    border-right: 2em solid #989c9920;
+    border-bottom: 2em solid #989c9920;
+    border-left: 2em solid #989c9920;
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    animation: load8 2s infinite linear;
+}
+@-webkit-keyframes load8 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
