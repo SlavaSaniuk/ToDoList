@@ -1,7 +1,6 @@
 import React from "react";
 import {useParams, Outlet} from "react-router-dom";
 import MenuHeader from "../fragments/MenuHeader";
-import {HttpConfiguration} from "../../objects/HttpConfiguration";
 import '../../styles/common.css';
 
 /**
