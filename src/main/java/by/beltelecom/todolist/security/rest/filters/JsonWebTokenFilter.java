@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.security.rest;
+package by.beltelecom.todolist.security.rest.filters;
 
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.utilities.logging.Checks;

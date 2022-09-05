@@ -34,7 +34,7 @@ class UserPageWrapper extends React.Component {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authentication': 'Beaver ' +HttpConfiguration.jwt
+                'Authorization': 'Beaver ' +HttpConfiguration.jwt
             }
         });
 

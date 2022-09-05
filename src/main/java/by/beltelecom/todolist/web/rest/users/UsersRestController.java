@@ -16,7 +16,6 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/rest/users", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")
 public class UsersRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersRestController.class);

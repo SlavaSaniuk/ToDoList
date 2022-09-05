@@ -2,7 +2,8 @@ package by.beltelecom.todolist.security;
 
 import by.beltelecom.todolist.configuration.properties.SecurityProperties;
 import by.beltelecom.todolist.security.authentication.*;
-import by.beltelecom.todolist.security.rest.JsonWebTokenFilter;
+import by.beltelecom.todolist.security.rest.filters.CustomCorsFilter;
+import by.beltelecom.todolist.security.rest.filters.JsonWebTokenFilter;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenServiceImpl;
 import by.beltelecom.todolist.services.security.AccountsService;
@@ -26,8 +27,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Objects;
 
@@ -97,8 +96,19 @@ public class SecurityConfiguration {
 
             // Set filters:
             http.addFilterBefore(this.jsonWebTokenFilter, UsernamePasswordAuthenticationFilter.class);
+            http.addFilterBefore(this.customCorsFilter(), JsonWebTokenFilter.class);
 
             return http.build();
+        }
+
+        /**
+         * {@link CustomCorsFilter} Spring HTTP filter bean user to allow CORS in application.
+         * @return - Spring HTTP CORS filter.
+         */
+        @Bean
+        public CustomCorsFilter customCorsFilter() {
+            LOGGER.debug(SpringLogging.Creation.createBean(CustomCorsFilter.class));
+            return new CustomCorsFilter();
         }
 
     }
@@ -108,28 +118,6 @@ public class SecurityConfiguration {
         LOGGER.debug(SpringLogging.Creation.createBean(JsonWebTokenFilter.class));
         return new JsonWebTokenFilter(this.jsonWebTokenService(), this.userDetailsService());
     }
-
-
-    /*
-    @Order(2)
-    @Configuration
-    public static class WebSecurityConfiguration {
-
-        @Bean(name = "WebFilterChain")
-        public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
-            security.csrf().disable()
-                    .authorizeRequests()
-                    .antMatchers("/").permitAll()
-                    .antMatchers("/sign/**").permitAll()
-                    .anyRequest().authenticated()
-                    .and().formLogin().loginPage("/sign")
-                    .and().cors()
-                    .and().httpBasic();
-
-            return security.build();
-        }
-    }
-    */
 
     @Bean("jsonWebTokenService")
     @Primary
