@@ -1,73 +1,153 @@
 import React from "react";
 import '../../styles/fragments/MenuHeader.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 
-/**
- * Single menu category.
- * @property id - id of menu category.
- * @property categoryName - name of category.
- * @property userObj - user object.
- */
-class MenuCategory extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+class UserPrefTab extends React.Component {
     render() {
-        return (
-            <div id={this.props.id} className={"menu-category"}> {this.props.categoryName} </div>
-        )
+        return(
+            <div className={"user-pref-tab col-3"} />
+        );
     }
 }
 
-/**
- * Menu content block positioned at center page and render menu categories.
- * @property userObj - user object.
- */
-class MenuHeaderContent extends React.Component {
+const MenuWideBarFiller = (props) => {
+    return (<div className={"this.props.colClass"} />);
+}
+
+class SearchInputField extends React.Component {
     constructor(props) {
         super(props);
+
+        this.focuses.bind(this);
+        this.unfocuses.bind(this);
+
+        this.state = {"focus": false};
     }
+
+    focuses = () => {
+        this.props.focusesFunc(true);
+        this.setState({"focus": true});
+    }
+
+    unfocuses = () => {
+        this.props.focusesFunc(false);
+        this.setState({"focus": false})
+    }
+
     render() {
-        return (
-            <div className={"menu-header-content"}>
-                <MenuCategory />
-                <MenuCategory />
-                <MenuCategory id={"menu-category-user"} userObj={this.props.userObj} categoryName={this.props.userObj.userName} />
+
+        let inputClasses = this.state.focus ? "search-input-field-focuses" : "search-input-field-unfocuses";
+
+
+        return(
+            <input className={"search-input-field " +inputClasses} onFocus={this.focuses} onBlur={this.unfocuses}/>
+        );
+    }
+}
+
+const SearchIcon = () => {
+    return (<div className={"search-icon"} />)
+}
+
+class SearchInputBox extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.toggleFocus.bind(this);
+
+        this.state = {
+            "focus": false
+        }
+    }
+
+    toggleFocus = (isFocus) => {
+        console.log("Set focus");
+        this.setState({"focus": isFocus});
+    }
+
+    render() {
+        let boxClasses = this.state.focus ? "search-input-box-focuses col-3" : "search-input-box col-2";
+        return(
+            <div className={boxClasses}>
+                <SearchIcon />
+                <SearchInputField focusesFunc={this.toggleFocus}/>
             </div>
-        )
+        );
     }
 }
 
-/**
- * Top menu block. Method render MenuHeaderContent block.
- * @property userObj - user object.
- */
-class MenuHeaderBlock extends React.Component {
+class MenuWideBar extends React.Component {
     constructor(props) {
         super(props);
+
+        this.toggleFocus.bind(this);
+
+        this.state = {
+            "focus": false
+        }
     }
 
-    render() {
-        return (
-            <header className={"menu-header-block"}>
-                <MenuHeaderContent userObj={this.props.userObj}/>
-            </header>
-        )
-    }
-}
-
-/**
- *  MenuHeader react element is the root of top menu.
- *  @property userObj - user object.
- */
-class MenuHeader extends React.Component {
-    constructor(props) {
-        super(props);
+    toggleFocus = (isFocus) => {
+        this.setState({"focus": isFocus});
     }
 
     render() {
         return(
-            <MenuHeaderBlock userObj={this.props.userObj} />
+            <div className={"menu-wide-bar col row"}>
+                    <SearchInputBox to />
+                <MenuWideBarFiller />
+                <UserPrefTab />
+            </div>
         );
+    }
+}
+
+const MenuSeparator = () => {
+    return (<div className={"menu-separator col"} />);
+}
+
+class MenuTab extends React.Component {
+    render() {
+        return(
+            <div className={"menu-tab col-1"}>
+            </div>
+        );
+    }
+}
+
+class MenuHeaderContent extends React.Component {
+    render() {
+        return (
+            <div className={"menu-header-content mx-auto row"}>
+                <MenuTab />
+                <MenuSeparator />
+                <MenuWideBar />
+            </div>
+        );
+    }
+}
+
+class MenuHeaderBlock extends React.Component {
+    render() {
+        return (
+            <header className={"container-fluid menu-header-block"}>
+                <MenuHeaderContent />
+            </header>
+        );
+    }
+}
+
+const MenuHeaderFunctional = () => {
+    return (
+        <MenuHeaderBlock />
+    );
+}
+
+class MenuHeader extends React.Component {
+    render() {
+        return (
+            <MenuHeaderFunctional />
+        )
     }
 }
 

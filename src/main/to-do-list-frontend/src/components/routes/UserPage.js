@@ -25,7 +25,7 @@ class UserPageContent extends React.Component {
         this.contentStatus = ["LOADING", "LOADED"];
 
         this.state = {
-            "contentStatus": this.contentStatus.LOADING
+            "contentStatus": this.contentStatus.LOADED
         }
     }
 
