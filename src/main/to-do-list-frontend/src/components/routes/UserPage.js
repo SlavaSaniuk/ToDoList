@@ -31,6 +31,9 @@ class UserPageContent extends React.Component {
 
     componentDidMount() {
         this.fetchUserByID(this.props.userId);
+
+        // Set page title:
+        document.title = this.userObj.userName;
     }
 
     /**
