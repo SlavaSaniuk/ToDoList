@@ -1,14 +1,9 @@
 import React from "react";
 import '../../styles/common.css';
 import '../../styles/sign.css';
-import {HttpConfiguration} from "../../objects/HttpConfiguration";
 import {useNavigate} from "react-router-dom";
 
 class SignExceptionMessageBlock extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className={"sign-exception-message-block"}>
@@ -19,10 +14,6 @@ class SignExceptionMessageBlock extends React.Component {
 }
 
 class SignSubmitBlock extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className={"sign-submit-block"}>
@@ -33,9 +24,7 @@ class SignSubmitBlock extends React.Component {
 }
 
 class SignInputBlock extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
     render() {
         return (
             <div className={"sign-input-block"}>
@@ -50,9 +39,6 @@ class SignInputBlock extends React.Component {
 }
 
 class SignText extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
@@ -284,9 +270,6 @@ class SignSwitchText extends React.Component {
 }
 
 class SignSwitchImage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         let imageAddClas = this.props.isSignIn ? "sign-switch-image-block-in" : "sign-switch-image-block-up";
         return (
@@ -296,10 +279,6 @@ class SignSwitchImage extends React.Component {
 }
 
 class SignSwitch extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className={"sign-switch"}>

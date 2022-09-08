@@ -34,11 +34,12 @@ const UserAvatar = () => {
  *             </div>)
  */
 class UserMenuTab extends React.Component {
+
     render() {
         return(
             <div className={"user-pref-tab col-3"}>
                 <UserAvatar />
-                <UserName userName={"[USER_NAME]"} />
+                <UserName userName={this.props.userObj.userName} />
             </div>
         );
     }
@@ -157,12 +158,11 @@ class MenuWideBar extends React.Component {
 
     render() {
         let fillerColClass = this.state.focus ? "col-6" : "col-7";
-        console.log("Focus: " +this.state.focus);
         return(
             <div className={"menu-wide-bar col row"}>
                 <SearchInputBox toggleParentFunc={this.toggleFocus} />
                 <MenuWideBarFiller colClass={fillerColClass} />
-                <UserMenuTab />
+                <UserMenuTab userObj={this.props.userObj} />
             </div>
         );
     }
@@ -195,12 +195,12 @@ const MenuTab = () => {
  *             <MenuWideBar />
  *         </div>).
  */
-const MenuHeaderContent = () => {
+const MenuHeaderContent = (props) => {
     return (
         <div className={"menu-header-content mx-auto row"}>
             <MenuTab />
             <MenuSeparator />
-            <MenuWideBar />
+            <MenuWideBar userObj={props.userObj} />
         </div>
     );
 }
@@ -212,10 +212,10 @@ const MenuHeaderContent = () => {
  *                 <MenuHeaderContent />
  *         </header>).
  */
-const MenuHeaderBlock = () =>  {
+const MenuHeaderBlock = (props) =>  {
     return (
         <header className={"container-fluid menu-header-block"}>
-                <MenuHeaderContent />
+                <MenuHeaderContent userObj={props.userObj} />
         </header>
     );
 }
@@ -224,19 +224,22 @@ const MenuHeaderBlock = () =>  {
  * MenuHeaderFunctional react object defind any used hooks.
  * @returns {JSX.Element} - <MenuHeaderBlock />
  */
-const MenuHeaderFunctional = () => {
+const MenuHeaderFunctional = (props) => {
     return (
-        <MenuHeaderBlock />
+        <MenuHeaderBlock userObj={props.userObj} />
     );
 }
 
 /**
  * Root react class that represent a user menu header.
+ * @constructor - React properties object.
+ * @property userObj - user object.
  */
 class MenuHeader extends React.Component {
+
     render() {
         return (
-            <MenuHeaderFunctional />
+            <MenuHeaderFunctional userObj={this.props.userObj} />
         )
     }
 }

@@ -1,9 +1,9 @@
 import './App.css';
 import Home from './components/routes/Home.js'
 import SignPage from "./components/routes/Sign";
-import {UserPage, UserContent, UserPageFunctional} from "./components/routes/UserPage.js";
+import {UserPage, UserPageFunctional} from "./components/routes/UserPage.js";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import React, { Component }  from 'react';
+import React from 'react';
 
 
 function App() {

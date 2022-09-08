@@ -4,7 +4,6 @@ import MenuHeader from "../fragments/MenuHeader";
 import '../../styles/common.css';
 import '../../styles/userpage.css';
 
-
 /**
  * UserPageContent REACT component user to render user page content.
  * @property userId - user ID path variable.
@@ -31,9 +30,6 @@ class UserPageContent extends React.Component {
 
     componentDidMount() {
         this.fetchUserByID(this.props.userId);
-
-        // Set page title:
-        document.title = this.userObj.userName;
     }
 
     /**
@@ -68,6 +64,8 @@ class UserPageContent extends React.Component {
 
         // Change content status to LOADED:
         this.setState({"contentStatus": this.contentStatus.LOADED});
+        // Set page title:
+        document.title = this.userObj.userName;
     }
 
     /**
@@ -105,21 +103,19 @@ class UserPageContent extends React.Component {
  */
 const UserPageFunctional = () => {
     let params = useParams();
-    return (<UserPageContent userId={params.userId} />);
+    return (
+        <UserPageContent userId={params.userId} />
+    );
 }
 
 /**
  * UserPage REACT component is the root component, which render users page.
  */
 class UserPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return(
             <div>
-            <Outlet />
+            <Outlet/>
             </div>
         );
     }
