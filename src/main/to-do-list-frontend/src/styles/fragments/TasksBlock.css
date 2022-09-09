@@ -1,0 +1,144 @@
+.tasks-block {
+    max-width: 900px;
+
+    background-color: #FFFFFF;
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+.tasks-top-menu {
+    padding-top: 5px;
+    margin: 5px;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+.tasks-menu-panel {
+    border-left:  1px solid #cdcdcd;
+}
+
+.tasks-menu-panel:first-child {
+    border-left: none;
+}
+
+.tasks-edit-panel {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.tasks-edit-btn {
+    border-left: 1px solid #cdcdcd;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    transition: background-color .2s linear;
+    cursor: pointer;
+}
+
+.tasks-edit-btn:hover {
+    background-color: #82ff9f;
+}
+
+.tasks-edit-btn:first-child {
+    border-left: none;
+}
+
+.tasks-edit-btn-in {
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+}
+
+.tasks-edit-add-btn {
+    background-image: url("../../images/icons/plus-azure.png");
+}
+
+.tasks-edit-add-btn:hover {
+    background-image: url("../../images/icons/plus-hover.png");
+}
+
+.tasks-edit-done-btn {
+    background-image: url("../../images/icons/done-azure.png");
+}
+
+.tasks-edit-done-btn:hover {
+    background-image: url("../../images/icons/done-hover.png");
+}
+
+.tasks-edit-del-btn {
+    background-image: url("../../images/icons/cross-azure.png");
+}
+
+.tasks-edit-del-btn:hover {
+    background-image: url("../../images/icons/cross-hover.png");
+}
+
+.tasks-info-panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.tasks-info-panel p {
+    margin: 0;
+    text-align: center;
+    padding-right: 5px;
+}
+
+.tasks-info-text {
+    color: #7c79c9;
+    font-size: 12px;
+}
+
+.tasks-filter-panel {
+    height: 24px;
+    padding: 0;
+}
+
+.tasks-filter-tab {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border-right: 1px solid #cdcdcd;
+    cursor: pointer;
+    transition: background-color .2s linear;
+}
+.tasks-filter-tab:last-child {
+    border-right: none;
+}
+
+.tasks-filter-tab:hover {
+    background-color: #7c79c9;
+}
+
+.tasks-filter-tab-text {
+    color: #7c79c9;
+    font-size: 22px;
+    font-family: UZSans, serif;
+    line-height: 24px;
+}
+
+.tasks-filter-tab-text:hover {
+    color: #FFFFFF;
+}
+
+.tasks-footer {
+    background-color: #87a4c5;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.tasks-footer:hover {
+    background-color: #5b8fc4;
+}
+
+
+.tasks-footer-text {
+    color: #FFFFFF;
+    font-family: UZSans-Bold, sans-serif;
+    font-size: 24px;
+}

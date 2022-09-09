@@ -2,6 +2,7 @@
     max-height: 50px;
     position: fixed;
     background-color: #042439;
+    z-index: 1000;
 }
 
 .menu-header-content {

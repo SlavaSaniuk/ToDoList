@@ -3,6 +3,7 @@ import {useParams, Outlet} from "react-router-dom";
 import MenuHeader from "../fragments/MenuHeader";
 import '../../styles/common.css';
 import '../../styles/userpage.css';
+import {TasksBlock} from "../fragments/TasksBlock";
 
 /**
  * UserPageContent REACT component user to render user page content.
@@ -81,9 +82,11 @@ class UserPageContent extends React.Component {
 
         if (this.state.contentStatus === this.contentStatus.LOADED) {
             contentBlock = (
-                <div className={"user-page-content"}>
+                <div>
                     <MenuHeader userObj={this.userObj} />
-                    <h1> Hello {this.userObj.userName} </h1>
+                    <div className={"user-page-content"} >
+                        <TasksBlock />
+                    </div>
                 </div>
             );
         }
