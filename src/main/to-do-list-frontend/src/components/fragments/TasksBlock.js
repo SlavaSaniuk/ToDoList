@@ -1,6 +1,7 @@
 import React from "react";
 import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
+import Task from "../dto/Task";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -9,7 +10,11 @@ const TasksFooter =() => {
 }
 
 const TasksContentBlock =() => {
-    return(<div> [TASKS-CONTENT-BLOCK]</div>);
+    return(<div>
+        <Task taskId={1} taskName={"Do something!"} />
+        <Task taskId={3} taskName={"To be."} />
+        <Task taskId={5} taskName={"Or not be!"} />
+    </div>);
 }
 
 const TasksFilterTab =(props) => {

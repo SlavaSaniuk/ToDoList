@@ -1,0 +1,42 @@
+.taskBlock {
+    width: 99%;
+    margin-left: 0.5%;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+.task-selector-block {
+    position: relative;
+    padding: 0 0;
+}
+
+.task-selector-checkbox {
+    position: absolute;
+    width: 30%;
+    top: 30%;
+    left: 28%;
+
+    appearance: none;
+    border: 3px solid #cdcdcd;
+    border-radius: 25%;
+    display: grid;
+    place-content: center;
+    transition: border .1s linear;
+}
+
+.task-selector-checkbox:hover {
+    border: 3px solid #7c79c9;
+}
+
+.task-selector-checkbox-mark{
+    display: none;
+}
+
+.task-selector-checkbox:checked ~ .task-selector-checkbox-mark {
+    position: relative;
+    display: block;
+    width: 44%;
+    height: 40%;
+    top: 30%;
+    left: 28%;
+    background-color: red;
+}
