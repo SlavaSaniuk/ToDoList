@@ -1,0 +1,50 @@
+.add-task-block {
+    width: 99%;
+    margin-left: 0.5%;
+    border-bottom: 1px solid #cdcdcd;
+    padding-bottom: 10px;
+}
+
+.add-task-block-name-input {
+
+    font-family:  UZSans, system-ui;
+    font-size: 1.2em;
+    color: #000;
+
+    width: 94%;
+    margin-left: 3%;
+    border: none;
+    border-bottom: 1px solid #cecece;
+}
+
+.add-task-block-name-input:focus {
+    outline: none;
+}
+
+.add-task-block-name-input::placeholder {
+    color: #999999;
+}
+
+.add-task-block-desc-area {
+    width: 94%;
+    height: 1.4em;
+    line-height: 1em;
+    margin-left: 3%;
+    border: none;
+    border-bottom: 1px solid #cecece;
+    font-family:  UZSans, system-ui;
+    font-size: 0.9em;
+    color: #000;
+
+    resize: none;
+    transition: height linear .2s;
+}
+
+.add-task-block-desc-area:focus {
+    outline: none;
+    height: 4em;
+}
+
+.add-task-block-desc-area::placeholder {
+    color: #999999;
+}

@@ -2,6 +2,7 @@ import React from "react";
 import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
 import Task from "../dto/Task";
+import {AddTaskBlock} from "./AddTaskBlock";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -9,12 +10,44 @@ const TasksFooter =() => {
     </div>);
 }
 
-const TasksContentBlock =() => {
-    return(<div>
-        <Task taskId={1} taskName={"Do something!"} />
-        <Task taskId={3} taskName={"To be."} />
-        <Task taskId={5} taskName={"Or not be!"} />
-    </div>);
+class TasksList extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+
+        const tasksListCommon = [{"taskName": "Hello world!"}, {"taskName": "My name is Slava!"}, {"taskName": "What is your name?"}];
+        const tasksListObjs = tasksListCommon.map((task) =>
+            <Task taskName={task.taskName} />
+        );
+        return (
+            <div>
+                {tasksListObjs}
+            </div>
+        )
+    }
+}
+
+class TasksContentBlock extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+
+
+    render() {
+        let addTaskBlock = null;
+        if(this.props.showAddTaskBlock) addTaskBlock = <AddTaskBlock />;
+        return(
+            <div>
+                {addTaskBlock}
+                <TasksList />
+            </div>
+        );
+    }
+
+
 }
 
 const TasksFilterTab =(props) => {
@@ -44,26 +77,75 @@ const TasksInfoPanel =() => {
     </div>);
 }
 
-const TasksEditBtn =(props) => {
-    return(<div className={"tasks-edit-btn "}>
-        <div className={"tasks-edit-btn-in " +props.editBtnClass} />
-    </div>);
+const TasksEditBtnTypes = {ADD: "ADD", EDIT: "EDIT",REMOVE: "REMOVE"};
+
+/**
+ * Class represent a task edit button element.
+ * @property btnType - TasksEditBtnTypes type btp value.
+ * @function - handleClick - handle click on button. Function check whether which button is clicked and call function.
+ */
+class TasksEditBtn extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.handleClick.bind(this);
+    }
+
+    /**
+     * Handle click on this element. Function define which btn is clicked and then call proper function.
+     */
+    handleClick =() => {
+        switch (this.props.btnType) {
+            case TasksEditBtnTypes.ADD:
+                this.props.showAddTaskBlockFunc(); // Show AddTaskBlock element in TasksContentBlock;
+                break;
+            case TasksEditBtnTypes.EDIT:
+                console.log("Edit btn is pressed!");
+                break;
+            case TasksEditBtnTypes.REMOVE:
+                console.log("Remove btn is pressed!");
+                break;
+        }
+    }
+
+    render() {
+
+        let btnClass = "";
+        switch (this.props.btnType) {
+            case TasksEditBtnTypes.ADD:
+                btnClass = "tasks-edit-add-btn";
+                break;
+            case TasksEditBtnTypes.EDIT:
+                btnClass = "tasks-edit-done-btn";
+                break;
+            case TasksEditBtnTypes.REMOVE:
+                btnClass = "tasks-edit-del-btn";
+                break;
+        }
+
+        return(<div className={"tasks-edit-btn "}>
+            <div className={"tasks-edit-btn-in " +btnClass} onClick={this.handleClick}/>
+        </div>);
+    }
 }
 
-const TasksEditPanel =() => {
+const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
-        <TasksEditBtn editBtnClass={"tasks-edit-add-btn"} />
-        <TasksEditBtn editBtnClass={"tasks-edit-done-btn"} />
-        <TasksEditBtn editBtnClass={"tasks-edit-del-btn"} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} showAddTaskBlockFunc={props.showAddTaskBlockFunc} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.EDIT} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} />
     </div>)
 }
 
-const TasksTopMenu =() => {
-    return(<div className={"tasks-top-menu row"}>
-        <TasksEditPanel />
-        <TasksInfoPanel />
-        <TasksFilterPanel />
-    </div>);
+const TasksTopMenu =(props) => {
+    return(
+        <div className={"tasks-top-menu row"} >
+            <TasksEditPanel showAddTaskBlockFunc={props.showAddTaskBlockFunc} />
+            <TasksInfoPanel />
+            <TasksFilterPanel />
+        </div>
+    );
 }
 
 /**
@@ -72,12 +154,27 @@ const TasksTopMenu =() => {
 class TasksBlock extends React.Component {
     constructor(props) {
         super(props);
+
+        this.showAddTaskBlock.bind(this);
+
+        this.state = {
+            isShowAddTaskBlock: false
+        };
     }
 
+    /**
+     * Function rerender TasksContentBlock to show AddTaskBlock element.
+     */
+    showAddTaskBlock =() => {
+        console.log("Show add task block.");
+        this.setState({isShowAddTaskBlock: true})
+    }
+
+
     render() {
-        return (<div className={"tasks-block m-auto"}>
-            <TasksTopMenu />
-            <TasksContentBlock />
+        return (<div className={"tasks-block m-auto"} >
+            <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock} />
+            <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock} />
             <TasksFooter />
         </div>);
     }
