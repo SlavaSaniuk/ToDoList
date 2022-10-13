@@ -31,4 +31,8 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>();
 
+    @Override
+    public String toString() {
+        return String.format("User[id: %d, name: %s]", this.id, this.name);
+    }
 }

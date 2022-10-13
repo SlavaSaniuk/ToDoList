@@ -3,7 +3,6 @@ package by.beltelecom.todolist.integration.web.rest.users;
 import by.beltelecom.todolist.configuration.bean.TestUser;
 import by.beltelecom.todolist.configuration.bean.TestsUsersService;
 import by.beltelecom.todolist.configuration.properties.SecurityProperties;
-import by.beltelecom.todolist.integration.web.rest.sign.SignRestControllerTestsCase;
 import by.beltelecom.todolist.web.ExceptionStatusCodes;
 import by.beltelecom.todolist.web.dto.rest.UserRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +27,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @Import(TestsUsersService.class)
 public class UsersRestControllerTestsCase {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SignRestControllerTestsCase.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsersRestControllerTestsCase.class);
 
     @Autowired
     private TestsUsersService testsUsersService;

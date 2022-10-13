@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Created other security configuration static class in SecurityConfiguration for REST HTTP API.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked statuses in tasks edit btns">
+      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/tasks/TaskRestController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/TasksBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/TasksBlock.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/bean/TestUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/bean/TestUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/security/AccountsServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/security/AccountsServiceTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/users/UsersRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/users/UsersRestControllerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +104,22 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
+  <component name="RunManager" selected="JUnit.AccountsServiceTestsCase">
+    <configuration name="AccountsServiceTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.serviecs.security.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.serviecs.security" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.serviecs.security.AccountsServiceTestsCase" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CredentialsValidatorImplUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -129,21 +145,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.serviecs.security.authentication" />
       <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.serviecs.security.authentication.CredentialsValidatorTestsCase" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DatabaseAuthenticationProviderTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ToDoList" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.beltelecom.todolist.integration.security.authentication.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.security.authentication" />
-      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.security.authentication.DatabaseAuthenticationProviderTestsCase" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -188,11 +189,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AccountsServiceTestsCase" />
         <item itemvalue="JUnit.CredentialsValidatorTestsCase" />
         <item itemvalue="JUnit.CredentialsValidatorImplUnitTests" />
         <item itemvalue="JUnit.SecurityPropertiesTestsCase" />
         <item itemvalue="JUnit.SignRestControllerTestsCase" />
-        <item itemvalue="JUnit.DatabaseAuthenticationProviderTestsCase" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +222,7 @@
       <workItem from="1661889868650" duration="3330000" />
       <workItem from="1662067935749" duration="1203000" />
       <workItem from="1662069194975" duration="609000" />
-      <workItem from="1665697015251" duration="2934000" />
+      <workItem from="1665697015251" duration="5052000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -356,7 +357,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662069791094</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Worked statuses in tasks edit btns">
+      <created>1665689304724</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1665689304724</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -397,7 +405,8 @@
     <MESSAGE value="Worked configuration properties" />
     <MESSAGE value="Worked and tested CredentialsValidator#validatePassword and CredentialsValidator#validationRules methods." />
     <MESSAGE value="Created other security configuration static class in SecurityConfiguration for REST HTTP API." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created other security configuration static class in SecurityConfiguration for REST HTTP API." />
+    <MESSAGE value="Worked statuses in tasks edit btns" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked statuses in tasks edit btns" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
