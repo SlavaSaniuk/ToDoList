@@ -11,9 +11,7 @@ const TasksFooter =() => {
 }
 
 class TasksList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+
 
     render() {
 

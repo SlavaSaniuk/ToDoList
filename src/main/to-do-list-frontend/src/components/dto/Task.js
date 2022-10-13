@@ -17,7 +17,7 @@ class TaskSelector extends React.Component {
         return (
             <div className={"col-1 task-selector-block"}>
                 <input className={"task-selector-checkbox"} type={"checkbox"}/>
-                <span className={"task-selector-checkbox-mark"} > AAA </span>
+                <span className={"task-selector-checkbox-mark"} />
             </div>
 
         );

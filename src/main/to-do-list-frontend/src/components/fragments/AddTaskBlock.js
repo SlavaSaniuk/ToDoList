@@ -82,7 +82,8 @@ class AddTaskBlock extends React.Component {
      */
     cancelAddingTask =() => {
 
-
+        // Clear users inputs:
+        this.clearUsersInputs();
 
         // Hide this block:
         this.props.showAddTaskBlockFunc(false);
