@@ -88,73 +88,72 @@ const TasksInfoPanel =() => {
  */
 const TasksEditBtnStatus = {ACTIVE: 0, DISABLED: 1};
 
-const TasksEditBtnTypes = {ADD: "ADD", EDIT: "EDIT",REMOVE: "REMOVE"};
+/**
+ * Edit button types:
+ * ADD - ADD;
+ * REMOVE - REMOVE;
+ * EDIT - EDIT;
+ */
+const TasksEditBtnTypes = {ADD: "ADD", DONE: 4, EDIT: "EDIT",REMOVE: "REMOVE"};
 
 /**
  * Class represent a task edit button element.
  * @property btnType - TasksEditBtnTypes type btp value.
- * @property btnStatus - started status of edit button (see TasksEditBtnStatuses).
- * @property controlFunc - function on click.
- * @state btnStatus - status of edit button (see TasksEditBtnStatuses).
+ * @property btnStatus - Status of edit button (see TasksEditBtnStatuses).
+ * @property clickFunc - Function on click.
  */
 class TasksEditBtn extends React.Component {
 
+    /**
+     * Construct new TasksEditBtn element.
+     * @param props - properties.
+     */
     constructor(props) {
         super(props);
-
-        this.handleClick.bind(this);
-
-        // Set state:
-        this.state = {
-            btnStatus: this.props.btnStatus
-        };
-
     }
 
     /**
-     * Handle click on this element. Function define which btn is clicked and then call proper function.
+     * Render EditTaskBtn element.
+     * @returns {JSX.Element} - html.
      */
-    handleClick =() => {
-        switch (this.props.btnType) {
-            case TasksEditBtnTypes.ADD:
-                this.props.showAddTaskBlockFunc(true); // Show AddTaskBlock element in TasksContentBlock;
-                break;
-            case TasksEditBtnTypes.EDIT:
-                console.log("Edit btn is pressed!");
-                break;
-            case TasksEditBtnTypes.REMOVE:
-                console.log("Remove btn is pressed!");
-                break;
-        }
-    }
-
     render() {
 
-        let btnClass = "";
+        let btnClass = "tasks-edit-btn-";
+
+        // Check type:
         switch (this.props.btnType) {
             case TasksEditBtnTypes.ADD:
-                btnClass = "tasks-edit-add-btn";
+                btnClass+="add";
                 break;
             case TasksEditBtnTypes.EDIT:
-                btnClass = "tasks-edit-done-btn";
+                btnClass+="edit";
                 break;
             case TasksEditBtnTypes.REMOVE:
-                btnClass = "tasks-edit-del-btn";
+                btnClass+="remove";
+                break;
+            case TasksEditBtnTypes.DONE:
+                btnClass+="done";
+                break;
+            default:
                 break;
         }
 
+        // Check status:
+        if (this.props.btnStatus === TasksEditBtnStatus.DISABLED) btnClass += "-disabled";
+
+
         return(
-            <input type={"button"} disabled={this.state.btnStatus}
-                   className={"tasks-edit-btn " +btnClass} onClick={this.props.controlFunc}/>
+            <input type={"button"} disabled={this.props.btnStatus}
+                   className={"tasks-edit-btn " +btnClass} onClick={this.props.clickFunc}/>
         );
     }
 }
 
 const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
-        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={TasksEditBtnStatus.DISABLED}
-                      controlFunc={props.showAddTaskBlockFunc} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.EDIT} btnStatus={TasksEditBtnStatus.DISABLED} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={TasksEditBtnStatus.ACTIVE}
+                      clickFunc={props.showAddTaskBlockFunc} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={TasksEditBtnStatus.DISABLED} />
         <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={TasksEditBtnStatus.DISABLED} />
     </div>)
 }

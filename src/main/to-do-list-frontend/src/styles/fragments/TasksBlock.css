@@ -27,33 +27,56 @@
 }
 
 .tasks-edit-btn {
+    border: none;
     border-left: 1px solid #cdcdcd;
-    display: block;
+
     background-size: contain;
     background-repeat: no-repeat;
+    background-color: #FFFFFF;
+
     width: 24px;
     height: 24px;
     transition: background-color .2s linear;
     cursor: pointer;
-}
 
-.tasks-edit-btn:hover {
-    background-color: #82ff9f;
 }
 
 .tasks-edit-btn:first-child {
     border-left: none;
 }
 
-.tasks-edit-btn {
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
+.tasks-edit-btn-add {
+    background-image: url("../../images/icons/plus-azure.png");
 }
 
-.tasks-edit-add-btn {
-    background-image: url("../../images/icons/plus-azure.png");
+.tasks-edit-btn-add:hover {
+    background-image: url("../../images/icons/plus-hover.png");
+    background-color: #82ff9f;
+}
+
+.tasks-edit-btn-done {
+    background-image: url("../../images/icons/checkbox-azure.png");
+}
+
+.tasks-edit-btn-done:hover {
+    background-image: url("../../images/icons/checkbox-white.png");
+    background-color: #82ff9f;
+}
+
+.tasks-edit-btn-done-disabled {
+    background-image: url("../../images/icons/tasks-marker-disabled.png");
+}
+
+.tasks-edit-btn-remove {
+    background-image: url("../../images/icons/cross-azure.png");
+}
+
+.tasks-edit-btn-remove:hover {
+    background-image: url("../../images/icons/cross-white.png");
+    background-color: #82ff9f;
+}
+.tasks-edit-btn-remove-disabled {
+    background-image: url("../../images/icons/tasks-cross-disabled.png");
 }
 
 .tasks-edit-add-btn:disabled {
