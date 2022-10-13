@@ -116,7 +116,7 @@ public class SecurityConfiguration {
     @Bean
     public JsonWebTokenFilter jsonWebTokenFilter() {
         LOGGER.debug(SpringLogging.Creation.createBean(JsonWebTokenFilter.class));
-        return new JsonWebTokenFilter(this.jsonWebTokenService(), this.userDetailsService());
+        return new JsonWebTokenFilter(this.jsonWebTokenService(), this.userDetailsService(), this.accountsService);
     }
 
     @Bean("jsonWebTokenService")

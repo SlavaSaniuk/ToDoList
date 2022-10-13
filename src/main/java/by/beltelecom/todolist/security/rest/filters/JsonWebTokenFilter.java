@@ -1,10 +1,13 @@
 package by.beltelecom.todolist.security.rest.filters;
 
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
+import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,20 +35,26 @@ public class JsonWebTokenFilter extends OncePerRequestFilter {
     private final JsonWebTokenService tokenService; // JWT Security service;
     private final UserDetailsService detailsService; // UserDetails security service;
 
+    private final AccountsService accountsService; // Accounts service;
+
     /**
      * Construct new {@link JsonWebTokenFilter} security filter bean.
      * @param jsonWebTokenService - JWT security service bean.
      * @param userDetailsService - Security service bean.
      */
-    public JsonWebTokenFilter(JsonWebTokenService jsonWebTokenService, UserDetailsService userDetailsService) {
+    @Autowired
+    public JsonWebTokenFilter(JsonWebTokenService jsonWebTokenService, UserDetailsService userDetailsService, AccountsService anAccountsService) {
         Objects.requireNonNull(jsonWebTokenService,
                 Checks.argumentNotNull("jsonWebTokenService", JsonWebTokenService.class));
         Objects.requireNonNull(userDetailsService,
                 Checks.argumentNotNull("userDetailsService", UserDetailsService.class));
+        Objects.requireNonNull(anAccountsService,
+                Checks.argumentNotNull("anAccountsService", AccountsService.class));
         LOGGER.debug(SpringLogging.Creation.createBean(JsonWebTokenFilter.class));
 
         this.tokenService = jsonWebTokenService;
         this.detailsService = userDetailsService;
+        this.accountsService = anAccountsService;
     }
 
 
@@ -72,14 +81,12 @@ public class JsonWebTokenFilter extends OncePerRequestFilter {
             }
         }
 
-
         // Get JsonWebToken and check it:
         String JWT = authorizationHeader.substring(7);
         if (JWT.isEmpty()) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
-
 
         // Validate token and get email:
         String accountEmail = this.tokenService.verifyToken(JWT);
@@ -92,6 +99,10 @@ public class JsonWebTokenFilter extends OncePerRequestFilter {
             // Set authentication:
             if (SecurityContextHolder.getContext().getAuthentication() == null)
                 SecurityContextHolder.getContext().setAuthentication(token);
+
+            // Add user entity to request:
+            User userObj = this.accountsService.getAccountByEmail(accountEmail).getUserOwner();
+            request.setAttribute("userObj", userObj);
 
             //Do filter:
             filterChain.doFilter(request, response);
