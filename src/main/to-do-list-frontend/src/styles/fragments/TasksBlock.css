@@ -45,7 +45,7 @@
     border-left: none;
 }
 
-.tasks-edit-btn-in {
+.tasks-edit-btn {
     background-size: contain;
     background-repeat: no-repeat;
     width: 24px;
@@ -54,6 +54,14 @@
 
 .tasks-edit-add-btn {
     background-image: url("../../images/icons/plus-azure.png");
+}
+
+.tasks-edit-add-btn:disabled {
+    background-image: url("../../images/icons/tasks-plus-disabled.png");
+}
+
+.tasks-edit-add-btn-disabled {
+    background-image: url("../../images/icons/tasks-plus-disabled.png");
 }
 
 .tasks-edit-add-btn:hover {

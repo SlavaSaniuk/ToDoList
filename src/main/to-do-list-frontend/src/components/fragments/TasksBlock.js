@@ -81,12 +81,21 @@ const TasksInfoPanel =() => {
     </div>);
 }
 
+/**
+ * Edit button statuses:
+ * ACTIVE - 0;
+ * DISABLED - 1;
+ */
+const TasksEditBtnStatus = {ACTIVE: 0, DISABLED: 1};
+
 const TasksEditBtnTypes = {ADD: "ADD", EDIT: "EDIT",REMOVE: "REMOVE"};
 
 /**
  * Class represent a task edit button element.
  * @property btnType - TasksEditBtnTypes type btp value.
- * @function - handleClick - handle click on button. Function check whether which button is clicked and call function.
+ * @property btnStatus - started status of edit button (see TasksEditBtnStatuses).
+ * @property controlFunc - function on click.
+ * @state btnStatus - status of edit button (see TasksEditBtnStatuses).
  */
 class TasksEditBtn extends React.Component {
 
@@ -94,6 +103,12 @@ class TasksEditBtn extends React.Component {
         super(props);
 
         this.handleClick.bind(this);
+
+        // Set state:
+        this.state = {
+            btnStatus: this.props.btnStatus
+        };
+
     }
 
     /**
@@ -128,17 +143,19 @@ class TasksEditBtn extends React.Component {
                 break;
         }
 
-        return(<div className={"tasks-edit-btn "}>
-            <div className={"tasks-edit-btn-in " +btnClass} onClick={this.handleClick}/>
-        </div>);
+        return(
+            <input type={"button"} disabled={this.state.btnStatus}
+                   className={"tasks-edit-btn " +btnClass} onClick={this.props.controlFunc}/>
+        );
     }
 }
 
 const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
-        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} showAddTaskBlockFunc={props.showAddTaskBlockFunc} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.EDIT} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={TasksEditBtnStatus.DISABLED}
+                      controlFunc={props.showAddTaskBlockFunc} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.EDIT} btnStatus={TasksEditBtnStatus.DISABLED} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={TasksEditBtnStatus.DISABLED} />
     </div>)
 }
 
