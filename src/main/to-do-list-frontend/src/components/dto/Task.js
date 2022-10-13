@@ -29,14 +29,15 @@ class TaskBlock extends React.Component {
         super(props);
 
         this.state = {
-            "name": props.taskProps.taskName
+            "id": this.props.taskProps.taskId,
+            "name": this.props.taskProps.taskName
         }
     }
 
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;
         return(
-            <div id={taskId} className={"taskBlock row"}>
+            <div id={taskId} className={"taskBlock row"} >
                 <TaskSelector />
                 <TaskPanel taskProps={this.props.taskProps} />
             </div>

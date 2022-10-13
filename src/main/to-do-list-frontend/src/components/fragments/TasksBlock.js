@@ -17,32 +17,38 @@ class TasksList extends React.Component {
 
     render() {
 
-        const tasksListCommon = [{"taskName": "Hello world!"}, {"taskName": "My name is Slava!"}, {"taskName": "What is your name?"}];
-        const tasksListObjs = tasksListCommon.map((task) =>
-            <Task taskName={task.taskName} />
+        const tasks = this.props.tasksList.map((task) =>
+            <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId}/>
         );
         return (
             <div>
-                {tasksListObjs}
+                {tasks}
             </div>
         )
     }
 }
 
+/**
+ * Task content block is root element that has and render the TasksList and AddTaskBlock elements.
+ * @property showAddTaskBlock - boolean flag.
+ * @property showAddTaskBlockFunc - function to show/hide AddTaskBlock.
+ * @property tasksList - list of users tasks.
+ */
 class TasksContentBlock extends React.Component {
     constructor(props) {
         super(props);
     }
 
-
-
+    /**
+     * Render TaskContentBlock element.
+     * @returns {JSX.Element} - html.
+     */
     render() {
-        let addTaskBlock = null;
-        if(this.props.showAddTaskBlock) addTaskBlock = <AddTaskBlock />;
         return(
             <div>
-                {addTaskBlock}
-                <TasksList />
+                <AddTaskBlock isShow={this.props.showAddTaskBlock} showAddTaskBlockFunc={this.props.showAddTaskBlockFunc}
+                              funcOnAddNewTask={this.props.funcOnAddNewTask} />
+                <TasksList tasksList={this.props.tasksList} />
             </div>
         );
     }
@@ -98,7 +104,7 @@ class TasksEditBtn extends React.Component {
     handleClick =() => {
         switch (this.props.btnType) {
             case TasksEditBtnTypes.ADD:
-                this.props.showAddTaskBlockFunc(); // Show AddTaskBlock element in TasksContentBlock;
+                this.props.showAddTaskBlockFunc(true); // Show AddTaskBlock element in TasksContentBlock;
                 break;
             case TasksEditBtnTypes.EDIT:
                 console.log("Edit btn is pressed!");
@@ -150,31 +156,56 @@ const TasksTopMenu =(props) => {
 
 /**
  * TasksBlock is root component that's render user's tasks at user page.
+ * @function showAddTaskBlock(boolean);
+ * @function onAddNewTask;
  */
 class TasksBlock extends React.Component {
     constructor(props) {
         super(props);
 
+        // Bind functions:
         this.showAddTaskBlock.bind(this);
+        this.onAddNewTask.bind(this);
 
         this.state = {
-            isShowAddTaskBlock: false
+            isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
+            tasksList: [] // Array of users tasks;
         };
     }
 
     /**
      * Function rerender TasksContentBlock to show AddTaskBlock element.
+     * @param isShow - Boolean - true to show tasks block.
      */
-    showAddTaskBlock =() => {
-        console.log("Show add task block.");
-        this.setState({isShowAddTaskBlock: true})
+    showAddTaskBlock =(isShow) => {
+        this.setState({isShowAddTaskBlock: isShow})
     }
 
+    /**
+     * Add new users task to tasks list in element state.
+     * @param aTask - task to add.
+     */
+    onAddNewTask =(aTask) => {
 
+        // Add task to list in state and hide AddTaskBlock:
+        this.setState(prevState => ({
+            tasksList:  [aTask, ...prevState.tasksList],
+            isShowAddTaskBlock: false
+        }));
+    }
+
+    /**
+     * Render TasksBlock element.
+     * @returns {JSX.Element} - TasksBlock.
+     */
     render() {
         return (<div className={"tasks-block m-auto"} >
             <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock} />
-            <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock} />
+            <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock}
+                               showAddTaskBlockFunc={this.showAddTaskBlock}
+                               tasksList={this.state.tasksList} // List of users tasks;
+                               funcOnAddNewTask={this.onAddNewTask}
+            />
             <TasksFooter />
         </div>);
     }

@@ -1,20 +1,118 @@
 import React from "react";
 import '../../styles/fragments/AddTaskBlock.css'
 
+const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
+
+let taskIdGenerator=2;
+
+/**
+ * @property btnText - button text value;
+ * @property btnType - button text type (see AddTaskBlockControlBtnTypes).
+ * @property btnAdClass - button additional class;
+ */
+class AddTaskBlockControlBtn extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.getBtnClassName.bind(this);
+    }
+
+    getBtnClassName =() => {
+        switch (this.props.btnType) {
+            case AddTaskBlockControlBtnTypes.ADD:
+                return "add-task-block-control-btn-add";
+            case AddTaskBlockControlBtnTypes.CANCEL:
+                return "add-task-block-control-btn-cancel";
+            default:
+                return "";
+        }
+    }
+
+    render() {
+        const btnClassName = this.getBtnClassName();
+        return (
+          <input type={"button"} value={this.props.btnText} className={"add-task-block-control-btn " +btnClassName} onClick={this.props.controlFunc} />
+        );
+    }
+}
+
 const AddTaskBlockControlPanel =(props) => {
     return (
-        <div> </div>
+        <div className={"add-task-block-control-panel"}>
+            <AddTaskBlockControlBtn btnText={"Add"} btnType={AddTaskBlockControlBtnTypes.ADD}
+                                    controlFunc={props.addFunc} btnAdClass={"add-task-block-control-btn-add"} />
+            <AddTaskBlockControlBtn btnText={"Cancel"} btnType={AddTaskBlockControlBtnTypes.CANCEL}
+                                    controlFunc={props.cancelFunc} btnAdClass={"add-task-block-control-btn-cancel"} />
+        </div>
     );
 }
 
+/**
+ * @property isShow - indicate need to be this element is shown.
+ * @property showAddTaskBlockFunc - function to change visible of this element.
+ * @function clearUsersInputs.
+ * @function cancelAddingTask.
+ */
 class AddTaskBlock extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // Create refs:
+        this.inputNameRef = React.createRef(); // Input name;
+        this.areaDescRef = React.createRef(); // Textarea description;
+
+        this.state = {isShow: this.props.isShow};
+
+        // Binding functions:
+        this.clearUsersInputs.bind(this);
+        this.cancelAddingTask.bind(this);
+    }
+
+    /**
+     * Clear users inputs.
+     */
+    clearUsersInputs =() => {
+        // Clear inputs:
+        this.inputNameRef.current.value = '';
+        this.areaDescRef.current.value = '';
+    }
+
+    /**
+     * Cancel adding task. Function clear users inputs and hide this element.
+     */
+    cancelAddingTask =() => {
+
+
+
+        // Hide this block:
+        this.props.showAddTaskBlockFunc(false);
+    }
+
+    /**
+     * Add new task to task list. Function get users inputs values, clear inputs,
+     * and call TasksBlock.onAddNewTask() function with this task parameter.
+     */
+    onAddNewTask =() => {
+        taskIdGenerator++; // TEST ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        const taskName = this.inputNameRef.current.value // Get task name from user input;
+
+        // Clear users inputs:
+        this.clearUsersInputs();
+
+        // Add new task:
+        this.props.funcOnAddNewTask({
+            taskId: taskIdGenerator,
+            taskName: taskName // Map task name;
+        });
+    }
 
     render() {
+        let addTaskBlockClassName = this.props.isShow ? "add-task-block" : "add-task-block-hide";
         return (
-            <div className={"add-task-block"}>
-                <input type={"text"} className={"add-task-block-name-input"} placeholder={"Do financial report."} />
-                <textarea className={"add-task-block-desc-area"} placeholder={"Description"} />
-                <AddTaskBlockControlPanel />
+            <div className={addTaskBlockClassName}>
+                <input type={"text"} className={"add-task-block-name-input"} placeholder={"Do financial report."} ref={this.inputNameRef} />
+                <textarea className={"add-task-block-desc-area"} placeholder={"Description"} ref={this.areaDescRef} />
+                <AddTaskBlockControlPanel cancelFunc={this.cancelAddingTask} addFunc={this.onAddNewTask} />
             </div>
         );
     }
