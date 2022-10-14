@@ -3,7 +3,6 @@ package by.beltelecom.todolist.services.tasks;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
-import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -124,6 +123,15 @@ public class TasksServiceImpl implements TasksService{
         aUser.setTasks(tasks);
 
         return tasks;
+    }
+
+    @Override
+    public List<Task> getUserTasksByUserId(long aUserId) {
+        LOGGER.debug("Try to get user[{}] tasks by user ID;", aUserId);
+
+        User user = new User();
+        user.setId(aUserId);
+        return this.getUserTasks(user);
     }
 
 

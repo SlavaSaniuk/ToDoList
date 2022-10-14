@@ -39,4 +39,11 @@ public interface TasksService {
     Task updateTask(Task aTask);
 
     List<Task> getUserTasks(User aUser);
+
+    /**
+     * Get users tasks by user ID.
+     * @param aUserId - user ID.
+     * @return - list of user tasks.
+     */
+    List<Task> getUserTasksByUserId(long aUserId);
 }
