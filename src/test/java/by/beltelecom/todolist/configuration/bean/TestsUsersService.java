@@ -55,4 +55,8 @@ public class TestsUsersService {
         this.testUser = null;
     }
 
+    public void deleteUser() {
+        this.deleteUser(this.testUser);
+    }
+
 }

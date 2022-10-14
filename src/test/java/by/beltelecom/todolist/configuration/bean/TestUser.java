@@ -18,4 +18,8 @@ public class TestUser {
 
     private String jwtToken; // JWT Token
 
+    public String authorizationHeaderJwtValue() {
+        return "Beaver ".concat(this.jwtToken);
+    }
+
 }
