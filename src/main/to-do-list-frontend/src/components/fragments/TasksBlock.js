@@ -3,6 +3,7 @@ import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
 import Task from "../dto/Task";
 import {AddTaskBlock} from "./AddTaskBlock";
+import {ReqUtilities} from "../utilities/ReqUtilities";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -170,6 +171,8 @@ const TasksTopMenu =(props) => {
 
 /**
  * TasksBlock is root component that's render user's tasks at user page.
+ * @property userId - user ID.
+ * @function loadUserTasks.
  * @function showAddTaskBlock(boolean);
  * @function onAddNewTask;
  * @function postNewTask;
@@ -179,6 +182,7 @@ class TasksBlock extends React.Component {
         super(props);
 
         // Bind functions:
+        this.loadUserTasks.bind(this);
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
         this.postNewTask.bind(this);
@@ -187,6 +191,21 @@ class TasksBlock extends React.Component {
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
             tasksList: [] // Array of users tasks;
         };
+    }
+
+    componentDidMount() {
+        // Load users tasks:
+        let tasksArr = [];
+        this.loadUserTasks().then((tasksList) => {
+            tasksList.tasksList.map((taskDto) => {
+                tasksArr.push(taskDto);
+            });
+            })
+        this.setState({tasksList: tasksArr});
+    }
+
+    loadUserTasks = async() => {
+        return (await ReqUtilities.getRequest("/rest/tasks/" + this.props.userId)).json();
     }
 
     /**
@@ -238,7 +257,6 @@ class TasksBlock extends React.Component {
 
         // Return task object:
         return taskDto;
-
     }
 
 

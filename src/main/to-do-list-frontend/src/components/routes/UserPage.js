@@ -85,7 +85,7 @@ class UserPageContent extends React.Component {
                 <div>
                     <MenuHeader userObj={this.userObj} />
                     <div className={"user-page-content"} >
-                        <TasksBlock />
+                        <TasksBlock userId={this.props.userId} />
                     </div>
                 </div>
             );
