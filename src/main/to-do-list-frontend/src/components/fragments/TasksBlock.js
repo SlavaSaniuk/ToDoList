@@ -172,6 +172,7 @@ const TasksTopMenu =(props) => {
  * TasksBlock is root component that's render user's tasks at user page.
  * @function showAddTaskBlock(boolean);
  * @function onAddNewTask;
+ * @function postNewTask;
  */
 class TasksBlock extends React.Component {
     constructor(props) {
@@ -180,6 +181,7 @@ class TasksBlock extends React.Component {
         // Bind functions:
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
+        this.postNewTask.bind(this);
 
         this.state = {
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
@@ -201,12 +203,44 @@ class TasksBlock extends React.Component {
      */
     onAddNewTask =(aTask) => {
 
-        // Add task to list in state and hide AddTaskBlock:
-        this.setState(prevState => ({
-            tasksList:  [aTask, ...prevState.tasksList],
+        // Post task to server:
+        this.postNewTask(aTask).then((createdTask) => {
+            // Add task to list in state and hide AddTaskBlock:
+            this.setState(prevState => ({
+            tasksList:  [createdTask, ...prevState.tasksList],
             isShowAddTaskBlock: false
         }));
+        });
     }
+
+    /**
+     * Post new task object to server.
+     * @param aTask - task to post.
+     * @returns {Promise<any>} - created task.
+     */
+    postNewTask = async(aTask) => {
+        // Post request:
+        let response = await fetch( sessionStorage.getItem('SERVER_URL') +"/rest/task/create-task", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': sessionStorage.getItem('JWT')},
+            body: JSON.stringify(aTask)
+            });
+
+        // Check task object:
+        let taskDto = await response.json();
+        if (taskDto.exception) {
+            console.log("Exception when post new task occurs. ExceptionDto: ", taskDto);
+            return;
+        }
+
+        // Return task object:
+        return taskDto;
+
+    }
+
 
     /**
      * Render TasksBlock element.

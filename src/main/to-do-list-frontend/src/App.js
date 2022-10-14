@@ -7,6 +7,7 @@ import React from 'react';
 
 
 function App() {
+  sessionStorage.setItem("SERVER_URL", "http://localhost:8080")
   return (
       <BrowserRouter>
           <Routes>
