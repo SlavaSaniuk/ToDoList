@@ -1,7 +1,9 @@
-package by.beltelecom.todolist.web.dto.rest;
+package by.beltelecom.todolist.web.dto.rest.task;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.web.dto.DataTransferObject;
+import by.beltelecom.todolist.web.dto.TaskDto;
+import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,5 +31,12 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
         task.setName(this.taskName);
 
         return task;
+    }
+
+    public static TaskRestDto of(Task aTask) {
+        TaskRestDto dto = new TaskRestDto();
+        dto.setTaskId(aTask.getId());
+        dto.setTaskName(aTask.getName());
+        return dto;
     }
 }
