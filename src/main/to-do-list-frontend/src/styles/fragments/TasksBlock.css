@@ -81,6 +81,7 @@
 
 .tasks-edit-add-btn:disabled {
     background-image: url("../../images/icons/tasks-plus-disabled.png");
+    outline: none;
 }
 
 .tasks-edit-add-btn-disabled {
