@@ -40,4 +40,10 @@ public class Task {
         task.setDateCreation(LocalDate.now());
         return task;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Task[name: %s, description: %s, created: %s, completion: %s];",
+                this.name, this.description, this.dateCreation, this.dateCompletion);
+    }
 }
