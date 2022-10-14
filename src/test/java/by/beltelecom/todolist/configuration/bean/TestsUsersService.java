@@ -6,6 +6,7 @@ import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.Checks;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
@@ -28,6 +29,9 @@ public class TestsUsersService {
     @Autowired
     private JsonWebTokenService jsonWebTokenService;
 
+    @Getter
+    private TestUser testUser;
+
     public TestUser registerUser() {
         Account account = new Account();
         account.setEmail(ACCOUNT_EMAIL);
@@ -41,12 +45,14 @@ public class TestsUsersService {
         // Generate JWT:
         String jwt = this.jsonWebTokenService.generateToken(account.getEmail());
 
-        return new TestUser(account.getUserOwner(), account, jwt);
+        this.testUser = new TestUser(account.getUserOwner(), account, jwt);
+        return this.testUser;
     }
 
     public void deleteUser(TestUser aTestUser) {
         Objects.requireNonNull(aTestUser, Checks.argumentNotNull("aTestUser", TestUser.class));
         this.usersService.deleteUser(aTestUser.getUser());
+        this.testUser = null;
     }
 
 }
