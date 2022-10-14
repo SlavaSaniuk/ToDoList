@@ -11,13 +11,15 @@ const TasksFooter =() => {
     </div>);
 }
 
+/**
+ * @property funcOnSelectTask -
+ */
 class TasksList extends React.Component {
-
 
     render() {
 
         const tasks = this.props.tasksList.map((task) =>
-            <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId}/>
+            <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId} funcOnSelectTask={this.props.funcOnSelectTask} />
         );
         return (
             <div>
@@ -32,6 +34,7 @@ class TasksList extends React.Component {
  * @property showAddTaskBlock - boolean flag.
  * @property showAddTaskBlockFunc - function to show/hide AddTaskBlock.
  * @property tasksList - list of users tasks.
+ * @property funcOnSelectTask - call this function, when task is selected.
  */
 class TasksContentBlock extends React.Component {
     constructor(props) {
@@ -47,7 +50,7 @@ class TasksContentBlock extends React.Component {
             <div>
                 <AddTaskBlock isShow={this.props.showAddTaskBlock} showAddTaskBlockFunc={this.props.showAddTaskBlockFunc}
                               funcOnAddNewTask={this.props.funcOnAddNewTask} />
-                <TasksList tasksList={this.props.tasksList} />
+                <TasksList tasksList={this.props.tasksList} funcOnSelectTask={this.props.funcOnSelectTask} />
             </div>
         );
     }
@@ -186,6 +189,7 @@ class TasksBlock extends React.Component {
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
         this.postNewTask.bind(this);
+        this.onSelectTask.bind(this);
 
         this.state = {
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
@@ -232,6 +236,10 @@ class TasksBlock extends React.Component {
         });
     }
 
+    onSelectTask =(aTask) => {
+        console.log("Select task: ", aTask);
+    }
+
     /**
      * Post new task object to server.
      * @param aTask - task to post.
@@ -271,6 +279,7 @@ class TasksBlock extends React.Component {
                                showAddTaskBlockFunc={this.showAddTaskBlock}
                                tasksList={this.state.tasksList} // List of users tasks;
                                funcOnAddNewTask={this.onAddNewTask}
+                               funcOnSelectTask={this.onSelectTask}
             />
             <TasksFooter />
         </div>);

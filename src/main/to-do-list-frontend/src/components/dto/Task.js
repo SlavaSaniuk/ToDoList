@@ -12,11 +12,39 @@ class TaskPanel extends React.Component {
     }
 }
 
+/**
+ * @function onSelectorChange.
+ */
 class TaskSelector extends React.Component {
+    /**
+     * Construct new TaskSelector element.
+     * @param props - properties.
+     */
+    constructor(props) {
+        super(props);
+
+        // Refs:
+        this.selector = React.createRef();
+
+        // Functions:
+        this.onSelectorChange.bind(this);
+    }
+
+    /**
+     * Function calling when user check or uncheck selector checkbox.
+     * If user check checkbox, function call parent TaskBlock onSelectTask function.
+     */
+    onSelectorChange =() => {
+        // Get checkbox state:
+        // if checked call parent onSelectTask function:
+        if(this.selector.current.checked) this.props.funcOnSelectTask();
+    }
+
     render() {
         return (
             <div className={"col-1 task-selector-block"}>
-                <input className={"task-selector-checkbox"} type={"checkbox"}/>
+                <input className={"task-selector-checkbox"} type={"checkbox"} onChange={this.onSelectorChange}
+                ref={this.selector} />
                 <span className={"task-selector-checkbox-mark"} />
             </div>
 
@@ -24,6 +52,9 @@ class TaskSelector extends React.Component {
     }
 }
 
+/**
+ * @property - funcOnSelectTask
+ */
 class TaskBlock extends React.Component {
     constructor(props) {
         super(props);
@@ -32,13 +63,20 @@ class TaskBlock extends React.Component {
             "id": this.props.taskProps.taskId,
             "name": this.props.taskProps.taskName
         }
+
+        // Bind functions:
+        this.onSelectTask.bind(this);
+    }
+
+    onSelectTask =() => {
+        console.log("Select task!");
     }
 
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;
         return(
             <div id={taskId} className={"taskBlock row"} >
-                <TaskSelector />
+                <TaskSelector funcOnSelectTask={this.onSelectTask} />
                 <TaskPanel taskProps={this.props.taskProps} />
             </div>
         )
