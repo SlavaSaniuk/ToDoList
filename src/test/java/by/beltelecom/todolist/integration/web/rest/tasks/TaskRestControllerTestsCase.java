@@ -4,7 +4,7 @@ import by.beltelecom.todolist.configuration.bean.TestUser;
 import by.beltelecom.todolist.configuration.bean.TestsUsersService;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
-import by.beltelecom.todolist.web.dto.rest.TaskRestDto;
+import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

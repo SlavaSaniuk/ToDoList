@@ -5,7 +5,7 @@ import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
-import by.beltelecom.todolist.web.dto.rest.TaskRestDto;
+import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,10 @@ public class TaskRestController {
     // Spring beans:
     private final TasksService tasksService; //Autowired in constructor;
 
+    /**
+     * Construct new {@link TaskRestController} HTTP REST controller.
+     * @param aTasksService - tasks service bean.
+     */
     @Autowired
     public TaskRestController(TasksService aTasksService) {
         // Check arguments:
@@ -31,6 +35,13 @@ public class TaskRestController {
         this.tasksService = aTasksService;
     }
 
+    /**
+     * Create new {@link Task} object. Method handle HTTP REST request on "/rest/task/create-task"
+     * url to create new user task.
+     * @param taskRestDto - Task DTO to create.
+     * @param userObj - Task owner (Initialized in {@link by.beltelecom.todolist.security.rest.filters.JsonWebTokenFilter}) via request attribute.
+     * @return - Create task object with initialized ID.
+     */
     @PostMapping(value = "/create-task", consumes = "application/json")
     public TaskRestDto createTask(@RequestBody TaskRestDto taskRestDto, @RequestAttribute("userObj") User userObj) {
         LOGGER.debug("Try to create task[{}] by user[{}] in TaskRestController#createTask;", taskRestDto, userObj);
@@ -39,6 +50,5 @@ public class TaskRestController {
         Task task = this.tasksService.createTask(taskRestDto.toEntity(), userObj);
         return new TaskRestDto(task);
     }
-
 
 }
