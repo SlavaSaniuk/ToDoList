@@ -1,8 +1,11 @@
 package by.beltelecom.todolist.integration.serviecs.tasks;
 
 import by.beltelecom.todolist.configuration.AuthenticationTestsConfiguration;
+import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.bean.TestsUsersService;
+import by.beltelecom.todolist.configuration.services.TestsTasksService;
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -20,7 +23,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@Import({AuthenticationTestsConfiguration.class})
+@Import({AuthenticationTestsConfiguration.class, ServicesTestsConfiguration.class})
 public class TasksServiceTestsCase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TasksServiceTestsCase.class);
@@ -29,6 +32,8 @@ public class TasksServiceTestsCase {
     private TasksService tasksService;
     @Autowired
     private TestsUsersService testsUsersService;
+    @Autowired
+    private TestsTasksService testsTasksService;
 
     @BeforeEach
     void beforeEach() {
@@ -59,9 +64,28 @@ public class TasksServiceTestsCase {
         Assertions.assertEquals(2, usersTasks.size());
 
         // Print users tasks:
-        usersTasks.forEach((task) -> {
-            LOGGER.debug("Task[{}];", task);
-        });
+        usersTasks.forEach((task) -> LOGGER.debug("Task[{}];", task));
+
+    }
+
+    @Test
+    void deleteTaskById_taskExist_shouldDeleteTask() {
+        // Generate task:
+        Task generated = this.testsTasksService.createTask(this.testsUsersService.getTestUser().getUser());
+        Assertions.assertNotNull(generated);
+        LOGGER.debug("Generated task: " +generated);
+
+        long taskId = generated.getId();
+        Assertions.assertNotEquals(0L, taskId);
+
+        Task founded = this.tasksService.getTaskById(taskId);
+        Assertions.assertNotNull(founded);
+        LOGGER.debug("Founded task: " +founded);
+
+        // Delete task:
+        this.tasksService.deleteById(taskId);
+
+        Assertions.assertThrows(NotFoundException.class, () -> {this.tasksService.getTaskById(taskId);});
 
     }
 

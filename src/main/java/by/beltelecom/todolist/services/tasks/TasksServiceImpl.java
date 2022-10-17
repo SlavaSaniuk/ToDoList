@@ -95,6 +95,7 @@ public class TasksServiceImpl implements TasksService{
         //Check at zero:
         if (aId == 0L) throw new IllegalArgumentException("Requested ID must be not zero.");
 
+        // Delete task:
         this.tasksRepository.deleteById(aId);
     }
 

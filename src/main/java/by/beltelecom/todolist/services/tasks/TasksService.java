@@ -28,6 +28,10 @@ public interface TasksService {
      */
     List<Task> getAllTasks();
 
+    /**
+     * Delete task object by it's ID.
+     * @param aId - task ID to delete.
+     */
     void deleteById(long aId);
 
     /**
