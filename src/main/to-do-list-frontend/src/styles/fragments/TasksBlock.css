@@ -54,6 +54,10 @@
     background-color: #82ff9f;
 }
 
+.tasks-edit-btn-add-disabled {
+    background-image: url("../../images/icons/tasks-plus-disabled.png");
+}
+
 .tasks-edit-btn-done {
     background-image: url("../../images/icons/checkbox-azure.png");
 }
@@ -77,15 +81,6 @@
 }
 .tasks-edit-btn-remove-disabled {
     background-image: url("../../images/icons/tasks-cross-disabled.png");
-}
-
-.tasks-edit-add-btn:disabled {
-    background-image: url("../../images/icons/tasks-plus-disabled.png");
-    outline: none;
-}
-
-.tasks-edit-add-btn-disabled {
-    background-image: url("../../images/icons/tasks-plus-disabled.png");
 }
 
 .tasks-edit-add-btn:hover {

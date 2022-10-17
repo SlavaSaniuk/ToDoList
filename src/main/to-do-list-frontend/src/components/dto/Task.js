@@ -13,6 +13,7 @@ class TaskPanel extends React.Component {
 }
 
 /**
+ * @property funcOnUnselectTask - parent function on unselect task action.
  * @function onSelectorChange.
  */
 class TaskSelector extends React.Component {
@@ -38,6 +39,7 @@ class TaskSelector extends React.Component {
         // Get checkbox state:
         // if checked call parent onSelectTask function:
         if(this.selector.current.checked) this.props.funcOnSelectTask();
+        else this.props.funcOnUnselectTask();
     }
 
     render() {
@@ -53,30 +55,59 @@ class TaskSelector extends React.Component {
 }
 
 /**
- * @property - funcOnSelectTask
+ * Root element encapsulate all logic and markup of task element.
+ * @property - funcOnSelectTask - parent function on select task action.
+ * @property - funcOnUnselectTask - parent function on unselect task action.
+ * @function - getTask - get task object.
+ * @function - onSelectTask - function calling when user select task.
+ * @function - onUnselectTask - function calling when user unselect task.
  */
 class TaskBlock extends React.Component {
     constructor(props) {
         super(props);
 
+        // Element state:
         this.state = {
-            "id": this.props.taskProps.taskId,
             "name": this.props.taskProps.taskName
         }
 
         // Bind functions:
+        this.getTask.bind(this);
         this.onSelectTask.bind(this);
+        this.onUnselectTask.bind(this);
     }
 
-    onSelectTask =() => {
-        console.log("Select task!");
+    /**
+     * Get inner task object.
+     * @returns {{taskId: *}} - this task object.
+     */
+    getTask =() => {
+        return {taskId: this.props.taskProps.taskId};
     }
+
+    /**
+     * Function calls when user select task.
+     * Function call parent funcOnSelectTasks();
+     */
+    onSelectTask =() => {
+        this.props.taskProps.funcOnSelectTasks(this.getTask());
+    }
+
+    /**
+     * Function call parent funcOnUnselectTasks();
+     */
+    onUnselectTask =() => {
+        this.props.taskProps.funcOnUnselectTask(this.getTask());
+    }
+
+
+
 
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;
         return(
             <div id={taskId} className={"taskBlock row"} >
-                <TaskSelector funcOnSelectTask={this.onSelectTask} />
+                <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} />
                 <TaskPanel taskProps={this.props.taskProps} />
             </div>
         )

@@ -12,14 +12,18 @@ const TasksFooter =() => {
 }
 
 /**
- * @property funcOnSelectTask -
+ * This element render list of users tasks.
+ * @property tasksList - list of users tasks.
+ * @property funcOnSelectTask - parent function on select task action.
+ * @property funcOnUnselectTask - parent function on unselect task action.
  */
 class TasksList extends React.Component {
 
     render() {
 
         const tasks = this.props.tasksList.map((task) =>
-            <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId} funcOnSelectTask={this.props.funcOnSelectTask} />
+            <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId}
+                  funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask} />
         );
         return (
             <div>
@@ -35,6 +39,7 @@ class TasksList extends React.Component {
  * @property showAddTaskBlockFunc - function to show/hide AddTaskBlock.
  * @property tasksList - list of users tasks.
  * @property funcOnSelectTask - call this function, when task is selected.
+ * @property funcOnUnselectTask - parent function on unselect task action.
  */
 class TasksContentBlock extends React.Component {
     constructor(props) {
@@ -50,7 +55,8 @@ class TasksContentBlock extends React.Component {
             <div>
                 <AddTaskBlock isShow={this.props.showAddTaskBlock} showAddTaskBlockFunc={this.props.showAddTaskBlockFunc}
                               funcOnAddNewTask={this.props.funcOnAddNewTask} />
-                <TasksList tasksList={this.props.tasksList} funcOnSelectTask={this.props.funcOnSelectTask} />
+                <TasksList tasksList={this.props.tasksList}
+                           funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask} />
             </div>
         );
     }
@@ -105,6 +111,7 @@ const TasksEditBtnTypes = {ADD: "ADD", DONE: 4, EDIT: "EDIT",REMOVE: "REMOVE"};
  * @property btnType - TasksEditBtnTypes type btp value.
  * @property btnStatus - Status of edit button (see TasksEditBtnStatuses).
  * @property clickFunc - Function on click.
+ *
  */
 class TasksEditBtn extends React.Component {
 
@@ -153,19 +160,35 @@ class TasksEditBtn extends React.Component {
     }
 }
 
+/**
+ * @property - editBtnAddStatus - status of "add" button.
+ * @property - editBtnRemoveStatus- status of "remove" button.
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
-        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={TasksEditBtnStatus.ACTIVE}
+        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={props.editBtnAddStatus}
                       clickFunc={props.showAddTaskBlockFunc} />
         <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={TasksEditBtnStatus.DISABLED} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={TasksEditBtnStatus.DISABLED} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={props.editBtnRemoveStatus} />
     </div>)
 }
 
+/**
+ * This element is menu of {TasksEditBtn} control buttons.
+ * @param props - react properties.
+ * @property - editBtnAddStatus - status of "add" button.
+ * @property - editBtnRemoveStatus- status of "remove" button.
+ * @returns {JSX.Element} - html;
+ * @constructor
+ */
 const TasksTopMenu =(props) => {
     return(
         <div className={"tasks-top-menu row"} >
-            <TasksEditPanel showAddTaskBlockFunc={props.showAddTaskBlockFunc} />
+            <TasksEditPanel showAddTaskBlockFunc={props.showAddTaskBlockFunc}
+                            editBtnAddStatus={props.editBtnAddStatus} editBtnRemoveStatus={props.editBtnRemoveStatus} />
             <TasksInfoPanel />
             <TasksFilterPanel />
         </div>
@@ -179,6 +202,8 @@ const TasksTopMenu =(props) => {
  * @function showAddTaskBlock(boolean);
  * @function onAddNewTask;
  * @function postNewTask;
+ * @function onSelectTasks - function calls when user select task.
+ * @function onUnselectTask - function calls when user unselect task.
  */
 class TasksBlock extends React.Component {
     constructor(props) {
@@ -189,11 +214,19 @@ class TasksBlock extends React.Component {
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
         this.postNewTask.bind(this);
-        this.onSelectTask.bind(this);
+        this.onSelectTasks.bind(this);
+        this.onUnselectTask.bind(this);
 
         this.state = {
+            // ==== LIST OF USERS TASKS ====
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
-            tasksList: [] // Array of users tasks;
+            tasksList: [], // Array of users tasks;
+            // ==== TASKS SELECTION ====
+            isTasksSelected: false, // Selected tasks flag;
+            selectedTasksList: [], // List of selected tasks;
+            // ==== EDIT BUTTON STATUSES ====
+            statusAddBtn: TasksEditBtnStatus.ACTIVE, // "Add" button status;
+            statusRemoveBtn: TasksEditBtnStatus.DISABLED // "Remove" button status;
         };
     }
 
@@ -208,6 +241,11 @@ class TasksBlock extends React.Component {
         this.setState({tasksList: tasksArr});
     }
 
+    /**
+     * Load users tasks from server.
+     * Function create fetch http request to get users tasks array.
+     * @returns {Promise<any>}  - result json.
+     */
     loadUserTasks = async() => {
         return (await ReqUtilities.getRequest("/rest/tasks/" + this.props.userId)).json();
     }
@@ -236,8 +274,39 @@ class TasksBlock extends React.Component {
         });
     }
 
-    onSelectTask =(aTask) => {
-        console.log("Select task: ", aTask);
+
+
+    /**
+     * Function calling when user select any task {Task.TaskSelector.checkbox selected}.
+     * Function set isTasksSelected state to true and add task to state selected task list.
+     * @param aTask - selected task.
+     */
+    onSelectTasks =(aTask) => {
+        this.setState(prevState => ({
+            isTasksSelected: true,
+            selectedTasksList: prevState.selectedTasksList.concat(aTask),
+        }));
+    }
+
+    /**
+     * Function remove unselected task from state selectedTasksList array and change isTasksSelected flag if needed.
+     * @param aTask
+     */
+    onUnselectTask =(aTask) => {
+
+        let elementToRemoveIndex = -1;
+
+        // Iterate selected tasks list:
+        this.state.selectedTasksList.forEach((value, index) => {
+            if (value.taskId === aTask.taskId) elementToRemoveIndex = index;
+        });
+
+        // Remove element from selected tasks list:
+        if (elementToRemoveIndex > -1)
+            this.state.selectedTasksList.splice(elementToRemoveIndex, 1);
+
+        // Change flag if needed:
+        if (this.state.selectedTasksList.length === 0) this.setState({isTasksSelected: false});
     }
 
     /**
@@ -273,13 +342,21 @@ class TasksBlock extends React.Component {
      * @returns {JSX.Element} - TasksBlock.
      */
     render() {
+
+        // Set tasks edit button statuses:
+        // Array. Index: 0 - "ADD", 1 - "DONE", 2 - "REMOVE";
+        let editBtnStatuses = this.state.isTasksSelected ?
+            [TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.ACTIVE] :
+            [TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.DISABLED];
+
         return (<div className={"tasks-block m-auto"} >
-            <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock} />
+            <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock}
+                          editBtnAddStatus={editBtnStatuses[0]} editBtnRemoveStatus={editBtnStatuses[2]} />
             <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock}
                                showAddTaskBlockFunc={this.showAddTaskBlock}
                                tasksList={this.state.tasksList} // List of users tasks;
                                funcOnAddNewTask={this.onAddNewTask}
-                               funcOnSelectTask={this.onSelectTask}
+                               funcOnSelectTasks={this.onSelectTasks} funcOnUnselectTask={this.onUnselectTask}
             />
             <TasksFooter />
         </div>);
