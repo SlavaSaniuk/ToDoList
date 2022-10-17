@@ -161,18 +161,20 @@ class TasksEditBtn extends React.Component {
 }
 
 /**
+ * This panel render tasks edit buttons {TasksEditBtn}.
+ * @param props - React properties.
  * @property - editBtnAddStatus - status of "add" button.
  * @property - editBtnRemoveStatus- status of "remove" button.
- * @param props
- * @returns {JSX.Element}
- * @constructor
+ * @property funcOnRemoveTasks - parent function on remove tasks function.
+ * @returns {JSX.Element} - html.
  */
 const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
         <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={props.editBtnAddStatus}
                       clickFunc={props.showAddTaskBlockFunc} />
         <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={TasksEditBtnStatus.DISABLED} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={props.editBtnRemoveStatus} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={props.editBtnRemoveStatus}
+            clickFunc={props.funcOnRemoveTasks} />
     </div>)
 }
 
@@ -181,6 +183,7 @@ const TasksEditPanel =(props) => {
  * @param props - react properties.
  * @property - editBtnAddStatus - status of "add" button.
  * @property - editBtnRemoveStatus- status of "remove" button.
+ * @property - funcOnRemoveTasks - parent function on remove tasks action.
  * @returns {JSX.Element} - html;
  * @constructor
  */
@@ -188,6 +191,7 @@ const TasksTopMenu =(props) => {
     return(
         <div className={"tasks-top-menu row"} >
             <TasksEditPanel showAddTaskBlockFunc={props.showAddTaskBlockFunc}
+                            funcOnRemoveTasks={props.funcOnRemoveTasks}
                             editBtnAddStatus={props.editBtnAddStatus} editBtnRemoveStatus={props.editBtnRemoveStatus} />
             <TasksInfoPanel />
             <TasksFilterPanel />
@@ -201,6 +205,8 @@ const TasksTopMenu =(props) => {
  * @function loadUserTasks.
  * @function showAddTaskBlock(boolean);
  * @function onAddNewTask;
+ * @function onRemoveTasks - function calls when user click remove edit button.
+ * @function onRemoveTask - function call when user click task control button.
  * @function postNewTask;
  * @function onSelectTasks - function calls when user select task.
  * @function onUnselectTask - function calls when user unselect task.
@@ -213,10 +219,13 @@ class TasksBlock extends React.Component {
         this.loadUserTasks.bind(this);
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
+        this.onRemoveTasks.bind(this);
+        this.onRemoveTask.bind(this);
         this.postNewTask.bind(this);
         this.onSelectTasks.bind(this);
         this.onUnselectTask.bind(this);
 
+        // Element state:
         this.state = {
             // ==== LIST OF USERS TASKS ====
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
@@ -274,7 +283,25 @@ class TasksBlock extends React.Component {
         });
     }
 
+    /**
+     * Remove selected tasks.
+     * Function calling removeTask function and update state tasks list.
+     */
+    onRemoveTasks =() => {
+        this.state.selectedTasksList.forEach(aTask => {
+            this.onRemoveTask(aTask, false);
+        })
+    }
 
+    /**
+     * Remove specified task.
+     * @param aTask - task to remove.
+     * @param isUpdateState - boolean flag indicate is need to update element state.
+     */
+    onRemoveTask =(aTask, isUpdateState) => {
+        // Try to remove task:
+        console.log("Remove task: ", aTask);
+    }
 
     /**
      * Function calling when user select any task {Task.TaskSelector.checkbox selected}.
@@ -336,7 +363,6 @@ class TasksBlock extends React.Component {
         return taskDto;
     }
 
-
     /**
      * Render TasksBlock element.
      * @returns {JSX.Element} - TasksBlock.
@@ -351,6 +377,7 @@ class TasksBlock extends React.Component {
 
         return (<div className={"tasks-block m-auto"} >
             <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock}
+                          funcOnRemoveTasks={this.onRemoveTasks}
                           editBtnAddStatus={editBtnStatuses[0]} editBtnRemoveStatus={editBtnStatuses[2]} />
             <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock}
                                showAddTaskBlockFunc={this.showAddTaskBlock}
