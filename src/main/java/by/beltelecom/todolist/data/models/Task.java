@@ -3,7 +3,6 @@ package by.beltelecom.todolist.data.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -43,7 +42,20 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("Task[name: %s, description: %s, created: %s, completion: %s];",
-                this.name, this.description, this.dateCreation, this.dateCompletion);
+        return String.format("Task[id: %d, name: %s, description: %s, created: %s, completion: %s];",
+                this.id, this.name, this.description, this.dateCreation, this.dateCompletion);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Check at null
+        if (obj == null) return false;
+
+        // Check classes:
+        if (obj.getClass() != this.getClass()) return false;
+        Task otherTask = (Task) obj;
+
+        // Check id:
+        return otherTask.getId() == this.id;
     }
 }
