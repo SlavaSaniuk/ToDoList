@@ -42,8 +42,17 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("Task[id: %d, name: %s, description: %s, created: %s, completion: %s];",
+        return String.format("Task[id: %d, name: %s, description: %s, created: %s, completion: %s]",
                 this.id, this.name, this.description, this.dateCreation, this.dateCompletion);
+    }
+
+    public String toStringWithUser() {
+        StringBuilder sb = new StringBuilder(this.toString().substring(0, this.toString().length()-1));
+
+        // Append user owner if existed:
+        if (this.owner != null) sb.append(String.format(", owner: %s", this.owner));
+
+        return sb.append("]").toString();
     }
 
     @Override
