@@ -35,4 +35,17 @@ public class User {
     public String toString() {
         return String.format("User[id: %d, name: %s]", this.id, this.name);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        // Check at null
+        if (obj == null) return false;
+
+        // Check classes:
+        if (obj.getClass() != this.getClass()) return false;
+        User otherUser = (User) obj;
+
+        // Check id:
+        return otherUser.getId() == this.id;
+    }
 }
