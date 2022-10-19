@@ -4,6 +4,7 @@ import by.beltelecom.todolist.data.models.User;
 
 /**
  * Exception occurs when user try to do any actions on object which does not belong to him.
+ * Exception thrown in {@link by.beltelecom.todolist.services.security.owning.OwnerChecker#isUserOwn(User, Object)} method.
  */
 public class NotOwnerException extends Exception {
 

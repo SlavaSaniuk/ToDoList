@@ -2,6 +2,7 @@ package by.beltelecom.todolist.services.security.owning;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -33,7 +34,7 @@ public class TasksOwnerChecker implements OwnerChecker<Task> {
     }
 
     @Override
-    public boolean isUserOwn(User aUser, Task aTask) {
+    public void isUserOwn(User aUser, Task aTask) throws NotOwnerException {
         // Check arguments:
         Objects.requireNonNull(aUser, Checks.argumentNotNull("aUser", User.class));
         Objects.requireNonNull(aTask, Checks.argumentNotNull("aTask", Task.class));
@@ -45,6 +46,6 @@ public class TasksOwnerChecker implements OwnerChecker<Task> {
         Task task = this.tasksService.getTaskById(aTask.getId());
         
         // Check owners:
-        return task.getOwner().equals(aUser);
+        if (!task.getOwner().equals(aUser)) throw new NotOwnerException(aUser, aTask);
     }
 }

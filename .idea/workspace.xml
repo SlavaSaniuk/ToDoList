@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked Task#equals method and Task#toString method print task ID.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/OwningConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/owning/TasksOwnerCheckerTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/models/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/models/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/ServicesConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/ServicesConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/OwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/OwnerChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owner/TasksOwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Tested TasksOwnerChecker#isUserOwn method">
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/exceptions/security/NotOwnerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/exceptions/security/NotOwnerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/OwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/OwnerChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/owning/TasksOwnerCheckerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/owning/TasksOwnerCheckerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -393,7 +390,21 @@
       <option name="project" value="LOCAL" />
       <updated>1666213435471</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Added Task#toStringWithUser method">
+      <created>1666215110558</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1666215110558</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Tested TasksOwnerChecker#isUserOwn method">
+      <created>1666215152643</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1666215152643</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -415,7 +426,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Initial commit" />
     <MESSAGE value="Started at notebook!" />
     <MESSAGE value="Worked updateTask method in TasksService" />
     <MESSAGE value="Worked updateTask method in TaskController" />
@@ -439,7 +449,9 @@
     <MESSAGE value="JWT filter out user entity in request attribute" />
     <MESSAGE value="Worked User#equals method" />
     <MESSAGE value="Worked Task#equals method and Task#toString method print task ID." />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked Task#equals method and Task#toString method print task ID." />
+    <MESSAGE value="Added Task#toStringWithUser method" />
+    <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tested TasksOwnerChecker#isUserOwn method" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

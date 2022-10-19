@@ -3,6 +3,7 @@ package by.beltelecom.todolist.integration.services.security.owning;
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.services.security.owning.OwnerChecker;
 import by.beltelecom.todolist.services.tasks.TasksService;
@@ -49,12 +50,12 @@ public class TasksOwnerCheckerTestsCase {
         Assertions.assertNotNull(task2);
 
         // Check own:
-        Assertions.assertTrue(this.tasksOwnerChecker.isUserOwn(userOwner, task1));
-        Assertions.assertTrue(this.tasksOwnerChecker.isUserOwn(userOwner, task2));
+        Assertions.assertDoesNotThrow(() -> this.tasksOwnerChecker.isUserOwn(userOwner, task1));
+        Assertions.assertDoesNotThrow(() -> this.tasksOwnerChecker.isUserOwn(userOwner, task2));
     }
 
     @Test
-    void isUserOwn_userIsNotOwnTasks_shouldReturnFalse() {
+    void isUserOwn_userIsNotOwnTasks_shouldThrowNOE() {
         // Create users:
         Account account = this.createAccount(2);
         Account created = this.signService.registerAccount(account, account.getUserOwner());
@@ -78,8 +79,8 @@ public class TasksOwnerCheckerTestsCase {
         Assertions.assertNotNull(task2);
 
         // Check own:
-        Assertions.assertFalse(this.tasksOwnerChecker.isUserOwn(userOwner2, task1));
-        Assertions.assertFalse(this.tasksOwnerChecker.isUserOwn(userOwner2, task2));
+        Assertions.assertThrows(NotOwnerException.class ,() -> this.tasksOwnerChecker.isUserOwn(userOwner2, task1));
+        Assertions.assertThrows(NotOwnerException.class ,() -> this.tasksOwnerChecker.isUserOwn(userOwner2, task2));
     }
 
     private Account createAccount(int emailPrefix) {
