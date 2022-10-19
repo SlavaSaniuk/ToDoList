@@ -1,10 +1,11 @@
 package by.beltelecom.todolist.integration.services.security.owning;
 
-import by.beltelecom.todolist.data.models.Account;
+import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
+import by.beltelecom.todolist.configuration.models.TestingUser;
+import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
-import by.beltelecom.todolist.security.authentication.SignService;
 import by.beltelecom.todolist.services.security.owning.OwnerChecker;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.utilities.Randomizer;
@@ -15,10 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
+@Import(ServicesTestsConfiguration.class)
 public class TasksOwnerCheckerTestsCase {
 
     // Logger:
@@ -27,16 +30,15 @@ public class TasksOwnerCheckerTestsCase {
     @Autowired
     private OwnerChecker<Task> tasksOwnerChecker;
     @Autowired
-    private SignService signService;
-    @Autowired
     private TasksService tasksService;
+    @Autowired
+    private TestsUserService testsUserService;
 
     @Test
     void isUserOwn_userIsOwnTasks_shouldReturnTrue() {
-        // Create user:
-        Account account = this.createAccount(1);
-        Account created = this.signService.registerAccount(account, account.getUserOwner());
-        User userOwner = created.getUserOwner();
+        // Create and register user:
+        TestingUser testingUser = this.testsUserService.testingUser("1");
+        User userOwner = testingUser.getUser();
         Assertions.assertNotNull(userOwner);
         LOGGER.debug(String.format("Created user[%s];", userOwner));
 
@@ -57,15 +59,13 @@ public class TasksOwnerCheckerTestsCase {
     @Test
     void isUserOwn_userIsNotOwnTasks_shouldThrowNOE() {
         // Create users:
-        Account account = this.createAccount(2);
-        Account created = this.signService.registerAccount(account, account.getUserOwner());
-        User userOwner = created.getUserOwner();
+        TestingUser testingUser2 = this.testsUserService.testingUser("2");
+        TestingUser testingUser3 = this.testsUserService.testingUser("3");
+        User userOwner = testingUser2.getUser();
         Assertions.assertNotNull(userOwner);
         LOGGER.debug(String.format("Created user[%s];", userOwner));
 
-        Account account2 = this.createAccount(3);
-        Account created2 = this.signService.registerAccount(account2, account2.getUserOwner());
-        User userOwner2 = created2.getUserOwner();
+        User userOwner2 = testingUser3.getUser();
         Assertions.assertNotNull(userOwner2);
         LOGGER.debug(String.format("Created user[%s];", userOwner2));
 
@@ -81,19 +81,6 @@ public class TasksOwnerCheckerTestsCase {
         // Check own:
         Assertions.assertThrows(NotOwnerException.class ,() -> this.tasksOwnerChecker.isUserOwn(userOwner2, task1));
         Assertions.assertThrows(NotOwnerException.class ,() -> this.tasksOwnerChecker.isUserOwn(userOwner2, task2));
-    }
-
-    private Account createAccount(int emailPrefix) {
-        Account account = new Account();
-        account.setEmail("test_email_" +emailPrefix +"@mail.com");
-        account.setPassword("1!aAbBcCdD");
-
-        User user = new User();
-        user.setName("Test_name_"+emailPrefix);
-
-        account.setUserOwner(user);
-        LOGGER.debug("Created account: " +account);
-        return account;
     }
 
     private Task getTestTask() {

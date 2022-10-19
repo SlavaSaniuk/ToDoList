@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Entity(name = "accounts")
 @Getter @Setter
 @NoArgsConstructor
-@ToString
 public class Account {
 
     @Id
@@ -27,4 +26,8 @@ public class Account {
     @JoinColumn(name = "fk_owner")
     private User userOwner;
 
+    @Override
+    public String toString() {
+        return String.format("Account[id: %d, email: %s];", this.id, this.email);
+    }
 }

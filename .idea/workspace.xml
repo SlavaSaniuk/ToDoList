@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Tested TasksOwnerChecker#isUserOwn method">
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/exceptions/security/NotOwnerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/exceptions/security/NotOwnerException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/OwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/OwnerChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added NotOwnerException exception. Owner checker throw NOE if user not own object.">
+      <change afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/models/TestingUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/models/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/models/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/ServicesTestsConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/ServicesTestsConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/owning/TasksOwnerCheckerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/owning/TasksOwnerCheckerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -404,7 +405,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666215152643</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Added NotOwnerException exception. Owner checker throw NOE if user not own object.">
+      <created>1666218023034</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1666218023034</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +434,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Started at notebook!" />
     <MESSAGE value="Worked updateTask method in TasksService" />
     <MESSAGE value="Worked updateTask method in TaskController" />
     <MESSAGE value="Created entity objects, but tests are not working!" />
@@ -451,7 +458,8 @@
     <MESSAGE value="Worked Task#equals method and Task#toString method print task ID." />
     <MESSAGE value="Added Task#toStringWithUser method" />
     <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tested TasksOwnerChecker#isUserOwn method" />
+    <MESSAGE value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
