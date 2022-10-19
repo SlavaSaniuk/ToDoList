@@ -5,6 +5,7 @@ import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.services.security.*;
+import by.beltelecom.todolist.services.security.owning.OwningConfiguration;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
 import by.beltelecom.todolist.services.users.UsersService;
@@ -15,8 +16,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
+@Import({
+        OwningConfiguration.class // Import any OwnerCheckers beans;
+})
 public class ServicesConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServicesConfiguration.class);

@@ -1,8 +1,7 @@
-package by.beltelecom.todolist.services.security.owner;
+package by.beltelecom.todolist.services.security.owning;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.services.security.OwnerChecker;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -11,6 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
+/**
+ * Service bean is default implementation of {@link OwnerChecker} interface.
+ * Used to check owners of {@link Task} tasks objects.
+ */
 public class TasksOwnerChecker implements OwnerChecker<Task> {
 
     // Logger:
@@ -19,8 +22,8 @@ public class TasksOwnerChecker implements OwnerChecker<Task> {
     private final TasksService tasksService; // Autowired in constructor;
 
     /**
-     *
-     * @param aTasksService
+     * Construct new {@link TasksOwnerChecker} service bean.
+     * @param aTasksService - tasks service.
      */
     public TasksOwnerChecker(TasksService aTasksService) {
         Objects.requireNonNull(aTasksService, Checks.argumentNotNull("aTasksService", TasksService.class));
@@ -38,11 +41,10 @@ public class TasksOwnerChecker implements OwnerChecker<Task> {
         if (aTask.getId() == 0L) throw new IllegalArgumentException(Checks.Numbers.argNotZero("taskId", Long.class));
         LOGGER.debug(String.format("Check if user[userId: %d] own Task[taskId: %d];", aUser.getId(), aTask.getId()));
 
-        // Check owner:
-        Tathis.tasksService.getTaskById(aTask.getId());
-
-
-
-        return false;
+        // Get task from db:
+        Task task = this.tasksService.getTaskById(aTask.getId());
+        
+        // Check owners:
+        return task.getOwner().equals(aUser);
     }
 }

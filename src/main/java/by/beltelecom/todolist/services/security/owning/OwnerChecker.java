@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.services.security;
+package by.beltelecom.todolist.services.security.owning;
 
 import by.beltelecom.todolist.data.models.User;
 
