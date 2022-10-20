@@ -60,6 +60,12 @@ public class TaskWrapper {
             return task;
         }
 
+        public static Task createTask(long aId) {
+            Task task = new Task();
+            task.setId(aId);
+            return task;
+        }
+
     }
 
 }

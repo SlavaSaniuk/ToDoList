@@ -3,6 +3,7 @@ package by.beltelecom.todolist.services.tasks;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
@@ -50,12 +51,16 @@ public class TasksServiceImpl implements TasksService{
 
     @Override
     public Task findTaskById(long aId) throws NotFoundException {
-        return null;
+        try {
+            return this.getTaskById(aId);
+        }catch (RuntimeNotFoundException exc) {
+            throw new NotFoundException(TaskWrapper.Creator.createTask(aId));
+        }
     }
 
     @Override
     public Task findTaskById(Task aTask) throws NotFoundException {
-        return null;
+        return this.findTaskById(aTask.getId());
     }
 
     /**
