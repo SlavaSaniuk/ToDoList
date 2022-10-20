@@ -4,23 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/DatabaseUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/DatabaseUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/AccountsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/AccountsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/AccountsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/AccountsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/users/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/users/UsersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/users/UsersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/users/UsersServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/tasks/TaskController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/tasks/TaskController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/users/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/controllers/users/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/users/UsersRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/users/UsersRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/tasks/TasksServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/task/TasksServiceTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/serviecs/tasks/UserTasksManagerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/task/UserTasksManagerTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/security/authentication/DatabaseUserDetailsServiceUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/security/authentication/DatabaseUserDetailsServiceUnitTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/tasks/TasksServiceImplUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/tasks/TasksServiceImplUnitTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/users/UsersServiceUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/services/users/UsersServiceUnitTests.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Migrated NotFoundException to RuntimeNotFoundException">
+      <change afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsTaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/ServicesTestsConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/ServicesTestsConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/task/UserTasksManagerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/task/UserTasksManagerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,7 +220,7 @@
       <workItem from="1662067935749" duration="1203000" />
       <workItem from="1662069194975" duration="609000" />
       <workItem from="1665697015251" duration="5996000" />
-      <workItem from="1666305427507" duration="867000" />
+      <workItem from="1666305427507" duration="1962000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -431,7 +418,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666220174004</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Migrated NotFoundException to RuntimeNotFoundException">
+      <created>1666306336217</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1666306336217</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -453,7 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked updateTask method in TaskController" />
     <MESSAGE value="Created entity objects, but tests are not working!" />
     <MESSAGE value="Imported schema" />
     <MESSAGE value="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService" />
@@ -478,7 +471,8 @@
     <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
     <MESSAGE value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
     <MESSAGE value="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects." />
+    <MESSAGE value="Migrated NotFoundException to RuntimeNotFoundException" />
+    <option name="LAST_COMMIT_MESSAGE" value="Migrated NotFoundException to RuntimeNotFoundException" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
