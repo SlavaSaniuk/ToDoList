@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity(name = "tasks")
 @Table(name = "tasks")
-public class Task {
+public class Task implements Identification {
 
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,15 +46,6 @@ public class Task {
                 this.id, this.name, this.description, this.dateCreation, this.dateCompletion);
     }
 
-    public String toStringWithUser() {
-        StringBuilder sb = new StringBuilder(this.toString().substring(0, this.toString().length()-1));
-
-        // Append user owner if existed:
-        if (this.owner != null) sb.append(String.format(", owner: %s", this.owner));
-
-        return sb.append("]").toString();
-    }
-
     @Override
     public boolean equals(Object obj) {
         // Check at null
@@ -66,5 +57,10 @@ public class Task {
 
         // Check id:
         return otherTask.getId() == this.id;
+    }
+
+    @Override
+    public Number getIdentifier() {
+        return this.id;
     }
 }
