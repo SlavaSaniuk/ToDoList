@@ -3,6 +3,7 @@ package by.beltelecom.todolist.web.controllers.tasks;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.web.dto.TaskDto;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class TaskController {
         Task task = null;
         try {
             task = this.tasksService.getTaskById(aId);
-        }catch (NotFoundException exc) {
+        }catch (RuntimeNotFoundException exc) {
             LOGGER.warn(exc.getMessage());
         }
 
@@ -100,7 +101,7 @@ public class TaskController {
         aTask.setDateCreation(LocalDate.now());
         try {
             this.tasksService.updateTask(aTask);
-        }catch (NotFoundException exc) {
+        }catch (RuntimeNotFoundException exc) {
             LOGGER.warn(exc.getMessage());
         }
 

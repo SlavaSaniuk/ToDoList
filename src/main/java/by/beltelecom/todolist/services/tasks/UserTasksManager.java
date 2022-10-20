@@ -2,6 +2,7 @@ package by.beltelecom.todolist.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,5 +20,5 @@ public interface UserTasksManager {
      * @throws NotOwnerException - throws, if user try to delete not his object.
      */
     @Transactional
-    void deleteUserTask(Task aTask, User aUser) throws NotOwnerException;
+    void deleteUserTask(Task aTask, User aUser) throws NotOwnerException, NotFoundException;
 }

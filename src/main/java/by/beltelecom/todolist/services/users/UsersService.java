@@ -2,7 +2,7 @@ package by.beltelecom.todolist.services.users;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -15,9 +15,9 @@ public interface UsersService {
      * Get {@link User} entity object from database.
      * @param aId - user's id;
      * @return - user entity object;
-     * @throws NotFoundException - throws in cases, when user entity not founded in database.
+     * @throws RuntimeNotFoundException - throws in cases, when user entity not founded in database.
      */
-    User getUserById(long aId) throws NotFoundException;
+    User getUserById(long aId) throws RuntimeNotFoundException;
 
     /**
      * Create new {@link User} entity object and persist it in database.

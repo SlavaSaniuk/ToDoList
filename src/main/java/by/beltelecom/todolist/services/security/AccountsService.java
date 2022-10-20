@@ -25,7 +25,7 @@ public interface AccountsService {
      * @return Account entity;
      * @throws NullPointerException - when email argument is null.
      * @throws IllegalArgumentException - when email argument is blank.
-     * @throws by.beltelecom.todolist.exceptions.NotFoundException - when account is not found.
+     * @throws by.beltelecom.todolist.exceptions.RuntimeNotFoundException - when account is not found.
      */
     Account getAccountByEmail(String aEmail);
 

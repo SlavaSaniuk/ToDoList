@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.integration.serviecs.tasks;
+package by.beltelecom.todolist.integration.services.task;
 
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
@@ -51,9 +51,9 @@ public class UserTasksManagerTestsCase {
 
             long taskId = task.getId();
             // Get task by id:
-            Assertions.assertThrows(NotFoundException.class, () -> this.tasksService.getTaskById(taskId));
+            Assertions.assertThrows(NotFoundException.class, () -> this.tasksService.findTaskById(taskId));
 
-        }catch (NotOwnerException exc) {
+        }catch (NotOwnerException | NotFoundException exc) {
             Assertions.fail();
         }
 

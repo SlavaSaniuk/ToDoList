@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.integration.serviecs.tasks;
+package by.beltelecom.todolist.integration.services.task;
 
 import by.beltelecom.todolist.configuration.AuthenticationTestsConfiguration;
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;

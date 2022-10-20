@@ -1,7 +1,7 @@
 package by.beltelecom.todolist.web.rest.users;
 
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -35,7 +35,7 @@ public class UsersRestController {
         try {
             User user = this.usersService.getUserById(aId);
             return new UserRestDto(user);
-        }catch (NotFoundException exc) {
+        }catch (RuntimeNotFoundException exc) {
             return new UserRestDto(ExceptionStatusCodes.NOT_FOUND_EXCEPTION);
         }
 

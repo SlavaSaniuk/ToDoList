@@ -52,7 +52,7 @@ public class UserTasksManagerImpl implements UserTasksManager {
         LOGGER.debug(String.format("User[userId: %d] try to delete task [%s];", aUser.getId(), TaskWrapper.wrap(aTask).printer().toStringWithUser()));
 
         // Get task by id:
-        Task task = this.tasksService.getTaskById(aTask.getId());
+        Task task = this.tasksService.findTaskById(aTask);
 
         // Check owners:
         this.tasksOwnerChecker.isUserOwn(aUser, task);

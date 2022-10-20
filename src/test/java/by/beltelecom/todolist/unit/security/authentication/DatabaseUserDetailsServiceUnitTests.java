@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.unit.security.authentication;
 
 import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
 import by.beltelecom.todolist.services.security.AccountsService;
 import org.junit.jupiter.api.Assertions;
@@ -28,7 +29,7 @@ public class DatabaseUserDetailsServiceUnitTests {
 
     @Test
     void loadUserByUsername_userNotFound_shouldThrowUNFE() {
-        Mockito.when(this.accountsService.getAccountByEmail(ArgumentMatchers.anyString())).thenThrow(NotFoundException.class);
+        Mockito.when(this.accountsService.getAccountByEmail(ArgumentMatchers.anyString())).thenThrow(RuntimeNotFoundException.class);
 
         Assertions.assertThrows(UsernameNotFoundException.class, () -> this.databaseUserDetailsService.loadUserByUsername("amyEmail"));
     }

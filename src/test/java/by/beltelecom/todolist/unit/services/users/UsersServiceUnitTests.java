@@ -3,6 +3,7 @@ package by.beltelecom.todolist.unit.services.users;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.users.UsersServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +59,7 @@ public class UsersServiceUnitTests {
     @Test
     void getUserById_userNotFound_shouldThrowNFE() {
         Mockito.when(this.usersRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
-        Assertions.assertThrows(NotFoundException.class, ()-> this.usersService.getUserById(1L));
+        Assertions.assertThrows(RuntimeNotFoundException.class, ()-> this.usersService.getUserById(1L));
     }
 
     @Test

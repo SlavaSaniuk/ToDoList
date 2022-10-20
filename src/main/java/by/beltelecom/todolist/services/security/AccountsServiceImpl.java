@@ -2,7 +2,7 @@ package by.beltelecom.todolist.services.security;
 
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.data.repositories.AccountsRepository;
-import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public class AccountsServiceImpl implements AccountsService {
     @Override
     public Account getAccountByEmail(String aEmail) {
         Optional<Account> founded = this.getAccountOptByEmail(aEmail);
-        if (founded.isEmpty()) throw new NotFoundException(Account.class);
+        if (founded.isEmpty()) throw new RuntimeNotFoundException(Account.class);
         return founded.get();
     }
 

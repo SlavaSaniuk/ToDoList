@@ -1,7 +1,7 @@
 package by.beltelecom.todolist.security.authentication;
 
 import by.beltelecom.todolist.data.models.Account;
-import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.security.AccountsService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import org.slf4j.Logger;
@@ -40,7 +40,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
 
         try {
             account = this.accountsService.getAccountByEmail(username);
-        }catch (NotFoundException exc) {
+        }catch (RuntimeNotFoundException exc) {
             throw new UsernameNotFoundException(String.format("[Account] with email[%s] not founded in database.", username));
         }
 

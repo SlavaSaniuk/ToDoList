@@ -1,7 +1,7 @@
 package by.beltelecom.todolist.web.controllers.users;
 
 import by.beltelecom.todolist.data.models.User;
-import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -51,7 +51,7 @@ public class UserController {
         User user = new User();
         try {
             user = this.usersService.getUserById(aId);
-        }catch (NotFoundException exc) {
+        }catch (RuntimeNotFoundException exc) {
             LOGGER.warn(exc.getMessage());
             modelAndView.setViewName("redirect:/");
         }catch (IllegalArgumentException exc) {

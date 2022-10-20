@@ -2,7 +2,7 @@ package by.beltelecom.todolist.services.users;
 
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
-import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
@@ -30,12 +30,12 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User getUserById(long aId) throws NotFoundException {
+    public User getUserById(long aId) throws RuntimeNotFoundException {
         LOGGER.debug("Try to get user entity[{}] from database;", aId);
 
         Optional<User> userOptional = this.getUserOptById(aId);
         if(userOptional.isPresent()) return userOptional.get();
-        else throw new NotFoundException(User.class);
+        else throw new RuntimeNotFoundException(User.class);
     }
 
     /**
