@@ -39,13 +39,12 @@ public class TasksOwnerChecker implements OwnerChecker<Task> {
         Objects.requireNonNull(aUser, Checks.argumentNotNull("aUser", User.class));
         Objects.requireNonNull(aTask, Checks.argumentNotNull("aTask", Task.class));
         if (aUser.getId() == 0L) throw new IllegalArgumentException(Checks.Numbers.argNotZero("userId", Long.class));
-        if (aTask.getId() == 0L) throw new IllegalArgumentException(Checks.Numbers.argNotZero("taskId", Long.class));
         LOGGER.debug(String.format("Check if user[userId: %d] own Task[taskId: %d];", aUser.getId(), aTask.getId()));
 
         // Get task from db:
-        Task task = this.tasksService.getTaskById(aTask.getId());
-        
+        if (aTask.getId() == 0L) aTask = this.tasksService.getTaskById(aTask.getId());
+
         // Check owners:
-        if (!task.getOwner().equals(aUser)) throw new NotOwnerException(aUser, aTask);
+        if (!aTask.getOwner().equals(aUser)) throw new NotOwnerException(aUser, aTask);
     }
 }

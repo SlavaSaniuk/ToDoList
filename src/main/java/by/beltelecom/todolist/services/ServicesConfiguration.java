@@ -5,9 +5,12 @@ import by.beltelecom.todolist.data.repositories.AccountsRepository;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.services.security.*;
-import by.beltelecom.todolist.services.security.owning.OwningConfiguration;
+import by.beltelecom.todolist.services.security.owning.OwnerChecker;
+import by.beltelecom.todolist.services.security.owning.TasksOwnerChecker;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
+import by.beltelecom.todolist.services.tasks.UserTasksManager;
+import by.beltelecom.todolist.services.tasks.UserTasksManagerImpl;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.services.users.UsersServiceImpl;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -16,12 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({
-        OwningConfiguration.class // Import any OwnerCheckers beans;
-})
 public class ServicesConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ServicesConfiguration.class);
@@ -29,11 +28,27 @@ public class ServicesConfiguration {
     private UsersRepository usersRepository; // Spring repository bean (Autowired via setter);
     private AccountsRepository accountsRepository;
 
+
     /**
      * Construct new application services configuration bean.
      */
     public ServicesConfiguration() {
         LOGGER.debug(SpringLogging.Creation.createBean(ServicesConfiguration.class));
+    }
+
+    /**
+     * Service bean that manage user tasks.
+     * @return - service bean.
+     */
+    @Bean
+    public UserTasksManager userTasksManager() {
+        LOGGER.debug(SpringLogging.Creation.createBean(UserTasksManager.class));
+        return new UserTasksManagerImpl(this.tasksService(), this.tasksOwnerChecker());
+    }
+
+    @Bean("TasksOwnerChecker")
+    public OwnerChecker<Task> tasksOwnerChecker() {
+        return new TasksOwnerChecker(this.tasksService());
     }
 
     /**
@@ -60,6 +75,8 @@ public class ServicesConfiguration {
     public AccountsService accountsService() {
         return new AccountsServiceImpl(this.accountsRepository);
     }
+
+    // ==================================== AUTOWIRING =============================================
 
     /**
      * Autowire {@link TasksRepository} repository bean.
@@ -88,4 +105,5 @@ public class ServicesConfiguration {
                 ServicesConfiguration.class);
         this.accountsRepository = anAccountsRepository;
     }
+
 }
