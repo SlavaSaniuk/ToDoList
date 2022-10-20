@@ -1,14 +1,16 @@
 package by.beltelecom.todolist.exceptions;
 
-public class NotFoundException extends RuntimeException {
+/**
+ * Exception throws in cases when any want get entity from database but entity not exist in db.
+ */
+public class NotFoundException extends Exception {
 
-    private static final String MESSAGE = "Required entity of type[%s] not found in database.";
-
-    public NotFoundException() {
-        super(String.format(NotFoundException.MESSAGE, "EntityType"));
+    /**
+     * Construct new {@link NotFoundException} exception.
+     * @param aObj - not founded entity.
+     */
+    public NotFoundException(Object aObj) {
+        super(String.format("Required entity[%s] of type[%s] is not found;", aObj, aObj.getClass()));
     }
 
-    public NotFoundException(Class<?> aClass) {
-        super(String.format(NotFoundException.MESSAGE, aClass.getCanonicalName()));
-    }
 }
