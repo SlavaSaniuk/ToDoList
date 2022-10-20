@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.integration.services.task;
 
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
+import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
@@ -28,6 +29,8 @@ public class UserTasksManagerTestsCase {
     private UserTasksManager userTasksManager;
     @Autowired
     private TestsUserService testsUserService;
+    @Autowired
+    private TestsTaskService testsTaskService;
 
     @Autowired
     private TasksService tasksService;
@@ -68,5 +71,16 @@ public class UserTasksManagerTestsCase {
         task.setId(5678L);
 
         Assertions.assertThrows(NotFoundException.class, () -> this.userTasksManager.deleteUserTask(task, user));
+    }
+
+    @Test
+    void deleteUserTask_userNotOwnTask_shouldThrowNOE() {
+        // Generate user and tasks:
+        User user1 = this.testsUserService.testingUser("5").getUser();
+        User user2 = this.testsUserService.testingUser("6").getUser();
+
+        Task task = this.testsTaskService.testTask(user2);
+
+        Assertions.assertThrows(NotOwnerException.class, ()-> this.userTasksManager.deleteUserTask(task, user1));
     }
 }
