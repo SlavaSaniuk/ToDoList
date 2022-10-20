@@ -4,6 +4,7 @@ import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
@@ -42,9 +43,19 @@ public class TasksServiceImpl implements TasksService{
         if (a_id == 0L) throw new IllegalArgumentException("ID parameter must not be zero.");
 
         Optional<Task> taskOpt = this.tasksRepository.findById(a_id);
-        if (taskOpt.isEmpty()) throw new NotFoundException(Task.class);
+        if (taskOpt.isEmpty()) throw new RuntimeNotFoundException(Task.class);
 
         return taskOpt.get();
+    }
+
+    @Override
+    public Task findTaskById(long aId) throws NotFoundException {
+        return null;
+    }
+
+    @Override
+    public Task findTaskById(Task aTask) throws NotFoundException {
+        return null;
     }
 
     /**
@@ -106,7 +117,7 @@ public class TasksServiceImpl implements TasksService{
         if (aTask.getId() == 0L) throw new IllegalArgumentException("Parameter aTask should have a nonzero id value");
 
         // Check if already exist in db:
-        if(!this.tasksRepository.existsById(aTask.getId())) throw new NotFoundException(Task.class);
+        if(!this.tasksRepository.existsById(aTask.getId())) throw new RuntimeNotFoundException(Task.class);
 
         return this.tasksRepository.save(aTask);
     }

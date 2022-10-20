@@ -2,6 +2,7 @@ package by.beltelecom.todolist.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,22 @@ import java.util.List;
 public interface TasksService {
 
     Task getTaskById (long aId);
+
+    /**
+     * Find task entity in database by ID.
+     * @param aId - task ID;
+     * @return - founded task object.
+     * @throws NotFoundException - throws in cases, when task with required id not exist in database.
+     */
+    Task findTaskById(long aId) throws NotFoundException;
+
+    /**
+     * Find task entity in database by  specified task.id.
+     * @param aTask - task object with id.
+     * @return - founded task object.
+     * @throws NotFoundException - throws in cases, when task with required id not exist in database.
+     */
+    Task findTaskById(Task aTask) throws NotFoundException;
 
     /**
      * Create new {@link Task} entity object in database;
