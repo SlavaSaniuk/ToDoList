@@ -7,7 +7,7 @@ import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.security.owning.OwnerChecker;
 import by.beltelecom.todolist.services.security.owning.TasksOwnerChecker;
-import by.beltelecom.todolist.utilities.logging.ArgumentChecker;
+import by.beltelecom.todolist.utilities.ArgumentChecker;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;

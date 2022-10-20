@@ -1,6 +1,7 @@
-package by.beltelecom.todolist.utilities.logging;
+package by.beltelecom.todolist.utilities;
 
 import by.beltelecom.todolist.data.models.Identification;
+import by.beltelecom.todolist.utilities.logging.Checks;
 
 import java.util.Objects;
 
