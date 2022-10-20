@@ -45,7 +45,7 @@ public class TaskWrapper {
 
     }
 
-    public class Creator {
+    public static class Creator {
 
         public static Task createTask() {
             Task task = new Task();
