@@ -3,6 +3,7 @@ package by.beltelecom.todolist.web.rest.tasks;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.data.wrappers.UserWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.tasks.TasksService;
@@ -13,11 +14,13 @@ import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import by.beltelecom.todolist.web.ExceptionStatusCodes;
 import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
 import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
+import by.beltelecom.todolist.web.dto.rest.task.TasksListRestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -80,6 +83,25 @@ public class TaskRestController {
 
         // In no exception throws, return empty exception DTO.
         return ExceptionRestDto.noExceptionDto();
+    }
+
+    /**
+     * Load user tasks.
+     * @param userId - user ID.
+     * @return - List of user tasks.
+     */
+    @GetMapping("/{userId}")
+    public TasksListRestDto loadUserTasks(@PathVariable("userId") long userId, @RequestAttribute("userObj") User userObj) {
+        // Check if user try to load own tasks or any users tasks:
+        if (userObj.getId() == userId)
+            LOGGER.debug(String.format("User[%s] try to load list of own tasks;", UserWrapper.wrap(userObj).printer().printUserOnlyId()));
+        else LOGGER.debug(String.format("User[%s] try to load list of User[%s] tasks;",
+                UserWrapper.wrap(userObj).printer().printUserOnlyId(), UserWrapper.creator().ofId(userId).printer().printUserOnlyId()));
+
+        List<Task> userTasks = this.userTasksManager.loadUserAllTasks(UserWrapper.creator().ofId(userId).getWrappedUser());
+        TasksListRestDto dto = new TasksListRestDto(userTasks);
+        dto.setUserOwnerId(userId);
+        return dto;
     }
 
 }

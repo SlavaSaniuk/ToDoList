@@ -4,8 +4,10 @@ import by.beltelecom.todolist.configuration.models.TestingUser;
 import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
 import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
+import by.beltelecom.todolist.web.dto.rest.task.TasksListRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -155,5 +157,56 @@ public class TaskRestControllerTestsCase {
         Assertions.assertTrue(restDto.isException());
         Assertions.assertEquals(604, restDto.getExceptionCode());
         LOGGER.debug(restDto.getExceptionMessage());
+    }
+
+    @Test
+    void loadUserTasks_userHasNotTasks_shouldReturnDtoWithEmptyList() throws Exception {
+        // Create user and task:
+        TestingUser testingUser = this.testsUserService.testingUser("loadUserTask1");
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/rest/task/" +testingUser.getUser().getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .header("Authorization", testingUser.authentication().getAuthorizationHeaderValue()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+
+        TasksListRestDto restDto = this.objectMapper.readValue(responseJson, TasksListRestDto.class);
+        Assertions.assertNotNull(restDto);
+        Assertions.assertFalse(restDto.isException());
+        Assertions.assertTrue(restDto.getTasksList().isEmpty());
+    }
+
+    @Test
+    void loadUserTasks_userHasFiveTasks_shouldReturnDtoWithListOfFiveTasks() throws Exception {
+        // Create user and task:
+        TestingUser testingUser = this.testsUserService.testingUser("loadUserTask2");
+        this.testsTaskService.testTasks(testingUser.getUser(), 5);
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/rest/task/" +testingUser.getUser().getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .header("Authorization", testingUser.authentication().getAuthorizationHeaderValue()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+
+        TasksListRestDto restDto = this.objectMapper.readValue(responseJson, TasksListRestDto.class);
+        Assertions.assertNotNull(restDto);
+        Assertions.assertFalse(restDto.isException());
+        Assertions.assertFalse(restDto.getTasksList().isEmpty());
+        Assertions.assertEquals(5, restDto.getTasksList().size());
+
+        LOGGER.debug("Loaded tasks: ");
+        restDto.getTasksList().forEach(task -> LOGGER.debug(TaskWrapper.wrap(task.toEntity()).printer().toStringWithUser()));
     }
 }
