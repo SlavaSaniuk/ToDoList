@@ -1,21 +1,19 @@
 package by.beltelecom.todolist.integration.web.rest.tasks;
 
-import by.beltelecom.todolist.configuration.bean.TestUser;
-import by.beltelecom.todolist.configuration.bean.TestsUsersService;
+import by.beltelecom.todolist.configuration.models.TestingUser;
+import by.beltelecom.todolist.configuration.services.TestsTaskService;
+import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
-import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
+import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
 import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -24,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Import(TestsUsersService.class)
 public class TaskRestControllerTestsCase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRestControllerTestsCase.class);
@@ -35,27 +32,17 @@ public class TaskRestControllerTestsCase {
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
-    private TestsUsersService testsUsersService;
+    private TestsUserService testsUserService;
     @Autowired
-    private JsonWebTokenService jsonWebTokenService;
+    private TestsTaskService testsTaskService;
 
-    private TestUser testUser;
-
-    @BeforeEach
-    void beforeEach() {
-        this.testUser = testsUsersService.registerUser();
-    }
-
-    @AfterEach
-    void afterEach() {
-        this.testsUsersService.deleteUser(testUser);
-        this.testUser = null;
-    }
 
     @Test
     void createTask_newTask_shouldCreateAndReturnNewTask() throws Exception {
+        // Create user:
+        TestingUser testingUser = this.testsUserService.testingUser("createTask1");
         // Generate JWT token:
-        String JWT = this.jsonWebTokenService.generateToken(this.testUser.getAccount().getEmail());
+        String JWT = testingUser.authentication().getJwt();
         LOGGER.debug("Generated JWT: " +JWT);
 
         // Create task dto:
@@ -92,5 +79,29 @@ public class TaskRestControllerTestsCase {
         Assertions.assertNotEquals(0L, createdTask.getId());
         Assertions.assertEquals(task.getName(), createdTask.getName());
         LOGGER.debug("Created task: " +createdTask);
+    }
+
+    @Test
+    void deleteUserTask_taskIsExist_shouldReturnEmptyDto() throws Exception {
+        // Create user and task:
+        TestingUser testingUser = this.testsUserService.testingUser("deleteUserTask1");
+        Task createdTask = this.testsTaskService.testTask(testingUser.getUser());
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/rest/task/delete-task")
+                                .param("id", String.valueOf(createdTask.getId()))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .header("Authorization", testingUser.authentication().getAuthorizationHeaderValue()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+
+        ExceptionRestDto restDto = this.objectMapper.readValue(responseJson, ExceptionRestDto.class);
+        Assertions.assertNotNull(restDto);
+        Assertions.assertFalse(restDto.isException());
     }
 }
