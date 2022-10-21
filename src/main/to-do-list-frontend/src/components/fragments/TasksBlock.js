@@ -318,6 +318,12 @@ class TasksBlock extends React.Component {
         this.state.selectedTasksList.forEach(aTask => {
             this.onRemoveTask(aTask, false);
         })
+
+        this.setState({
+            isTasksSelected: false,
+            selectedTasksList: []
+            }
+        );
     }
 
     /**
