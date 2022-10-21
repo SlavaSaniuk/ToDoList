@@ -14,16 +14,22 @@ import by.beltelecom.todolist.utilities.Randomizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Import(ServicesTestsConfiguration.class)
 public class UserTasksManagerTestsCase {
 
+    // Logger:
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserTasksManagerTestsCase.class);
     // Spring beans:
     @Autowired
     private UserTasksManager userTasksManager;
@@ -82,5 +88,29 @@ public class UserTasksManagerTestsCase {
         Task task = this.testsTaskService.testTask(user2);
 
         Assertions.assertThrows(NotOwnerException.class, ()-> this.userTasksManager.deleteUserTask(task, user1));
+    }
+
+    @Test
+    void loadUserAllTasks_userHasNotAnyTasks_shouldReturnEmptyList() {
+        User user = this.testsUserService.testingUser("loadUserTask1").getUser();
+        List<Task> userTasks = this.userTasksManager.loadUserAllTasks(user);
+
+        Assertions.assertNotNull(userTasks);
+        Assertions.assertTrue(userTasks.isEmpty());
+    }
+
+    @Test
+    void loadUserAllTasks_userHas3Tasks_shouldReturnListOfTasks() {
+        User user = this.testsUserService.testingUser("loadUserTask2").getUser();
+        this.testsTaskService.testTasks(user, 3);
+
+        List<Task> userTasks = this.userTasksManager.loadUserAllTasks(user);
+
+        Assertions.assertNotNull(userTasks);
+        Assertions.assertFalse(userTasks.isEmpty());
+        Assertions.assertEquals(3, userTasks.size());
+
+        LOGGER.debug("Loaded tasks:");
+        userTasks.forEach((task) -> LOGGER.debug(TaskWrapper.wrap(task).printer().toStringWithUser()));
     }
 }

@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -60,5 +62,11 @@ public class UserTasksManagerImpl implements UserTasksManager {
         // Try to delete task:
         this.tasksService.deleteById(task.getId());
         LOGGER.debug(String.format("Task [%s] - deleted;", TaskWrapper.wrap(task).printer().toStringWithUser()));
+    }
+
+    @Override
+    public List<Task> loadUserAllTasks(User aUser) {
+        LOGGER.debug(String.format("Load user[%s] all tasks;", aUser));
+        return new ArrayList<>(this.tasksService.getUserTasks(aUser));
     }
 }
