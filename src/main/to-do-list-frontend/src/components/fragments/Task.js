@@ -1,12 +1,61 @@
 import React from "react";
 import '../../styles/fragments/Task.css'
 
+const ControlButtonType = {DONE: 1, EDIT: 2, REMOVE: 3};
+
+/**
+ * Button do control action on task object.
+ * @property btnType - Type of button (see ControlButtonType).
+ * @function getButtonTypeClassName - button class based on button type.
+ */
+class TaskControlButton extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // Bind functions:
+        this.getButtonTypeClassname.bind(this);
+    }
+
+    /**
+     * Get control button class based on button type.
+     * @returns {string} - class name.
+     */
+    getButtonTypeClassname =() => {
+        switch (this.props.btnType) {
+            case ControlButtonType.REMOVE: {
+                return "control-btn-remove"
+            }
+            default:
+                return "";
+        }
+    }
+
+    render() {
+        return (
+            <input type={"button"} className={"control-btn " +this.getButtonTypeClassname()} />
+        );
+    }
+}
+
+
+
+
+
+const TaskMenu =() => {
+    return (
+        <div className={"task-menu"}>
+            <TaskControlButton btnType={ControlButtonType.REMOVE} />
+        </div>
+    );
+}
+
 class TaskPanel extends React.Component {
     constructor(props) {
         super(props);
     }
     render() {
         return (<div className={"col-11"}>
+            <TaskMenu />
             <h1> {this.props.taskProps.taskName}</h1>
         </div>);
     }
@@ -99,9 +148,6 @@ class TaskBlock extends React.Component {
     onUnselectTask =() => {
         this.props.taskProps.funcOnUnselectTask(this.getTask());
     }
-
-
-
 
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;

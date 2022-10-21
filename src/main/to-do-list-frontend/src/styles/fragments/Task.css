@@ -2,6 +2,7 @@
     width: 99%;
     margin-left: 0.5%;
     border-bottom: 1px solid #cdcdcd;
+    position: relative;
 }
 
 .task-selector-block {
@@ -72,4 +73,28 @@
     border-radius: 3px;
 }
 
+.task-menu {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.control-btn {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #FFFFFF;
+
+    width: 12px;
+    aspect-ratio: 1/1;
+
+    border: none;
+}
+
+.control-btn:hover {
+    fill: #cdcdcd;
+}
+
+.control-btn-remove {
+    background-image: url("../../images/icons/svg/cross.svg");
+}
 

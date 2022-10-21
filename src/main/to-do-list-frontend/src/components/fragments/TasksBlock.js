@@ -1,7 +1,7 @@
 import React from "react";
 import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
-import Task from "../dto/Task";
+import Task from "./Task";
 import {AddTaskBlock} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
 
