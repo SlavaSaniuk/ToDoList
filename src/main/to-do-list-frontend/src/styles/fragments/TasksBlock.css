@@ -98,7 +98,7 @@
 }
 
 .tasks-edit-btn-remove:hover {
-    background-image: url("../../images/icons/cross-white.png");
+    background-image: url("../../images/icons/cross-hover.png");
     background-color: #82ff9f;
 }
 .tasks-edit-btn-remove-disabled {
