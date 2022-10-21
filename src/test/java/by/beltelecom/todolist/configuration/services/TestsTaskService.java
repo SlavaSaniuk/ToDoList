@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class TestsTaskService {
 
@@ -42,5 +45,18 @@ public class TestsTaskService {
         Task task = this.saveTask(this.createTask(), aUser);
         LOGGER.debug(String.format("Task[%s] of user[%s] - GENERATED;", task, aUser));
         return task;
+    }
+
+    /**
+     * Generate list of random tasks.
+     * @param aUser - user owner.
+     * @param aNumberOfTasks - size of result list.
+     * @return - list of generated user tasks.
+     */
+    public List<Task> testTasks(User aUser, int aNumberOfTasks) {
+        LOGGER.debug(String.format("Generate %d task objects of user[%s];", aNumberOfTasks, aUser));
+        List<Task> generatedTasks = new ArrayList<>();
+        for (int i=0; i<aNumberOfTasks; i++) generatedTasks.add(this.testTask(aUser));
+        return generatedTasks;
     }
 }
