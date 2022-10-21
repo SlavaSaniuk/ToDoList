@@ -3,6 +3,7 @@ package by.beltelecom.todolist.configuration.services;
 import by.beltelecom.todolist.configuration.models.TestingUser;
 import by.beltelecom.todolist.data.models.Account;
 import by.beltelecom.todolist.security.authentication.SignService;
+import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ public class TestsUserService {
     // Spring beans:
     @Autowired
     private SignService signService;
+    @Autowired
+    private JsonWebTokenService jsonWebTokenService;
 
     public TestsUserService() {
         LOGGER.debug(SpringLogging.Creation.createBean(TestsUserService.class));
@@ -38,7 +41,10 @@ public class TestsUserService {
         LOGGER.debug(String.format("Register testing user: %s", aTestingUser));
         Account registered = this.signService.registerAccount(aTestingUser.getAccount(), aTestingUser.getUser());
 
-        TestingUser testingUser =  new TestingUser(registered, registered.getUserOwner());
+        // Generate jwt:
+        String jwt = this.jsonWebTokenService.generateToken(registered.getEmail());
+
+        TestingUser testingUser =  new TestingUser(registered, registered.getUserOwner(), jwt);
         LOGGER.debug(String.format("%s - REGISTERED;", testingUser));
 
         return testingUser;
