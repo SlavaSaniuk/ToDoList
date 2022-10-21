@@ -18,7 +18,9 @@ const TasksFooter =() => {
  * @property funcOnUnselectTask - parent function on unselect task action.
  */
 class TasksList extends React.Component {
-
+    constructor(props) {
+        super(props);
+    }
     render() {
 
         const tasks = this.props.tasksList.map((task) =>
@@ -199,6 +201,19 @@ const TasksTopMenu =(props) => {
     );
 }
 
+const TasksBlockLoader =() => {
+    return (
+        <div className={"tasks-block-loading-block row"}>
+            <div className={"tasks-block-loader"} />
+        </div>
+    );
+}
+
+/**
+ * Tasks block loading statuses.
+ * @field LOADING - status, when tasks block try to load user tasks.
+ */
+const TasksBlockLoadStatus = {LOADING: 1, LOADED: 2};
 /**
  * TasksBlock is root component that's render user's tasks at user page.
  * @property userId - user ID.
@@ -228,6 +243,7 @@ class TasksBlock extends React.Component {
 
         // Element state:
         this.state = {
+            loadStatus: TasksBlockLoadStatus.LOADING, // Default load status (because need to load user tasks list);
             // ==== LIST OF USERS TASKS ====
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
             tasksList: [], // Array of users tasks;
@@ -236,19 +252,12 @@ class TasksBlock extends React.Component {
             selectedTasksList: [], // List of selected tasks;
             // ==== EDIT BUTTON STATUSES ====
             statusAddBtn: TasksEditBtnStatus.ACTIVE, // "Add" button status;
-            statusRemoveBtn: TasksEditBtnStatus.DISABLED // "Remove" button status;
+            statusRemoveBtn: TasksEditBtnStatus.DISABLED, // "Remove" button status;
         };
     }
 
     componentDidMount() {
-        // Load users tasks:
-        let tasksArr = [];
-        this.loadUserTasks().then((tasksList) => {
-            tasksList.tasksList.map((taskDto) => {
-                tasksArr.push(taskDto);
-            });
-            })
-        this.setState({tasksList: tasksArr});
+        this.loadUserTasks().then();
     }
 
     /**
@@ -256,8 +265,25 @@ class TasksBlock extends React.Component {
      * Function create fetch http request to get users tasks array.
      * @returns {Promise<any>}  - result json.
      */
-    loadUserTasks = async() => {
-        return (await ReqUtilities.getRequest("/rest/tasks/" + this.props.userId)).json();
+    loadUserTasks = async () => {
+        let resultTasksList = [];
+        const promise = await ReqUtilities.getRequest("/rest/tasks/" + this.props.userId);
+        promise.json().then((taskListDto) => {
+            if (!taskListDto.exception) {
+                taskListDto.tasksList.forEach((taskDto) => {
+                    resultTasksList.push(taskDto);
+                })
+
+            }
+
+            // Set state:
+            this.setState(prevState => ({
+                tasksList: prevState.tasksList.concat(resultTasksList),
+                loadStatus: TasksBlockLoadStatus.LOADED
+            }));
+        })
+
+
     }
 
     /**
@@ -394,18 +420,32 @@ class TasksBlock extends React.Component {
             [TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.ACTIVE] :
             [TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.DISABLED];
 
-        return (<div className={"tasks-block m-auto"} >
-            <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock}
-                          funcOnRemoveTasks={this.onRemoveTasks}
-                          editBtnAddStatus={editBtnStatuses[0]} editBtnRemoveStatus={editBtnStatuses[2]} />
-            <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock}
-                               showAddTaskBlockFunc={this.showAddTaskBlock}
-                               tasksList={this.state.tasksList} // List of users tasks;
-                               funcOnAddNewTask={this.onAddNewTask}
-                               funcOnSelectTasks={this.onSelectTasks} funcOnUnselectTask={this.onUnselectTask}
-            />
-            <TasksFooter />
-        </div>);
+        // Render content block based on load status:
+        let contentBlock;
+        if(this.state.loadStatus === TasksBlockLoadStatus.LOADING) {
+            contentBlock = (
+                <TasksBlockLoader />
+            );
+        }else {
+            contentBlock = (
+                <TasksContentBlock showAddTaskBlock={this.state.isShowAddTaskBlock}
+                                   showAddTaskBlockFunc={this.showAddTaskBlock}
+                                   tasksList={this.state.tasksList} // List of users tasks;
+                                   funcOnAddNewTask={this.onAddNewTask}
+                                   funcOnSelectTasks={this.onSelectTasks} funcOnUnselectTask={this.onUnselectTask}
+                />
+            );
+        }
+
+        return (
+            <div className={"tasks-block m-auto"} >
+                <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock}
+                              funcOnRemoveTasks={this.onRemoveTasks}
+                              editBtnAddStatus={editBtnStatuses[0]} editBtnRemoveStatus={editBtnStatuses[2]} />
+                {contentBlock}
+                <TasksFooter />
+            </div>
+        );
     }
 }
 

@@ -1,8 +1,30 @@
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .tasks-block {
     max-width: 900px;
 
     background-color: #FFFFFF;
     box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+.tasks-block-loading-block {
+    width: 100%;
+    aspect-ratio: 1/0.3;
+    margin: 0 auto;
+}
+
+.tasks-block-loader {
+    width: 25%;
+    aspect-ratio: 1/1;
+    margin: auto auto;
+
+    border: 20px solid #fafafa;
+    border-top: 20px solid #7c79c9;
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
 }
 
 .tasks-top-menu {
