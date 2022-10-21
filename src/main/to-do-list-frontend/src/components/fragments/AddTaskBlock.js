@@ -3,8 +3,6 @@ import '../../styles/fragments/AddTaskBlock.css'
 
 const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
 
-let taskIdGenerator=2;
-
 /**
  * @property btnText - button text value;
  * @property btnType - button text type (see AddTaskBlockControlBtnTypes).
@@ -94,7 +92,6 @@ class AddTaskBlock extends React.Component {
      * and call TasksBlock.onAddNewTask() function with this task parameter.
      */
     onAddNewTask =() => {
-        taskIdGenerator++; // TEST ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         const taskName = this.inputNameRef.current.value // Get task name from user input;
 
         // Clear users inputs:
@@ -102,7 +99,7 @@ class AddTaskBlock extends React.Component {
 
         // Add new task:
         this.props.funcOnAddNewTask({
-            taskId: taskIdGenerator,
+            taskId: "1",
             taskName: taskName // Map task name;
         });
     }

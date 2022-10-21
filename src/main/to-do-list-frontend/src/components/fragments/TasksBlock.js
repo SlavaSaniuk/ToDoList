@@ -224,6 +224,7 @@ class TasksBlock extends React.Component {
         this.postNewTask.bind(this);
         this.onSelectTasks.bind(this);
         this.onUnselectTask.bind(this);
+        this.removeUserTask.bind(this);
 
         // Element state:
         this.state = {
@@ -296,11 +297,9 @@ class TasksBlock extends React.Component {
     /**
      * Remove specified task.
      * @param aTask - task to remove.
-     * @param isUpdateState - boolean flag indicate is need to update element state.
      */
-    onRemoveTask =(aTask, isUpdateState) => {
-        // Try to remove task:
-        console.log("Remove task: ", aTask);
+    onRemoveTask =(aTask) => {
+        this.removeUserTask(aTask)
     }
 
     /**
@@ -361,6 +360,26 @@ class TasksBlock extends React.Component {
 
         // Return task object:
         return taskDto;
+    }
+
+    /**
+     * Remove user task.
+     * Function send http get request on url /rest/task/delete-task?id=taskId. Then remove task from state tasks list.
+     * @param aTask - Task object with ID.
+     * @returns {Promise<void>} - promise.
+     */
+    removeUserTask =async (aTask) => {
+        const promise = await ReqUtilities.getRequest("/rest/task/delete-task?id=" + aTask.taskId);
+        promise.json().then((exceptionDto => {
+            if (exceptionDto.exception === false) {
+                this.setState(prevState => ({
+                    tasksList:  prevState.tasksList.filter((task) => {
+                        return task.taskId !== aTask.taskId;
+                    }),
+                }));
+            }
+        }));
+
     }
 
     /**
