@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.web;
 
+import by.beltelecom.todolist.data.models.User;
 import lombok.Getter;
 
 /**
@@ -26,6 +27,12 @@ public enum ExceptionStatusCodes {
      * @see by.beltelecom.todolist.web.rest.sign.SignRestController#registerAccount;
      */
     PASSWORD_NOT_VALID_EXCEPTION (603),
+
+    /**
+     * ExceptionStatusCode#NOT_OWNER_EXCEPTION 604 code describe situation, when user try to do any action on not his object.
+     * @see by.beltelecom.todolist.web.rest.tasks.TaskRestController#deleteUserTask;
+     */
+    NOT_OWNER_EXCEPTION(604),
 
     /**
      * ExceptionStatusCodes#NOT_FOUND_EXCEPTION 669 code describe exception, when requested object is not found;

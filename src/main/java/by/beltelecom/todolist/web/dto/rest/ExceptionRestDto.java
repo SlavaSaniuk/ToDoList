@@ -28,4 +28,12 @@ public class ExceptionRestDto {
         this.isException = true;
         this.exceptionCode = aStatusCode.getStatusCode();
     }
+
+    /**
+     * Construct new Exception DTO object when no exception throws.
+     * @return - Empty exception DTO object.
+     */
+    public static ExceptionRestDto noExceptionDto() {
+        return new ExceptionRestDto();
+    }
 }
