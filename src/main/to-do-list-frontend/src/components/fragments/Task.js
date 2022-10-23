@@ -1,61 +1,53 @@
 import React from "react";
 import '../../styles/fragments/Task.css'
+import "../Icons.js";
+import {CancelButton, DoneButton, EditButton} from "../Icons";
 
 const ControlButtonType = {DONE: 1, EDIT: 2, REMOVE: 3};
 
 /**
  * Button do control action on task object.
  * @property btnType - Type of button (see ControlButtonType).
- * @function getButtonTypeClassName - button class based on button type.
+ * @property clickFunc - On click function.
  */
 class TaskControlButton extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // Bind functions:
-        this.getButtonTypeClassname.bind(this);
-    }
-
-    /**
-     * Get control button class based on button type.
-     * @returns {string} - class name.
-     */
-    getButtonTypeClassname =() => {
+    render() {
         switch (this.props.btnType) {
-            case ControlButtonType.REMOVE: {
-                return "control-btn-remove"
-            }
+            case ControlButtonType.REMOVE:
+                return <CancelButton classes={"task-control-button"} />;
+            case ControlButtonType.EDIT:
+                return <EditButton classes={"task-control-button"} />
+            case ControlButtonType.DONE:
+                return <DoneButton classes={"task-control-button"} />
             default:
                 return "";
         }
     }
-
-    render() {
-        return (
-            <input type={"button"} className={"control-btn " +this.getButtonTypeClassname()} />
-        );
-    }
 }
 
 
-
-
-
-const TaskMenu =() => {
+/**
+ * @property taskControlFuncs
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const TaskMenu =(props) => {
     return (
         <div className={"task-menu"}>
-            <TaskControlButton btnType={ControlButtonType.REMOVE} />
+            <TaskControlButton btnType={ControlButtonType.DONE}  />
+            <TaskControlButton btnType={ControlButtonType.EDIT} />
+            <TaskControlButton btnType={ControlButtonType.REMOVE} clickFunc={props.taskControlFuncs.removeFunc()} />
         </div>
     );
 }
 
+/**
+ * @property taskControlFuncs
+ */
 class TaskPanel extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (<div className={"col-11"}>
-            <TaskMenu />
+            <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />
             <h1> {this.props.taskProps.taskName}</h1>
         </div>);
     }
@@ -107,6 +99,7 @@ class TaskSelector extends React.Component {
  * Root element encapsulate all logic and markup of task element.
  * @property - funcOnSelectTask - parent function on select task action.
  * @property - funcOnUnselectTask - parent function on unselect task action.
+ * @property - taskControlFuncs - object has parent task control functions.
  * @function - getTask - get task object.
  * @function - onSelectTask - function calling when user select task.
  * @function - onUnselectTask - function calling when user unselect task.
@@ -124,6 +117,7 @@ class TaskBlock extends React.Component {
         this.getTask.bind(this);
         this.onSelectTask.bind(this);
         this.onUnselectTask.bind(this);
+        this.onRemoveTask.bind(this);
     }
 
     /**
@@ -149,12 +143,18 @@ class TaskBlock extends React.Component {
         this.props.taskProps.funcOnUnselectTask(this.getTask());
     }
 
+    onRemoveTask =() => {
+        console.log("Remove task!");
+    }
+
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;
+
+        const taskControlFuncs={removeFunc: this.onRemoveTask}
         return(
             <div id={taskId} className={"taskBlock row"} >
                 <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} />
-                <TaskPanel taskProps={this.props.taskProps} />
+                <TaskPanel taskProps={this.props.taskProps} taskControlFuncs={taskControlFuncs} />
             </div>
         )
     }

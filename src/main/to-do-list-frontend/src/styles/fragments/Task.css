@@ -79,22 +79,17 @@
     top: 5px;
 }
 
-.control-btn {
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: #FFFFFF;
+.task-control-button {
+    fill: #cdcdcd;
 
-    width: 12px;
+    cursor: pointer;
+    width: 20px;
     aspect-ratio: 1/1;
 
-    border: none;
+    transition: fill .2s linear;
 }
 
-.control-btn:hover {
-    fill: #cdcdcd;
-}
-
-.control-btn-remove {
-    background-image: url("../../images/icons/svg/cross.svg");
+.task-control-button:hover {
+    fill: #000000;
 }
 

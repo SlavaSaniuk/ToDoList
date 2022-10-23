@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Moved ArgumentChecker class.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Addde TestingUser.Authentication inner class.">
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/Icons.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/images/icons/svg/cancel.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/images/icons/svg/done.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/images/icons/svg/edit.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/owning/TasksOwnerChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/ExceptionStatusCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/ExceptionStatusCodes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/ExceptionRestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/ExceptionRestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/tasks/TaskRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/tasks/TaskRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/models/TestingUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/models/TestingUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/Task.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/images/icons/svg/cross.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/Task.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/Task.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +27,7 @@
         <option value="HTML File" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -90,7 +92,7 @@
     "WebServerToolWindowFactoryState": "false",
     "com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable": "ALL",
     "last_directory_selection": "/home/user/IdeaProjects/ToDoList/src/main/java/by/beltelecom/todolist/utilities",
-    "last_opened_file_path": "D:/01_DEV/IdeaProjects/ToDoList/ToDoList",
+    "last_opened_file_path": "/home/user/IdeaProjects/ToDoList/src/main/to-do-list-frontend/src/images/icons/svg",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "MavenSettings",
     "spring.configuration.checksum": "79916f3936c4395971c7ad0f1ab0c480"
@@ -101,13 +103,18 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/to-do-list-frontend/src/images/icons/svg" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn compile" />
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TaskRestControllerTestsCase">
+  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
     <configuration name="AccountsServiceTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -226,7 +233,8 @@
       <workItem from="1662067935749" duration="1203000" />
       <workItem from="1662069194975" duration="609000" />
       <workItem from="1665697015251" duration="5996000" />
-      <workItem from="1666305427507" duration="5221000" />
+      <workItem from="1666305427507" duration="5598000" />
+      <workItem from="1666368633749" duration="4816000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -452,7 +460,28 @@
       <option name="project" value="LOCAL" />
       <updated>1666307630017</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!.">
+      <created>1666310939142</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1666310939142</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto">
+      <created>1666310983201</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1666310983201</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Addde TestingUser.Authentication inner class.">
+      <created>1666311019662</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1666311019662</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -474,9 +503,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked and Tested DatabaseAuthenticationProvider/" />
-    <MESSAGE value="Created DatabaseAuthenticationManager" />
-    <MESSAGE value="Created SignService#loginAccount method" />
     <MESSAGE value="Worked SignController#loginAccount method" />
     <MESSAGE value="Customized login pape" />
     <MESSAGE value="Npm worked at notebook" />
@@ -499,7 +525,10 @@
     <MESSAGE value="Added TestsTaskService test service." />
     <MESSAGE value="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task." />
     <MESSAGE value="Moved ArgumentChecker class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved ArgumentChecker class." />
+    <MESSAGE value="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!." />
+    <MESSAGE value="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto" />
+    <MESSAGE value="Addde TestingUser.Authentication inner class." />
+    <option name="LAST_COMMIT_MESSAGE" value="Addde TestingUser.Authentication inner class." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

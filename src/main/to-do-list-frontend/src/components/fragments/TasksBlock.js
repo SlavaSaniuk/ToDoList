@@ -16,6 +16,7 @@ const TasksFooter =() => {
  * @property tasksList - list of users tasks.
  * @property funcOnSelectTask - parent function on select task action.
  * @property funcOnUnselectTask - parent function on unselect task action.
+ * @property taskControlFuncs - task control function in object.
  */
 class TasksList extends React.Component {
     constructor(props) {
@@ -25,7 +26,9 @@ class TasksList extends React.Component {
 
         const tasks = this.props.tasksList.map((task) =>
             <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId}
-                  funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask} />
+                  funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
+                  taskControlFuncs={this.props.taskControlFuncs}
+            />
         );
         return (
             <div>
@@ -42,12 +45,9 @@ class TasksList extends React.Component {
  * @property tasksList - list of users tasks.
  * @property funcOnSelectTask - call this function, when task is selected.
  * @property funcOnUnselectTask - parent function on unselect task action.
+ * @property taskControlFuncs - task control function in object.
  */
 class TasksContentBlock extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * Render TaskContentBlock element.
      * @returns {JSX.Element} - html.
@@ -58,7 +58,9 @@ class TasksContentBlock extends React.Component {
                 <AddTaskBlock isShow={this.props.showAddTaskBlock} showAddTaskBlockFunc={this.props.showAddTaskBlockFunc}
                               funcOnAddNewTask={this.props.funcOnAddNewTask} />
                 <TasksList tasksList={this.props.tasksList}
-                           funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask} />
+                           funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
+                           taskControlFuncs={this.props.taskControlFuncs}
+                />
             </div>
         );
     }
@@ -426,6 +428,11 @@ class TasksBlock extends React.Component {
             [TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.ACTIVE] :
             [TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.DISABLED];
 
+        // Add control functions for TaskControlButtons:
+        const taskControlFuncs = {
+            removeFunc: this.removeUserTask,
+        }
+
         // Render content block based on load status:
         let contentBlock;
         if(this.state.loadStatus === TasksBlockLoadStatus.LOADING) {
@@ -439,6 +446,7 @@ class TasksBlock extends React.Component {
                                    tasksList={this.state.tasksList} // List of users tasks;
                                    funcOnAddNewTask={this.onAddNewTask}
                                    funcOnSelectTasks={this.onSelectTasks} funcOnUnselectTask={this.onUnselectTask}
+                                   taskControlFuncs={taskControlFuncs}
                 />
             );
         }
