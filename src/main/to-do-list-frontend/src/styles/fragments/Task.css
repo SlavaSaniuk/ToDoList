@@ -93,3 +93,84 @@
     fill: #000000;
 }
 
+.task-view {
+    padding: 1px 0;
+}
+
+.task-view-name-input {
+    width: 100%;
+    background-color: #fafafa;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+
+    color: #000000;
+    font-size: 2em;
+}
+
+.task-view-name-input:disabled {
+    border: none;
+
+    background-color: #FFFFFF;
+
+    color: #000000;
+    font-size: 2em;
+
+    transition: all linear .2s;
+}
+
+.task-view-desc-area:disabled {
+    border: none;
+    width: 100%;
+    height: 2em;
+
+    outline: none;
+    resize: none;
+
+    background-color: #FFFFFF;
+}
+
+.task-view-desc-area {
+    margin-top: 5px;
+    width: 100%;
+    height: 2em;
+
+    outline: none;
+    border: none;
+    resize: none;
+
+    background-color: #fafafa;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+.task-edit-text-btn {
+    color: #FFFFFF;
+    font-weight: bold;
+    font-family: UZSans-Bold, system-ui;
+    font-size: 1em;
+
+    border: none;
+    border-radius: 5px;
+    margin: 2px 5px 5px 0;
+    padding: 0 15px;
+
+    transition: background-color linear .2s;
+}
+
+.text-btn-apply-changes {
+    background-color: #87a4c5;
+}
+
+.text-btn-apply-changes:hover {
+    background-color: #5b8fc4;
+}
+
+.text-btn-cancel-changes {
+    background-color: #970412;
+}
+
+.text-btn-cancel-changes:hover {
+    background-color: #73010b;
+}

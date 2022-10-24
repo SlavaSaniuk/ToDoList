@@ -1,9 +1,66 @@
 import React from "react";
 import '../../styles/fragments/Task.css'
 import "../Buttons.js";
-import {CancelButton, DoneButton, EditButton} from "../Buttons";
+import {CancelButton, DoneButton, EditButton, TextButton} from "../Buttons";
 import {TaskBuilder} from "../dto/TaskDto";
 
+
+/**
+ * @property taskObj - Task object.
+ * @property isInEdit - flag indicate if user edit task.
+ */
+class TaskView extends React.Component {
+    /**
+     * Construct new TaskView element.
+     * @param props - properties.
+     */
+    constructor(props) {
+        super(props);
+
+        // Initialize state:
+        this.state = {
+            taskObj: Object.assign({}, this.props.taskObj), // Copy of taskObj property;
+        }
+
+        // Bind functions:
+        this.isEnabled.bind(this);
+    }
+
+    /**
+     * Function check if current task view is in edit and return inverted value of "isInEdit" property.
+     * @returns {boolean} - true if is inEditFlag is false.
+     */
+    isEnabled() {
+        return !this.props.isInEdit;
+    }
+
+    render() {
+
+        // If isInEdit flag = true, render editing control buttons:
+        let editControlButtons;
+        if (this.props.isInEdit) editControlButtons = (<div>
+            <TextButton btnText={"Apply"} classes={"task-edit-text-btn text-btn-apply-changes"} />
+            <TextButton btnText={"Cancel"} classes={"task-edit-text-btn text-btn-cancel-changes"} />
+        </div>);
+
+
+
+        return (
+            <div className={"task-view"}>
+                <input type={"text"} className={"task-view-name-input"} defaultValue={this.state.taskObj.taskName} disabled={this.isEnabled()} />
+                <textarea className={"task-view-desc-area"} defaultValue={this.state.taskObj.taskDesc} disabled={this.isEnabled()}/>
+                {editControlButtons}
+            </div>
+
+        )
+
+    }
+}
+
+/**
+ *
+ * @type {{DONE: number, REMOVE: number, EDIT: number}}
+ */
 const ControlButtonType = {DONE: 1, EDIT: 2, REMOVE: 3};
 
 /**
@@ -30,13 +87,12 @@ class TaskControlButton extends React.Component {
 /**
  * @property taskControlFuncs
  * @returns {JSX.Element}
- * @constructor
  */
 const TaskMenu =(props) => {
     return (
         <div className={"task-menu"}>
             <TaskControlButton btnType={ControlButtonType.DONE}  />
-            <TaskControlButton btnType={ControlButtonType.EDIT} />
+            <TaskControlButton btnType={ControlButtonType.EDIT} clickFunc={props.taskControlFuncs.editFunc} />
             <TaskControlButton btnType={ControlButtonType.REMOVE} clickFunc={props.taskControlFuncs.removeFunc} />
         </div>
     )
@@ -46,10 +102,39 @@ const TaskMenu =(props) => {
  * @property taskControlFuncs
  */
 class TaskPanel extends React.Component {
+    /**
+     * Construct new TaskPanel object.
+     * @param props - react properties.
+     */
+    constructor(props) {
+        super(props);
+
+        // Initialize state of element:
+        this.state = {
+            isInEdit: false // Flag indicate if user is edit this task;
+        }
+
+        // Bind functions:
+        this.onEditTask.bind(this);
+    }
+
+
+    /**
+     * Render TaskPanel React element.
+     * @returns {JSX.Element}
+     */
     render() {
+
+        // Test taskObj property:
+        const taskObj = TaskBuilder.ofId(56).withName("Programming hard!").withDescription("Programming JavaScript.").build();
+
+        // Check if need to render <TaskMenu> element:
+        const taskMenu = this.state.isInEdit ? null : <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />;
+
+
         return (<div className={"col-11"}>
-            <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />
-            <h1> {this.props.taskProps.taskName}</h1>
+            {taskMenu}
+            <TaskView taskObj={taskObj} isInEdit={this.state.isInEdit} />
         </div>);
     }
 }
@@ -112,6 +197,7 @@ class TaskBlock extends React.Component {
 
         // Element state:
         this.state = {
+            isInEdit: false, // Flag indicate if task is edit now;
             "name": this.props.taskProps.taskName
         }
 
@@ -120,6 +206,7 @@ class TaskBlock extends React.Component {
         this.onSelectTask.bind(this);
         this.onUnselectTask.bind(this);
         this.onRemoveTask.bind(this);
+        this.onEditTask.bind(this);
     }
 
     /**
@@ -152,16 +239,27 @@ class TaskBlock extends React.Component {
      * Function call parent function to remove task.
      */
     onRemoveTask =() => {
-        // Construct TaskDto object:
-        console.log("Remove task: ", this.getTask());
+        // Call parent function with TaskDto object argument:
         this.props.taskProps.taskControlFuncs.removeFunc(this.getTask());
+    }
+
+    /**
+     * Function calling when user click on EDIT task control button.
+     * Function set state "isInEdit" flag to true and rerender task.
+     */
+    onEditTask =() => {
+        console.log("Edit task!");
+        this.setState({
+            isInEdit: true
+        })
     }
 
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;
 
         // Object of task control buttons click funcs:
-        const taskControlFuncs={removeFunc: this.onRemoveTask};
+        const taskControlFuncs={removeFunc: this.onRemoveTask, editFunc: this.onEditTask};
+
 
         return(
             <div id={taskId} className={"taskBlock row"} >

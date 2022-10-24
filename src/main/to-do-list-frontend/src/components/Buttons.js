@@ -22,3 +22,18 @@ export const DoneButton =(props) => {
         </svg>
     )
 }
+
+/**
+ * Simple text button.
+ * @param props - element properties.
+ * @property classes - button classes
+ * @property clickFunc - function onClick action.
+ * @property btnText - button text.
+ * @returns {JSX.Element}
+ * @constructor
+ */
+export const TextButton =(props) => {
+    return (
+        <input type={"button"} className={props.classes} onClick={props.clickFunc} value={props.btnText} />
+    )
+}
