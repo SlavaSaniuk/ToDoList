@@ -242,6 +242,7 @@ class TasksBlock extends React.Component {
         this.onSelectTasks.bind(this);
         this.onUnselectTask.bind(this);
         this.removeUserTask.bind(this);
+        this.updateUserTask.bind(this);
 
         // Element state:
         this.state = {
@@ -416,6 +417,10 @@ class TasksBlock extends React.Component {
 
     }
 
+    updateUserTask =(aModifiedTask) => {
+        console.log("Update user task with: ", aModifiedTask);
+    }
+
     /**
      * Render TasksBlock element.
      * @returns {JSX.Element} - TasksBlock.
@@ -430,7 +435,8 @@ class TasksBlock extends React.Component {
 
         // Object has references on task control functions:
         const taskControlFuncs = {
-            removeFunc: this.removeUserTask,
+            updateFunc: this.updateUserTask,
+            removeFunc: this.removeUserTask
         }
 
         // Render content block based on load status:

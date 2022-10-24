@@ -7,7 +7,10 @@ import {TaskBuilder} from "../dto/TaskDto";
 
 /**
  * @property taskObj - Task object.
- * @property isInEdit - flag indicate if user edit task.
+ * @property isInEdit - Flag indicate if user edit task.
+ * @property taskEditClickFunc - Object of task edit click functions.
+ * @function onCancelEdit - Function calling when user click on "Cancel" task edit button.
+ * @function onApplyEdit - Function calling when user click on "Apply" task edit button.
  */
 class TaskView extends React.Component {
     /**
@@ -24,6 +27,12 @@ class TaskView extends React.Component {
 
         // Bind functions:
         this.isEnabled.bind(this);
+        this.onCancelEdit.bind(this);
+        this.onApplyEdit.bind(this);
+
+        // Create refs:
+        this.nameInputRef = React.createRef();
+        this.descInputRef = React.createRef();
     }
 
     /**
@@ -34,21 +43,53 @@ class TaskView extends React.Component {
         return !this.props.isInEdit;
     }
 
+    /**
+     * Function calling when user click on "Cancel" task edit button.
+     * Function reset input values to their default values and call parent onCancelFunction.
+     */
+    onCancelEdit =() => {
+        // Reset inputs:
+        this.nameInputRef.current.value = this.state.taskObj.taskName;
+        this.descInputRef.current.value = this.state.taskObj.taskDesc;
+
+        // Call parent function:
+        this.props.taskEditClickFunc.onCancelFunction();
+    }
+
+    /**
+     * Function calling when user click on "Apply" task edit button.
+     * Function get modified task fields values from inputs and call parent onApplyFunction
+     * (@see TaskBlock#onApplyTaskEdit).
+     */
+    onApplyEdit =() => {
+
+        // Get modified fields values:
+        const aTaskChanges = {
+            taskName: this.nameInputRef.current.value,
+            taskDesc: this.descInputRef.current.value
+        };
+
+        // Call parent function with new task fields values:
+        this.props.taskEditClickFunc.onApplyFunction(aTaskChanges);
+    }
+
     render() {
 
         // If isInEdit flag = true, render editing control buttons:
         let editControlButtons;
         if (this.props.isInEdit) editControlButtons = (<div>
-            <TextButton btnText={"Apply"} classes={"task-edit-text-btn text-btn-apply-changes"} />
-            <TextButton btnText={"Cancel"} classes={"task-edit-text-btn text-btn-cancel-changes"} />
+            <TextButton btnText={"Apply"} classes={"task-edit-text-btn text-btn-apply-changes"} clickFunc={this.onApplyEdit} />
+            <TextButton btnText={"Cancel"} classes={"task-edit-text-btn text-btn-cancel-changes"} clickFunc={this.onCancelEdit} />
         </div>);
 
 
 
         return (
             <div className={"task-view"}>
-                <input type={"text"} className={"task-view-name-input"} defaultValue={this.state.taskObj.taskName} disabled={this.isEnabled()} />
-                <textarea className={"task-view-desc-area"} defaultValue={this.state.taskObj.taskDesc} disabled={this.isEnabled()}/>
+                <input type={"text"} className={"task-view-name-input"} defaultValue={this.state.taskObj.taskName}
+                       disabled={this.isEnabled()} ref={this.nameInputRef} />
+                <textarea className={"task-view-desc-area"} defaultValue={this.state.taskObj.taskDesc}
+                          disabled={this.isEnabled()} ref={this.descInputRef} />
                 {editControlButtons}
             </div>
 
@@ -100,24 +141,10 @@ const TaskMenu =(props) => {
 
 /**
  * @property taskControlFuncs
+ * @property isInEdit - task edit flag.
+ * @property taskEditClickFunc - task edition click function.
  */
 class TaskPanel extends React.Component {
-    /**
-     * Construct new TaskPanel object.
-     * @param props - react properties.
-     */
-    constructor(props) {
-        super(props);
-
-        // Initialize state of element:
-        this.state = {
-            isInEdit: false // Flag indicate if user is edit this task;
-        }
-
-        // Bind functions:
-        this.onEditTask.bind(this);
-    }
-
 
     /**
      * Render TaskPanel React element.
@@ -129,12 +156,14 @@ class TaskPanel extends React.Component {
         const taskObj = TaskBuilder.ofId(56).withName("Programming hard!").withDescription("Programming JavaScript.").build();
 
         // Check if need to render <TaskMenu> element:
-        const taskMenu = this.state.isInEdit ? null : <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />;
+        const taskMenu = this.props.isInEdit ? null : <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />;
 
+        // div wrapper class name:
+        const wrapperDivClass = this.props.isInEdit ? "col-12" : "col-11";
 
-        return (<div className={"col-11"}>
+        return (<div className={wrapperDivClass}>
             {taskMenu}
-            <TaskView taskObj={taskObj} isInEdit={this.state.isInEdit} />
+            <TaskView taskObj={taskObj} isInEdit={this.props.isInEdit} taskEditClickFunc={this.props.taskEditClickFunc} />
         </div>);
     }
 }
@@ -182,23 +211,36 @@ class TaskSelector extends React.Component {
 }
 
 /**
- * Root element encapsulate all logic and markup of task element.
+ * Root element encapsulate all logic and inner elements of task element.
+ * @property - taskProps - Task properties.
  * @property - funcOnSelectTask - parent function on select task action.
  * @property - funcOnUnselectTask - parent function on unselect task action.
  * @property - taskControlFuncs - object has parent task control functions.
+ * @state - isInEdit - // Flag indicate if task is edit now;
  * @function - getTask - get task object.
  * @function - onSelectTask - function calling when user select task.
  * @function - onUnselectTask - function calling when user unselect task.
- * @function - onRemoveTask - function calling when user remove task.
+ * @function - onRemoveTask - function calling when user click on remove task button.
+ * @function - onEditTask - function calling when user click on edit task control button.
+ * @function - onCancelTaskEdit - Function calling when user click on "Cancel" task edit button.
+ * @function - onApplyTaskEdit - Function calling when user click on "Apply" task edit button.
  */
 class TaskBlock extends React.Component {
+
+    // Class fields:
+    taskEditClickFunc; // Object of task edition click functions;
+    taskControlFuncs; // Object of task control buttons functions;
+
+    /**
+     * Construct new TaskBlock react element.
+     * @param props - properties.
+     */
     constructor(props) {
         super(props);
 
         // Element state:
         this.state = {
             isInEdit: false, // Flag indicate if task is edit now;
-            "name": this.props.taskProps.taskName
         }
 
         // Bind functions:
@@ -207,6 +249,18 @@ class TaskBlock extends React.Component {
         this.onUnselectTask.bind(this);
         this.onRemoveTask.bind(this);
         this.onEditTask.bind(this);
+        this.onCancelTaskEdit.bind(this);
+        this.onApplyTaskEdit.bind(this);
+
+        // Initialize fields:
+        this.taskEditClickFuncs = {
+            onApplyFunction: this.onApplyTaskEdit,
+            onCancelFunction: this.onCancelTaskEdit
+        }
+        this.taskControlFuncs = {
+            removeFunc: this.onRemoveTask,
+            editFunc: this.onEditTask
+        };
     }
 
     /**
@@ -240,6 +294,7 @@ class TaskBlock extends React.Component {
      */
     onRemoveTask =() => {
         // Call parent function with TaskDto object argument:
+        // noinspection JSCheckFunctionSignatures
         this.props.taskProps.taskControlFuncs.removeFunc(this.getTask());
     }
 
@@ -248,23 +303,66 @@ class TaskBlock extends React.Component {
      * Function set state "isInEdit" flag to true and rerender task.
      */
     onEditTask =() => {
-        console.log("Edit task!");
         this.setState({
             isInEdit: true
         })
     }
 
+    /**
+     * Function calling when user click on "cancel" edit task button.
+     * Function set state "isInEdit" flag to false and rerender task.
+     */
+    onCancelTaskEdit =() => {
+        this.setState({
+            isInEdit: false
+        })
+    }
+
+    /**
+     * Function calling when user click on "Apply" task edit button.
+     * Function construct new task object of same ID as old with new task fields values, reset isInEdit flag, and call
+     * parent updateUserTask function (@see TasksBlock#updateUsetTask).
+     * @param aTaskChanges - task fields changes ({taskName: MODIFIED_NAME, taskDesc: MODIFIED_DESCRIPTION}).
+     */
+    onApplyTaskEdit =(aTaskChanges) => {
+
+        // Construct new task object:
+        // noinspection JSUnresolvedFunction
+        const task = TaskBuilder.ofId(this.props.taskProps.taskId)
+            .withName(aTaskChanges.taskName)
+            .withDescription(aTaskChanges.taskDesc)
+            .build();
+
+        // Reset isInEdit flag:
+        this.setState({
+            isInEdit: false
+        })
+
+        // Call parent function:
+        this.props.taskProps.taskControlFuncs.updateFunc(task);
+    }
+
+    /**
+     * Render TaskBlock react element.
+     * @returns {JSX.Element} - (<div>
+     *     ???<TaskSelector> // if isInEdit flag = false;
+     *     <TaskPanel>
+     * </div>).
+     */
     render() {
+        // Get task ID:
         let taskId = "task_"+this.props.taskProps.taskId;
 
-        // Object of task control buttons click funcs:
-        const taskControlFuncs={removeFunc: this.onRemoveTask, editFunc: this.onEditTask};
-
+        // Check if task is edit now:
+        // If isInEdit flag - true, do not render TaskSelector block.
+        let taskSelector;
+        if (!this.state.isInEdit) taskSelector = <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} />;
 
         return(
             <div id={taskId} className={"taskBlock row"} >
-                <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} />
-                <TaskPanel taskProps={this.props.taskProps} taskControlFuncs={taskControlFuncs} />
+                {taskSelector}
+                <TaskPanel taskProps={this.props.taskProps} taskControlFuncs={this.taskControlFuncs} isInEdit={this.state.isInEdit}
+                           taskEditClickFunc={this.taskEditClickFuncs} />
             </div>
         )
     }
