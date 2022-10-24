@@ -428,7 +428,7 @@ class TasksBlock extends React.Component {
             [TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.ACTIVE] :
             [TasksEditBtnStatus.ACTIVE, TasksEditBtnStatus.DISABLED, TasksEditBtnStatus.DISABLED];
 
-        // Add control functions for TaskControlButtons:
+        // Object has references on task control functions:
         const taskControlFuncs = {
             removeFunc: this.removeUserTask,
         }

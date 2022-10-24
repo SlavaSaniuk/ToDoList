@@ -1,7 +1,8 @@
 import React from "react";
 import '../../styles/fragments/Task.css'
-import "../Icons.js";
-import {CancelButton, DoneButton, EditButton} from "../Icons";
+import "../Buttons.js";
+import {CancelButton, DoneButton, EditButton} from "../Buttons";
+import {TaskBuilder} from "../dto/TaskDto";
 
 const ControlButtonType = {DONE: 1, EDIT: 2, REMOVE: 3};
 
@@ -14,11 +15,11 @@ class TaskControlButton extends React.Component {
     render() {
         switch (this.props.btnType) {
             case ControlButtonType.REMOVE:
-                return <CancelButton classes={"task-control-button"} />;
+                return <CancelButton classes={"task-control-button"} clickFunc={this.props.clickFunc} />;
             case ControlButtonType.EDIT:
-                return <EditButton classes={"task-control-button"} />
+                return <EditButton classes={"task-control-button"} clickFunc={this.props.clickFunc} />
             case ControlButtonType.DONE:
-                return <DoneButton classes={"task-control-button"} />
+                return <DoneButton classes={"task-control-button"} clickFunc={this.props.clickFunc} />
             default:
                 return "";
         }
@@ -36,9 +37,9 @@ const TaskMenu =(props) => {
         <div className={"task-menu"}>
             <TaskControlButton btnType={ControlButtonType.DONE}  />
             <TaskControlButton btnType={ControlButtonType.EDIT} />
-            <TaskControlButton btnType={ControlButtonType.REMOVE} clickFunc={props.taskControlFuncs.removeFunc()} />
+            <TaskControlButton btnType={ControlButtonType.REMOVE} clickFunc={props.taskControlFuncs.removeFunc} />
         </div>
-    );
+    )
 }
 
 /**
@@ -103,6 +104,7 @@ class TaskSelector extends React.Component {
  * @function - getTask - get task object.
  * @function - onSelectTask - function calling when user select task.
  * @function - onUnselectTask - function calling when user unselect task.
+ * @function - onRemoveTask - function calling when user remove task.
  */
 class TaskBlock extends React.Component {
     constructor(props) {
@@ -125,7 +127,8 @@ class TaskBlock extends React.Component {
      * @returns {{taskId: *}} - this task object.
      */
     getTask =() => {
-        return {taskId: this.props.taskProps.taskId};
+        // Construct TaskDto object:
+        return TaskBuilder.ofId(this.props.taskProps.taskId).build()
     }
 
     /**
@@ -143,14 +146,23 @@ class TaskBlock extends React.Component {
         this.props.taskProps.funcOnUnselectTask(this.getTask());
     }
 
+    /**
+     * Remove user task.
+     * Function calling when user click on remove control button.
+     * Function call parent function to remove task.
+     */
     onRemoveTask =() => {
-        console.log("Remove task!");
+        // Construct TaskDto object:
+        console.log("Remove task: ", this.getTask());
+        this.props.taskProps.taskControlFuncs.removeFunc(this.getTask());
     }
 
     render() {
         let taskId = "task_"+this.props.taskProps.taskId;
 
-        const taskControlFuncs={removeFunc: this.onRemoveTask}
+        // Object of task control buttons click funcs:
+        const taskControlFuncs={removeFunc: this.onRemoveTask};
+
         return(
             <div id={taskId} className={"taskBlock row"} >
                 <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} />
