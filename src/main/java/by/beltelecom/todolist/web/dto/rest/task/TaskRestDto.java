@@ -24,6 +24,10 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
         this.taskDesc = aTask.getDescription();
     }
 
+    public TaskRestDto(ExceptionRestDto exceptionRestDto) {
+        super(exceptionRestDto.getExceptionMessage(), exceptionRestDto.getExceptionCode());
+    }
+
     @Override
     public Task toEntity() {
         Task task = Task.newTask();
@@ -42,4 +46,5 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
         dto.setTaskDesc(aTask.getDescription());
         return dto;
     }
+
 }

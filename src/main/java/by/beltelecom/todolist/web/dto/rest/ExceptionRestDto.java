@@ -36,4 +36,5 @@ public class ExceptionRestDto {
     public static ExceptionRestDto noExceptionDto() {
         return new ExceptionRestDto();
     }
+
 }
