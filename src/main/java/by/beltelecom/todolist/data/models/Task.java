@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Table(name = "tasks")
 public class Task implements Identification {
 
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
@@ -29,6 +28,10 @@ public class Task implements Identification {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "fk_owner", nullable = false)
     private User owner;
+
+    @Column(name = "status")
+    @Convert
+    private TaskStatus taskStatus;
 
     public Task(long a_id) {
         this.id = a_id;

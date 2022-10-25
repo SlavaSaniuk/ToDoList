@@ -43,3 +43,6 @@ CREATE TABLE `tasks` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-08-17 17:22:27
+
+ALTER TABLE `todolist`.`tasks`
+    ADD COLUMN `status` INT(1) NOT NULL AFTER `fk_owner`;
