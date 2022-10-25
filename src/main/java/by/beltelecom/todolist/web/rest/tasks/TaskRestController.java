@@ -6,10 +6,8 @@ import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.data.wrappers.UserWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
-import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.UserTasksManager;
 import by.beltelecom.todolist.utilities.ArgumentChecker;
-import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import by.beltelecom.todolist.web.ExceptionStatusCodes;
 import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
@@ -22,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/rest/task/", produces = "application/json")
@@ -30,27 +27,24 @@ public class TaskRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskRestController.class); // Logger;
     // Spring beans:
-    private final TasksService tasksService; //Autowired in constructor;
     private final UserTasksManager userTasksManager; //Autowired in constructor;
 
     /**
      * Construct new {@link TaskRestController} HTTP REST controller.
-     * @param aTasksService - tasks service bean.
+     * @param aUserTaskManager - service bean.
      */
     @Autowired
-    public TaskRestController(TasksService aTasksService, UserTasksManager aUserTaskManager) {
+    public TaskRestController(UserTasksManager aUserTaskManager) {
         // Check arguments:
-        Objects.requireNonNull(aTasksService, Checks.argumentNotNull("aTasksService", TasksService.class));
         ArgumentChecker.nonNull(aUserTaskManager, "aUserTaskManager");
         LOGGER.debug(SpringLogging.Creation.createBean(TaskRestController.class));
 
         // Map fields:
-        this.tasksService = aTasksService;
         this.userTasksManager = aUserTaskManager;
     }
 
     /**
-     * Create new {@link Task} object. Method handle HTTP REST request on "/rest/task/create-task"
+     * Create new {@link Task} object. Method handle POST HTTP request on "/rest/task/create-task"
      * url to create new user task.
      * @param taskRestDto - Task DTO to create.
      * @param userObj - Task owner (Initialized in {@link by.beltelecom.todolist.security.rest.filters.JsonWebTokenFilter}) via request attribute.
@@ -61,7 +55,7 @@ public class TaskRestController {
         LOGGER.debug("Try to create task[{}] by user[{}] in TaskRestController#createTask;", taskRestDto, userObj);
 
         // Try to create task:
-        Task task = this.tasksService.createTask(taskRestDto.toEntity(), userObj);
+        Task task = this.userTasksManager.createUserTask(taskRestDto.toEntity(), userObj);
         return new TaskRestDto(task);
     }
 
