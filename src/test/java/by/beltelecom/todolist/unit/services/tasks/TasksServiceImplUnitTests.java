@@ -29,7 +29,7 @@ public class TasksServiceImplUnitTests {
 
     @Test
     void getTasksById_idIsZero_shouldThrowIAE() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskService.getTaskById(0L));
+        Assertions.assertThrows(RuntimeNotFoundException.class, () -> this.taskService.getTaskById(0L));
     }
     @Test
     void getTaskById_taskNotFound_shouldThrowNFE() {

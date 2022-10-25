@@ -42,8 +42,6 @@ public class TasksServiceImpl implements TasksService{
 
     @Override
     public Task getTaskById(long a_id) {
-        if (a_id == 0L) throw new IllegalArgumentException("ID parameter must not be zero.");
-
         Optional<Task> taskOpt = this.tasksRepository.findById(a_id);
         if (taskOpt.isEmpty()) throw new RuntimeNotFoundException(Task.class);
 

@@ -3,6 +3,7 @@ package by.beltelecom.todolist.services.security.owning;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.utilities.logging.Checks;
@@ -35,15 +36,14 @@ public class TasksOwnerChecker implements OwnerChecker<Task> {
     }
 
     @Override
-    public void isUserOwn(User aUser, Task aTask) throws NotOwnerException {
+    public void isUserOwn(User aUser, Task aTask) throws NotOwnerException, NotFoundException {
         // Check arguments:
         Objects.requireNonNull(aUser, Checks.argumentNotNull("aUser", User.class));
         Objects.requireNonNull(aTask, Checks.argumentNotNull("aTask", Task.class));
-        if (aUser.getId() == 0L) throw new IllegalArgumentException(Checks.Numbers.argNotZero("userId", Long.class));
         LOGGER.debug(String.format("Check if user[userId: %d] own Task[taskId: %d];", aUser.getId(), aTask.getId()));
 
         // Get task from db:
-        if (aTask.getId() == 0L) aTask = this.tasksService.getTaskById(aTask.getId());
+        if (aTask.getOwner() == null) aTask = this.tasksService.findTaskById(aTask.getId());
 
         // Check owners:
         if (!aTask.getOwner().equals(aUser)) throw new NotOwnerException(aUser, TaskWrapper.Creator.createTask(aTask.getId()));

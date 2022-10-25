@@ -69,4 +69,17 @@ public class UserTasksManagerImpl implements UserTasksManager {
         LOGGER.debug(String.format("Load user[%s] all tasks;", aUser));
         return new ArrayList<>(this.tasksService.getUserTasks(aUser));
     }
+
+    @Override
+    @Transactional
+    public Task updateUserTask(Task aModifiedTask, User aUser) throws NotOwnerException, NotFoundException {
+        // Check if user own task:
+        this.tasksOwnerChecker.isUserOwn(aUser, aModifiedTask);
+
+        // Map user to task:
+        aModifiedTask.setOwner(aUser);
+
+        // Update user task:
+        return this.tasksService.modifyTask(aModifiedTask);
+    }
 }

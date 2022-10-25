@@ -31,4 +31,15 @@ public interface UserTasksManager {
      * @return - List of users tasks.
      */
     List<Task> loadUserAllTasks(User aUser);
+
+    /**
+     * Update existed user task object with new task.
+     * @param aModifiedTask - task with new values.
+     * @param aUser - user owner.
+     * @return - new modified task object.
+     * @throws NotOwnerException - Throws in cases, when user tru to update not own task.
+     * @throws NotFoundException - Throws in cases, when task not found in database.
+     */
+    @Transactional
+    Task updateUserTask(Task aModifiedTask, User aUser) throws NotOwnerException, NotFoundException;
 }

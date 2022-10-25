@@ -113,4 +113,55 @@ public class UserTasksManagerTestsCase {
         LOGGER.debug("Loaded tasks:");
         userTasks.forEach((task) -> LOGGER.debug(TaskWrapper.wrap(task).printer().toStringWithUser()));
     }
+
+    @Test
+    void modifyUserTask_userModifiedOwnTask_shouldReturnTaskWithNewValues() {
+        // Generate user and task:
+        User user = this.testsUserService.testingUser("modifyUserTask1").getUser();
+        Task task = this.testsTaskService.testTask(user);
+
+        // Modify task:
+        String modifiedTaskName = "modified name";
+        String modifiedDescription = "modified desc";
+        task.setName(modifiedTaskName);
+        task.setDescription(modifiedDescription);
+
+        try {
+            Task modifiedTask = this.userTasksManager.updateUserTask(task, user);
+
+            Assertions.assertEquals(task, modifiedTask);
+            Assertions.assertEquals(modifiedTaskName, modifiedTask.getName());
+            Assertions.assertEquals(modifiedDescription, modifiedTask.getDescription());
+
+            LOGGER.debug(String.format("Modified task[%s];", modifiedTask));
+        } catch (NotOwnerException | NotFoundException e) {
+            Assertions.fail();
+        }
+    }
+
+    @Test
+    void modifyUserTask_taskIsNotExist_shouldThrowNFE() {
+        // Generate user and task:
+        User user = this.testsUserService.testingUser("modifyUserTask2").getUser();
+        Task task = TaskWrapper.createTask();
+
+        Assertions.assertThrows(NotFoundException.class, () -> this.userTasksManager.updateUserTask(task, user));
+    }
+
+    @Test
+    void modifyUserTask_userNotOwnTask_shouldThrowNOE() {
+        // Generate users and task:
+        User user = this.testsUserService.testingUser("modifyUserTask3").getUser();
+        User user2 = this.testsUserService.testingUser("modifyUserTask33").getUser();
+        Task task = this.testsTaskService.testTask(user);
+
+        // Modify task:
+        String modifiedTaskName = "modified name";
+        String modifiedDescription = "modified desc";
+        task.setName(modifiedTaskName);
+        task.setDescription(modifiedDescription);
+
+        Assertions.assertThrows(NotOwnerException.class, () -> this.userTasksManager.updateUserTask(task, user2));
+    }
+
 }
