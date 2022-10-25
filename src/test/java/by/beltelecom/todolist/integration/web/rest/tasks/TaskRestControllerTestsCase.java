@@ -4,7 +4,9 @@ import by.beltelecom.todolist.configuration.models.TestingUser;
 import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.web.ExceptionStatusCodes;
 import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
 import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
 import by.beltelecom.todolist.web.dto.rest.task.TasksListRestDto;
@@ -208,5 +210,108 @@ public class TaskRestControllerTestsCase {
 
         LOGGER.debug("Loaded tasks: ");
         restDto.getTasksList().forEach(task -> LOGGER.debug(TaskWrapper.wrap(task.toEntity()).printer().toStringWithUser()));
+    }
+
+    @Test
+    void updateUserTask_userTryToUpdateOwnExistedTask_shouldReturnTaskRestDto() throws Exception {
+        // Generate user and task:
+        TestingUser user = this.testsUserService.testingUser("updateUserTask1");
+        Task task = this.testsTaskService.testTask(user.getUser());
+
+        // Create modified task:
+        String modifiedName = "modified name";
+        String modifiedDesc = "modified desc";
+        task.setName(modifiedName);
+        task.setDescription(modifiedDesc);
+        String reqJson = this.objectMapper.writeValueAsString(TaskRestDto.of(task));
+        LOGGER.debug(String.format("Request JSON: %s;", reqJson));
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/rest/task/update-task")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", user.authentication().getAuthorizationHeaderValue())
+                .content(reqJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        // Handle response:
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug(String.format("Response JSON: %s;", responseJson));
+
+        TaskRestDto taskRestDto = this.objectMapper.readValue(responseJson, TaskRestDto.class);
+        Assertions.assertNotNull(taskRestDto);
+        Task modifiedTask = taskRestDto.toEntity();
+        Assertions.assertEquals(task, modifiedTask);
+        Assertions.assertEquals(modifiedName, modifiedTask.getName());
+        Assertions.assertEquals(modifiedDesc, modifiedTask.getDescription());
+
+        LOGGER.debug(String.format("Modified task: %s;", modifiedTask));
+    }
+
+    @Test
+    void updateUserTask_userTryToUpdateNotOwnExistedTask_shouldReturnTaskRestDtoWithExceptionCode604() throws Exception {
+        // Generate user and task:
+        TestingUser user = this.testsUserService.testingUser("updateUserTask2");
+        User userOwner = this.testsUserService.testingUser("updateUserTask3").getUser();
+        Task task = this.testsTaskService.testTask(userOwner);
+
+        // Create modified task:
+        String modifiedName = "modified name";
+        String modifiedDesc = "modified desc";
+        task.setName(modifiedName);
+        task.setDescription(modifiedDesc);
+        String reqJson = this.objectMapper.writeValueAsString(TaskRestDto.of(task));
+        LOGGER.debug(String.format("Request JSON: %s;", reqJson));
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/rest/task/update-task")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", user.authentication().getAuthorizationHeaderValue())
+                .content(reqJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        // Handle response:
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug(String.format("Response JSON: %s;", responseJson));
+
+        TaskRestDto taskRestDto = this.objectMapper.readValue(responseJson, TaskRestDto.class);
+        Assertions.assertNotNull(taskRestDto);
+        Assertions.assertTrue(taskRestDto.isException());
+        Assertions.assertEquals(ExceptionStatusCodes.NOT_OWNER_EXCEPTION.getStatusCode(), taskRestDto.getExceptionCode());
+    }
+
+    @Test
+    void updateUserTask_userTryToUpdateNotExistedTask_shouldReturnTaskRestDtoWithExceptionStatusCode669() throws Exception {
+        // Generate user and task:
+        TestingUser user = this.testsUserService.testingUser("updateUserTask4");
+        Task task = TaskWrapper.createTask();
+
+        // Create modified task:
+        String modifiedName = "modified name";
+        String modifiedDesc = "modified desc";
+        task.setName(modifiedName);
+        task.setDescription(modifiedDesc);
+        String reqJson = this.objectMapper.writeValueAsString(TaskRestDto.of(task));
+        LOGGER.debug(String.format("Request JSON: %s;", reqJson));
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/rest/task/update-task")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", user.authentication().getAuthorizationHeaderValue())
+                .content(reqJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        // Handle response:
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug(String.format("Response JSON: %s;", responseJson));
+
+        TaskRestDto taskRestDto = this.objectMapper.readValue(responseJson, TaskRestDto.class);
+        Assertions.assertNotNull(taskRestDto);
+        Assertions.assertTrue(taskRestDto.isException());
+        Assertions.assertEquals(ExceptionStatusCodes.NOT_FOUND_EXCEPTION.getStatusCode(), taskRestDto.getExceptionCode());
+
+        LOGGER.debug(String.format("Exception message: %s;", taskRestDto.getExceptionMessage()));
     }
 }

@@ -18,6 +18,7 @@ import by.beltelecom.todolist.web.dto.rest.task.TasksListRestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -64,6 +65,12 @@ public class TaskRestController {
         return new TaskRestDto(task);
     }
 
+    /**
+     * Delete user task. Method handle GET HTTP request on "/rest/task/delete-task?id={TASK_ID}" url to delete user task.
+     * @param aTaskId - task id of task to be deleted.
+     * @param userObj - user (initialized in JWT filter).
+     * @return - Exception DTO with no exception flag, or with initialized flag if exception occurs.
+     */
     @GetMapping(value = "/delete-task", consumes = "application/json")
     public ExceptionRestDto deleteUserTask(@RequestParam("id") long aTaskId, @RequestAttribute("userObj") User userObj) {
         // Create task by id:
@@ -102,6 +109,32 @@ public class TaskRestController {
         TasksListRestDto dto = new TasksListRestDto(userTasks);
         dto.setUserOwnerId(userId);
         return dto;
+    }
+
+    /**
+     * Update user task. Method handle POST HTTP request to update user task.
+     * @param taskRestDto - DTO with new task fields values.
+     * @param userObj - user (initialized in JWT filter).
+     * @return - Modified task object as DTO.
+     */
+    @PostMapping(value = "/update-task", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public TaskRestDto updateUserTask(@RequestBody TaskRestDto taskRestDto, @RequestAttribute("userObj") User userObj) {
+        // Check arguments:
+        ArgumentChecker.nonNull(taskRestDto, "taskRestDto");
+        Task task = taskRestDto.toEntity();
+
+        // Update task:
+        LOGGER.debug(String.format("User[%s] try to update task[taskId: %d] with new values [%s];", userObj, taskRestDto.getTaskId(), taskRestDto));
+        try {
+            Task updatedTask = this.userTasksManager.updateUserTask(task, userObj);
+            return TaskRestDto.of(updatedTask);
+        } catch (NotOwnerException e) {
+            LOGGER.warn(e.getMessage());
+            return new TaskRestDto(new ExceptionRestDto(e.getMessage(), ExceptionStatusCodes.NOT_OWNER_EXCEPTION.getStatusCode()));
+        } catch (NotFoundException e) {
+            LOGGER.warn(e.getMessage());
+            return new TaskRestDto(new ExceptionRestDto(e.getMessage(), ExceptionStatusCodes.NOT_FOUND_EXCEPTION.getStatusCode()));
+        }
     }
 
 }
