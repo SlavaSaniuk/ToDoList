@@ -75,4 +75,18 @@ public interface TasksService {
      * @return - list of user tasks.
      */
     List<Task> getUserTasksByUserId(long aUserId);
+
+    /**
+     * Check if task is saved in database. Exception save!
+     * @param aTaskId - task id.
+     * @return - true, if task is saved in db.
+     */
+    boolean isTaskExist(long aTaskId);
+
+    /**
+     * Check if task is saved in database. If task is not exist, method throw NFE exception.
+     * @param aTask - task.
+     * @throws NotFoundException - if task is not exist.
+     */
+    void isTaskExist(Task aTask) throws NotFoundException;
 }

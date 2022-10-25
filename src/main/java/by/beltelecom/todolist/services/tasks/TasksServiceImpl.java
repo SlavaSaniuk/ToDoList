@@ -171,5 +171,18 @@ public class TasksServiceImpl implements TasksService{
         return this.getUserTasks(user);
     }
 
+    @Override
+    public boolean isTaskExist(long aTaskId) {
+        return this.tasksRepository.existsById(aTaskId);
+    }
+
+    @Override
+    public void isTaskExist(Task aTask) throws NotFoundException {
+        ArgumentChecker.nonNull(aTask, "aTask");
+
+        boolean isExist = this.isTaskExist(aTask.getId());
+        if (!isExist) throw new NotFoundException(aTask);
+    }
+
 
 }

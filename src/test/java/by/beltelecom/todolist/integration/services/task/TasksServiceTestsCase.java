@@ -132,4 +132,24 @@ public class TasksServiceTestsCase {
         Assertions.assertThrows(NotFoundException.class, () -> this.tasksService.modifyTask(task));
     }
 
+    @Test
+    void isTaskExist_taskIsNotExist_shouldReturnFalse() {
+        Task task = TaskWrapper.createTask();
+        Assertions.assertFalse(this.tasksService.isTaskExist(task.getId()));
+    }
+
+    @Test
+    void isTaskExist_taskIsExist_shouldReturnTrue() {
+        // Generate task:
+        Task task = this.testsTaskService.testTask(this.testsUsersService.getTestUser().getUser());
+
+        Assertions.assertTrue(this.tasksService.isTaskExist(task.getId()));
+    }
+
+    @Test
+    void isTaskExist_taskIsNotExist_shouldThrowNFE() {
+        Task task = TaskWrapper.createTask();
+        Assertions.assertThrows(NotFoundException.class, ()->this.tasksService.isTaskExist(task));
+    }
+
 }
