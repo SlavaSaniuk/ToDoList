@@ -2,10 +2,12 @@ package by.beltelecom.todolist.integration.services.security.owning;
 
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.models.TestingUser;
+import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.security.owning.OwnerChecker;
 import by.beltelecom.todolist.services.tasks.TasksService;
@@ -34,6 +36,8 @@ public class TasksOwnerCheckerTestsCase {
     private TasksService tasksService;
     @Autowired
     private TestsUserService testsUserService;
+    @Autowired
+    private TestsTaskService testsTaskService;
 
     @Test
     void isUserOwn_userIsOwnTasks_shouldReturnTrue() {
@@ -84,8 +88,18 @@ public class TasksOwnerCheckerTestsCase {
         Assertions.assertThrows(NotOwnerException.class ,() -> this.tasksOwnerChecker.isUserOwn(userOwner2, task2));
     }
 
+    @Test
+    void isUserOwn_taskIsNotExist_shouldThrowNFE() {
+        // Generate user and task:
+        User user = this.testsUserService.testingUser("isUserOwn4").getUser();
+        Task task = this.testsTaskService.createTask();
+
+        Assertions.assertThrows(NotFoundException.class, () -> this.tasksOwnerChecker.isUserOwn(user, task));
+    }
+
+
     private Task getTestTask() {
-        Task task = Task.newTask();
+        Task task = TaskWrapper.createTask();
         task.setName(Randomizer.randomSentence(3));
 
         LOGGER.debug("Test task: " +task);
