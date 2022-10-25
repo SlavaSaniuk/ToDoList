@@ -92,7 +92,8 @@ class AddTaskBlock extends React.Component {
      * and call TasksBlock.onAddNewTask() function with this task parameter.
      */
     onAddNewTask =() => {
-        const taskName = this.inputNameRef.current.value // Get task name from user input;
+        const taskName = this.inputNameRef.current.value; // Get task name from user input;
+        const taskDesc = this.areaDescRef.current.value;
 
         // Clear users inputs:
         this.clearUsersInputs();
@@ -100,7 +101,8 @@ class AddTaskBlock extends React.Component {
         // Add new task:
         this.props.funcOnAddNewTask({
             taskId: "1",
-            taskName: taskName // Map task name;
+            taskName: taskName, // Map task name;
+            taskDesc: taskDesc
         });
     }
 

@@ -25,7 +25,7 @@ class TasksList extends React.Component {
     render() {
 
         const tasks = this.props.tasksList.map((task) =>
-            <Task taskName={task.taskName} taskId={task.taskId} key={task.taskId}
+            <Task taskName={task.taskName} taskId={task.taskId} taskDesc={task.taskDesc} key={task.taskId}
                   funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
                   taskControlFuncs={this.props.taskControlFuncs}
             />
@@ -417,8 +417,14 @@ class TasksBlock extends React.Component {
 
     }
 
-    updateUserTask =(aModifiedTask) => {
-        console.log("Update user task with: ", aModifiedTask);
+    updateUserTask = async (aModifiedTask) => {
+
+        const promise = await ReqUtilities.postRequest("/rest/task/update-task", JSON.stringify(aModifiedTask));
+        promise.json().then((taskRestDto) => {
+            if (taskRestDto.exception === false) {
+                console.log("Modified task: ", taskRestDto);
+            }
+        })
     }
 
     /**
