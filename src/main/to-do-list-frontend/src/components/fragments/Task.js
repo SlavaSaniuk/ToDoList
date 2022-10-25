@@ -29,6 +29,7 @@ class TaskView extends React.Component {
         this.isEnabled.bind(this);
         this.onCancelEdit.bind(this);
         this.onApplyEdit.bind(this);
+        this.isRenderTaskDescTextArea.bind(this);
 
         // Create refs:
         this.nameInputRef = React.createRef();
@@ -69,10 +70,30 @@ class TaskView extends React.Component {
             taskDesc: this.descInputRef.current.value
         };
 
+        // Construct new state task object:
+        const taskObj = TaskBuilder.ofId(this.state.taskObj.taskId).withName(aTaskChanges.taskName).withDescription(aTaskChanges.taskDesc).build();
+
+        // Set new element state:
+        this.setState({
+            taskObj: taskObj
+        });
+
         // Call parent function with new task fields values:
         this.props.taskEditClickFunc.onApplyFunction(aTaskChanges);
     }
 
+    isRenderTaskDescTextArea =() => {
+        // If task in edit, return true:
+        if (this.props.isInEdit) return true;
+
+        // If task desc not null, not undefined, not empty - return true:
+        return !(this.state.taskObj.taskDesc === null || this.state.taskObj.taskDesc === undefined || this.state.taskObj.taskDesc === "");
+    }
+
+    /**
+     * Render TaskView React element.
+     * @returns {JSX.Element}
+     */
     render() {
 
         // If isInEdit flag = true, render editing control buttons:
@@ -82,14 +103,19 @@ class TaskView extends React.Component {
             <TextButton btnText={"Cancel"} classes={"task-edit-text-btn text-btn-cancel-changes"} clickFunc={this.onCancelEdit} />
         </div>);
 
-
+        // If task description is null or empty and task is not in edit do not render TextArea block:
+        let taskDescTextArea;
+        if(this.isRenderTaskDescTextArea())
+            taskDescTextArea = (
+                <textarea className={"task-view-desc-area"} defaultValue={this.state.taskObj.taskDesc}
+                          disabled={this.isEnabled()} ref={this.descInputRef} placeholder={"Task description"} />
+            );
 
         return (
             <div className={"task-view"}>
                 <input type={"text"} className={"task-view-name-input"} defaultValue={this.state.taskObj.taskName}
                        disabled={this.isEnabled()} ref={this.nameInputRef} />
-                <textarea className={"task-view-desc-area"} defaultValue={this.state.taskObj.taskDesc}
-                          disabled={this.isEnabled()} ref={this.descInputRef} />
+                {taskDescTextArea}
                 {editControlButtons}
             </div>
 
@@ -153,7 +179,7 @@ class TaskPanel extends React.Component {
     render() {
 
         // Test taskObj property:
-        const taskObj = TaskBuilder.ofId(56).withName("Programming hard!").withDescription("Programming JavaScript.").build();
+        const taskObj = TaskBuilder.ofId(this.props.taskProps.taskId).withName(this.props.taskProps.taskName).withDescription(this.props.taskProps.taskDesc).build();
 
         // Check if need to render <TaskMenu> element:
         const taskMenu = this.props.isInEdit ? null : <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />;
