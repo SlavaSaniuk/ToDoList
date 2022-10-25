@@ -42,4 +42,12 @@ public interface UserTasksManager {
      */
     @Transactional
     Task updateUserTask(Task aModifiedTask, User aUser) throws NotOwnerException, NotFoundException;
+
+    /**
+     * Create new user task.
+     * @param aTask - task to be created.
+     * @param aUser - user owner.
+     * @return - Created user.
+     */
+    Task createUserTask(Task aTask, User aUser);
 }

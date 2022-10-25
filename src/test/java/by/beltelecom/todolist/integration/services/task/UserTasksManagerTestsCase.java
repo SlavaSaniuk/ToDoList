@@ -164,4 +164,28 @@ public class UserTasksManagerTestsCase {
         Assertions.assertThrows(NotOwnerException.class, () -> this.userTasksManager.updateUserTask(task, user2));
     }
 
+    @Test
+    void createUserTask_newTask_shouldCreateNewTask() {
+        // Generate user and task:
+        User user = this.testsUserService.testingUser("createUserTask1").getUser();
+        Task task = this.testsTaskService.createTask(6);
+
+        Task created = this.userTasksManager.createUserTask(task, user);
+        Assertions.assertNotNull(created);
+        Assertions.assertNotEquals(0L, created.getId());
+
+        // Get created task from DB:
+        try {
+            Task founded = this.tasksService.findTaskById(created);
+            Assertions.assertNotNull(founded);
+            Assertions.assertEquals(created, founded);
+
+            LOGGER.debug(String.format("Created task: %s;", created));
+        } catch (NotFoundException e) {
+            Assertions.fail();
+        }
+
+
+    }
+
 }

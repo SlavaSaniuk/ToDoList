@@ -82,4 +82,21 @@ public class UserTasksManagerImpl implements UserTasksManager {
         // Update user task:
         return this.tasksService.modifyTask(aModifiedTask);
     }
+
+    /**
+     * Create user task. Method check arguments and call {@link TasksService#createTask(Task, User)} method.
+     * @param aTask - task to be created.
+     * @param aUser - user owner.
+     * @return - Created task.
+     */
+    @Override
+    public Task createUserTask(Task aTask, User aUser) {
+        // Check arguments:
+        ArgumentChecker.nonNull(aTask, "aTask");
+        ArgumentChecker.nonNull(aUser, "aUser");
+        LOGGER.debug(String.format("User[%s] try to create new Task[taskName: %s]", aUser, aTask.getName()));
+
+        // Create task:
+        return this.tasksService.createTask(aTask, aUser);
+    }
 }
