@@ -3,9 +3,12 @@ package by.beltelecom.todolist.integration.services.task;
 import by.beltelecom.todolist.configuration.AuthenticationTestsConfiguration;
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.bean.TestsUsersService;
+import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsTasksService;
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
+import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -34,6 +37,8 @@ public class TasksServiceTestsCase {
     private TestsUsersService testsUsersService;
     @Autowired
     private TestsTasksService testsTasksService;
+    @Autowired
+    private TestsTaskService testsTaskService;
 
     @BeforeEach
     void beforeEach() {
@@ -85,8 +90,46 @@ public class TasksServiceTestsCase {
         // Delete task:
         this.tasksService.deleteById(taskId);
 
-        Assertions.assertThrows(NotFoundException.class, () -> {this.tasksService.getTaskById(taskId);});
+        Assertions.assertThrows(RuntimeNotFoundException.class, () -> this.tasksService.getTaskById(taskId));
 
+    }
+
+    @Test
+    void modifyTask_taskIsExist_shouldModifyTask() {
+        String modifiedName = "MODIFIED NAME";
+        String modifiedDesc = "MODIFIED DESCRIPTION";
+
+        // Generate user and task:
+        Task task = this.testsTaskService.testTask(this.testsUsersService.getTestUser().getUser());
+        Assertions.assertNotNull(task);
+        long taskId = task.getId();
+        Assertions.assertNotEquals(0L, taskId);
+
+        // Modify task:
+        Task toModifyTask = TaskWrapper.Creator.createTask(taskId);
+        toModifyTask.setName(modifiedName);
+        toModifyTask.setDescription(modifiedDesc);
+
+        // Update task:
+        try {
+            Task modifiedTask = this.tasksService.modifyTask(toModifyTask);
+            Assertions.assertNotNull(modifiedTask);
+            Assertions.assertEquals(taskId, modifiedTask.getId());
+            Assertions.assertEquals(modifiedName, modifiedTask.getName());
+            Assertions.assertEquals(modifiedDesc, modifiedTask.getDescription());
+
+            LOGGER.debug(String.format("Modified task[%s];", TaskWrapper.wrap(modifiedTask).printer().toStringWithUser()));
+        } catch (NotFoundException e) {
+            Assertions.fail();
+        }
+    }
+
+    @Test
+    void modifyTask_taskIsNotExist_shouldThrowNFE() {
+        // Create task:
+        Task task = TaskWrapper.Creator.createTask(888888L);
+
+        Assertions.assertThrows(NotFoundException.class, () -> this.tasksService.modifyTask(task));
     }
 
 }

@@ -6,6 +6,7 @@ import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
+import by.beltelecom.todolist.utilities.ArgumentChecker;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
@@ -125,6 +126,25 @@ public class TasksServiceImpl implements TasksService{
         if(!this.tasksRepository.existsById(aTask.getId())) throw new RuntimeNotFoundException(Task.class);
 
         return this.tasksRepository.save(aTask);
+    }
+
+    @Override
+    public Task modifyTask(Task aTask) throws NotFoundException {
+        // Check parameters:
+        ArgumentChecker.nonNull(aTask, "aTask");
+
+        // Get task by ID:
+        Task oldTask = this.findTaskById(aTask);
+        LOGGER.debug(String.format("Modify task[%s] with new task values[%s];",
+                TaskWrapper.wrap(oldTask).printer().toStringWithUser(), TaskWrapper.wrap(aTask).printer().toStringWithUser()));
+
+        // Change task fields:
+        oldTask.setName(aTask.getName());
+        oldTask.setDescription(aTask.getDescription());
+        oldTask.setDateCompletion(aTask.getDateCompletion());
+
+        // Update task:
+        return this.tasksRepository.save(oldTask);
     }
 
     @Override

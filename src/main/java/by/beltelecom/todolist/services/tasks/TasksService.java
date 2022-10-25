@@ -59,6 +59,14 @@ public interface TasksService {
      */
     Task updateTask(Task aTask);
 
+    /**
+     * Update task object with new fields values of aTask param.
+     * @param aTask - task with new fields values.
+     * @return - Modified task.
+     * @throws NotFoundException - Throws in cases, when task not found in database.
+     */
+    Task modifyTask(Task aTask) throws NotFoundException;
+
     List<Task> getUserTasks(User aUser);
 
     /**
