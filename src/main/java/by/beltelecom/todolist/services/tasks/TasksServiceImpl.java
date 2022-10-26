@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.services.tasks;
 
+import by.beltelecom.todolist.data.converter.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
@@ -180,6 +181,31 @@ public class TasksServiceImpl implements TasksService{
 
         boolean isExist = this.isTaskExist(aTask.getId());
         if (!isExist) throw new NotFoundException(aTask);
+    }
+
+    /**
+     * Method implements {@link TasksService#updateStatus(Task, TaskStatus)}.
+     * Method call {@link TasksServiceImpl#findTaskById(Task)} method and if task founded update task status property.
+     * And then method call {@link TasksServiceImpl#updateTask(Task)} method.
+     * @param aTask       - task to update status.
+     * @param aTaskStatus - status to set.
+     * @return - Task object.
+     * @throws NotFoundException - Throws in cases when task not found in database.
+     */
+    @Override
+    public Task updateStatus(Task aTask, TaskStatus aTaskStatus) throws NotFoundException {
+        // Check argument:
+        ArgumentChecker.nonNull(aTask, "aTask");
+        LOGGER.debug(String.format("Update task[%s] status to [%s] status;", aTask, aTaskStatus.getStatusName()));
+
+        // Get task from db:
+        Task founded = this.findTaskById(aTask);
+
+        // Update task status:
+        founded.setTaskStatus(aTaskStatus);
+
+        // Update task in DB:
+        return this.updateTask(founded);
     }
 
 

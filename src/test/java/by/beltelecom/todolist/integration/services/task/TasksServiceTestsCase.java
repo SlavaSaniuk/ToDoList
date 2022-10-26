@@ -1,17 +1,16 @@
 package by.beltelecom.todolist.integration.services.task;
 
-import by.beltelecom.todolist.configuration.AuthenticationTestsConfiguration;
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
-import by.beltelecom.todolist.configuration.bean.TestsUsersService;
 import by.beltelecom.todolist.configuration.services.TestsTaskService;
+import by.beltelecom.todolist.configuration.services.TestsUserService;
+import by.beltelecom.todolist.data.converter.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-@Import({AuthenticationTestsConfiguration.class, ServicesTestsConfiguration.class})
+@Import({ServicesTestsConfiguration.class})
 public class TasksServiceTestsCase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TasksServiceTestsCase.class);
@@ -33,32 +32,24 @@ public class TasksServiceTestsCase {
     @Autowired
     private TasksService tasksService;
     @Autowired
-    private TestsUsersService testsUsersService;
-    @Autowired
     private TestsTaskService testsTaskService;
-
-    @BeforeEach
-    void beforeEach() {
-        this.testsUsersService.registerUser();
-    }
-
-    @AfterEach
-    void afterEach() {
-        this.testsUsersService.deleteUser(this.testsUsersService.getTestUser());
-    }
+    @Autowired
+    private TestsUserService testsUserService;
 
     @Test
     void getUserTasksByUserId_userHasTasks_shouldReturnListOfTasks() {
+        // Create user:
+        User user = this.testsUserService.testingUser("getUserTasksByUserId1").getUser();
         // Create users tasks:
         Task task1 = TaskWrapper.Creator.createTask();
         task1.setName("Test task 1.");
         Task task2 = TaskWrapper.Creator.createTask();
         task2.setName("Test task 2.");
-        this.tasksService.createTask(task1, this.testsUsersService.getTestUser().getUser());
-        this.tasksService.createTask(task2, this.testsUsersService.getTestUser().getUser());
+        this.tasksService.createTask(task1, user);
+        this.tasksService.createTask(task2, user);
 
         // Get users tasks:
-        long userId = this.testsUsersService.getTestUser().getUser().getId();
+        long userId = user.getId();
         List<Task> usersTasks = this.tasksService.getUserTasksByUserId(userId);
 
         Assertions.assertNotNull(usersTasks);
@@ -72,8 +63,9 @@ public class TasksServiceTestsCase {
 
     @Test
     void deleteTaskById_taskExist_shouldDeleteTask() {
-        // Generate task:
-        Task generated = this.testsTaskService.testTask(this.testsUsersService.getTestUser().getUser());
+        // Generate user task:
+        User user = this.testsUserService.testingUser("deleteTaskById1").getUser();
+        Task generated = this.testsTaskService.testTask(user);
         Assertions.assertNotNull(generated);
         LOGGER.debug("Generated task: " +generated);
 
@@ -97,7 +89,8 @@ public class TasksServiceTestsCase {
         String modifiedDesc = "MODIFIED DESCRIPTION";
 
         // Generate user and task:
-        Task task = this.testsTaskService.testTask(this.testsUsersService.getTestUser().getUser());
+        User user = this.testsUserService.testingUser("modifyTask1").getUser();
+        Task task = this.testsTaskService.testTask(user);
         Assertions.assertNotNull(task);
         long taskId = task.getId();
         Assertions.assertNotEquals(0L, taskId);
@@ -137,8 +130,9 @@ public class TasksServiceTestsCase {
 
     @Test
     void isTaskExist_taskIsExist_shouldReturnTrue() {
-        // Generate task:
-        Task task = this.testsTaskService.testTask(this.testsUsersService.getTestUser().getUser());
+        // Generate user and task:
+        User user = this.testsUserService.testingUser("isTaskExist1").getUser();
+        Task task = this.testsTaskService.testTask(user);
 
         Assertions.assertTrue(this.tasksService.isTaskExist(task.getId()));
     }
@@ -147,6 +141,34 @@ public class TasksServiceTestsCase {
     void isTaskExist_taskIsNotExist_shouldThrowNFE() {
         Task task = TaskWrapper.Creator.createTask();
         Assertions.assertThrows(NotFoundException.class, ()->this.tasksService.isTaskExist(task));
+    }
+
+    @Test
+    void updateStatus_taskIsExist_shouldUpdateTaskStatus() {
+        // Create user and task:
+        User user = this.testsUserService.testingUser("updateStatus1").getUser();
+        Task task = this.testsTaskService.testTask(user);
+
+        // Update task status:
+        TaskStatus status = TaskStatus.COMPLETED;
+        try {
+            Task updated = this.tasksService.updateStatus(task, status);
+
+            Assertions.assertNotNull(updated);
+            Assertions.assertEquals(task, updated);
+            Assertions.assertEquals(status, updated.getTaskStatus());
+
+            LOGGER.debug(String.format("Task with updates status: [%s];", updated));
+
+        } catch (NotFoundException e) {
+            Assertions.fail();
+        }
+
+    }
+
+    @Test
+    void updateStatus_taskNotExist_shouldThrowNFE() {
+        Assertions.assertThrows(NotFoundException.class, ()-> this.tasksService.updateStatus(TaskWrapper.Creator.createTask(), TaskStatus.COMPLETED));
     }
 
 }

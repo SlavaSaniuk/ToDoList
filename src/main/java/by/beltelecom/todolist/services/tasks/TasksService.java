@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.services.tasks;
 
+import by.beltelecom.todolist.data.converter.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.NotFoundException;
@@ -89,4 +90,13 @@ public interface TasksService {
      * @throws NotFoundException - if task is not exist.
      */
     void isTaskExist(Task aTask) throws NotFoundException;
+
+    /**
+     * Update task status property.
+     * @param aTask - task to be updated.
+     * @param aTaskStatus - status to set.
+     * @return - Task with updated status.
+     * @throws NotFoundException - Throws in cases when task not exist in database.
+     */
+    Task updateStatus(Task aTask, TaskStatus aTaskStatus) throws NotFoundException;
 }
