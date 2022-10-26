@@ -1,12 +1,24 @@
 package by.beltelecom.todolist.data.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+/**
+ * Constants represent task statuses.
+ */
+@Getter
 public enum TaskStatus {
 
+    /**
+     * Task in work now.
+     */
     WORKING(1, "WORKING"),
+    /**
+     * Task already completed.
+     */
     COMPLETED(2, "COMPLETED");
 
     private final int statusCode;
@@ -17,14 +29,13 @@ public enum TaskStatus {
         this.statusName = aStatusName;
     }
 
-    public int getStatusCode() {
-        return this.statusCode;
-    }
 
-    public String getStatusName() {
-        return this.statusName;
-    }
-
+    /**
+     * Return task status of specified code.
+     * @param aStatusCode - status code.
+     * @return - TaskStatus object.
+     * @throws IllegalArgumentException - There are not statuses of specified code.
+     */
     public static TaskStatus of(int aStatusCode) throws IllegalArgumentException {
         Optional<TaskStatus> taskStatusOpt = Arrays.stream(TaskStatus.values()).filter((status -> status.getStatusCode() == aStatusCode)).findFirst();
         try {
