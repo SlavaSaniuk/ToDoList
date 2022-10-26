@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This model class represent a user of application.
+ * This entity object represent a user of application.
  */
 @Entity(name = "users")
 @Table(name = "users")
@@ -20,16 +20,16 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id; // user id;
 
     @Column(nullable = false)
-    private String name;
+    private String name; // username;
 
     @OneToOne(targetEntity = Account.class, cascade = CascadeType.ALL, mappedBy = "userOwner")
     @JoinColumn
-    private Account userAccount;
+    private Account userAccount; // reference on user account;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks = new ArrayList<>(); // references on user tasks;
 
     @Override
     public String toString() {
