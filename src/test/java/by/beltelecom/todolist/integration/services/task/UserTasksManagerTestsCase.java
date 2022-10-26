@@ -3,6 +3,7 @@ package by.beltelecom.todolist.integration.services.task;
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
+import by.beltelecom.todolist.data.converter.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
@@ -184,8 +185,50 @@ public class UserTasksManagerTestsCase {
         } catch (NotFoundException e) {
             Assertions.fail();
         }
+    }
 
+    @Test
+    void completeUserTask_userHasOwnTask_shouldCompleteTask() {
+        // Generate user and task:
+        User user = this.testsUserService.testingUser("CompleteUserTask1").getUser();
+        Task task = this.testsTaskService.testTask(user);
+        Assertions.assertEquals(TaskStatus.WORKING, task.getTaskStatus());
 
+        // Complete user task
+        try {
+            this.userTasksManager.completeUserTask(task, user);
+
+            // Get task by id:
+            Task completed = this.tasksService.findTaskById(task);
+
+            Assertions.assertNotNull(completed);
+            Assertions.assertEquals(task, completed);
+            Assertions.assertEquals(TaskStatus.COMPLETED, completed.getTaskStatus());
+
+        } catch (NotOwnerException | NotFoundException e) {
+            Assertions.fail();
+        }
+    }
+
+    @Test
+    void completeUserTask_userNotOwnTask_shouldThrowNOE() {
+        // Generate users and task:
+        User user = this.testsUserService.testingUser("CompleteUserTask2").getUser();
+        User user2 = this.testsUserService.testingUser("CompleteUserTask3").getUser();
+        Task task = this.testsTaskService.testTask(user);
+        Assertions.assertEquals(TaskStatus.WORKING, task.getTaskStatus());
+
+        Assertions.assertThrows(NotOwnerException.class, ()-> this.userTasksManager.completeUserTask(task, user2));
+    }
+
+    @Test
+    void completeUserTask_userHasNotTask_shouldThrowNFE() {
+        // Generate users and task:
+        User user = this.testsUserService.testingUser("CompleteUserTask4").getUser();
+        Task task = this.testsTaskService.createTask(5);
+        Assertions.assertEquals(TaskStatus.WORKING, task.getTaskStatus());
+
+        Assertions.assertThrows(NotFoundException.class, ()-> this.userTasksManager.completeUserTask(task, user));
     }
 
 }

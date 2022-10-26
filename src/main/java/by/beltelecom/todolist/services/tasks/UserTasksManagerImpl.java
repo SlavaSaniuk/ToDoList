@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.services.tasks;
 
+import by.beltelecom.todolist.data.converter.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
@@ -91,6 +92,7 @@ public class UserTasksManagerImpl implements UserTasksManager {
      * @return - Created task.
      */
     @Override
+    @Transactional
     public Task createUserTask(Task aTask, User aUser) {
         // Check arguments:
         ArgumentChecker.nonNull(aTask, "aTask");
@@ -99,5 +101,29 @@ public class UserTasksManagerImpl implements UserTasksManager {
 
         // Create task:
         return this.tasksService.createTask(aTask, aUser);
+    }
+
+    /**
+     * Method implements {@link UserTasksManager#completeUserTask(Task, User)}.
+     * Method set {@link by.beltelecom.todolist.data.converter.TaskStatus#COMPLETED} status
+     * to specified user task object.
+     * @param aTask - task to be completed.
+     * @param aUser - task owner.
+     * @throws NotOwnerException - Throws in cases when user try to complete not osn task.
+     * @throws NotFoundException - Throws in cases when task not exist in database.
+     */
+    @Override
+    @Transactional
+    public void completeUserTask(Task aTask, User aUser) throws NotOwnerException, NotFoundException {
+        // Check arguments:
+        ArgumentChecker.nonNull(aTask, "aTask");
+        ArgumentChecker.nonNull(aUser, "aUser");
+
+        // Check user owner:
+        this.tasksOwnerChecker.isUserOwn(aUser, aTask);
+
+        // Complete user task:
+        LOGGER.debug(String.format("User[%s] try to complete task[%s];", aUser, aTask));
+        this.tasksService.updateStatus(aTask, TaskStatus.COMPLETED);
     }
 }

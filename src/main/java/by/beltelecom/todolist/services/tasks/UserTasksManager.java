@@ -49,5 +49,16 @@ public interface UserTasksManager {
      * @param aUser - user owner.
      * @return - Created user.
      */
+    @Transactional
     Task createUserTask(Task aTask, User aUser);
+
+    /**
+     * Complete user task.
+     * @param aTask - task to be completed.
+     * @param aUser - task owner.
+     * @throws NotOwnerException - Throws in cases when user try to complete not own task.
+     * @throws NotFoundException - Throws in cases when task not exist in database.
+     */
+    @Transactional
+    void completeUserTask(Task aTask, User aUser) throws NotOwnerException, NotFoundException;
 }
