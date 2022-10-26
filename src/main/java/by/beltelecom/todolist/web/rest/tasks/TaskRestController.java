@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller bean handle HTTP requests on "rest/task/*" urls to da any octions on user task object.
+ * UserObj requester attribute initialized in {@link by.beltelecom.todolist.security.rest.filters.JsonWebTokenFilter}
+ * filter by JWT.
+ */
 @RestController
 @RequestMapping(value = "/rest/task/", produces = "application/json")
 public class TaskRestController {
@@ -128,6 +133,31 @@ public class TaskRestController {
         } catch (NotFoundException e) {
             LOGGER.warn(e.getMessage());
             return new TaskRestDto(new ExceptionRestDto(e.getMessage(), ExceptionStatusCodes.NOT_FOUND_EXCEPTION.getStatusCode()));
+        }
+    }
+
+    /**
+     * Complete user task. Method handle GET HTTP request on "/rest/task/complete-task?id={TASK_ID}" url to complete user task.
+     * @param aTaskId - task ID to be completed.
+     * @param userObj - user (initialized in JWT filter).
+     * @return - Exception DTO with no exception flag, or with initialized flag if exception occurs.
+     */
+    @GetMapping(value = "/complete-task", consumes = "application/json")
+    public ExceptionRestDto completeUserTask(@RequestParam("id") long aTaskId, @RequestAttribute("userObj") User userObj) {
+        // Check arguments:
+        ArgumentChecker.nonNull(userObj, "userObj");
+        LOGGER.debug(String.format("User[%s] try to complete task with task id[taskId: %d]", userObj, aTaskId));
+
+        // Complete user task:
+        try {
+            this.userTasksManager.completeUserTask(new TaskWrapper.Builder().ofId(aTaskId).build(), userObj);
+            return ExceptionRestDto.noExceptionDto();
+        } catch (NotOwnerException e) {
+            LOGGER.warn(e.getMessage());
+            return new ExceptionRestDto(e.getMessage(),  ExceptionStatusCodes.NOT_OWNER_EXCEPTION.getStatusCode());
+        } catch (NotFoundException e) {
+            LOGGER.warn(e.getMessage());
+            return new ExceptionRestDto(e.getMessage(), ExceptionStatusCodes.NOT_FOUND_EXCEPTION.getStatusCode());
         }
     }
 

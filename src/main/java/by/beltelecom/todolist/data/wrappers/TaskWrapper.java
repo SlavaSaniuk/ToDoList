@@ -4,6 +4,7 @@ import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.converter.TaskStatus;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class TaskWrapper implements Identification {
 
@@ -69,6 +70,58 @@ public class TaskWrapper implements Identification {
             return task;
         }
 
+    }
+
+    /**
+     * Builder for {@link Task} task entities.
+     */
+    public static class Builder {
+
+        // Class variables:
+        private long taskId;
+        private String taskName;
+        private String taskDescription;
+        private LocalDate dateOfCreation;
+        private TaskStatus taskStatus = TaskStatus.WORKING;
+
+        public Builder ofId(long aId) {
+            this.taskId = aId;
+            return this;
+        }
+
+        public Builder withName(String aName) {
+            this.taskName = aName;
+            return this;
+        }
+
+        public Builder withDescription(String aDesc) {
+            this.taskDescription = aDesc;
+            return this;
+        }
+
+        public Builder withStatus(TaskStatus aStatus) {
+            this.taskStatus = aStatus;
+            return this;
+        }
+
+        public Builder withDateOfCreation(LocalDate aDate) {
+            this.dateOfCreation = aDate;
+            return this;
+        }
+
+        public Task build() {
+            Task task = new Task();
+            // Set properties:
+            task.setId(this.taskId);
+            task.setName(this.taskName);
+            task.setDescription(this.taskDescription);
+            task.setTaskStatus(this.taskStatus);
+
+            // Set conditional properties:
+            task.setDateCreation(Objects.requireNonNullElseGet(this.dateOfCreation, LocalDate::now));
+
+            return task;
+        }
     }
 
 }

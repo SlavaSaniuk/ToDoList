@@ -314,4 +314,26 @@ public class TaskRestControllerTestsCase {
 
         LOGGER.debug(String.format("Exception message: %s;", taskRestDto.getExceptionMessage()));
     }
+
+    @Test
+    void completeUserTask_userTryToCompleteYourTask_shouldCompleteTask() throws Exception {
+        // Generate user and task:
+        TestingUser user = this.testsUserService.testingUser("completeUserTask1");
+        Task task = this.testsTaskService.testTask(user.getUser());
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.get("/rest/task/complete-task?id=" +task.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", user.authentication().getAuthorizationHeaderValue())
+        ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        // Handle response:
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug(String.format("Response JSON: %s;", responseJson));
+
+        ExceptionRestDto exceptionRestDto = this.objectMapper.readValue(responseJson, ExceptionRestDto.class);
+        Assertions.assertNotNull(exceptionRestDto);
+        Assertions.assertFalse(exceptionRestDto.isException());
+    }
 }
