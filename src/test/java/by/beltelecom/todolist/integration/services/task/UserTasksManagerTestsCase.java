@@ -143,7 +143,7 @@ public class UserTasksManagerTestsCase {
     void modifyUserTask_taskIsNotExist_shouldThrowNFE() {
         // Generate user and task:
         User user = this.testsUserService.testingUser("modifyUserTask2").getUser();
-        Task task = TaskWrapper.createTask();
+        Task task = TaskWrapper.Creator.createTask();
 
         Assertions.assertThrows(NotFoundException.class, () -> this.userTasksManager.updateUserTask(task, user));
     }

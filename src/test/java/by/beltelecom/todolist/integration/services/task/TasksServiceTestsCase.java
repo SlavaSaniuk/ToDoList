@@ -4,7 +4,6 @@ import by.beltelecom.todolist.configuration.AuthenticationTestsConfiguration;
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.bean.TestsUsersService;
 import by.beltelecom.todolist.configuration.services.TestsTaskService;
-import by.beltelecom.todolist.configuration.services.TestsTasksService;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
@@ -36,8 +35,6 @@ public class TasksServiceTestsCase {
     @Autowired
     private TestsUsersService testsUsersService;
     @Autowired
-    private TestsTasksService testsTasksService;
-    @Autowired
     private TestsTaskService testsTaskService;
 
     @BeforeEach
@@ -53,9 +50,9 @@ public class TasksServiceTestsCase {
     @Test
     void getUserTasksByUserId_userHasTasks_shouldReturnListOfTasks() {
         // Create users tasks:
-        Task task1 = Task.newTask();
+        Task task1 = TaskWrapper.Creator.createTask();
         task1.setName("Test task 1.");
-        Task task2 = Task.newTask();
+        Task task2 = TaskWrapper.Creator.createTask();
         task2.setName("Test task 2.");
         this.tasksService.createTask(task1, this.testsUsersService.getTestUser().getUser());
         this.tasksService.createTask(task2, this.testsUsersService.getTestUser().getUser());
@@ -76,7 +73,7 @@ public class TasksServiceTestsCase {
     @Test
     void deleteTaskById_taskExist_shouldDeleteTask() {
         // Generate task:
-        Task generated = this.testsTasksService.createTask(this.testsUsersService.getTestUser().getUser());
+        Task generated = this.testsTaskService.testTask(this.testsUsersService.getTestUser().getUser());
         Assertions.assertNotNull(generated);
         LOGGER.debug("Generated task: " +generated);
 
@@ -134,7 +131,7 @@ public class TasksServiceTestsCase {
 
     @Test
     void isTaskExist_taskIsNotExist_shouldReturnFalse() {
-        Task task = TaskWrapper.createTask();
+        Task task = TaskWrapper.Creator.createTask();
         Assertions.assertFalse(this.tasksService.isTaskExist(task.getId()));
     }
 
@@ -148,7 +145,7 @@ public class TasksServiceTestsCase {
 
     @Test
     void isTaskExist_taskIsNotExist_shouldThrowNFE() {
-        Task task = TaskWrapper.createTask();
+        Task task = TaskWrapper.Creator.createTask();
         Assertions.assertThrows(NotFoundException.class, ()->this.tasksService.isTaskExist(task));
     }
 

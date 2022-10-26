@@ -285,7 +285,7 @@ public class TaskRestControllerTestsCase {
     void updateUserTask_userTryToUpdateNotExistedTask_shouldReturnTaskRestDtoWithExceptionStatusCode669() throws Exception {
         // Generate user and task:
         TestingUser user = this.testsUserService.testingUser("updateUserTask4");
-        Task task = TaskWrapper.createTask();
+        Task task = TaskWrapper.Creator.createTask();
 
         // Create modified task:
         String modifiedName = "modified name";

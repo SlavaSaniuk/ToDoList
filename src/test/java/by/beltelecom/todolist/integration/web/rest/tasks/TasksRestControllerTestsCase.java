@@ -3,6 +3,7 @@ package by.beltelecom.todolist.integration.web.rest.tasks;
 import by.beltelecom.todolist.configuration.AuthenticationTestsConfiguration;
 import by.beltelecom.todolist.configuration.bean.TestsUsersService;
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.web.dto.rest.task.TasksListRestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,9 +55,9 @@ public class TasksRestControllerTestsCase {
     @Rollback
     void listUserTasks_userHasTasks_shouldReturnListOfUserTasks() throws Exception {
         // Create users tasks:
-        Task task1 = Task.newTask();
+        Task task1 = TaskWrapper.Creator.createTask();
         task1.setName("Test task 1.");
-        Task task2 = Task.newTask();
+        Task task2 = TaskWrapper.Creator.createTask();
         task2.setName("Test task 2.");
         this.tasksService.createTask(task1, this.testsUsersService.getTestUser().getUser());
         this.tasksService.createTask(task2, this.testsUsersService.getTestUser().getUser());

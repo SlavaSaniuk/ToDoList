@@ -2,6 +2,7 @@ package by.beltelecom.todolist.unit.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
@@ -39,14 +40,14 @@ public class TasksServiceImplUnitTests {
 
     @Test
     void updateEntity_entityWithoutId_shouldThrowIAE() {
-        Assertions.assertThrows(IllegalArgumentException.class, ()-> this.taskService.updateTask(Task.newTask()));
+        Assertions.assertThrows(IllegalArgumentException.class, ()-> this.taskService.updateTask(TaskWrapper.Creator.createTask()));
     }
 
     @Test
     void updateEntity_entityNofFoundInDb_shouldThrowNFE() {
         Mockito.when(this.tasksRepository.existsById(ArgumentMatchers.anyLong())).thenReturn(false);
 
-        Task task = Task.newTask();
+        Task task = TaskWrapper.Creator.createTask();
         task.setId(55L);
 
         Assertions.assertThrows(RuntimeNotFoundException.class, () -> this.taskService.updateTask(task));

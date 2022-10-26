@@ -4,6 +4,8 @@ import by.beltelecom.todolist.data.models.TaskStatus;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Converter
 public class TaskStatusConverter implements AttributeConverter<TaskStatus, Integer> {
@@ -17,7 +19,8 @@ public class TaskStatusConverter implements AttributeConverter<TaskStatus, Integ
 
     @Override
     public TaskStatus convertToEntityAttribute(Integer dbData) {
-        return null;
+        Optional<TaskStatus> taskStatusOpt = Arrays.stream(TaskStatus.values()).filter((status -> status.getStatusCode() == dbData)).findFirst();
+        return taskStatusOpt.orElse(TaskStatus.WORKING);
     }
 
 }

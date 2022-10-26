@@ -99,7 +99,7 @@ public class TasksOwnerCheckerTestsCase {
 
 
     private Task getTestTask() {
-        Task task = TaskWrapper.createTask();
+        Task task = TaskWrapper.Creator.createTask();
         task.setName(Randomizer.randomSentence(3));
 
         LOGGER.debug("Test task: " +task);

@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.data.models;
 
+import by.beltelecom.todolist.data.converter.TaskStatusConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,18 +30,12 @@ public class Task implements Identification {
     @JoinColumn(name = "fk_owner", nullable = false)
     private User owner;
 
-    @Column(name = "status")
-    @Convert
+    @Column(name = "status", nullable = false)
+    @Convert(converter = TaskStatusConverter.class)
     private TaskStatus taskStatus;
 
     public Task(long a_id) {
         this.id = a_id;
-    }
-
-    public static Task newTask() {
-        Task task = new Task();
-        task.setDateCreation(LocalDate.now());
-        return task;
     }
 
     @Override

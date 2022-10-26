@@ -2,6 +2,7 @@ package by.beltelecom.todolist.web.controllers.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.services.tasks.TasksService;
@@ -48,7 +49,7 @@ public class TaskController {
     @GetMapping("/create-task")
     public ModelAndView getCreateTaskPage() {
         ModelAndView mav = new ModelAndView("create-task");
-        mav.addObject("task", Task.newTask());
+        mav.addObject("task", TaskWrapper.Creator.createTask());
 
         return mav;
     }

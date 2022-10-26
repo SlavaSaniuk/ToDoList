@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.data.wrappers;
 
 import by.beltelecom.todolist.data.models.Task;
+import by.beltelecom.todolist.data.models.TaskStatus;
 
 import java.time.LocalDate;
 
@@ -20,12 +21,6 @@ public class TaskWrapper {
 
     public static TaskWrapper wrap(Task aTask) {
         return new TaskWrapper(aTask);
-    }
-
-    public static Task createTask() {
-        Task task = new Task();
-        task.setDateCreation(LocalDate.now());
-        return task;
     }
 
     public class TaskPrinter {
@@ -50,18 +45,21 @@ public class TaskWrapper {
         public static Task createTask() {
             Task task = new Task();
             task.setDateCreation(LocalDate.now());
+
+            // Set default task status WORKING:
+            task.setTaskStatus(TaskStatus.WORKING);
+
             return task;
         }
 
         public static Task createTask(String aName) {
-            Task task = new Task();
-            task.setDateCreation(LocalDate.now());
+            Task task = TaskWrapper.Creator.createTask();
             task.setName(aName);
             return task;
         }
 
         public static Task createTask(long aId) {
-            Task task = new Task();
+            Task task = TaskWrapper.Creator.createTask();
             task.setId(aId);
             return task;
         }

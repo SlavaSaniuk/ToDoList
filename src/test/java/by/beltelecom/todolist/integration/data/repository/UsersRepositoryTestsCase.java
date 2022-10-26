@@ -4,6 +4,7 @@ import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
+import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,11 +47,11 @@ public class UsersRepositoryTestsCase {
         Assertions.assertNotEquals(0L, toSave.getId());
         long userId = toSave.getId();
 
-        Task task1 = Task.newTask();
+        Task task1 = TaskWrapper.Creator.createTask();
         task1.setName("testName");
         task1.setOwner(toSave);
 
-        Task task2 = Task.newTask();
+        Task task2 = TaskWrapper.Creator.createTask();
         task2.setName("testName");
         task2.setOwner(toSave);
 
