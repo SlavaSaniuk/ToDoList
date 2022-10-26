@@ -69,3 +69,8 @@ a:active { text-decoration: none; }
         transform: rotate(360deg);
     }
 }
+
+.strikethrough-text {
+    text-decoration: line-through;
+    text-decoration-thickness: 5%;
+}

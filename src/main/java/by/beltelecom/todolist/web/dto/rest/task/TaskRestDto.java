@@ -34,11 +34,20 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
 
     @Override
     public Task toEntity() {
+
+        // Set task status:
+        TaskStatus taskStatus;
+        try {
+            taskStatus = TaskStatus.of(this.taskStatus);
+        }catch (IllegalArgumentException e) {
+            taskStatus = TaskStatus.WORKING;
+        }
+
         return new TaskWrapper.Builder()
                 .ofId(this.taskId)
                 .withName(this.taskName)
-                .withName(this.taskDesc)
-                .withStatus(TaskStatus.of(this.taskStatus))
+                .withDescription(this.taskDesc)
+                .withStatus(taskStatus)
                 .build();
     }
 

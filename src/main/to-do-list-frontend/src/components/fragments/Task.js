@@ -2,7 +2,7 @@ import React from "react";
 import '../../styles/fragments/Task.css'
 import "../Buttons.js";
 import {CancelButton, DoneButton, EditButton, TextButton} from "../Buttons";
-import {TaskBuilder} from "../dto/TaskDto";
+import {TaskBuilder, TaskStatus} from "../dto/TaskDto";
 
 
 /**
@@ -96,6 +96,9 @@ class TaskView extends React.Component {
      */
     render() {
 
+        // If task status is completed strikethrough text:
+        const strikeThroughClass = this.props.taskObj.taskStatus === TaskStatus.COMPLETED ? "strikethrough-text" : "";
+
         // If isInEdit flag = true, render editing control buttons:
         let editControlButtons;
         if (this.props.isInEdit) editControlButtons = (<div>
@@ -107,13 +110,13 @@ class TaskView extends React.Component {
         let taskDescTextArea;
         if(this.isRenderTaskDescTextArea())
             taskDescTextArea = (
-                <textarea className={"task-view-desc-area"} defaultValue={this.state.taskObj.taskDesc}
+                <textarea className={"task-view-desc-area " +strikeThroughClass} defaultValue={this.state.taskObj.taskDesc}
                           disabled={this.isEnabled()} ref={this.descInputRef} placeholder={"Task description"} />
             );
 
         return (
             <div className={"task-view"}>
-                <input type={"text"} className={"task-view-name-input"} defaultValue={this.state.taskObj.taskName}
+                <input type={"text"} className={"task-view-name-input " +strikeThroughClass} defaultValue={this.state.taskObj.taskName}
                        disabled={this.isEnabled()} ref={this.nameInputRef} />
                 {taskDescTextArea}
                 {editControlButtons}
@@ -152,13 +155,16 @@ class TaskControlButton extends React.Component {
 
 
 /**
+ * @property isRenderEmpty - flag indicate render content of this element or not.
  * @property taskControlFuncs
  * @returns {JSX.Element}
  */
 const TaskMenu =(props) => {
-    return (
+    if (props.isRenderEmpty) {
+        return <div className={"task-menu"} />
+    }else return (
         <div className={"task-menu"}>
-            <TaskControlButton btnType={ControlButtonType.DONE}  />
+            <TaskControlButton btnType={ControlButtonType.DONE}  clickFunc={props.taskControlFuncs.completeFunc} />
             <TaskControlButton btnType={ControlButtonType.EDIT} clickFunc={props.taskControlFuncs.editFunc} />
             <TaskControlButton btnType={ControlButtonType.REMOVE} clickFunc={props.taskControlFuncs.removeFunc} />
         </div>
@@ -166,9 +172,11 @@ const TaskMenu =(props) => {
 }
 
 /**
+ * @property taskObj - Task DTO object.
  * @property taskControlFuncs
  * @property isInEdit - task edit flag.
  * @property taskEditClickFunc - task edition click function.
+ * @property isRenderMenu - flag indicate render task menu or not.
  */
 class TaskPanel extends React.Component {
 
@@ -178,23 +186,21 @@ class TaskPanel extends React.Component {
      */
     render() {
 
-        // Test taskObj property:
-        const taskObj = TaskBuilder.ofId(this.props.taskProps.taskId).withName(this.props.taskProps.taskName).withDescription(this.props.taskProps.taskDesc).build();
-
         // Check if need to render <TaskMenu> element:
-        const taskMenu = this.props.isInEdit ? null : <TaskMenu taskControlFuncs={this.props.taskControlFuncs} />;
+        const taskMenu = this.props.isInEdit ? null : <TaskMenu taskControlFuncs={this.props.taskControlFuncs} isRenderEmpty={this.props.isRenderMenu} />;
 
         // div wrapper class name:
         const wrapperDivClass = this.props.isInEdit ? "col-12" : "col-11";
 
         return (<div className={wrapperDivClass}>
             {taskMenu}
-            <TaskView taskObj={taskObj} isInEdit={this.props.isInEdit} taskEditClickFunc={this.props.taskEditClickFunc} />
+            <TaskView taskObj={this.props.taskObj} isInEdit={this.props.isInEdit} taskEditClickFunc={this.props.taskEditClickFunc} />
         </div>);
     }
 }
 
 /**
+ * @property isEmpty - boolean - flag indicate draw checkbox or no.
  * @property funcOnUnselectTask - parent function on unselect task action.
  * @function onSelectorChange.
  */
@@ -225,20 +231,27 @@ class TaskSelector extends React.Component {
     }
 
     render() {
-        return (
-            <div className={"col-1 task-selector-block"}>
-                <input className={"task-selector-checkbox"} type={"checkbox"} onChange={this.onSelectorChange}
-                ref={this.selector} />
-                <span className={"task-selector-checkbox-mark"} />
-            </div>
+        // Check if draw checkbox or no:
+        if (!this.props.isEmpty) {
+            return (
+                <div className={"col-1 task-selector-block"}>
+                    <input className={"task-selector-checkbox"} type={"checkbox"} onChange={this.onSelectorChange}
+                           ref={this.selector} />
+                    <span className={"task-selector-checkbox-mark"} />
+                </div>
 
-        );
+            );
+        }else {
+           return (<div className={"col-1 task-selector-block"} />)
+        }
+
     }
 }
 
 /**
  * Root element encapsulate all logic and inner elements of task element.
  * @property - taskProps - Task properties.
+ * @property - taskProps.taskObj - task DTO.
  * @property - funcOnSelectTask - parent function on select task action.
  * @property - funcOnUnselectTask - parent function on unselect task action.
  * @property - taskControlFuncs - object has parent task control functions.
@@ -277,6 +290,8 @@ class TaskBlock extends React.Component {
         this.onEditTask.bind(this);
         this.onCancelTaskEdit.bind(this);
         this.onApplyTaskEdit.bind(this);
+        this.onCompleteTask.bind(this);
+        this.isTaskCompleted.bind(this);
 
         // Initialize fields:
         this.taskEditClickFuncs = {
@@ -285,7 +300,8 @@ class TaskBlock extends React.Component {
         }
         this.taskControlFuncs = {
             removeFunc: this.onRemoveTask,
-            editFunc: this.onEditTask
+            editFunc: this.onEditTask,
+            completeFunc: this.onCompleteTask
         };
     }
 
@@ -368,6 +384,28 @@ class TaskBlock extends React.Component {
         this.props.taskProps.taskControlFuncs.updateFunc(task);
     }
 
+
+
+
+
+
+    onCompleteTask =() => {
+
+        // Cal parent functions:
+        this.props.taskProps.taskControlFuncs.completeFunc(this.getTask());
+    }
+
+
+    /**
+     * Check whether if task already completed.
+     * @returns {boolean} - true - if task already completed.
+     */
+    isTaskCompleted =() => {
+        return this.props.taskProps.taskObj.taskStatus === TaskStatus.COMPLETED;
+    }
+
+
+
     /**
      * Render TaskBlock react element.
      * @returns {JSX.Element} - (<div>
@@ -376,19 +414,21 @@ class TaskBlock extends React.Component {
      * </div>).
      */
     render() {
+
         // Get task ID:
         let taskId = "task_"+this.props.taskProps.taskId;
 
         // Check if task is edit now:
         // If isInEdit flag - true, do not render TaskSelector block.
         let taskSelector;
-        if (!this.state.isInEdit) taskSelector = <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} />;
+        if (!this.state.isInEdit)
+            taskSelector = <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} isEmpty={this.isTaskCompleted()} />;
 
         return(
             <div id={taskId} className={"taskBlock row"} >
                 {taskSelector}
-                <TaskPanel taskProps={this.props.taskProps} taskControlFuncs={this.taskControlFuncs} isInEdit={this.state.isInEdit}
-                           taskEditClickFunc={this.taskEditClickFuncs} />
+                <TaskPanel taskObj={this.props.taskProps.taskObj} taskControlFuncs={this.taskControlFuncs} isInEdit={this.state.isInEdit}
+                           taskEditClickFunc={this.taskEditClickFuncs} isRenderMenu={this.isTaskCompleted()} />
             </div>
         )
     }

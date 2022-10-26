@@ -4,6 +4,7 @@ import '../../styles/fragments/TasksBlock.css'
 import Task from "./Task";
 import {AddTaskBlock} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
+import {TaskStatus} from "../dto/TaskDto";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -25,7 +26,7 @@ class TasksList extends React.Component {
     render() {
 
         const tasks = this.props.tasksList.map((task) =>
-            <Task taskName={task.taskName} taskId={task.taskId} taskDesc={task.taskDesc} key={task.taskId}
+            <Task taskObj={task} taskName={task.taskName} taskId={task.taskId} taskDesc={task.taskDesc} key={task.taskId}
                   funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
                   taskControlFuncs={this.props.taskControlFuncs}
             />
@@ -48,6 +49,7 @@ class TasksList extends React.Component {
  * @property taskControlFuncs - task control function in object.
  */
 class TasksContentBlock extends React.Component {
+
     /**
      * Render TaskContentBlock element.
      * @returns {JSX.Element} - html.
@@ -243,6 +245,7 @@ class TasksBlock extends React.Component {
         this.onUnselectTask.bind(this);
         this.removeUserTask.bind(this);
         this.updateUserTask.bind(this);
+        this.completeUserTask.bind(this);
 
         // Element state:
         this.state = {
@@ -302,7 +305,6 @@ class TasksBlock extends React.Component {
      * @param aTask - task to add.
      */
     onAddNewTask =(aTask) => {
-
         // Post task to server:
         this.postNewTask(aTask).then((createdTask) => {
             // Add task to list in state and hide AddTaskBlock:
@@ -428,6 +430,25 @@ class TasksBlock extends React.Component {
     }
 
     /**
+     * Complete user task.
+     * @param aTask - task to be completed.
+     * @returns {Promise<void>}
+     */
+    completeUserTask = (aTask) => {
+        ReqUtilities.getRequest("/rest/task/complete-task?id=" + aTask.taskId).then((response) =>
+            response.json().then((exceptionDto => {
+                if (exceptionDto.exception === false) {
+                    this.state.tasksList.forEach((task) => {
+                        if (task.taskId === aTask.taskId) {
+                            task.taskStatus = TaskStatus.COMPLETED;
+                            this.forceUpdate();
+                        }
+                    })
+                }
+            })));
+    }
+
+    /**
      * Render TasksBlock element.
      * @returns {JSX.Element} - TasksBlock.
      */
@@ -441,6 +462,7 @@ class TasksBlock extends React.Component {
 
         // Object has references on task control functions:
         const taskControlFuncs = {
+            completeFunc: this.completeUserTask,
             updateFunc: this.updateUserTask,
             removeFunc: this.removeUserTask
         }

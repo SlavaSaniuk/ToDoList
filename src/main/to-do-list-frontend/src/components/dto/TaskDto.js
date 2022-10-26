@@ -7,6 +7,7 @@ export class TaskDto {
     taskId; // Task ID;
     taskName; // Task name;
     taskDesc; // Task description;
+    taskStatus; // Task status;
 }
 
 /**
@@ -67,3 +68,5 @@ export class TaskBuilder {
         return taskDto;
     }
 }
+
+export const TaskStatus = {WORKING: 1, COMPLETED: 2};
