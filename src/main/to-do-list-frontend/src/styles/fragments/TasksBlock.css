@@ -63,6 +63,27 @@
 
 }
 
+.tasks-edit-svg-btn {
+    fill: #82ff9f;
+    transition: all .2s linear;
+    cursor: pointer;
+}
+
+.tasks-edit-svg-btn g{
+    fill: #82ff9f;
+    transition: all .2s linear;
+    cursor: pointer;
+}
+
+.tasks-edit-svg-btn:hover {
+    fill: #FFFFFF;
+    background-color: #82ff9f;
+}
+
+.tasks-edit-svg-btn-disabled {
+    fill: #cdcdcd;
+}
+
 .tasks-edit-btn:first-child {
     border-left: none;
 }

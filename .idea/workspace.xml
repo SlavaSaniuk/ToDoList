@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added SVG task control buttons icons.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked Task.js EDIT control button (Only front).">
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/images/icons/svg/plus.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/Task.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/Buttons.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/Buttons.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/Task.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/Task.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/TasksBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/TasksBlock.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +232,8 @@
       <workItem from="1666305427507" duration="5598000" />
       <workItem from="1666368633749" duration="4816000" />
       <workItem from="1666549667144" duration="126000" />
-      <workItem from="1666642122423" duration="4574000" />
+      <workItem from="1666642122423" duration="4934000" />
+      <workItem from="1666817541377" duration="4035000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -485,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666549753120</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Worked Task.js EDIT control button (Only front).">
+      <created>1666647035881</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1666647035881</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -507,7 +516,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Customized login pape" />
     <MESSAGE value="Npm worked at notebook" />
     <MESSAGE value="Added 2 profiles: production, development. Tested SignRestController#logInAccount method with Postman." />
     <MESSAGE value="Modified SignRestController#logInAccount method. Added ExceptionStatusCodes class" />
@@ -532,7 +540,8 @@
     <MESSAGE value="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto" />
     <MESSAGE value="Addde TestingUser.Authentication inner class." />
     <MESSAGE value="Added SVG task control buttons icons." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added SVG task control buttons icons." />
+    <MESSAGE value="Worked Task.js EDIT control button (Only front)." />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked Task.js EDIT control button (Only front)." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

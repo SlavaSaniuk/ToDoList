@@ -5,6 +5,7 @@ import Task from "./Task";
 import {AddTaskBlock} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
 import {TaskStatus} from "../dto/TaskDto";
+import {CheckmarkButton, CrossButton, PlusButton} from "../Buttons";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -127,8 +128,14 @@ class TasksEditBtn extends React.Component {
      */
     constructor(props) {
         super(props);
+
+        // Bind functions:
+        this.isEnabled.bind(this);
     }
 
+    isEnabled =() => {
+        return this.props.btnStatus === TasksEditBtnStatus.ACTIVE;
+    }
     /**
      * Render EditTaskBtn element.
      * @returns {JSX.Element} - html.
@@ -156,8 +163,28 @@ class TasksEditBtn extends React.Component {
         }
 
         // Check status:
-        if (this.props.btnStatus === TasksEditBtnStatus.DISABLED) btnClass += "-disabled";
 
+        if (this.props.btnStatus === TasksEditBtnStatus.DISABLED) btnClass += "-disabled";
+        // Set className based on button status:
+        let buttonClass = "tasks-edit-svg-btn";
+        if (this.props.btnStatus === TasksEditBtnStatus.DISABLED) buttonClass+="-disabled";
+
+
+        if (this.props.btnType === TasksEditBtnTypes.REMOVE) {
+            const clickFunc = this.isEnabled() ? this.props.clickFunc : null;
+            return <CrossButton classes={buttonClass} clickFunc={clickFunc} />
+        }
+
+        if (this.props.btnType === TasksEditBtnTypes.DONE) {
+            const clickFunc = this.isEnabled() ? this.props.clickFunc : null;
+            return <CheckmarkButton classes={buttonClass} clickFunc={clickFunc} />
+        }
+
+
+        if (this.props.btnType === TasksEditBtnTypes.ADD) {
+            const clickFunc = this.isEnabled() ? this.props.clickFunc : null;
+            return <PlusButton classes={buttonClass} clickFunc={clickFunc} />
+        }
 
         return(
             <input type={"button"} disabled={this.props.btnStatus}
@@ -178,7 +205,7 @@ const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
         <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={props.editBtnAddStatus}
                       clickFunc={props.showAddTaskBlockFunc} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={TasksEditBtnStatus.DISABLED} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={TasksEditBtnStatus.ACTIVE} />
         <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={props.editBtnRemoveStatus}
             clickFunc={props.funcOnRemoveTasks} />
     </div>)
