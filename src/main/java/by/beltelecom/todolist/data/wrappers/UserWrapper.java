@@ -4,7 +4,7 @@ import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.utilities.ArgumentChecker;
 import lombok.Getter;
 
-public class UserWrapper {
+public class UserWrapper implements Identification {
 
     // Class variables:
     @Getter
@@ -35,6 +35,11 @@ public class UserWrapper {
 
     public static UserWrapper wrap(User aUser) {
         return new UserWrapper(aUser);
+    }
+
+    @Override
+    public Number getIdentifier() {
+        return this.wrappedUser.getId();
     }
 
     public static class Creator {

@@ -1,11 +1,11 @@
 package by.beltelecom.todolist.data.wrappers;
 
 import by.beltelecom.todolist.data.models.Task;
-import by.beltelecom.todolist.data.models.TaskStatus;
+import by.beltelecom.todolist.data.converter.TaskStatus;
 
 import java.time.LocalDate;
 
-public class TaskWrapper {
+public class TaskWrapper implements Identification {
 
     // Class variables:
     private final Task task;
@@ -21,6 +21,11 @@ public class TaskWrapper {
 
     public static TaskWrapper wrap(Task aTask) {
         return new TaskWrapper(aTask);
+    }
+
+    @Override
+    public Number getIdentifier() {
+        return this.task.getId();
     }
 
     public class TaskPrinter {

@@ -1,4 +1,4 @@
-package by.beltelecom.todolist.data.models;
+package by.beltelecom.todolist.data.converter;
 
 public enum TaskStatus {
 

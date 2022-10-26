@@ -1,12 +1,13 @@
 package by.beltelecom.todolist.data.converter;
 
-import by.beltelecom.todolist.data.models.TaskStatus;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Convert {@link TaskStatus} enum value to int and otherwise.
+ */
 @Converter
 public class TaskStatusConverter implements AttributeConverter<TaskStatus, Integer> {
 

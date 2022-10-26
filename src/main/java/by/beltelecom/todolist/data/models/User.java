@@ -16,7 +16,7 @@ import java.util.List;
 @Getter @Setter
 @NoArgsConstructor
 @NamedEntityGraph(name = "User.tasks", attributeNodes = @NamedAttributeNode("tasks"))
-public class User implements Identification {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,8 +49,4 @@ public class User implements Identification {
         return otherUser.getId() == this.id;
     }
 
-    @Override
-    public Number getIdentifier() {
-        return this.id;
-    }
 }

@@ -3,6 +3,7 @@ package by.beltelecom.todolist.services.tasks;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.data.wrappers.UserWrapper;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.security.owning.OwnerChecker;
@@ -49,8 +50,8 @@ public class UserTasksManagerImpl implements UserTasksManager {
         // Check arguments:
         ArgumentChecker.nonNull(aTask, "aTask");
         ArgumentChecker.nonNull(aUser, "aUser");
-        ArgumentChecker.idNotZero(aTask);
-        ArgumentChecker.idNotZero(aUser);
+        ArgumentChecker.idNotZero(TaskWrapper.wrap(aTask));
+        ArgumentChecker.idNotZero(UserWrapper.wrap(aUser));
         LOGGER.debug(String.format("User[userId: %d] try to delete task [%s];", aUser.getId(), TaskWrapper.wrap(aTask).printer().toStringWithUser()));
 
         // Get task by id:
