@@ -1,7 +1,7 @@
 package by.beltelecom.todolist.data.wrappers;
 
 import by.beltelecom.todolist.data.models.Task;
-import by.beltelecom.todolist.data.converter.TaskStatus;
+import by.beltelecom.todolist.data.enums.TaskStatus;
 
 import java.time.LocalDate;
 import java.util.Objects;

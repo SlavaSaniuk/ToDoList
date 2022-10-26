@@ -1,6 +1,6 @@
 package by.beltelecom.todolist.services.tasks;
 
-import by.beltelecom.todolist.data.converter.TaskStatus;
+import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
@@ -105,7 +105,7 @@ public class UserTasksManagerImpl implements UserTasksManager {
 
     /**
      * Method implements {@link UserTasksManager#completeUserTask(Task, User)}.
-     * Method set {@link by.beltelecom.todolist.data.converter.TaskStatus#COMPLETED} status
+     * Method set {@link TaskStatus#COMPLETED} status
      * to specified user task object.
      * @param aTask - task to be completed.
      * @param aUser - task owner.

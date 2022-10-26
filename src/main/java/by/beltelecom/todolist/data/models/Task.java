@@ -1,6 +1,6 @@
 package by.beltelecom.todolist.data.models;
 
-import by.beltelecom.todolist.data.converter.TaskStatus;
+import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.converter.TaskStatusConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

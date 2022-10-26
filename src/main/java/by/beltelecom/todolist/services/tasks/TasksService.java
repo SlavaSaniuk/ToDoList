@@ -1,6 +1,6 @@
 package by.beltelecom.todolist.services.tasks;
 
-import by.beltelecom.todolist.data.converter.TaskStatus;
+import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.NotFoundException;

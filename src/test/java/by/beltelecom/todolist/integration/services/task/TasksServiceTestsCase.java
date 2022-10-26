@@ -3,7 +3,7 @@ package by.beltelecom.todolist.integration.services.task;
 import by.beltelecom.todolist.configuration.ServicesTestsConfiguration;
 import by.beltelecom.todolist.configuration.services.TestsTaskService;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
-import by.beltelecom.todolist.data.converter.TaskStatus;
+import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;

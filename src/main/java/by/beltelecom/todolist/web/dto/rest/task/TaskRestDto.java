@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.web.dto.rest.task;
 
+import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.web.dto.DataTransferObject;
@@ -17,12 +18,14 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
     private long taskId;
     private String taskName;
     private String taskDesc;
+    private int taskStatus; // Task status:
 
     public TaskRestDto(Task aTask) {
         // Map:
         this.taskId = aTask.getId();
         this.taskName = aTask.getName();
         this.taskDesc = aTask.getDescription();
+        this.taskStatus = aTask.getTaskStatus().getStatusCode();
     }
 
     public TaskRestDto(ExceptionRestDto exceptionRestDto) {
@@ -31,13 +34,12 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
 
     @Override
     public Task toEntity() {
-        Task task = TaskWrapper.Creator.createTask();
-
-        task.setId(this.taskId);
-        task.setName(this.taskName);
-        task.setDescription(this.taskDesc);
-
-        return task;
+        return new TaskWrapper.Builder()
+                .ofId(this.taskId)
+                .withName(this.taskName)
+                .withName(this.taskDesc)
+                .withStatus(TaskStatus.of(this.taskStatus))
+                .build();
     }
 
     public static TaskRestDto of(Task aTask) {
@@ -45,6 +47,7 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
         dto.setTaskId(aTask.getId());
         dto.setTaskName(aTask.getName());
         dto.setTaskDesc(aTask.getDescription());
+        dto.setTaskStatus(aTask.getTaskStatus().getStatusCode());
         return dto;
     }
 
