@@ -6,6 +6,7 @@ import {AddTaskBlock} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
 import {TaskStatus} from "../dto/TaskDto";
 import {CheckmarkButton, CrossButton, PlusButton} from "../Buttons";
+import {Logging} from "../../js/utils/Logging";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -199,14 +200,15 @@ class TasksEditBtn extends React.Component {
  * @property - editBtnAddStatus - status of "add" button.
  * @property - editBtnRemoveStatus- status of "remove" button.
  * @property funcOnRemoveTasks - parent function on remove tasks function.
+ * @property - tasksEditBtnStatuses - statuses of tasks edit buttons.
  * @returns {JSX.Element} - html.
  */
 const TasksEditPanel =(props) => {
     return(<div className={"tasks-edit-panel tasks-menu-panel col-4"}>
-        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={props.editBtnAddStatus}
+        <TasksEditBtn btnType={TasksEditBtnTypes.ADD} btnStatus={props.tasksEditBtnStatuses.addStatus}
                       clickFunc={props.showAddTaskBlockFunc} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={TasksEditBtnStatus.ACTIVE} />
-        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={props.editBtnRemoveStatus}
+        <TasksEditBtn btnType={TasksEditBtnTypes.DONE} btnStatus={props.tasksEditBtnStatuses.completeStatus} />
+        <TasksEditBtn btnType={TasksEditBtnTypes.REMOVE} btnStatus={props.tasksEditBtnStatuses.removeStatus}
             clickFunc={props.funcOnRemoveTasks} />
     </div>)
 }
@@ -217,6 +219,7 @@ const TasksEditPanel =(props) => {
  * @property - editBtnAddStatus - status of "add" button.
  * @property - editBtnRemoveStatus- status of "remove" button.
  * @property - funcOnRemoveTasks - parent function on remove tasks action.
+ * @property - tasksEditBtnStatuses - statuses of tasks edit buttons.
  * @returns {JSX.Element} - html;
  * @constructor
  */
@@ -225,7 +228,9 @@ const TasksTopMenu =(props) => {
         <div className={"tasks-top-menu row"} >
             <TasksEditPanel showAddTaskBlockFunc={props.showAddTaskBlockFunc}
                             funcOnRemoveTasks={props.funcOnRemoveTasks}
-                            editBtnAddStatus={props.editBtnAddStatus} editBtnRemoveStatus={props.editBtnRemoveStatus} />
+                            editBtnAddStatus={props.editBtnAddStatus} editBtnRemoveStatus={props.editBtnRemoveStatus}
+                            tasksEditBtnStatuses={props.tasksEditBtnStatuses}
+            />
             <TasksInfoPanel />
             <TasksFilterPanel />
         </div>
@@ -258,8 +263,23 @@ const TasksBlockLoadStatus = {LOADING: 1, LOADED: 2};
  * @function onUnselectTask - function calls when user unselect task.
  */
 class TasksBlock extends React.Component {
+    // Class variables:
+    tasksEditBtnStatuses; // Statuses of TasksEdit buttons;
+
     constructor(props) {
         super(props);
+
+        // Class variables:
+        const tasksEditBtnClickFuncs = {
+            doneFunc: this.onCompleteUserTasks
+        }
+
+        // Initial status of TasksEdit buttons:
+        this.tasksEditBtnStatuses = {
+            addStatus: TasksEditBtnStatus.ACTIVE,
+            completeStatus: TasksEditBtnStatus.DISABLED,
+            removeStatus: TasksEditBtnStatus.DISABLED
+        }
 
         // Bind functions:
         this.loadUserTasks.bind(this);
@@ -273,6 +293,7 @@ class TasksBlock extends React.Component {
         this.removeUserTask.bind(this);
         this.updateUserTask.bind(this);
         this.completeUserTask.bind(this);
+        this.onCompleteUserTasks.bind(this);
 
         // Element state:
         this.state = {
@@ -372,6 +393,14 @@ class TasksBlock extends React.Component {
      * @param aTask - selected task.
      */
     onSelectTasks =(aTask) => {
+        if (this.state.isTasksSelected !== true)
+            // Set TaskEdit btn statuses:
+            this.tasksEditBtnStatuses = {
+                addStatus: TasksEditBtnStatus.DISABLED,
+                completeStatus: TasksEditBtnStatus.ACTIVE,
+                removeStatus: TasksEditBtnStatus.ACTIVE
+            }
+
         this.setState(prevState => ({
             isTasksSelected: true,
             selectedTasksList: prevState.selectedTasksList.concat(aTask),
@@ -396,7 +425,14 @@ class TasksBlock extends React.Component {
             this.state.selectedTasksList.splice(elementToRemoveIndex, 1);
 
         // Change flag if needed:
-        if (this.state.selectedTasksList.length === 0) this.setState({isTasksSelected: false});
+        if (this.state.selectedTasksList.length === 0) {
+            this.tasksEditBtnStatuses = {
+                addStatus: TasksEditBtnStatus.ACTIVE,
+                completeStatus: TasksEditBtnStatus.DISABLED,
+                removeStatus: TasksEditBtnStatus.DISABLED
+            }
+            this.setState({isTasksSelected: false});
+        }
     }
 
     /**
@@ -475,6 +511,10 @@ class TasksBlock extends React.Component {
             })));
     }
 
+    onCompleteUserTasks =() => {
+        Logging.log("Complete user tasks: " +this.state.selectedTasksList);
+    }
+
     /**
      * Render TasksBlock element.
      * @returns {JSX.Element} - TasksBlock.
@@ -512,11 +552,14 @@ class TasksBlock extends React.Component {
             );
         }
 
+
         return (
             <div className={"tasks-block m-auto"} >
                 <TasksTopMenu showAddTaskBlockFunc={this.showAddTaskBlock}
                               funcOnRemoveTasks={this.onRemoveTasks}
-                              editBtnAddStatus={editBtnStatuses[0]} editBtnRemoveStatus={editBtnStatuses[2]} />
+                              editBtnAddStatus={editBtnStatuses[0]} editBtnRemoveStatus={editBtnStatuses[2]}
+                              tasksEditBtnStatuses={this.tasksEditBtnStatuses}
+                />
                 {contentBlock}
                 <TasksFooter />
             </div>
