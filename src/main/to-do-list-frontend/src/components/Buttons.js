@@ -32,10 +32,9 @@ export const CheckmarkButton =(props) => {
 
 export const PlusButton =(props) => {
     return (
-        <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-            <path d="M16 0H8v8H0v8h8v8h8v-8h8V8h-8V0z"/>
+        <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 54" width="24px" height="24px" className={props.classes} onClick={props.clickFunc}>
+            <path transform="translate(6, 5)" d="M39.5,22.5v-3c0-1.48-0.43-2-2-2h-13v-13c0-1.48-0.49-2-2-2h-3c-1.55,0-2,0.52-2,2v13h-14c-1.48,0-2,0.49-2,2v3 c0,1.55,0.52,2,2,2h14v14c0,1.51,0.48,2,2,2h3c1.48,0,2-0.43,2-2v-14h13C39.01,24.5,39.5,24.02,39.5,22.5z"/>
         </svg>
-
     )
 
 }
