@@ -11,6 +11,7 @@ public class UserWrapper implements Identification {
     private final User wrappedUser;
     private final Printer printer = new Printer(); // Printer instance;
     private static final Creator creator = new Creator(); // Creator instance;
+    private static final UserPrinter USER_PRINTER = new UserPrinter(); // UserPrinter instance;
 
     /**
      * Getter for {@link  Printer} printer field.
@@ -18,6 +19,10 @@ public class UserWrapper implements Identification {
      */
     public Printer printer() {
         return this.printer;
+    }
+
+    public static UserPrinter userPrinter() {
+        return UserWrapper.USER_PRINTER;
     }
 
     /**
@@ -61,4 +66,14 @@ public class UserWrapper implements Identification {
             return String.format("User[id: %d]", wrappedUser.getId());
         }
     }
+
+    public static class UserPrinter {
+
+        public String printOnlyId(User aUser) {
+            ArgumentChecker.nonNull(aUser, "aUser");
+            return String.format("User[id: %d];", aUser.getId());
+        }
+
+    }
+
 }

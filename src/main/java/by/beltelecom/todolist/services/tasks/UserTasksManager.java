@@ -67,7 +67,8 @@ public interface UserTasksManager {
      * Complete list of user tasks.
      * @param aTasksList - list fo tasks to be completed.
      * @param aUser - tasks owner.
-     * @throws MultipleHandingException - Throws in cases when
+     * @throws MultipleHandingException - Throws in cases when any task in list throw NOE, NFE exception
+     * in {@link UserTasksManager#completeUserTask(Task, User)} method.
      */
     @Transactional
     void completeUserTasks(List<Task> aTasksList, User aUser) throws MultipleHandingException;

@@ -112,7 +112,6 @@ public class UserTasksManagerTestsCase {
         Assertions.assertEquals(3, userTasks.size());
 
         LOGGER.debug("Loaded tasks:");
-        userTasks.forEach((task) -> LOGGER.debug(TaskWrapper.wrap(task).printer().toStringWithUser()));
     }
 
     @Test

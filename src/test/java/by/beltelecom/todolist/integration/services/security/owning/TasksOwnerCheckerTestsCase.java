@@ -49,11 +49,9 @@ public class TasksOwnerCheckerTestsCase {
 
         // Create tasks:
         Task task1 = this.tasksService.createTask(this.getTestTask(), userOwner);
-        LOGGER.debug(String.format("Created task[%s];", TaskWrapper.wrap(task1).printer().toStringWithUser()));
         Assertions.assertNotNull(task1);
 
         Task task2 = this.tasksService.createTask(this.getTestTask(), userOwner);
-        LOGGER.debug(String.format("Created task[%s];", TaskWrapper.wrap(task2).printer().toStringWithUser()));
         Assertions.assertNotNull(task2);
 
         // Check own:
@@ -76,11 +74,9 @@ public class TasksOwnerCheckerTestsCase {
 
         // Create tasks:
         Task task1 = this.tasksService.createTask(this.getTestTask(), userOwner);
-        LOGGER.debug(String.format("Created task[%s];", TaskWrapper.wrap(task1).printer().toStringWithUser()));
         Assertions.assertNotNull(task1);
 
         Task task2 = this.tasksService.createTask(this.getTestTask(), userOwner);
-        LOGGER.debug(String.format("Created task[%s];", TaskWrapper.wrap(task2).printer().toStringWithUser()));
         Assertions.assertNotNull(task2);
 
         // Check own:

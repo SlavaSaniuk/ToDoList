@@ -208,8 +208,6 @@ public class TaskRestControllerTestsCase {
         Assertions.assertFalse(restDto.getTasksList().isEmpty());
         Assertions.assertEquals(5, restDto.getTasksList().size());
 
-        LOGGER.debug("Loaded tasks: ");
-        restDto.getTasksList().forEach(task -> LOGGER.debug(TaskWrapper.wrap(task.toEntity()).printer().toStringWithUser()));
     }
 
     @Test

@@ -108,7 +108,6 @@ public class TasksServiceTestsCase {
             Assertions.assertEquals(modifiedName, modifiedTask.getName());
             Assertions.assertEquals(modifiedDesc, modifiedTask.getDescription());
 
-            LOGGER.debug(String.format("Modified task[%s];", TaskWrapper.wrap(modifiedTask).printer().toStringWithUser()));
         } catch (NotFoundException e) {
             Assertions.fail();
         }

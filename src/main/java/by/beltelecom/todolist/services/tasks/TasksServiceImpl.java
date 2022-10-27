@@ -134,8 +134,6 @@ public class TasksServiceImpl implements TasksService{
 
         // Get task by ID:
         Task oldTask = this.findTaskById(aTask);
-        LOGGER.debug(String.format("Modify task[%s] with new task values[%s];",
-                TaskWrapper.wrap(oldTask).printer().toStringWithUser(), TaskWrapper.wrap(aTask).printer().toStringWithUser()));
 
         // Change task fields:
         oldTask.setName(aTask.getName());
