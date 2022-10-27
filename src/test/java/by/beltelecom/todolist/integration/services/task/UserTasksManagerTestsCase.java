@@ -7,6 +7,7 @@ import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.exceptions.MultipleHandingException;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.tasks.TasksService;
@@ -228,6 +229,57 @@ public class UserTasksManagerTestsCase {
         Assertions.assertEquals(TaskStatus.WORKING, task.getTaskStatus());
 
         Assertions.assertThrows(NotFoundException.class, ()-> this.userTasksManager.completeUserTask(task, user));
+    }
+
+    @Test
+    void completeUserTasks_userTryToCompleteFourOwnTasks_shouldCompleteTask() {
+        // Generate user and tasks:
+        User user = this.testsUserService.testingUser("completeUserTasks1").getUser();
+        List<Task> tasks = this.testsTaskService.testTasks(user, 4);
+
+        // Try to complete user tasks:
+        try {
+            this.userTasksManager.completeUserTasks(tasks, user);
+        } catch (MultipleHandingException e) {
+            Assertions.fail();
+        }
+
+        // Check if tasks is completed:
+        tasks.forEach(task -> {
+            // Get task by id:
+            try {
+                Task founded = this.tasksService.findTaskById(task);
+                Assertions.assertNotNull(founded);
+                Assertions.assertSame(founded.getTaskStatus(), TaskStatus.COMPLETED);
+            } catch (NotFoundException e) {
+                Assertions.fail();
+            }
+        });
+    }
+
+    @Test
+    void completeUserTasks_userTryToCompleteOwnAndNotOwnTasks_shouldThrowMHE() {
+        // Generate users and tasks:
+        User user = this.testsUserService.testingUser("completeUserTasks2").getUser();
+        User user2 = this.testsUserService.testingUser("completeUserTasks3").getUser();
+        List<Task> tasks = this.testsTaskService.testTasks(user, 4);
+        Task notOwnTask = this.testsTaskService.testTask(user2);
+
+        tasks.add(notOwnTask);
+
+        // Try to complete user tasks:
+        try {
+            this.userTasksManager.completeUserTasks(tasks, user);
+            Assertions.fail();
+        } catch (MultipleHandingException e) {
+            Assertions.assertNotNull(e);
+            Assertions.assertFalse(e.getObjectExceptionMap().isEmpty());
+            Assertions.assertEquals(1, e.getObjectExceptionMap().size());
+
+            Exception exc = e.getObjectExceptionMap().get(notOwnTask);
+            LOGGER.debug(String.format("Exception: %s;", exc.getMessage()));
+        }
+
     }
 
 }

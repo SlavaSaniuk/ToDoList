@@ -140,8 +140,22 @@ public class UserTasksManagerImpl implements UserTasksManager {
         // Check arguments:
         ArgumentChecker.nonNull(aTasksList, "aTask list");
         ArgumentChecker.nonNull(aUser, "aUser");
-        LOGGER.debug(String.format("User[%s] try to complete list of task[%s];"));
+        LOGGER.debug(String.format("User[%s] try to complete list of task[%s];", aUser, TaskWrapper.printer().listOfTaskId(aTasksList)));
 
+        // Create instance of exception:
+        MultipleHandingException exception =
+                new MultipleHandingException(String.format("Exception occurs when complete tasks: %s;", TaskWrapper.printer().listOfTaskId(aTasksList)));
 
+        // Complete user tasks:
+        aTasksList.forEach((task -> {
+            try {
+                this.completeUserTask(task, aUser);
+            } catch (NotOwnerException | NotFoundException e) {
+                exception.getObjectExceptionMap().put(task, e);
+            }
+        }));
+
+        // if any exceptions occurs throw MHE:
+        if (!exception.getObjectExceptionMap().isEmpty()) throw exception;
     }
 }
