@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Delete TaskWrapper#TaskPrinter inner class">
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/exceptions/MultipleHandingException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/exceptions/MultipleHandingException.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested UserTasksManager#completeUserTasks method">
+      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/Wrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/TaskWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/TaskWrapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/task/UserTasksManagerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/task/UserTasksManagerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,8 +21,8 @@
         <option value="HTML File" />
         <option value="Enum" />
         <option value="JavaScript File" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -232,7 +233,7 @@
       <workItem from="1666549667144" duration="126000" />
       <workItem from="1666642122423" duration="4934000" />
       <workItem from="1666817541377" duration="4127000" />
-      <workItem from="1666895538707" duration="6650000" />
+      <workItem from="1666895538707" duration="7653000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -521,7 +522,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666900662975</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Worked and tested UserTasksManager#completeUserTasks method">
+      <created>1666902529816</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1666902529816</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -543,7 +551,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="LogIn method work well, when BCE occurs." />
     <MESSAGE value="Worked configuration properties" />
     <MESSAGE value="Worked and tested CredentialsValidator#validatePassword and CredentialsValidator#validationRules methods." />
     <MESSAGE value="Created other security configuration static class in SecurityConfiguration for REST HTTP API." />
@@ -568,7 +575,8 @@
     <MESSAGE value="Work on TaskEditButton transfer to SVG" />
     <MESSAGE value="Added ListUtils utilities class." />
     <MESSAGE value="Delete TaskWrapper#TaskPrinter inner class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Delete TaskWrapper#TaskPrinter inner class" />
+    <MESSAGE value="Worked and tested UserTasksManager#completeUserTasks method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked and tested UserTasksManager#completeUserTasks method" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

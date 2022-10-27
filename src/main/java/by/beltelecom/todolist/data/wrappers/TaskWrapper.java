@@ -14,7 +14,7 @@ import java.util.Objects;
  * Wrapper for {@link Task} task object.
  * Wrapper provide methods for work with wrapped object and other static method.
  */
-public class TaskWrapper implements Identification {
+public class TaskWrapper implements Wrapper<TaskWrapper, Task>, Identification {
 
     // Class variables:
     private final Task task; // Wrapper object;
@@ -32,8 +32,14 @@ public class TaskWrapper implements Identification {
         this.task = aTask;
     }
 
-    public static TaskWrapper wrap(Task aTask) {
-        return new TaskWrapper(aTask);
+
+    public static TaskWrapper wrap(Task aT) {
+        return new TaskWrapper(aT);
+    }
+
+    @Override
+    public Task unwrap(TaskWrapper aW) {
+        return aW.task;
     }
 
     @Override
