@@ -4,6 +4,7 @@ import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
 import by.beltelecom.todolist.data.wrappers.UserWrapper;
+import by.beltelecom.todolist.exceptions.MultipleHandingException;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import by.beltelecom.todolist.services.tasks.UserTasksManager;
@@ -16,9 +17,12 @@ import by.beltelecom.todolist.web.dto.rest.task.TasksListRestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -159,6 +163,41 @@ public class TaskRestController {
             LOGGER.warn(e.getMessage());
             return new ExceptionRestDto(e.getMessage(), ExceptionStatusCodes.NOT_FOUND_EXCEPTION.getStatusCode());
         }
+    }
+
+    /**
+     * Complete user tasks. Method handle POST HTTP request on "/rest/task/complete-tasks" url to complete user tasks.
+     * @param tasksListRestDto - DTO with list of task to be completed.
+     * @param userObj - user what initiate request (initialized in JWT filter).
+     * @return - Response entity with OK status and {@link TasksListRestDto#getTasksList()} list will contain
+     * all completed tasks if all tasks completed, or with BAD_REQUEST (400) status if any exception occurs
+     * and {@link TasksListRestDto#getTasksList()} list will contain all uncompleted tasks.
+     */
+    @PostMapping(value = "/complete-tasks", consumes = "application/json")
+    public ResponseEntity<TasksListRestDto> completeUserTasks(@RequestBody TasksListRestDto tasksListRestDto, @RequestAttribute("userObj") User userObj) {
+        ArgumentChecker.nonNull(tasksListRestDto, "taskListRestDto");
+        ArgumentChecker.nonNull(userObj, "userObj");
+
+        // Get list of tasks:
+        List<Task> tasksList = new ArrayList<>();
+        tasksListRestDto.getTasksList().forEach((dto) -> tasksList.add(dto.toEntity()));
+
+        // Complete tasks:
+        try {
+            this.userTasksManager.completeUserTasks(tasksList, userObj);
+            // If task completed:
+            return new ResponseEntity<>(new TasksListRestDto(tasksList), HttpStatus.OK);
+        } catch (MultipleHandingException e) {
+            // If not all tasks completed:
+            List<TaskRestDto> notCompletedTask = new ArrayList<>();
+            e.getObjectExceptionMap().forEach((task, exc) -> notCompletedTask.add(TaskRestDto.of((Task) task)));
+
+            TasksListRestDto exceptionDto = new TasksListRestDto(e.getMessage(), 400);
+            exceptionDto.setTasksList(notCompletedTask);
+
+            return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

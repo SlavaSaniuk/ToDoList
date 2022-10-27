@@ -30,6 +30,10 @@ public class TasksListRestDto extends ExceptionRestDto {
         aTasksList.forEach((task) -> this.tasksList.add(TaskRestDto.of(task)));
     }
 
+    public TasksListRestDto(String anExceptionMsg, int anExceptionCode) {
+        super(anExceptionMsg, anExceptionCode);
+    }
+
     @Override
     public String toString() {
         return String.format("TasksListRestDto[userId: %d, tasksList: %s];", this.userOwnerId, this.tasksList);
