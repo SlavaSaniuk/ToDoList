@@ -18,7 +18,6 @@ public class TaskWrapper implements Identification {
 
     // Class variables:
     private final Task task; // Wrapper object;
-    private final TaskPrinter taskPrinter = new TaskPrinter();
     private static final Printer PRINTER = new Printer(); // Printer inner static class instance;
 
     /**
@@ -27,10 +26,6 @@ public class TaskWrapper implements Identification {
      */
     public static Printer printer() {
         return TaskWrapper.PRINTER;
-    }
-
-    public TaskPrinter taskPrinter() {
-        return this.taskPrinter;
     }
 
     private TaskWrapper(Task aTask) {
@@ -44,23 +39,6 @@ public class TaskWrapper implements Identification {
     @Override
     public Number getIdentifier() {
         return this.task.getId();
-    }
-
-    public class TaskPrinter {
-
-        public String toString() {
-            return task.toString();
-        }
-
-        public String toStringWithUser() {
-            StringBuilder sb = new StringBuilder(task.toString().substring(0, task.toString().length()-1));
-
-            // Append user owner if existed:
-            if (task.getOwner() != null) sb.append(String.format(", owner: %s", task.getOwner()));
-
-            return sb.append("]").toString();
-        }
-
     }
 
     /**
