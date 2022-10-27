@@ -2,6 +2,7 @@ package by.beltelecom.todolist.services.tasks;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.exceptions.MultipleHandingException;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.security.NotOwnerException;
 import org.springframework.stereotype.Service;
@@ -61,4 +62,13 @@ public interface UserTasksManager {
      */
     @Transactional
     void completeUserTask(Task aTask, User aUser) throws NotOwnerException, NotFoundException;
+
+    /**
+     * Complete list of user tasks.
+     * @param aTasksList - list fo tasks to be completed.
+     * @param aUser - tasks owner.
+     * @throws MultipleHandingException - Throws in cases when
+     */
+    @Transactional
+    void completeUserTasks(List<Task> aTasksList, User aUser) throws MultipleHandingException;
 }
