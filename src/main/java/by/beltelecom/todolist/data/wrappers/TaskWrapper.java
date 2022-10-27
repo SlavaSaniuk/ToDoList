@@ -2,18 +2,35 @@ package by.beltelecom.todolist.data.wrappers;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.enums.TaskStatus;
+import by.beltelecom.todolist.utilities.ArgumentChecker;
+import by.beltelecom.todolist.utilities.printer.ListUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+/**
+ * Wrapper for {@link Task} task object.
+ * Wrapper provide methods for work with wrapped object and other static method.
+ */
 public class TaskWrapper implements Identification {
 
     // Class variables:
-    private final Task task;
-    private final TaskPrinter printer = new TaskPrinter();
+    private final Task task; // Wrapper object;
+    private final TaskPrinter taskPrinter = new TaskPrinter();
+    private static final Printer PRINTER = new Printer(); // Printer inner static class instance;
 
-    public TaskPrinter printer() {
-        return this.printer;
+    /**
+     * Getter for {@link Printer} instance.
+     * @return - Printer instance.
+     */
+    public static Printer printer() {
+        return TaskWrapper.PRINTER;
+    }
+
+    public TaskPrinter taskPrinter() {
+        return this.taskPrinter;
     }
 
     private TaskWrapper(Task aTask) {
@@ -42,6 +59,36 @@ public class TaskWrapper implements Identification {
             if (task.getOwner() != null) sb.append(String.format(", owner: %s", task.getOwner()));
 
             return sb.append("]").toString();
+        }
+
+    }
+
+    /**
+     * Static inner class Printer used to convert any {@link Task} task objects in string.
+     */
+    public static class Printer {
+
+        /**
+         * Convert source task to string (only task ID property).
+         * @param aTask - source task.
+         * @return - String in format: "Task[id: TASK_ID]";
+         */
+        public String taskId(Task aTask) {
+            ArgumentChecker.nonNull(aTask, "aTask");
+            return String.format("Task[id: %d]", aTask.getId());
+        }
+
+        /**
+         * Convert source list of tasks to string (only task ID property).
+         * @param aListOfTasks - source list of tasks.
+         * @return - String in format "List[Task[id: 1], Task[id: 2], Task[id: 3], Task[id: 4]]";
+         */
+        public String listOfTaskId(List<Task> aListOfTasks) {
+
+            ArgumentChecker.nonNull(aListOfTasks, "aListOfTasks");
+            List<Object> listOfTasks = new ArrayList<>(aListOfTasks);
+
+            return ListUtils.listToString(listOfTasks, aObj -> TaskWrapper.printer().taskId((Task) aObj));
         }
 
     }
