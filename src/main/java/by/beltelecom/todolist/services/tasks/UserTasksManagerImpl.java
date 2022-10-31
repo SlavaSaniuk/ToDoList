@@ -158,4 +158,38 @@ public class UserTasksManagerImpl implements UserTasksManager {
         // if any exceptions occurs throw MHE:
         if (!exception.getObjectExceptionMap().isEmpty()) throw exception;
     }
+
+    /**
+     * Implementation of {@link UserTasksManager#deleteUserTasks(List, User)} method.
+     * Delete each task in list via {@link UserTasksManager#deleteUserTask(Task, User)}.
+     * @param aTasksList - tasks to be deleted.
+     * @param aUser - tasks owner.
+     * @throws MultipleHandingException - Throws in cases when {@link UserTasksManager#deleteUserTask(Task, User)}
+     * method throws NOE, NFE for any task in list.
+     */
+    @Override
+    public void deleteUserTasks(List<Task> aTasksList, User aUser) throws MultipleHandingException {
+        // Check arguments:
+        ArgumentChecker.nonNull(aTasksList, "aTaskList");
+        ArgumentChecker.nonNull(aUser, "aUser");
+        LOGGER.debug(String.format("User[%s] try to delete list of task[%s];", aUser, TaskWrapper.printer().listOfTaskId(aTasksList)));
+
+        // Create instance of exception:
+        MultipleHandingException exception =
+                new MultipleHandingException(String.format("Exception occurs when delete tasks: %s;", TaskWrapper.printer().listOfTaskId(aTasksList)));
+
+        // Delete user tasks:
+        aTasksList.forEach((task -> {
+            try {
+                this.deleteUserTask(task, aUser);
+            } catch (NotOwnerException | NotFoundException e) {
+                exception.getObjectExceptionMap().put(task, e);
+            }
+        }));
+
+        // if any exceptions occurs throw MHE:
+        if (!exception.getObjectExceptionMap().isEmpty()) throw exception;
+    }
+
+
 }

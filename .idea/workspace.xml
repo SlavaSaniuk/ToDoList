@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Need to test TaskRestController#completeUserTasks method.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested TaskRestController#completeUserTasks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/task/TaskRestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/task/TaskRestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/tasks/TaskRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/tasks/TaskRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,7 +233,7 @@
       <workItem from="1666642122423" duration="4934000" />
       <workItem from="1666817541377" duration="4127000" />
       <workItem from="1666895538707" duration="9620000" />
-      <workItem from="1667239604870" duration="1406000" />
+      <workItem from="1667239604870" duration="2591000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -544,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666905157052</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Worked and tested TaskRestController#completeUserTasks">
+      <created>1667241040084</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1667241040084</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,7 +572,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Created other security configuration static class in SecurityConfiguration for REST HTTP API." />
     <MESSAGE value="Worked statuses in tasks edit btns" />
     <MESSAGE value="Testes getAccountByEmail method" />
     <MESSAGE value="JWT filter out user entity in request attribute" />
@@ -591,7 +596,8 @@
     <MESSAGE value="Worked and tested UserTasksManager#completeUserTasks method" />
     <MESSAGE value="Added Wrapper interface" />
     <MESSAGE value="Need to test TaskRestController#completeUserTasks method." />
-    <option name="LAST_COMMIT_MESSAGE" value="Need to test TaskRestController#completeUserTasks method." />
+    <MESSAGE value="Worked and tested TaskRestController#completeUserTasks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked and tested TaskRestController#completeUserTasks" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

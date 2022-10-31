@@ -72,4 +72,14 @@ public interface UserTasksManager {
      */
     @Transactional
     void completeUserTasks(List<Task> aTasksList, User aUser) throws MultipleHandingException;
+
+    /**
+     * Delete user tasks.
+     * @param aTasksList - tasks to be deleted.
+     * @param aUser - tasks owner.
+     * @throws MultipleHandingException - Throws in cases when any task in list throw NOE, NFE exception
+     *      * in {@link UserTasksManager#deleteUserTask(Task, User)} method.
+     */
+    @Transactional
+    void deleteUserTasks(List<Task> aTasksList, User aUser) throws MultipleHandingException;
 }
