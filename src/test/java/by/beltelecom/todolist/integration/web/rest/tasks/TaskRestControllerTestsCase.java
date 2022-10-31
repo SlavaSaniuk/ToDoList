@@ -24,6 +24,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class TaskRestControllerTestsCase {
@@ -333,5 +335,36 @@ public class TaskRestControllerTestsCase {
         ExceptionRestDto exceptionRestDto = this.objectMapper.readValue(responseJson, ExceptionRestDto.class);
         Assertions.assertNotNull(exceptionRestDto);
         Assertions.assertFalse(exceptionRestDto.isException());
+    }
+
+    @Test
+    void completeUserTasks_userTryToCompleteOwnTasks_shouldCompleteTasks() throws Exception {
+        // Generate user and tasks:
+        TestingUser user = this.testsUserService.testingUser("completeUserTasks1");
+        List<Task> userTasks = this.testsTaskService.testTasks(user.getUser(), 6);
+
+        // Create request DTO:
+        TasksListRestDto tasksListRestDto = new TasksListRestDto(userTasks);
+        String reqJson = this.objectMapper.writeValueAsString(tasksListRestDto);
+
+        MvcResult mvcResult = this.mockMvc.perform(MockMvcRequestBuilders.post("/rest/task/complete-tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", user.authentication().getAuthorizationHeaderValue())
+                .content(reqJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
+
+        // Get response:
+        String respJson = mvcResult.getResponse().getContentAsString();
+        Assertions.assertNotNull(respJson);
+        LOGGER.debug(String.format("Response JSOM: %s;", respJson));
+
+        TasksListRestDto respDto = this.objectMapper.readValue(respJson, TasksListRestDto.class);
+        Assertions.assertNotNull(respDto);
+        Assertions.assertFalse(respDto.isException());
+
+        // Print response:
+        LOGGER.debug("Completed tasks: ");
+        respDto.getTasksList().forEach((taskDto) -> LOGGER.debug(taskDto.toEntity().toString()));
     }
 }

@@ -25,7 +25,9 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
         this.taskId = aTask.getId();
         this.taskName = aTask.getName();
         this.taskDesc = aTask.getDescription();
-        this.taskStatus = aTask.getTaskStatus().getStatusCode();
+
+        if (aTask.getTaskStatus() == null) this.taskStatus = TaskStatus.WORKING.getStatusCode();
+        else this.taskStatus = aTask.getTaskStatus().getStatusCode();
     }
 
     public TaskRestDto(ExceptionRestDto exceptionRestDto) {
@@ -56,7 +58,10 @@ public class TaskRestDto extends ExceptionRestDto implements DataTransferObject<
         dto.setTaskId(aTask.getId());
         dto.setTaskName(aTask.getName());
         dto.setTaskDesc(aTask.getDescription());
-        dto.setTaskStatus(aTask.getTaskStatus().getStatusCode());
+
+        if (aTask.getTaskStatus() == null) dto.setTaskStatus(TaskStatus.WORKING.getStatusCode());
+        else dto.setTaskStatus(aTask.getTaskStatus().getStatusCode());
+
         return dto;
     }
 

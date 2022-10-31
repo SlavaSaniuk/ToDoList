@@ -1,5 +1,6 @@
 package by.beltelecom.todolist.web.rest.tasks;
 
+import by.beltelecom.todolist.data.enums.TaskStatus;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
@@ -185,7 +186,9 @@ public class TaskRestController {
         // Complete tasks:
         try {
             this.userTasksManager.completeUserTasks(tasksList, userObj);
+
             // If task completed:
+            tasksList.forEach((task -> task.setTaskStatus(TaskStatus.COMPLETED)));
             return new ResponseEntity<>(new TasksListRestDto(tasksList), HttpStatus.OK);
         } catch (MultipleHandingException e) {
             // If not all tasks completed:
