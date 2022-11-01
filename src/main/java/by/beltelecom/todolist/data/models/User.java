@@ -31,6 +31,9 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<>(); // references on user tasks;
 
+    @OneToMany(mappedBy = "roleOwner", cascade = CascadeType.ALL)
+    private List<Role> userRoles = new ArrayList<>(); // reference on user roles;
+
     @Override
     public String toString() {
         return String.format("User[id: %d, name: %s]", this.id, this.name);
