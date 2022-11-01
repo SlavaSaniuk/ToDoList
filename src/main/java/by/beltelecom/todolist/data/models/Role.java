@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * This entity represent "roles" table in database.
+ * Table hold records about user's and their roles.
+ */
 @Entity(name = "roles")
 @Table(name = "roles")
 @Getter @Setter
@@ -16,7 +20,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id; // Record ID;
 
     @Column(name = "role_name", nullable = false)
     @Convert(converter = UserRoleConverter.class)
