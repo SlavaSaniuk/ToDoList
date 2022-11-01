@@ -7,6 +7,7 @@ import by.beltelecom.todolist.security.rest.filters.JsonWebTokenFilter;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenService;
 import by.beltelecom.todolist.security.rest.jwt.JsonWebTokenServiceImpl;
 import by.beltelecom.todolist.services.security.AccountsService;
+import by.beltelecom.todolist.services.security.role.RoleService;
 import by.beltelecom.todolist.services.users.UsersService;
 import by.beltelecom.todolist.utilities.logging.Checks;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
@@ -38,10 +39,13 @@ import java.util.Objects;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    private AccountsService accountsService; // Service bean (autowired via setter);
-    private UsersService usersService; // Service bean (autowired via setter);
-    private SecurityProperties securityProperties; // Configuration bean (autowired via setter);
+    // Logger:
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfiguration.class); // Logger;
+    // Spring beans:
+    private AccountsService accountsService; // Service bean (autowired via setter);
+    private UsersService usersService; // Service bean (autowired via setter)
+    private SecurityProperties securityProperties; // Configuration bean (autowired via setter);
+    private RoleService roleService; // Autowired via setter;
 
     /**
      * Construct new security configuration service bean.
@@ -166,7 +170,7 @@ public class SecurityConfiguration {
     @Primary
     public UserDetailsService userDetailsService() {
         LOGGER.debug(SpringLogging.Creation.createBean(UserDetailsService.class));
-        return new DatabaseUserDetailsService(this.accountsService);
+        return new DatabaseUserDetailsService(this.accountsService, this.roleService);
     }
 
     /**
@@ -188,6 +192,8 @@ public class SecurityConfiguration {
         LOGGER.debug(SpringLogging.Creation.createBean(CredentialsValidator.class));
         return new CredentialsValidatorImpl(this.securityProperties);
     }
+
+    // ********************* AUTOWIRING **********************************************
 
     /**
      * Autowire {@link AccountsService} service bean.
@@ -217,6 +223,16 @@ public class SecurityConfiguration {
     public void setSecurityProperties(SecurityProperties aSecurityProperties) {
         LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(SecurityProperties.class, SecurityConfiguration.class));
         this.securityProperties = aSecurityProperties;
+    }
+
+    /**
+     * Autowire {@link RoleService} service bean.
+     * @param aRoleService - user roles service.
+     */
+    @Autowired
+    public void setRoleService(RoleService aRoleService) {
+        LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(RoleService.class, SecurityConfiguration.class));
+        this.roleService = aRoleService;
     }
 
 }

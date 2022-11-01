@@ -1,9 +1,9 @@
 package by.beltelecom.todolist.unit.security.authentication;
 
-import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.exceptions.RuntimeNotFoundException;
 import by.beltelecom.todolist.security.authentication.DatabaseUserDetailsService;
 import by.beltelecom.todolist.services.security.AccountsService;
+import by.beltelecom.todolist.services.security.role.RoleService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,12 +19,14 @@ public class DatabaseUserDetailsServiceUnitTests {
 
     @MockBean
     private AccountsService accountsService;
+    @MockBean
+    private RoleService roleService;
 
     private DatabaseUserDetailsService databaseUserDetailsService;
 
     @BeforeEach
     void beforeEach() {
-        this.databaseUserDetailsService = new DatabaseUserDetailsService(accountsService);
+        this.databaseUserDetailsService = new DatabaseUserDetailsService(accountsService, roleService);
     }
 
     @Test
