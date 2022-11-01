@@ -77,4 +77,12 @@ public class UsersServiceImpl implements UsersService {
         LOGGER.debug("Try to delete user: {};" , aUser);
         this.usersRepository.deleteById(aUser.getId());
     }
+
+    @Override
+    public boolean isExist(long aId) {
+        // Check arguments:
+        if (aId == 0L) return false;
+
+        return this.usersRepository.existsById(aId);
+    }
 }

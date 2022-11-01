@@ -34,4 +34,11 @@ public interface UsersService {
      */
     @Transactional
     void deleteUser(User aUser);
+
+    /**
+     * Check if user with specified ID exist in db.
+     * @param aId - user ID.
+     * @return - true if user exist in db.
+     */
+    boolean isExist(long aId);
 }
