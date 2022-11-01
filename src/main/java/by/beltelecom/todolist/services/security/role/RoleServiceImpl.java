@@ -12,7 +12,11 @@ import by.beltelecom.todolist.utilities.ArgumentChecker;
 import by.beltelecom.todolist.utilities.logging.SpringLogging;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of {@link RoleService} service bean.
@@ -69,4 +73,26 @@ public class RoleServiceImpl implements RoleService {
 
         return this.roleRepository.save(role);
     }
+
+    /**
+     * Implementation of {@link RoleService#findUserRoles(User)} method.
+     * Method check if user exist in db and then return all user application roles.
+     * Note: If user doesn't have any roles, method return empty list (Not null);
+     * @param aUser - user roles owner.
+     * @return - list of user roles.
+     * @throws NotFoundException - Throws in cases when user not exist in db.
+     */
+    @Override
+    public @NonNull List<Role> findUserRoles(User aUser) throws NotFoundException {
+        // Check arguments:
+        ArgumentChecker.nonNull(aUser, "aUser");
+
+        // Check if user exist in database:
+        if (!this.usersRepository.existsById(aUser.getId())) throw new NotFoundException(aUser);
+
+        // Get user roles:
+        LOGGER.debug(String.format("Find user[%s] application roles;", aUser));
+        return new ArrayList<>(this.roleRepository.findAllByRoleOwner(aUser));
+    }
+
 }

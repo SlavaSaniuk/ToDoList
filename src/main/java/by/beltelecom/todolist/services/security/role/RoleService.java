@@ -6,6 +6,11 @@ import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.exceptions.NotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+/**
+ * Service bean that manage user application roles.
+ */
 public interface RoleService {
 
     /**
@@ -17,4 +22,13 @@ public interface RoleService {
      */
     @Transactional
     Role addRoleToUser(UserRole aRole, User aUser) throws NotFoundException;
+
+    /**
+     * Get application roles of specified user.
+     * Note: If user doesn't have any roles, method return empty list (Not null);
+     * @param aUser - user roles owner.
+     * @return - list of user roles.
+     * @throws NotFoundException - Throws in cases when user not exist in db.
+     */
+    List<Role> findUserRoles(User aUser) throws NotFoundException;
 }

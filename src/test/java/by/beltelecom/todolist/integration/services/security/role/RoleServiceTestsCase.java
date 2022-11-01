@@ -17,6 +17,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Import(ServicesTestsConfiguration.class)
@@ -51,5 +53,51 @@ public class RoleServiceTestsCase {
         Assertions.assertThrows(NotFoundException.class, () -> this.roleService.addRoleToUser(UserRole.ROLE_USER, user));
     }
 
+    @Test
+    void findUserRoles_userHaveFourRoles_shouldReturnListOfUserRoles() {
+        // Generate user and roles:
+        User user = this.testsUserService.testingUser("findUserRoles1").getUser();
+        try {
+            this.roleService.addRoleToUser(UserRole.ROLE_ADMIN, user);
+            this.roleService.addRoleToUser(UserRole.ROLE_ROOT_ADMIN, user);
+            this.roleService.addRoleToUser(UserRole.ROLE_USER, user);
+            this.roleService.addRoleToUser(UserRole.ROLE_AUTHENTICATED_USER, user);
+        } catch (NotFoundException e) {
+            Assertions.fail();
+        }
+
+        try {
+            List<Role> fondedRoles = this.roleService.findUserRoles(user);
+            Assertions.assertNotNull(fondedRoles);
+            Assertions.assertFalse(fondedRoles.isEmpty());
+            Assertions.assertEquals(4, fondedRoles.size());
+
+            LOGGER.debug(String.format("Founded user[%s] roles:", user));
+            fondedRoles.forEach(role -> LOGGER.debug(String.format("\t Role[%s];", role)));
+        } catch (NotFoundException e) {
+            Assertions.fail();
+        }
+
+    }
+
+    @Test
+    void findUserRoles_userDoesNotHaveAnyRoles_shouldReturnEmptyList() {
+        // Generate user:
+        User user = this.testsUserService.testingUser("findUserRoles2").getUser();
+
+        try {
+            List<Role> fondedRoles = this.roleService.findUserRoles(user);
+            Assertions.assertNotNull(fondedRoles);
+            Assertions.assertTrue(fondedRoles.isEmpty());
+        } catch (NotFoundException e) {
+            Assertions.fail();
+        }
+    }
+
+    @Test
+    void findUserRoles_userNotExistInDb_shouldThrowNFE() {
+        User user = new User();
+        Assertions.assertThrows(NotFoundException.class, () -> this.roleService.findUserRoles(user));
+    }
 
 }

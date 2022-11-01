@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested TaskRestController#completeUserTasks">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Created UserTasksManager#deleteUserTasks">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/tasks/UserTasksManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/repositories/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/repositories/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/role/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/role/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/role/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/services/security/role/RoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/role/RoleServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/services/security/role/RoleServiceTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +110,22 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TaskRestControllerTestsCase">
+  <component name="RunManager" selected="JUnit.RoleServiceTestsCase">
+    <configuration name="RoleServiceTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.services.security.role.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.services.security.role" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.services.security.role.RoleServiceTestsCase" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TaskRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -169,21 +186,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserUnitTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ToDoList" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.beltelecom.todolist.unit.data.models.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.unit.data.models" />
-      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.unit.data.models.UserUnitTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ToDoListApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="ToDoList" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="by.beltelecom.todolist.ToDoListApplication" />
@@ -193,11 +195,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RoleServiceTestsCase" />
         <item itemvalue="JUnit.TaskRestControllerTestsCase" />
         <item itemvalue="JUnit.UserTasksManagerTestsCase" />
         <item itemvalue="JUnit.TaskWrapperTestsCase" />
         <item itemvalue="JUnit.TasksOwnerCheckerTestsCase" />
-        <item itemvalue="JUnit.UserUnitTests" />
       </list>
     </recent_temporary>
   </component>
@@ -234,6 +236,7 @@
       <workItem from="1666817541377" duration="4127000" />
       <workItem from="1666895538707" duration="9620000" />
       <workItem from="1667239604870" duration="2591000" />
+      <workItem from="1667332949571" duration="1833000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
