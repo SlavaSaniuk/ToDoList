@@ -3,6 +3,7 @@ import '../../styles/fragments/Task.css'
 import "../Buttons.js";
 import {CancelButton, DoneButton, EditButton, TextButton} from "../Buttons";
 import {TaskBuilder, TaskStatus} from "../dto/TaskDto";
+import {Logging} from "../../js/utils/Logging";
 
 
 /**
@@ -200,11 +201,12 @@ class TaskPanel extends React.Component {
 }
 
 /**
+ * @property isChecked - boolean - state of checkbox mark.
  * @property isEmpty - boolean - flag indicate draw checkbox or no.
  * @property funcOnUnselectTask - parent function on unselect task action.
  * @function onSelectorChange.
  */
-class TaskSelector extends React.Component {
+class TaskSelectorElement extends React.Component {
     /**
      * Construct new TaskSelector element.
      * @param props - properties.
@@ -217,6 +219,24 @@ class TaskSelector extends React.Component {
 
         // Functions:
         this.onSelectorChange.bind(this);
+
+        // Initial state:
+        this.state = {
+            checked: this.props.isChecked
+        }
+    }
+
+    /**
+     * Method calling when component is updated. Set state properties from new props.
+     * @param props - new component props.
+     * @param state - previous state.
+     * @returns {*} - new state of object.
+     */
+    static getDerivedStateFromProps(props, state) {
+        // Initialize state from props:
+        state.checked = props.isChecked;
+
+        return state;
     }
 
     /**
@@ -226,7 +246,9 @@ class TaskSelector extends React.Component {
     onSelectorChange =() => {
         // Get checkbox state:
         // if checked call parent onSelectTask function:
-        if(this.selector.current.checked) this.props.funcOnSelectTask();
+        let selectorState = this.selector.current.checked;
+
+        if(selectorState) this.props.funcOnSelectTask();
         else this.props.funcOnUnselectTask();
     }
 
@@ -236,7 +258,7 @@ class TaskSelector extends React.Component {
             return (
                 <div className={"col-1 task-selector-block"}>
                     <input className={"task-selector-checkbox"} type={"checkbox"} onChange={this.onSelectorChange}
-                           ref={this.selector} />
+                           ref={this.selector} checked={this.state.checked} />
                     <span className={"task-selector-checkbox-mark"} />
                 </div>
 
@@ -248,10 +270,13 @@ class TaskSelector extends React.Component {
     }
 }
 
+const TaskSelector =(props)  => <TaskSelectorElement isChecked={props.isChecked} isEmpty={props.isEmpty} funcOnSelectTask={props.funcOnSelectTask} funcOnUnselectTask={props.funcOnUnselectTask} />
+
 /**
  * Root element encapsulate all logic and inner elements of task element.
  * @property - taskProps - Task properties.
  * @property - taskProps.taskObj - task DTO.
+ * @property - taskProps.taskIsSelected - boolean - flag indicate if task is checked.
  * @property - funcOnSelectTask - parent function on select task action.
  * @property - funcOnUnselectTask - parent function on unselect task action.
  * @property - taskControlFuncs - object has parent task control functions.
@@ -311,7 +336,7 @@ class TaskBlock extends React.Component {
      */
     getTask =() => {
         // Construct TaskDto object:
-        return TaskBuilder.ofId(this.props.taskProps.taskId).build()
+        return TaskBuilder.ofId(this.props.taskProps.taskObj.taskId).build()
     }
 
     /**
@@ -384,17 +409,11 @@ class TaskBlock extends React.Component {
         this.props.taskProps.taskControlFuncs.updateFunc(task);
     }
 
-
-
-
-
-
     onCompleteTask =() => {
 
         // Cal parent functions:
         this.props.taskProps.taskControlFuncs.completeFunc(this.getTask());
     }
-
 
     /**
      * Check whether if task already completed.
@@ -403,8 +422,6 @@ class TaskBlock extends React.Component {
     isTaskCompleted =() => {
         return this.props.taskProps.taskObj.taskStatus === TaskStatus.COMPLETED;
     }
-
-
 
     /**
      * Render TaskBlock react element.
@@ -422,7 +439,7 @@ class TaskBlock extends React.Component {
         // If isInEdit flag - true, do not render TaskSelector block.
         let taskSelector;
         if (!this.state.isInEdit)
-            taskSelector = <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} isEmpty={this.isTaskCompleted()} />;
+            taskSelector = <TaskSelector funcOnSelectTask={this.onSelectTask} funcOnUnselectTask={this.onUnselectTask} isEmpty={this.isTaskCompleted()} isChecked={this.props.taskProps.taskIsSelected} />;
 
         return(
             <div id={taskId} className={"taskBlock row"} >
@@ -435,8 +452,6 @@ class TaskBlock extends React.Component {
 
 }
 
-const Task =(props) => {
+export const TaskComponent =(props) => {
     return ( <TaskBlock taskProps={props} /> );
 }
-
-export default Task;

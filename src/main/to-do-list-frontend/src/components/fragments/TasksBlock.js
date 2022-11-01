@@ -1,7 +1,7 @@
 import React from "react";
 import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
-import Task from "./Task";
+import {TaskComponent} from "./Task";
 import {AddTaskBlock} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
 import {TaskStatus} from "../dto/TaskDto";
@@ -14,6 +14,13 @@ const TasksFooter =() => {
     </div>);
 }
 
+const Task =(props) => <TaskComponent
+    taskObj={props.task} key={props.task.taskId}
+    funcOnSelectTasks={props.funcOnSelectTasks} funcOnUnselectTask={props.funcOnUnselectTask}
+    taskControlFuncs={props.taskControlFuncs} taskIsSelected={props.isTasksSelected}
+/>
+
+
 /**
  * This element render list of users tasks.
  * @property tasksList - list of users tasks.
@@ -22,17 +29,47 @@ const TasksFooter =() => {
  * @property taskControlFuncs - task control function in object.
  */
 class TasksList extends React.Component {
+    /**
+     * Construct new TaskList component.
+     * @param props
+     */
     constructor(props) {
         super(props);
-    }
-    render() {
 
+        // Bind functions:
+        this.isTaskSelected.bind(this);
+    }
+
+    /**
+     * Check if current 'aTask' task is selected.
+     * Function iterate props selectedTaskList and if 'aTask' is in the list - return true.
+     * @param aTask - task obj.
+     * @returns {boolean} - true - if task is selected.
+     */
+    isTaskSelected =(aTask) => {
+        let isSelected = false;
+
+        // Check if task in selected tasks list:
+        this.props.selectedTasksList.forEach(selectedTask => {
+            if(selectedTask.taskId === aTask.taskId) isSelected=true;
+        })
+
+        return isSelected;
+    }
+
+    /**
+     * Render tasks list.
+     * @returns {JSX.Element}
+     */
+    render() {
         const tasks = this.props.tasksList.map((task) =>
-            <Task taskObj={task} taskName={task.taskName} taskId={task.taskId} taskDesc={task.taskDesc} key={task.taskId}
+
+            <Task task={task} taskName={task.taskName} taskId={task.taskId} taskDesc={task.taskDesc} key={task.taskId}
                   funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
-                  taskControlFuncs={this.props.taskControlFuncs}
+                  taskControlFuncs={this.props.taskControlFuncs} isTasksSelected={this.isTaskSelected(task)}
             />
         );
+
         return (
             <div>
                 {tasks}
@@ -49,6 +86,7 @@ class TasksList extends React.Component {
  * @property funcOnSelectTask - call this function, when task is selected.
  * @property funcOnUnselectTask - parent function on unselect task action.
  * @property taskControlFuncs - task control function in object.
+ * @property selectedTasksList - list of selected tasks.
  */
 class TasksContentBlock extends React.Component {
 
@@ -64,6 +102,7 @@ class TasksContentBlock extends React.Component {
                 <TasksList tasksList={this.props.tasksList}
                            funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
                            taskControlFuncs={this.props.taskControlFuncs}
+                           selectedTasksList={this.props.selectedTasksList}
                 />
             </div>
         );
@@ -517,6 +556,35 @@ class TasksBlock extends React.Component {
      */
     onCompleteUserTasks =() => {
         Logging.log("Complete user tasks: ", this.state.selectedTasksList);
+        let tasksListDto = {tasksList: this.state.selectedTasksList};
+
+
+        ReqUtilities.postRequest("/rest/task/complete-tasks", JSON.stringify(tasksListDto)).then((response) => {
+            if(response.ok) {
+                Logging.log("Response status - OK;");
+                // Get JSON:
+                response.json().then((tasksListRespDto) => {
+                    tasksListRespDto.tasksList.forEach((taskDto) => {
+                        // Set task status:
+                        this.state.tasksList.forEach((taskInList) => {
+                            if (taskInList.taskId === taskDto.taskId) taskInList.taskStatus = TaskStatus.COMPLETED;
+                        });
+
+                        // Remove from selected:
+                        this.state.selectedTasksList.forEach((selectedTask, index) => {
+                           if (selectedTask.taskId === taskDto.taskId) this.state.selectedTasksList.splice(index, 1);
+                        });
+                    });
+
+                    // Update component:
+                    this.forceUpdate();
+
+                });
+
+
+            }
+        });
+
     }
 
     /**
@@ -544,6 +612,7 @@ class TasksBlock extends React.Component {
                                    funcOnAddNewTask={this.onAddNewTask}
                                    funcOnSelectTasks={this.onSelectTasks} funcOnUnselectTask={this.onUnselectTask}
                                    taskControlFuncs={taskControlFuncs}
+                                   selectedTasksList={this.state.selectedTasksList}
                 />
             );
         }
