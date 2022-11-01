@@ -2,11 +2,14 @@ package by.beltelecom.todolist.services;
 
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.repositories.AccountsRepository;
+import by.beltelecom.todolist.data.repositories.RoleRepository;
 import by.beltelecom.todolist.data.repositories.TasksRepository;
 import by.beltelecom.todolist.data.repositories.UsersRepository;
 import by.beltelecom.todolist.services.security.*;
 import by.beltelecom.todolist.services.security.owning.OwnerChecker;
 import by.beltelecom.todolist.services.security.owning.TasksOwnerChecker;
+import by.beltelecom.todolist.services.security.role.RoleService;
+import by.beltelecom.todolist.services.security.role.RoleServiceImpl;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
 import by.beltelecom.todolist.services.tasks.UserTasksManager;
@@ -23,10 +26,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServicesConfiguration {
 
+    // Logger:
     private static final Logger LOGGER = LoggerFactory.getLogger(ServicesConfiguration.class);
+    // Spring beans:
     private TasksRepository tasksRepository;
     private UsersRepository usersRepository; // Spring repository bean (Autowired via setter);
     private AccountsRepository accountsRepository;
+    private RoleRepository roleRepository; // Autowired via setter;
 
 
     /**
@@ -34,6 +40,16 @@ public class ServicesConfiguration {
      */
     public ServicesConfiguration() {
         LOGGER.debug(SpringLogging.Creation.createBean(ServicesConfiguration.class));
+    }
+
+    /**
+     * Service bean manage user application roles.
+     * @return - service bean.
+     */
+    @Bean
+    public RoleService roleService() {
+        LOGGER.debug(SpringLogging.Creation.createBean(RoleService.class));
+        return new RoleServiceImpl(this.roleRepository);
     }
 
     /**
@@ -104,6 +120,16 @@ public class ServicesConfiguration {
         LOGGER.debug("Autowire {} repository bean in {} configuration.", AccountsRepository.class,
                 ServicesConfiguration.class);
         this.accountsRepository = anAccountsRepository;
+    }
+
+    /**
+     * Autowire {@link RoleRepository} repository bean to this configuration.
+     * @param aRoleRepository - repository to be autowired.
+     */
+    @Autowired
+    public void setRoleRepository(RoleRepository aRoleRepository) {
+        LOGGER.debug(SpringLogging.Autowiring.autowireInConfiguration(RoleRepository.class, ServicesConfiguration.class));
+        this.roleRepository = aRoleRepository;
     }
 
 }

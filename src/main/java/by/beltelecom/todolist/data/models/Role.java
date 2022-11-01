@@ -30,4 +30,8 @@ public class Role {
     @JoinColumn(name = "ref_role_owner", nullable = false)
     private User roleOwner; // Role owner;
 
+    @Override
+    public String toString() {
+        return String.format("Role[id: %d, userRole: %s]", this.id, this.userRole.getRoleName());
+    }
 }

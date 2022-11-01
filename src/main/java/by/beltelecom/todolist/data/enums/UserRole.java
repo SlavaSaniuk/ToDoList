@@ -29,6 +29,6 @@ public enum UserRole {
 
     @Override
     public String toString() {
-        return String.format("Role[name: %s]", this.roleName);
+        return String.format("UserRole[name: %s]", this.roleName);
     }
 }
