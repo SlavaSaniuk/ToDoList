@@ -24,7 +24,7 @@ public class Role {
 
     @Column(name = "role_name", nullable = false)
     @Convert(converter = UserRoleConverter.class)
-    private UserRole roleName; // Role name;
+    private UserRole userRole; // user role;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ref_role_owner", nullable = false)
