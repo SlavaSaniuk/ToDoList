@@ -5,6 +5,7 @@ import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.enums.UserRole;
 import by.beltelecom.todolist.data.models.Role;
 import by.beltelecom.todolist.data.models.User;
+import by.beltelecom.todolist.exceptions.NotFoundException;
 import by.beltelecom.todolist.services.security.role.RoleService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ public class RoleServiceTestsCase {
     private TestsUserService testsUserService;
 
     @Test
-    void addRoleToUser_newUser_shouldAddRoleToUser() {
+    void addRoleToUser_newUser_shouldAddRoleToUser() throws NotFoundException {
         // Generate user:
         User user = this.testsUserService.testingUser("addRoleToUser1").getUser();
 
@@ -42,13 +43,12 @@ public class RoleServiceTestsCase {
     }
 
     @Test
-    void addRoleToUser_userNotfound_shouldThrow() {
+    void addRoleToUser_userNotfound_shouldThrowNfe() {
         User user = new User();
         user.setName("addRoleToUser2");
         user.setId(678349);
 
-        Role created = this.roleService.addRoleToUser(UserRole.ROLE_USER, user);
-        Assertions.assertNotNull(created);
+        Assertions.assertThrows(NotFoundException.class, () -> this.roleService.addRoleToUser(UserRole.ROLE_USER, user));
     }
 
 

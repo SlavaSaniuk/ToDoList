@@ -49,7 +49,7 @@ public class ServicesConfiguration {
     @Bean
     public RoleService roleService() {
         LOGGER.debug(SpringLogging.Creation.createBean(RoleService.class));
-        return new RoleServiceImpl(this.roleRepository);
+        return new RoleServiceImpl(this.roleRepository, this.usersRepository);
     }
 
     /**
