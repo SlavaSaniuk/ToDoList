@@ -47,8 +47,8 @@ public class AdministrationRestControllerTestsCase {
 
     @Test
     void helloAdmin_userHasAdminRole_shouldProcessRequestAndReturnHelloString() throws Exception {
-        // Create user:
-        TestingUser user = this.testsUserService.testingUser("helloAdmin2");
+        // Create admin user:
+        TestingUser user = this.testsUserService.testingRootAdmin("helloAdmin2");
 
         // Set admin role to user:
         this.roleService.addRoleToUser(UserRole.ROLE_ROOT_ADMIN, user.getUser());

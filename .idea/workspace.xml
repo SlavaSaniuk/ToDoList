@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/enums/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/enums/UserRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/SecurityConfiguration.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication.">
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -236,7 +234,7 @@
       <workItem from="1666895538707" duration="9620000" />
       <workItem from="1667239604870" duration="2591000" />
       <workItem from="1667332949571" duration="4393000" />
-      <workItem from="1667419655394" duration="289000" />
+      <workItem from="1667419655394" duration="1676000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -567,7 +565,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667337328326</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication.">
+      <created>1667420200616</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1667420200616</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -589,7 +594,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="JWT filter out user entity in request attribute" />
     <MESSAGE value="Worked User#equals method" />
     <MESSAGE value="Worked Task#equals method and Task#toString method print task ID." />
     <MESSAGE value="Added Task#toStringWithUser method" />
@@ -614,7 +618,8 @@
     <MESSAGE value="Worked and tested TaskRestController#completeUserTasks" />
     <MESSAGE value="Added worked and tested RoleService#findUserRoles method" />
     <MESSAGE value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
-    <option name="LAST_COMMIT_MESSAGE" value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
+    <MESSAGE value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
