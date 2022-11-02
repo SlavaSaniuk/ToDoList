@@ -95,7 +95,7 @@ public class SecurityConfiguration {
             http.authorizeRequests()
                     .antMatchers("/rest/sign/**").permitAll()
                     // Administration urls:
-                    .antMatchers("/rest/administration/**").hasAnyRole("ROLE_" +UserRole.ROLE_ROOT_ADMIN.getRoleName(), UserRole.ROLE_ADMIN.getRoleName())
+                    .antMatchers("/rest/administration/**").hasAnyRole(UserRole.ROLE_ROOT_ADMIN.getShortRoleName(), UserRole.ROLE_ADMIN.getShortRoleName())
                     .antMatchers("/rest/**").authenticated();
 
             // Allow basic authentication

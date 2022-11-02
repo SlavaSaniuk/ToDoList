@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added worked and tested RoleService#findUserRoles method">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/enums/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/enums/UserRole.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/DatabaseUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/security/authentication/DatabaseUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/UserDetailsServiceTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/security/authentication/UserDetailsServiceTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/security/authentication/DatabaseUserDetailsServiceUnitTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/unit/security/authentication/DatabaseUserDetailsServiceUnitTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +109,22 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserDetailsServiceTestsCase">
+  <component name="RunManager" selected="JUnit.AdministrationRestControllerTestsCase">
+    <configuration name="AdministrationRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.web.rest.administration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.web.rest.administration" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.web.rest.administration.AdministrationRestControllerTestsCase" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="RoleServiceTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -135,21 +150,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.web.rest.tasks" />
       <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.web.rest.tasks.TaskRestControllerTestsCase" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TaskWrapperTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ToDoList" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.beltelecom.todolist.integration.data.wrapper.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.data.wrapper" />
-      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.data.wrapper.TaskWrapperTestsCase" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -194,11 +194,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AdministrationRestControllerTestsCase" />
         <item itemvalue="JUnit.UserDetailsServiceTestsCase" />
         <item itemvalue="JUnit.RoleServiceTestsCase" />
         <item itemvalue="JUnit.TaskRestControllerTestsCase" />
         <item itemvalue="JUnit.UserTasksManagerTestsCase" />
-        <item itemvalue="JUnit.TaskWrapperTestsCase" />
       </list>
     </recent_temporary>
   </component>
@@ -235,7 +235,8 @@
       <workItem from="1666817541377" duration="4127000" />
       <workItem from="1666895538707" duration="9620000" />
       <workItem from="1667239604870" duration="2591000" />
-      <workItem from="1667332949571" duration="4327000" />
+      <workItem from="1667332949571" duration="4393000" />
+      <workItem from="1667419655394" duration="289000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -559,7 +560,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667334816672</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles.">
+      <created>1667337328326</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1667337328326</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -581,7 +589,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Testes getAccountByEmail method" />
     <MESSAGE value="JWT filter out user entity in request attribute" />
     <MESSAGE value="Worked User#equals method" />
     <MESSAGE value="Worked Task#equals method and Task#toString method print task ID." />
@@ -606,7 +613,8 @@
     <MESSAGE value="Need to test TaskRestController#completeUserTasks method." />
     <MESSAGE value="Worked and tested TaskRestController#completeUserTasks" />
     <MESSAGE value="Added worked and tested RoleService#findUserRoles method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added worked and tested RoleService#findUserRoles method" />
+    <MESSAGE value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

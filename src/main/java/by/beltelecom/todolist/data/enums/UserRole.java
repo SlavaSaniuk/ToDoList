@@ -31,4 +31,12 @@ public enum UserRole {
     public String toString() {
         return String.format("UserRole[name: %s]", this.roleName);
     }
+
+    /**
+     * Remove "ROLE_" prefix for role name.
+     * @return - String.
+     */
+    public String getShortRoleName() {
+        return this.roleName.replaceFirst("ROLE_", "");
+    }
 }

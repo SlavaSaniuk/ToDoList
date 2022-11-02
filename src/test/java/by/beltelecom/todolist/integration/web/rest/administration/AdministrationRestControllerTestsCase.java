@@ -4,7 +4,6 @@ import by.beltelecom.todolist.configuration.models.TestingUser;
 import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.enums.UserRole;
 import by.beltelecom.todolist.services.security.role.RoleService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -12,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -29,8 +27,6 @@ public class AdministrationRestControllerTestsCase {
     // Spring beans:
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
     @Autowired
     private TestsUserService testsUserService;
     @Autowired
@@ -68,7 +64,5 @@ public class AdministrationRestControllerTestsCase {
         Assertions.assertNotNull(responseText);
         Assertions.assertFalse(responseText.isEmpty());
         LOGGER.debug(String.format("Response TEXT: %s;", responseText));
-
-
     }
 }
