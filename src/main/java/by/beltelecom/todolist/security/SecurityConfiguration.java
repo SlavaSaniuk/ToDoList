@@ -1,6 +1,7 @@
 package by.beltelecom.todolist.security;
 
 import by.beltelecom.todolist.configuration.properties.SecurityProperties;
+import by.beltelecom.todolist.data.enums.UserRole;
 import by.beltelecom.todolist.security.authentication.*;
 import by.beltelecom.todolist.security.rest.filters.CustomCorsFilter;
 import by.beltelecom.todolist.security.rest.filters.JsonWebTokenFilter;
@@ -93,6 +94,8 @@ public class SecurityConfiguration {
             // Configure requests security
             http.authorizeRequests()
                     .antMatchers("/rest/sign/**").permitAll()
+                    // Administration urls:
+                    .antMatchers("/rest/administration/**").hasAnyRole("ROLE_" +UserRole.ROLE_ROOT_ADMIN.getRoleName(), UserRole.ROLE_ADMIN.getRoleName())
                     .antMatchers("/rest/**").authenticated();
 
             // Allow basic authentication
