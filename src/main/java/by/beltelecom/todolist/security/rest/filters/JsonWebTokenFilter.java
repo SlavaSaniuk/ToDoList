@@ -94,7 +94,7 @@ public class JsonWebTokenFilter extends OncePerRequestFilter {
         if (accountEmail == null || accountEmail.isEmpty()) response.sendError(HttpServletResponse.SC_FORBIDDEN);
         try {
             UserDetails details = this.detailsService.loadUserByUsername(accountEmail);
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), new ArrayList<>());
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), details.getAuthorities());
 
             // Set authentication:
             if (SecurityContextHolder.getContext().getAuthentication() == null)

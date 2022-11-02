@@ -60,7 +60,7 @@ public class DatabaseAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Password are not same.");
 
         // Return new Authentication token
-        return new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), new ArrayList<>());
+        return new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), details.getAuthorities());
     }
 
     @Override
