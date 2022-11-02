@@ -104,8 +104,11 @@ class UserPageContent extends React.Component {
  * @returns {JSX.Element} - not arguments.
  * @constructor - empty constructor.
  */
-const UserPageFunctional = () => {
+const UserPageFunctional = (props) => {
     let params = useParams();
+
+    console.log("Application user: ", props.applicationUser);
+
     return (
         <UserPageContent userId={params.userId} />
     );

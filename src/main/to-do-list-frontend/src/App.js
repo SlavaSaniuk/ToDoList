@@ -4,7 +4,11 @@ import SignPage from "./components/routes/Sign";
 import {UserPage, UserPageFunctional} from "./components/routes/UserPage.js";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React from 'react';
+import {ApplicationUser} from "./GlobalVars";
 
+const globalVars = {
+    applicationUser: new ApplicationUser()
+}
 
 function App() {
   sessionStorage.setItem("SERVER_URL", "http://localhost:8080")
@@ -12,9 +16,9 @@ function App() {
       <BrowserRouter>
           <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/sign" element={<SignPage />} />
+              <Route path="/sign" element={<SignPage applicationUser={globalVars.applicationUser} />} />
               <Route path={"/user/"} element={<UserPage />}>
-                <Route path={":userId"} element={<UserPageFunctional />} />
+                <Route path={":userId"} element={<UserPageFunctional applicationUser={globalVars.applicationUser} />} />
               </Route>
           </Routes>
       </BrowserRouter>

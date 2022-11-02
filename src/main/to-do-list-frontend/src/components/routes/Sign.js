@@ -196,6 +196,10 @@ class SignInForm extends React.Component {
         }}else {
             // Get and set JWT:
             sessionStorage.setItem('JWT', "Beaver " +signRestDto.jwt);
+
+            // Initialize application user global variables:
+            this.props.applicationUser.userId = signRestDto.userId;
+
             this.props.navigate("/user/"+signRestDto.userId);
         }
     }
@@ -221,10 +225,10 @@ function SignFormWrapper(props) {
     let signForm = props.isSignIn ?
         <SignInForm showExceptionMessageFunc={props.showExceptionMessageFunc}
                     hideExceptionMessageFunc={props.hideExceptionMessageFunc}
-                    navigate={navigate}/> :
+                    navigate={navigate} applicationUser={props.applicationUser} /> :
         <SignUpForm showExceptionMessageFunc={props.showExceptionMessageFunc}
                     hideExceptionMessageFunc={props.hideExceptionMessageFunc}
-                    navigate={navigate}/>;
+                    navigate={navigate} applicationUser={props.applicationUser} />;
     return(<div> {signForm} </div>);
 }
 
@@ -241,7 +245,7 @@ class SignFormBlock extends React.Component {
             <div className={"sign-form-block"}>
                 <SignText text={signFormText}/>
                 <SignFormWrapper isSignIn={this.props.isSignIn} showExceptionMessageFunc={this.props.showExceptionMessageFunc}
-                                 hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} />
+                                 hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} applicationUser={this.props.applicationUser}/>
             </div>
         );
     }
@@ -308,7 +312,7 @@ class SignBlock extends React.Component {
         return (
             <div className={"sign-block"}>
                 <SignFormBlock isSignIn={this.state.isSignForm} showExceptionMessageFunc={this.props.showExceptionMessageFunc}
-                               hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/>
+                               hideExceptionMessageFunc={this.props.hideExceptionMessageFunc} applicationUser={this.props.applicationUser}/>
                 <SignSwitch changeFormFunc={this.changeForm} isSignIn={this.state.isSignForm}
                             hideExceptionMessageFunc={this.props.hideExceptionMessageFunc}/>
             </div>
@@ -350,7 +354,7 @@ class SignContainer extends React.Component {
             signExceptionMessageBlock = <SignExceptionMessageBlock exceptionMessage={this.state.exceptionMessage} />;
         return(
             <div className={"sign-container"}>
-                <SignBlock showExceptionMessageFunc={this.showExceptionMessage} hideExceptionMessageFunc={this.hideExceptionMessage}/>
+                <SignBlock showExceptionMessageFunc={this.showExceptionMessage} hideExceptionMessageFunc={this.hideExceptionMessage} applicationUser={this.props.applicationUser}/>
                 {signExceptionMessageBlock}
             </div>
         );
@@ -358,12 +362,12 @@ class SignContainer extends React.Component {
 }
 
 class SignPage extends React.Component {
-
-
-
     render() {
+
+        console.log("Hello application user", this.props.applicationUser);
+
         return (
-            <SignContainer />
+            <SignContainer applicationUser={this.props.applicationUser} />
         );
     }
 }

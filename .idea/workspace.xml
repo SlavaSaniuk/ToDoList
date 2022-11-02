@@ -4,9 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication.">
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added TestsUserService#testingRootAdmin method.">
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/GlobalVars.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/Sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/Sign.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/UserPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/UserPage.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +21,9 @@
       <list>
         <option value="HTML File" />
         <option value="Enum" />
-        <option value="JavaScript File" />
         <option value="Class" />
         <option value="Interface" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -107,7 +110,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.AdministrationRestControllerTestsCase">
+  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
     <configuration name="AdministrationRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -234,7 +237,7 @@
       <workItem from="1666895538707" duration="9620000" />
       <workItem from="1667239604870" duration="2591000" />
       <workItem from="1667332949571" duration="4393000" />
-      <workItem from="1667419655394" duration="1676000" />
+      <workItem from="1667419655394" duration="3556000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659093661482</created>
@@ -572,7 +575,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667420200616</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Added TestsUserService#testingRootAdmin method.">
+      <created>1667421373268</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1667421373268</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,7 +604,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked User#equals method" />
     <MESSAGE value="Worked Task#equals method and Task#toString method print task ID." />
     <MESSAGE value="Added Task#toStringWithUser method" />
     <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
@@ -619,7 +628,8 @@
     <MESSAGE value="Added worked and tested RoleService#findUserRoles method" />
     <MESSAGE value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
     <MESSAGE value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
+    <MESSAGE value="Added TestsUserService#testingRootAdmin method." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added TestsUserService#testingRootAdmin method." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
