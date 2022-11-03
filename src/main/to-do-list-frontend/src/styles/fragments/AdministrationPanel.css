@@ -3,7 +3,11 @@
     left: 10px;
     top: 50%;
 
-    width: 100px;
-    height: 200px;
-    background-color: red;
+    padding: 2px 5px;
+    background-color: #FFFFFF;
+    box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+.admin-block p {
+    border-bottom: 1px solid #cdcdcd;
 }

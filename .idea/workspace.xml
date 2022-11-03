@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added application user global variables.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested AdministrationRestController">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/administration/AdministrationRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/administration/AdministrationRestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AdministrationPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AdministrationPanel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AdministrationPanel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AdministrationPanel.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +108,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.AdministrationRestControllerTestsCase">
+  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
     <configuration name="AdministrationRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -238,14 +238,7 @@
       <workItem from="1667332949571" duration="4393000" />
       <workItem from="1667419655394" duration="3949000" />
       <workItem from="1667423905766" duration="18000" />
-      <workItem from="1667499418183" duration="1830000" />
-    </task>
-    <task id="LOCAL-00002" summary="Started at notebook!">
-      <created>1660594219397</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1660594219397</updated>
+      <workItem from="1667499418183" duration="4281000" />
     </task>
     <task id="LOCAL-00003" summary="Worked updateTask method in TasksService">
       <created>1660595888191</created>
@@ -583,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667423626514</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Worked and tested AdministrationRestController">
+      <created>1667501275427</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1667501275427</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -605,7 +605,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added Task#toStringWithUser method" />
     <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
     <MESSAGE value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
     <MESSAGE value="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects." />
@@ -630,7 +629,8 @@
     <MESSAGE value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
     <MESSAGE value="Added TestsUserService#testingRootAdmin method." />
     <MESSAGE value="Added application user global variables." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added application user global variables." />
+    <MESSAGE value="Worked and tested AdministrationRestController" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked and tested AdministrationRestController" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
