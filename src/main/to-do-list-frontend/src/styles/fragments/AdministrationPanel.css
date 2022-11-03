@@ -1,0 +1,9 @@
+.admin-block {
+    position: fixed;
+    left: 10px;
+    top: 50%;
+
+    width: 100px;
+    height: 200px;
+    background-color: red;
+}

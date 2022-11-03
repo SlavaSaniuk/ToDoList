@@ -6,8 +6,12 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React from 'react';
 import {ApplicationUser} from "./GlobalVars";
 
+/**
+ * Initialize global variables:
+ * @type {{applicationUser: ApplicationUser}}
+ */
 const globalVars = {
-    applicationUser: new ApplicationUser()
+    applicationUser: new ApplicationUser() // Construct new application user global variable;
 }
 
 function App() {
@@ -18,7 +22,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/sign" element={<SignPage applicationUser={globalVars.applicationUser} />} />
               <Route path={"/user/"} element={<UserPage />}>
-                <Route path={":userId"} element={<UserPageFunctional applicationUser={globalVars.applicationUser} />} />
+                <Route path={":userId"} element={<UserPageFunctional gl_applicationUser={globalVars.applicationUser} />} />
               </Route>
           </Routes>
       </BrowserRouter>

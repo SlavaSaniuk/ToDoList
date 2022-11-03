@@ -4,6 +4,7 @@ import MenuHeader from "../fragments/MenuHeader";
 import '../../styles/common.css';
 import '../../styles/userpage.css';
 import {TasksBlock} from "../fragments/TasksBlock";
+import {AdministrationPanel} from "../fragments/AdministrationPanel";
 
 /**
  * UserPageContent REACT component user to render user page content.
@@ -101,6 +102,7 @@ class UserPageContent extends React.Component {
 
 /**
  * UserPageFunctional is React component which define router hooks.
+ * @property gl_applicationUser - application user global variable.
  * @returns {JSX.Element} - not arguments.
  * @constructor - empty constructor.
  */
@@ -110,8 +112,12 @@ const UserPageFunctional = (props) => {
     console.log("Application user: ", props.applicationUser);
 
     return (
-        <UserPageContent userId={params.userId} />
-    );
+        <div>
+            <AdministrationPanel gl_applicationUser={props.gl_applicationUser} />
+            <UserPageContent userId={params.userId} />
+        </div>
+
+    )
 }
 
 /**

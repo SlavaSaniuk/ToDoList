@@ -199,6 +199,8 @@ class SignInForm extends React.Component {
 
             // Initialize application user global variables:
             this.props.applicationUser.userId = signRestDto.userId;
+            // Save to storage:
+            this.props.applicationUser.saveApplicationUser();
 
             this.props.navigate("/user/"+signRestDto.userId);
         }
