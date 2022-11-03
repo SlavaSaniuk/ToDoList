@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This rest controller class used to check if user has administration roles ({@link AdministrationRestController#helloAdmin(User)})
+ * and get user roles ({@link AdministrationRestController#userRoles(User)}); 
+ */
 @RestController
 @RequestMapping(value = "/rest/administration/")
 public class AdministrationRestController {
@@ -44,6 +48,13 @@ public class AdministrationRestController {
         this.roleService = aRoleService;
     }
 
+    /**
+     * Check if user has admin's roles.
+     * Method handle http GET request on "/rest/administration/hello" to check if user has admins roles.
+     * Method return response entity with 200 status code if user has admin role, in other case 403 http status.
+     * @param userObj - user which send request.
+     * @return - hello string.
+     */
     @GetMapping(value = "/hello", produces = "text/html")
     public ResponseEntity<String> helloAdmin(@RequestAttribute("userObj") User userObj) {
         String helloString = String.format("Hello, administrator %s!", userObj.getName());
@@ -59,6 +70,7 @@ public class AdministrationRestController {
      * @param userObj - user which send request.
      * @return - list of user roles.
      */
+    @SuppressWarnings("rawtypes")
     @GetMapping(value = "/user-roles", consumes = "application/json", produces = "application/json")
     public ResponseEntity userRoles(@RequestAttribute("userObj") User userObj) {
         LOGGER.debug(String.format("Try to get list of user[%s] roles;", userObj));
@@ -73,7 +85,7 @@ public class AdministrationRestController {
             return ResponseEntity.status(HttpStatus.OK).body(userRoles);
         } catch (NotFoundException e) {
             LOGGER.warn(e.getMessage());
-            return new ResponseEntity.;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

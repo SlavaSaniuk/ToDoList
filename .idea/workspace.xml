@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added TestsUserService#testingRootAdmin method.">
-      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/GlobalVars.js" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added application user global variables.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/Sign.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/Sign.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/UserPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/routes/UserPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/administration/AdministrationRestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/rest/administration/AdministrationRestController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/administration/AdministrationRestControllerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +108,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
+  <component name="RunManager" selected="JUnit.AdministrationRestControllerTestsCase">
     <configuration name="AdministrationRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -122,6 +120,22 @@
       <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.web.rest.administration" />
       <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.web.rest.administration.AdministrationRestControllerTestsCase" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdministrationRestControllerTestsCase.userRoles_userHas4Roles_shouldReturnListWith4UserRoles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ToDoList" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="by.beltelecom.todolist.integration.web.rest.administration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.web.rest.administration" />
+      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.web.rest.administration.AdministrationRestControllerTestsCase" />
+      <option name="METHOD_NAME" value="userRoles_userHas4Roles_shouldReturnListWith4UserRoles" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -171,21 +185,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserTasksManagerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ToDoList" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="by.beltelecom.todolist.integration.services.task.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="by.beltelecom.todolist.integration.services.task" />
-      <option name="MAIN_CLASS_NAME" value="by.beltelecom.todolist.integration.services.task.UserTasksManagerTestsCase" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ToDoListApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="ToDoList" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="by.beltelecom.todolist.ToDoListApplication" />
@@ -196,10 +195,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.AdministrationRestControllerTestsCase" />
+        <item itemvalue="JUnit.AdministrationRestControllerTestsCase.userRoles_userHas4Roles_shouldReturnListWith4UserRoles" />
         <item itemvalue="JUnit.UserDetailsServiceTestsCase" />
         <item itemvalue="JUnit.RoleServiceTestsCase" />
         <item itemvalue="JUnit.TaskRestControllerTestsCase" />
-        <item itemvalue="JUnit.UserTasksManagerTestsCase" />
       </list>
     </recent_temporary>
   </component>
@@ -237,14 +236,9 @@
       <workItem from="1666895538707" duration="9620000" />
       <workItem from="1667239604870" duration="2591000" />
       <workItem from="1667332949571" duration="4393000" />
-      <workItem from="1667419655394" duration="3556000" />
-    </task>
-    <task id="LOCAL-00001" summary="Initial commit">
-      <created>1659093661482</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1659093661482</updated>
+      <workItem from="1667419655394" duration="3949000" />
+      <workItem from="1667423905766" duration="18000" />
+      <workItem from="1667499418183" duration="1830000" />
     </task>
     <task id="LOCAL-00002" summary="Started at notebook!">
       <created>1660594219397</created>
@@ -582,7 +576,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667421373268</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Added application user global variables.">
+      <created>1667423626512</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1667423626514</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -604,7 +605,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked Task#equals method and Task#toString method print task ID." />
     <MESSAGE value="Added Task#toStringWithUser method" />
     <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
     <MESSAGE value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
@@ -629,7 +629,8 @@
     <MESSAGE value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
     <MESSAGE value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
     <MESSAGE value="Added TestsUserService#testingRootAdmin method." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added TestsUserService#testingRootAdmin method." />
+    <MESSAGE value="Added application user global variables." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added application user global variables." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
