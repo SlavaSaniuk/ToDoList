@@ -374,24 +374,32 @@ class TasksBlock extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.loadUserTasks().then();
 
         // Server date:
         let serverDate = null;
 
         // Get server date:
-        ReqUtilities.getRequest("/rest/info/server-date").then(result => {
-            if (result.ok) {
-                result.json().then(dateTimeDto => {
-                    serverDate = new Date(dateTimeDto.serverDateStr);
-                    Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
-                    this.setState({
-                        filter_serverDate: serverDate
+        let promise = new Promise((resolve) => {
+            ReqUtilities.getRequest("/rest/info/server-date").then(result => {
+                if (result.ok) {
+                    result.json().then(dateTimeDto => {
+                        serverDate = new Date(dateTimeDto.serverDateStr);
+                        Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
+                        this.setState({
+                            filter_serverDate: serverDate
+                        })
+
+                        resolve();
                     })
-                })
-            }
+                }
+            });
         });
+
+        promise.then(() => {
+            console.log("Server date 111: ", serverDate);
+        })
 
         // Set component state:
         this.setState({
