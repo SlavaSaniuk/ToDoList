@@ -12,7 +12,7 @@ public class DateTimeDto {
     private String serverDateStr;
 
     public static DateTimeDto ofDate(LocalDate aDate) {
-        String jsDateStr = String.format("%d, %d, %d", aDate.getYear(), aDate.getMonthValue()-1, aDate.getDayOfMonth());
+        String jsDateStr = String.format("%d, %d, %d", aDate.getYear(), aDate.getMonthValue(), aDate.getDayOfMonth());
 
         DateTimeDto dto = new DateTimeDto();
         dto.setServerDateStr(jsDateStr);

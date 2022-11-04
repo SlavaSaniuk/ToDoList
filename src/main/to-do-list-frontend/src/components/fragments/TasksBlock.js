@@ -7,6 +7,8 @@ import {ReqUtilities} from "../utilities/ReqUtilities";
 import {TaskStatus} from "../dto/TaskDto";
 import {CheckmarkButton, CrossButton, PlusButton} from "../Buttons";
 import {Logging} from "../../js/utils/Logging";
+import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
+import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -111,6 +113,7 @@ class TasksContentBlock extends React.Component {
 
 }
 
+/*
 const TasksFilterTab =(props) => {
     return(
         <p className={"tasks-filter-tab tasks-filter-tab-text col-2"}>{props.tabText}</p>
@@ -138,11 +141,15 @@ const TasksInfoPanel =() => {
     </div>);
 }
 
+
+ */
+
 /**
  * Edit button statuses:
  * ACTIVE - 0;
  * DISABLED - 1;
  */
+
 const TasksEditBtnStatus = {ACTIVE: 0, DISABLED: 1};
 
 /**
@@ -251,6 +258,22 @@ const TasksEditPanel =(props) => {
     </div>)
 }
 
+const TaskFilterItem =(props) => {
+    return (<MenuItem itemText={props.itemText} itemClass={"filter-item"} />)
+}
+
+const TasksFilter =(props) => {
+    return (<Menu menuDirection={MenuDirection.HORIZONTAL} menuClass={"tasks-filter col-6"} > {props.children} </Menu>)
+}
+
+const TasksFilterInfoPanel =(props) => {
+    return (<div className={"col-6"}> <p> {props.infoText} </p> </div>)
+}
+
+const TasksFilterPanel =(props) => {
+    return (<div className={"tasks-filter-panel col-8 row"}> {props.children} </div>)
+}
+
 /**
  * This element is menu of {TasksEditBtn} control buttons.
  * @param props - react properties.
@@ -267,8 +290,7 @@ const TasksTopMenu =(props) => {
         <div className={"tasks-top-menu row"} >
             <TasksEditPanel tasksEditBtnStatuses={props.tasksEditBtnStatuses}
                             tasksEditBtnFunctions={props.tasksEditBtnFunctions} />
-            <TasksInfoPanel />
-            <TasksFilterPanel />
+            {props.children}
         </div>
     );
 }
@@ -346,11 +368,38 @@ class TasksBlock extends React.Component {
             // ==== EDIT BUTTON STATUSES ====
             statusAddBtn: TasksEditBtnStatus.ACTIVE, // "Add" button status;
             statusRemoveBtn: TasksEditBtnStatus.DISABLED, // "Remove" button status;
+            // ==== FILTER =====
+            filter_serverDate: new Date(2022, 0, 1), // Server date;
+            filterInfoText: ""
         };
     }
 
     componentDidMount() {
         this.loadUserTasks().then();
+
+        // Server date:
+        let serverDate = null;
+
+        // Get server date:
+        ReqUtilities.getRequest("/rest/info/server-date").then(result => {
+            if (result.ok) {
+                result.json().then(dateTimeDto => {
+                    serverDate = new Date(dateTimeDto.serverDateStr);
+                    Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
+                    this.setState({
+                        filter_serverDate: serverDate
+                    })
+                })
+            }
+        });
+
+        // Set component state:
+        this.setState({
+           // filter_serverDate: serverDate,
+           // filter_serverDate: serverDate,
+        });
+
+
     }
 
     /**
@@ -617,13 +666,27 @@ class TasksBlock extends React.Component {
             );
         }
 
+        // ===== Render TaskTopMenuBlock ====
+        console.log("Date: ", this.state.filter_serverDate);
+        const TASKS_TOP_MENU = (
+            <TasksTopMenu tasksEditBtnFunctions={this.tasksEditBtnFunctions} tasksEditBtnStatuses={this.tasksEditBtnStatuses} >
+                <TasksFilterPanel>
+                    <TasksFilterInfoPanel infoText={this.state.filterInfoText}/>
+                    <TasksFilter>
+                        <TaskFilterItem itemText={"ALL"} />
+                        <TaskFilterItem itemText={DateTimeUtilities.dateMonthAndDayToStr(this.state.filter_serverDate)} />
+                        <TaskFilterItem itemText={DateTimeUtilities.dateMonthAndDayToStr(DateTimeUtilities.addDays(this.state.filter_serverDate,1))} />
+                        <TaskFilterItem itemText={"+7"} />
+                    </TasksFilter>
+                </TasksFilterPanel>
+            </TasksTopMenu>
+        );
+
 
         return (
             <div className={"tasks-block m-auto"} >
-                <TasksTopMenu
-                    tasksEditBtnFunctions={this.tasksEditBtnFunctions}
-                    tasksEditBtnStatuses={this.tasksEditBtnStatuses}
-                />
+                {TASKS_TOP_MENU}
+
                 {contentBlock}
                 <TasksFooter />
             </div>
