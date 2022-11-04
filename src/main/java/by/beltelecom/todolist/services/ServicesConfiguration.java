@@ -10,6 +10,7 @@ import by.beltelecom.todolist.services.security.owning.OwnerChecker;
 import by.beltelecom.todolist.services.security.owning.TasksOwnerChecker;
 import by.beltelecom.todolist.services.security.role.RoleService;
 import by.beltelecom.todolist.services.security.role.RoleServiceImpl;
+import by.beltelecom.todolist.services.system.SystemServicesConfiguration;
 import by.beltelecom.todolist.services.tasks.TasksService;
 import by.beltelecom.todolist.services.tasks.TasksServiceImpl;
 import by.beltelecom.todolist.services.tasks.UserTasksManager;
@@ -22,8 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
+@Import(SystemServicesConfiguration.class)
 public class ServicesConfiguration {
 
     // Logger:
