@@ -1,3 +1,4 @@
+import React from "react";
 import '../../styles/ui/menu.css'
 
 /**
@@ -30,11 +31,34 @@ export const MenuDirection = {HORIZONTAL: 0, VERTICAL: 1}
  * Single menu item component.
  * @param props - component props.
  * =========== Component props =============
+ * @property itemId - item identification;
  * @property itemText - menu item text;
  * @property itemClass - menu item div classname;
  * @property itemTextClass - menu item inner p classname;
+ * @property clickFunction - onClick action function;
  * @returns {JSX.Element} - menu item component.
  */
-export const MenuItem =(props) => {
-    return (<div className={props.itemClass +" menu-item"}> <p className={"menu-item-p " +props.itemTextClass}> {props.itemText} </p> </div>);
+export class MenuItem extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // Bind functions:
+        this.onClick.bind(this);
+    }
+
+    // ========= FUNCTIONS ===========
+    onClick =() => {
+        this.props.clickFunction(this.props.itemId);
+    }
+
+    render() {
+        return (
+            <div id={this.props.itemId} className={this.props.itemClass +" menu-item"} onClick={this.onClick}>
+                <p className={"menu-item-p " +this.props.itemTextClass}> {this.props.itemText} </p>
+            </div>
+        );
+    }
+
+
+
 }
