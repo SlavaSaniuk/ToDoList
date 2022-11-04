@@ -2,6 +2,11 @@ import React from "react";
 import {Logging} from "../../js/utils/Logging";
 import '../../styles/fragments/AdministrationPanel.css'
 import {ReqUtilities} from "../utilities/ReqUtilities";
+import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
+
+export const AdministrationPanel =(props) => {
+    return <AdministrationBlock gl_applicationUser={props.gl_applicationUser} />
+}
 
 /**
  * AdministrationBlock is root component of AdministrationPanel fragment that check render or do not render
@@ -91,14 +96,21 @@ class AdministrationBlock extends React.Component {
 
         return (
             <div className={"admin-block"}>
-                <p> Administration panel </p>
-
+                <AdministrationMenu >
+                    <AdministrationMenuItem itemText={"Users management"} />
+                    <AdministrationMenuItem itemText={"Tasks management"} />
+                    <AdministrationMenuItem itemText={"Server configuration"} />
+                </AdministrationMenu>
             </div>
         );
     }
 
 }
 
-export const AdministrationPanel =(props) => {
-    return <AdministrationBlock gl_applicationUser={props.gl_applicationUser} />
+const AdministrationMenu =(props) => {
+    return <Menu menuDirection={MenuDirection.VERTICAL} menuClass={"administration-menu"}> {props.children} </Menu>
+}
+
+const AdministrationMenuItem =(props) => {
+    return <MenuItem itemClass={"administration-menu-item"} itemText={props.itemText} />
 }
