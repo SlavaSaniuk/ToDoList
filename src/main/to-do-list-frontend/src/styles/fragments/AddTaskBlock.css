@@ -99,3 +99,17 @@
     outline: none;
     background-color: #615f92;
 }
+
+.task-addition {
+    color: red;
+    transition: height .2s linear;
+}
+
+.task-addition-hided {
+    overflow: hidden;
+    height: 0;
+}
+
+.task-addition-showed {
+    height: 200px;
+}

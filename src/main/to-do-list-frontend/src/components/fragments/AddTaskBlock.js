@@ -118,4 +118,35 @@ class AddTaskBlock extends React.Component {
     }
 }
 
+
+export class TaskAddition extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isShow: this.props.isShow
+        }
+    }
+
+
+    componentWillReceiveProps(nextProps, nextContent){
+        if (nextProps.isShow !== this.props.isShow) {
+            this.setState({ isShow: nextProps.isShow})
+        }
+    }
+
+
+    render() {
+
+        // Check if needed to display this block:
+        let showClass = this.state.isShow ? "task-addition-showed" : "task-addition-hided";
+
+        return (
+            <div className={"task-addition " +showClass}>
+                <input />
+            </div>
+        );
+    }
+}
+
 export {AddTaskBlock};

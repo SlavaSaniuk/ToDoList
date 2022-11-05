@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Now TasksRestDto return Task dateCreation and dateCompletion fields.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Tested TaskRestDto">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/TaskWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/TaskWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsTaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsTaskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/info/InfoRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/info/InfoRestControllerTestsCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +109,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TaskRestControllerTestsCase">
+  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
     <configuration name="AdministrationRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -242,14 +241,7 @@
       <workItem from="1667423905766" duration="18000" />
       <workItem from="1667499418183" duration="4991000" />
       <workItem from="1667581954716" duration="2942000" />
-      <workItem from="1667659164239" duration="4885000" />
-    </task>
-    <task id="LOCAL-00007" summary="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService">
-      <created>1660766208275</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1660766208275</updated>
+      <workItem from="1667659164239" duration="7461000" />
     </task>
     <task id="LOCAL-00008" summary="Worked and Tested DatabaseAuthenticationProvider/">
       <created>1660845239917</created>
@@ -587,7 +579,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667661297779</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="Tested TaskRestDto">
+      <created>1667664107144</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1667664107145</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -609,7 +608,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added TestsTaskService test service." />
     <MESSAGE value="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task." />
     <MESSAGE value="Moved ArgumentChecker class." />
     <MESSAGE value="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!." />
@@ -634,7 +632,8 @@
     <MESSAGE value="Now TaskFilterItem can be active." />
     <MESSAGE value="Worked filter item selection rendering." />
     <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
-    <option name="LAST_COMMIT_MESSAGE" value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
+    <MESSAGE value="Tested TaskRestDto" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tested TaskRestDto" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
