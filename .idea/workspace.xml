@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked filter item selection rendering.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/utilities/datetime/DateTimeUtilities.java" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Now TasksRestDto return Task dateCreation and dateCompletion fields.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/DateTimeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/DateTimeDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/task/TaskRestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/task/TaskRestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/TaskWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/data/wrappers/TaskWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsTaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/configuration/services/TestsTaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/info/InfoRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/info/InfoRestControllerTestsCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/by/beltelecom/todolist/integration/web/rest/tasks/TaskRestControllerTestsCase.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +110,7 @@
       <command value="mvn clean" />
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ToDoListApplication">
+  <component name="RunManager" selected="JUnit.TaskRestControllerTestsCase">
     <configuration name="AdministrationRestControllerTestsCase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ToDoList" />
       <extension name="coverage">
@@ -195,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TaskRestControllerTestsCase" />
         <item itemvalue="JUnit.AdministrationRestControllerTestsCase" />
         <item itemvalue="JUnit.AdministrationRestControllerTestsCase.userRoles_userHas4Roles_shouldReturnListWith4UserRoles" />
         <item itemvalue="JUnit.UserDetailsServiceTestsCase" />
         <item itemvalue="JUnit.RoleServiceTestsCase" />
-        <item itemvalue="JUnit.TaskRestControllerTestsCase" />
       </list>
     </recent_temporary>
   </component>
@@ -241,14 +242,7 @@
       <workItem from="1667423905766" duration="18000" />
       <workItem from="1667499418183" duration="4991000" />
       <workItem from="1667581954716" duration="2942000" />
-      <workItem from="1667659164239" duration="1882000" />
-    </task>
-    <task id="LOCAL-00006" summary="Imported schema">
-      <created>1660762622544</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1660762622545</updated>
+      <workItem from="1667659164239" duration="4885000" />
     </task>
     <task id="LOCAL-00007" summary="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService">
       <created>1660766208275</created>
@@ -586,7 +580,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667660064100</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Now TasksRestDto return Task dateCreation and dateCompletion fields.">
+      <created>1667661297779</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1667661297779</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -608,7 +609,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Migrated NotFoundException to RuntimeNotFoundException" />
     <MESSAGE value="Added TestsTaskService test service." />
     <MESSAGE value="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task." />
     <MESSAGE value="Moved ArgumentChecker class." />
@@ -633,7 +633,8 @@
     <MESSAGE value="Worked AdministrationPanel.js rendering based on application user roles." />
     <MESSAGE value="Now TaskFilterItem can be active." />
     <MESSAGE value="Worked filter item selection rendering." />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked filter item selection rendering." />
+    <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
+    <option name="LAST_COMMIT_MESSAGE" value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

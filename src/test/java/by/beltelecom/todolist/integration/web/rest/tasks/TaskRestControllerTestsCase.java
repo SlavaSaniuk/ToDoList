@@ -6,6 +6,7 @@ import by.beltelecom.todolist.configuration.services.TestsUserService;
 import by.beltelecom.todolist.data.models.Task;
 import by.beltelecom.todolist.data.models.User;
 import by.beltelecom.todolist.data.wrappers.TaskWrapper;
+import by.beltelecom.todolist.utilities.datetime.DateTimeUtilities;
 import by.beltelecom.todolist.web.ExceptionStatusCodes;
 import by.beltelecom.todolist.web.dto.rest.ExceptionRestDto;
 import by.beltelecom.todolist.web.dto.rest.task.TaskRestDto;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
@@ -209,6 +211,50 @@ public class TaskRestControllerTestsCase {
         Assertions.assertFalse(restDto.isException());
         Assertions.assertFalse(restDto.getTasksList().isEmpty());
         Assertions.assertEquals(5, restDto.getTasksList().size());
+
+    }
+
+    @Test
+    void loadUserTasks_userHasTenTaskWithDateOfCompletion_shouldReturnListOfUserTasksWithDateOfCompletion() throws Exception {
+        // Create user and tasks:
+        TestingUser testingUser = this.testsUserService.testingUser("loadUSerTask3");
+
+        LocalDate dateOfCompletion = LocalDate.now().plusDays(3L);
+        this.testsTaskService.builder().withWordsCountInName(6)
+                .withDateOfCompletion(dateOfCompletion)
+                .buildList(testingUser.getUser(), 10);
+
+        // Create request:
+        MvcResult mvcResult = this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/rest/task/" +testingUser.getUser().getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
+                                .header("Authorization", testingUser.authentication().getAuthorizationHeaderValue()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String responseJson = mvcResult.getResponse().getContentAsString();
+        LOGGER.debug("Response JSON: " +responseJson);
+
+        TasksListRestDto restDto = this.objectMapper.readValue(responseJson, TasksListRestDto.class);
+        Assertions.assertNotNull(restDto);
+        Assertions.assertFalse(restDto.isException());
+        Assertions.assertFalse(restDto.getTasksList().isEmpty());
+        Assertions.assertEquals(10, restDto.getTasksList().size());
+
+       // Test date of creation and completion:
+       restDto.getTasksList().forEach((taskRestDto -> {
+           Assertions.assertNotNull(taskRestDto);
+           Assertions.assertNotNull(taskRestDto.getDateOfCompletion());
+           Assertions.assertFalse(taskRestDto.getDateOfCompletion().isEmpty());
+           Assertions.assertEquals(DateTimeUtilities.dateToJsString(dateOfCompletion), taskRestDto.getDateOfCompletion());
+           Assertions.assertNotNull(taskRestDto.getDateOfCreation());
+           Assertions.assertFalse(taskRestDto.getDateOfCreation().isEmpty());
+           Assertions.assertEquals(DateTimeUtilities.dateToJsString(LocalDate.now()), taskRestDto.getDateOfCreation());
+
+           LOGGER.debug(String.format("TaskRestDto[name: %s, creation date: [%s], completion date: [%s]];",
+                   taskRestDto.getTaskName(), taskRestDto.getDateOfCreation(), taskRestDto.getDateOfCompletion()));
+       }));
 
     }
 

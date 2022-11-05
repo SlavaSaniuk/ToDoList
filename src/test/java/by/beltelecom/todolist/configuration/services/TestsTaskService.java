@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,11 @@ public class TestsTaskService {
     private TasksService tasksService;
     // Class variables:
     private static final int DEFAULT_NUMBER_OF_WORDS = 4; // Number of words in task name.
+    private final TestTaskBuilder builder = new TestTaskBuilder();
+
+    public TestTaskBuilder builder() {
+        return this.builder;
+    }
 
     public Task createTask() {
         LOGGER.debug(String.format("Create task object with number of words in name: %d;", DEFAULT_NUMBER_OF_WORDS));
@@ -58,5 +64,40 @@ public class TestsTaskService {
         List<Task> generatedTasks = new ArrayList<>();
         for (int i=0; i<aNumberOfTasks; i++) generatedTasks.add(this.testTask(aUser));
         return generatedTasks;
+    }
+
+    public class TestTaskBuilder {
+
+        private int wordsCountInName = 1; // words count in task name;
+
+        private LocalDate dateOfCompletion; // task date of completion;
+
+        public TestTaskBuilder withWordsCountInName(int aWordsCountInName) {
+            this.wordsCountInName = aWordsCountInName;
+            return this;
+        }
+
+        public TestTaskBuilder withDateOfCompletion(LocalDate aDateOfCompletion) {
+            this.dateOfCompletion = aDateOfCompletion;
+            return this;
+        }
+
+        public Task build(User aUser) {
+            Task task = new TaskWrapper.Builder()
+                    .withName(Randomizer.randomSentence(this.wordsCountInName))
+                    .withDateOfCompletion(this.dateOfCompletion)
+                    .build();
+            return saveTask(task, aUser);
+        }
+
+        public List<Task> buildList(User aUser, int aListSize) {
+            List<Task> tasksList = new ArrayList<>();
+
+            for (int i=0; i<aListSize; i++) tasksList.add(this.build(aUser));
+
+            return tasksList;
+        }
+
+
     }
 }

@@ -55,9 +55,9 @@ public class InfoRestControllerTestsCase {
         // Get response DTO:
         DateTimeDto dto = this.objectMapper.readValue(responseJson, DateTimeDto.class);
         Assertions.assertNotNull(dto);
-        Assertions.assertNotNull(dto.getServerDateStr());
-        Assertions.assertFalse(dto.getServerDateStr().isEmpty());
+        Assertions.assertNotNull(dto.getDateStr());
+        Assertions.assertFalse(dto.getDateStr().isEmpty());
 
-        LOGGER.debug(String.format("Server date: %s;", dto.getServerDateStr()));
+        LOGGER.debug(String.format("Server date: %s;", dto.getDateStr()));
     }
 }
