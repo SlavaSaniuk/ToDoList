@@ -402,7 +402,7 @@ class TasksBlock extends React.Component {
         ReqUtilities.getRequest("/rest/info/server-date").then(result => {
             if (result.ok) {
                 result.json().then(dateTimeDto => {
-                    serverDate = new Date(dateTimeDto.serverDateStr);
+                    serverDate = new Date(dateTimeDto.dateStr);
                     Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
                     this.setState({
                         filter_serverDate: serverDate

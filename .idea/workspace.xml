@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Now TaskFilterItem can be active.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked filter item selection rendering.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/utilities/datetime/DateTimeUtilities.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/DateTimeDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/DateTimeDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/task/TaskRestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/by/beltelecom/todolist/web/dto/rest/task/TaskRestDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,9 +20,9 @@
       <list>
         <option value="HTML File" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -239,14 +241,7 @@
       <workItem from="1667423905766" duration="18000" />
       <workItem from="1667499418183" duration="4991000" />
       <workItem from="1667581954716" duration="2942000" />
-      <workItem from="1667659164239" duration="576000" />
-    </task>
-    <task id="LOCAL-00005" summary="Created entity objects, but tests are not working!">
-      <created>1660676746029</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1660676746029</updated>
+      <workItem from="1667659164239" duration="1882000" />
     </task>
     <task id="LOCAL-00006" summary="Imported schema">
       <created>1660762622544</created>
@@ -584,7 +579,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667584733574</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Worked filter item selection rendering.">
+      <created>1667660064100</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1667660064100</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -606,7 +608,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects." />
     <MESSAGE value="Migrated NotFoundException to RuntimeNotFoundException" />
     <MESSAGE value="Added TestsTaskService test service." />
     <MESSAGE value="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task." />
@@ -631,7 +632,8 @@
     <MESSAGE value="Worked and tested AdministrationRestController" />
     <MESSAGE value="Worked AdministrationPanel.js rendering based on application user roles." />
     <MESSAGE value="Now TaskFilterItem can be active." />
-    <option name="LAST_COMMIT_MESSAGE" value="Now TaskFilterItem can be active." />
+    <MESSAGE value="Worked filter item selection rendering." />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked filter item selection rendering." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
