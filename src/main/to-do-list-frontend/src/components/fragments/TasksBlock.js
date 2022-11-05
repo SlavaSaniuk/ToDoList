@@ -371,6 +371,7 @@ class TasksBlock extends React.Component {
         this.completeUserTask.bind(this);
         this.onCompleteUserTasks.bind(this);
         this.onClickFilterItem.bind(this);
+        this.isActiveFilterItem.bind(this);
 
         // Element state:
         this.state = {
@@ -653,8 +654,25 @@ class TasksBlock extends React.Component {
 
     }
 
-    onClickFilterItem =(aItemId) => {
-        console.log("Click on: ", aItemId);
+    /**
+     * Filter item onClick action function.
+     * @param aItemType - filter item type.
+     */
+    onClickFilterItem =(aItemType) => {
+
+        // Set component state:
+        this.setState({
+            filter_activeItem: aItemType
+        })
+    }
+
+    /**
+     * Check if specified filter item is active now.
+     * @param aItemType - filter item type.
+     * @returns {boolean} - true if filter item is active now.
+     */
+    isActiveFilterItem =(aItemType) => {
+        return aItemType === this.state.filter_activeItem;
     }
 
     /**
@@ -694,13 +712,13 @@ class TasksBlock extends React.Component {
                     <TasksFilterInfoPanel infoText={this.state.filterInfoText}/>
                     <TasksFilter>
                         <TaskFilterItem itemId={FilterItemType.ALL} itemText={"ALL"} clickFunction={this.onClickFilterItem}
-                                        isActive={false} />
-                        <TaskFilterItem itemId={FilterItemType.TODAY} clickFunction={this.onClickFilterItem} isActive={true}
+                                        isActive={this.isActiveFilterItem(FilterItemType.ALL)} />
+                        <TaskFilterItem itemId={FilterItemType.TODAY} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TODAY)}
                                         itemText={DateTimeUtilities.dateMonthAndDayToStr(this.state.filter_serverDate)} />
-                        <TaskFilterItem itemId={FilterItemType.TOMORROW} clickFunction={this.onClickFilterItem} isActive={false}
+                        <TaskFilterItem itemId={FilterItemType.TOMORROW} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TOMORROW)}
                                         itemText={DateTimeUtilities.dateMonthAndDayToStr(DateTimeUtilities.addDays(this.state.filter_serverDate,1))} />
                         <TaskFilterItem itemId={FilterItemType.WEEK} itemText={"+7"} clickFunction={this.onClickFilterItem}
-                                        isActive={false} />
+                                        isActive={this.isActiveFilterItem(FilterItemType.WEEK)} />
                     </TasksFilter>
                 </TasksFilterPanel>
             </TasksTopMenu>

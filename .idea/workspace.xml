@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked AdministrationPanel.js rendering based on application user roles.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Now TaskFilterItem can be active.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/Menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/Menu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/TasksBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/TasksBlock.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,14 +238,8 @@
       <workItem from="1667419655394" duration="3949000" />
       <workItem from="1667423905766" duration="18000" />
       <workItem from="1667499418183" duration="4991000" />
-      <workItem from="1667581954716" duration="2650000" />
-    </task>
-    <task id="LOCAL-00004" summary="Worked updateTask method in TaskController">
-      <created>1660597249228</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1660597249228</updated>
+      <workItem from="1667581954716" duration="2942000" />
+      <workItem from="1667659164239" duration="576000" />
     </task>
     <task id="LOCAL-00005" summary="Created entity objects, but tests are not working!">
       <created>1660676746029</created>
@@ -585,7 +577,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667503764379</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Now TaskFilterItem can be active.">
+      <created>1667584733573</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1667584733574</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +606,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
     <MESSAGE value="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects." />
     <MESSAGE value="Migrated NotFoundException to RuntimeNotFoundException" />
     <MESSAGE value="Added TestsTaskService test service." />
@@ -632,7 +630,8 @@
     <MESSAGE value="Added application user global variables." />
     <MESSAGE value="Worked and tested AdministrationRestController" />
     <MESSAGE value="Worked AdministrationPanel.js rendering based on application user roles." />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked AdministrationPanel.js rendering based on application user roles." />
+    <MESSAGE value="Now TaskFilterItem can be active." />
+    <option name="LAST_COMMIT_MESSAGE" value="Now TaskFilterItem can be active." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
