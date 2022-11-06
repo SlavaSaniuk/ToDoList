@@ -1,5 +1,8 @@
 import React from "react";
 import '../../styles/fragments/AddTaskBlock.css'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import {Localization} from "../../js/localization/localization";
 
 const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
 
@@ -129,6 +132,11 @@ export class TaskAddition extends React.Component {
     }
 
 
+    /**
+     * Set state fields from component props when component is in update.
+     * @param nextProps - new props value.
+     * @param nextContent - new content.
+     */
     componentWillReceiveProps(nextProps, nextContent){
         if (nextProps.isShow !== this.props.isShow) {
             this.setState({ isShow: nextProps.isShow})
@@ -138,12 +146,13 @@ export class TaskAddition extends React.Component {
 
     render() {
 
+        console.log(Localization.getLocalizedString("name"));
         // Check if needed to display this block:
         let showClass = this.state.isShow ? "task-addition-showed" : "task-addition-hided";
 
         return (
             <div className={"task-addition " +showClass}>
-                <input />
+                <input type={"text"} placeholder={Localization.getLocalizedString("task_name_input_placeholder")} />
             </div>
         );
     }

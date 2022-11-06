@@ -1,3 +1,3 @@
 export const Properties = {
-    DebugLogging: true
+    DebugLogging: true,
 }

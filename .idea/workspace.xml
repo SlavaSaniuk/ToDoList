@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Tested TaskRestDto">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on AddTaskBlock.js need to set inputs for date fields">
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/Task.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" afterDir="false" />
     </list>
@@ -21,8 +26,8 @@
         <option value="HTML File" />
         <option value="Enum" />
         <option value="Interface" />
-        <option value="JavaScript File" />
         <option value="Class" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -241,14 +246,8 @@
       <workItem from="1667423905766" duration="18000" />
       <workItem from="1667499418183" duration="4991000" />
       <workItem from="1667581954716" duration="2942000" />
-      <workItem from="1667659164239" duration="7461000" />
-    </task>
-    <task id="LOCAL-00008" summary="Worked and Tested DatabaseAuthenticationProvider/">
-      <created>1660845239917</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1660845239917</updated>
+      <workItem from="1667659164239" duration="7528000" />
+      <workItem from="1667751572371" duration="3763000" />
     </task>
     <task id="LOCAL-00009" summary="Created DatabaseAuthenticationManager">
       <created>1660847584469</created>
@@ -586,7 +585,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667664107145</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Work on AddTaskBlock.js need to set inputs for date fields">
+      <created>1667666711684</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1667666711684</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -608,7 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task." />
     <MESSAGE value="Moved ArgumentChecker class." />
     <MESSAGE value="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!." />
     <MESSAGE value="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto" />
@@ -633,7 +638,8 @@
     <MESSAGE value="Worked filter item selection rendering." />
     <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
     <MESSAGE value="Tested TaskRestDto" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tested TaskRestDto" />
+    <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
+    <option name="LAST_COMMIT_MESSAGE" value="Work on AddTaskBlock.js need to set inputs for date fields" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

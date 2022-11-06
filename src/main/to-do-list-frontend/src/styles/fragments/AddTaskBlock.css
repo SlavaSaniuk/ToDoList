@@ -101,7 +101,7 @@
 }
 
 .task-addition {
-    color: red;
+    background-color: red;
     transition: height .2s linear;
 }
 

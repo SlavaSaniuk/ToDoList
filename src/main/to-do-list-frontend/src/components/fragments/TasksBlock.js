@@ -100,8 +100,7 @@ class TasksContentBlock extends React.Component {
         return(
             <div>
                 <TaskAddition isShow={this.props.showAddTaskBlock} />
-                <AddTaskBlock isShow={this.props.showAddTaskBlock} showAddTaskBlockFunc={this.props.showAddTaskBlockFunc}
-                              funcOnAddNewTask={this.props.funcOnAddNewTask} />
+
                 <TasksList tasksList={this.props.tasksList}
                            funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
                            taskControlFuncs={this.props.taskControlFuncs}
