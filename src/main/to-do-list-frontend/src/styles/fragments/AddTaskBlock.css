@@ -165,7 +165,7 @@
 }
 
 .text-area-task-desc:focus {
-    font-size: 1.13em;
+    font-size: 1em;
     color: #000000;
 }
 
@@ -177,6 +177,7 @@
 
 .react-datepicker-wrapper {
     width: 100%;
+    margin-top: 5px;
 }
 .react-datepicker__input-container input {
     width: 100%;
@@ -184,8 +185,14 @@
     border-bottom: 1px solid #cdcdcd;
     text-align: center;
     height: 1.4em;
-    font-size: 1.33em;
+    font-size: 1em;
     color: #393939;
+    outline: none;
+}
+
+.react-datepicker__input-container input:active {
+    border: none;
+    outline: none;
 }
 
 /* Adding task control buttons block */

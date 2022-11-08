@@ -200,8 +200,6 @@ export class TaskAddition extends React.Component {
         // Clear user inputs:
         this.onClear();
 
-
-
         // Call parent hide functions:
         this.props.at_appearanceFunc(false);
     }

@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task addition block">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Styling AT block">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -247,14 +245,7 @@
       <workItem from="1667816558699" duration="3670000" />
       <workItem from="1667834321721" duration="1335000" />
       <workItem from="1667839567328" duration="4144000" />
-      <workItem from="1667931769428" duration="4419000" />
-    </task>
-    <task id="LOCAL-00011" summary="Worked SignController#loginAccount method">
-      <created>1660849441907</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1660849441907</updated>
+      <workItem from="1667931769428" duration="5779000" />
     </task>
     <task id="LOCAL-00012" summary="Customized login pape">
       <created>1660850171847</created>
@@ -592,7 +583,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667843682270</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Styling AT block">
+      <created>1667936252560</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1667936252600</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -614,7 +612,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto" />
     <MESSAGE value="Addde TestingUser.Authentication inner class." />
     <MESSAGE value="Added SVG task control buttons icons." />
     <MESSAGE value="Worked Task.js EDIT control button (Only front)." />
@@ -639,7 +636,8 @@
     <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
     <MESSAGE value="Added localization support" />
     <MESSAGE value="Work on task addition block" />
-    <option name="LAST_COMMIT_MESSAGE" value="Work on task addition block" />
+    <MESSAGE value="Styling AT block" />
+    <option name="LAST_COMMIT_MESSAGE" value="Styling AT block" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
