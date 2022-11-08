@@ -103,9 +103,13 @@
 .task-addition {
     width: 99%;
     margin-left: 0.5%;
-    transition: height .2s linear;
-    border-bottom: 1px solid #000000;
-    padding: 10px 0;
+    transition: all .2s linear;
+    padding: 10px 0 0 0;
+}
+
+.at-hidden {
+    height: 0;
+    transform:translate(9999px);
 }
 
 .task-addition-hided {
@@ -114,6 +118,7 @@
 }
 
 .task-addition-showed {
+    border-bottom: 1px solid #000000;
 }
 
 .name-desc-blk {
@@ -183,10 +188,35 @@
     color: #393939;
 }
 
-.control-btns-blk {
-    width: 100%;
-    margin-top: 10px;
+/* Adding task control buttons block */
+
+.at_control-buttons-block {
+    width: 98%;
+    margin: 10px 1% 0;
+    padding: 5px 0;
+
     border-top: 1px solid #cdcdcd;
+}
+
+.at_control-btn {
+    width: 100px;
+    margin-left: 6px;
+    padding: 3px;
+
+    border: none;
+    border-radius: 0;
+    background-color: #7c79c9;
+
+    font-family: UZSans-Bold, system-ui;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #FFFFFF;
+
+    transition: background-color .1s linear;
+}
+
+.at_control-btn:hover {
+    background-color: #403e66;
 }
 
 

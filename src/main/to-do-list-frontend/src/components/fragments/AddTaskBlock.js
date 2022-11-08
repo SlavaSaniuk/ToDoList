@@ -3,7 +3,6 @@ import '../../styles/fragments/AddTaskBlock.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import {Localization} from "../../js/localization/localization";
-import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 import {TextButton} from "../Buttons";
 
 const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
@@ -123,15 +122,22 @@ class AddTaskBlock extends React.Component {
     }
 }
 
-
+/**
+ * @property at_appearanceFunc - Task addition appearance function.
+ */
 export class TaskAddition extends React.Component {
     constructor(props) {
         super(props);
+
+        // Refs:
+        this.atBlock = React.createRef(); // Ref on AddingTask div (task-addition);
 
         // Bind functions:
         this.onChangeNameAreaValue = this.onChangeNameAreaValue.bind(this);
         this.onChangeDescAreaValue = this.onChangeDescAreaValue.bind(this);
         this.onChangeDateCompletionValue = this.onChangeDateCompletionValue.bind(this);
+        this.onClear.bind(this);
+        this.onHide.bind(this);
 
         // Component state:
         this.state = {
@@ -176,11 +182,49 @@ export class TaskAddition extends React.Component {
         })
     }
 
+    /**
+     * Clear user inputs.
+     */
+    onClear =() => {
+        this.setState({
+            nameAreaValue: "",
+            descAreaValue: "",
+            completionInputValue: ""
+        })
+    }
+
+    /**
+     * Hide TaskAddition block.
+     */
+    onHide =() => {
+        // Clear user inputs:
+        this.onClear();
+
+
+
+        // Call parent hide functions:
+        this.props.at_appearanceFunc(false);
+    }
 
     render() {
 
         // Check if needed to display this block:
-        let showClass = this.state.isShow ? "task-addition-showed" : "task-addition-hided";
+        let showClass = this.state.isShow ? "task-addition-showed" : "at-hidden";
+
+        // Construct AT Name/desc panel:
+
+        // Construct AT date selection panel:
+
+        // Construct AT control buttons BLOCK:
+        const CONTROL_BUTTONS_BLOCK = (
+            <div className={"at_control-buttons-block"}>
+                <TextButton btnText={Localization.getLocalizedString("at_control_btn_add")} classes={"at_control-btn"} />
+                <TextButton btnText={Localization.getLocalizedString("at_control_btn_clear")} classes={"at_control-btn"}
+                            clickFunc={this.onClear} />
+                <TextButton btnText={Localization.getLocalizedString("at_control_btn_cancel")} classes={"at_control-btn"}
+                            clickFunc={this.onHide} />
+            </div>
+        );
 
         return (
             <div className={"row task-addition " +showClass}>
@@ -198,15 +242,14 @@ export class TaskAddition extends React.Component {
                                 dateFormat="dd.MM.yyyy"
                     />
                 </div>
-                <div className={"control-btns-blk"}>
-                    <TextButton btnText={"Apply"} />
-                    <TextButton btnText={"Cancel"} />
-                </div>
 
+                {CONTROL_BUTTONS_BLOCK}
             </div>
         );
     }
 }
+
+
 
 const TaskAdditionTextArea =(props) => {
 
