@@ -101,10 +101,11 @@
 }
 
 .task-addition {
-    display: flex;
-    flex-direction: column;
-
+    width: 99%;
+    margin-left: 0.5%;
     transition: height .2s linear;
+    border-bottom: 1px solid #000000;
+    padding: 10px 0;
 }
 
 .task-addition-hided {
@@ -115,8 +116,15 @@
 .task-addition-showed {
 }
 
-.text-area-task {
+.name-desc-blk {
+    margin: 0 5px;
     width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.text-area-task {
+    width: 100%;
     margin: 0 10px;
 
     resize: none;
@@ -124,24 +132,61 @@
     outline: none;
 
     border: none;
-    border-bottom: 1px solid #cecece
+    border-bottom: 1px solid #cecece;
+}
+
+.text-area-task::placeholder {
+    color: #393939;
 }
 
 .text-area-task-name {
-
-    font-family: system-ui;
-
     font-size: 1.3em;
     height: 1.4em;
     color: #393939;
 
 }
 
-.text-area-task-name::placeholder {
-    color: #393939;
-}
-
 .text-area-task-name:focus {
     font-size: 1.33em;
     color: #000000;
 }
+
+.text-area-task-desc {
+    margin: 5px 10px;
+    font-size: 1.1em;
+    height: 1.4em;
+    color: #393939;
+
+}
+
+.text-area-task-desc:focus {
+    font-size: 1.13em;
+    color: #000000;
+}
+
+.date-blk {
+    padding-left: 10px;
+    width: 28%;
+    border-left: 1px solid #cdcdcd;
+}
+
+.react-datepicker-wrapper {
+    width: 100%;
+}
+.react-datepicker__input-container input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+    text-align: center;
+    height: 1.4em;
+    font-size: 1.33em;
+    color: #393939;
+}
+
+.control-btns-blk {
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px solid #cdcdcd;
+}
+
+

@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import {Localization} from "../../js/localization/localization";
 import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
+import {TextButton} from "../Buttons";
 
 const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
 
@@ -137,7 +138,7 @@ export class TaskAddition extends React.Component {
             isShow: this.props.isShow,
             nameAreaValue: "",
             descAreaValue: "",
-            completionInputValue: DateTimeUtilities.addDays(new Date(), 1)
+            completionInputValue: ""
         }
     }
 
@@ -149,7 +150,7 @@ export class TaskAddition extends React.Component {
     }
 
     /**
-     * Function calling when task name desc area value changed (onChange).
+     * Function calling when task name area value changed (onChange action).
      * Function set state nameAreaValue property to current area text value.
      * @param event - onChange event.
      */
@@ -163,7 +164,7 @@ export class TaskAddition extends React.Component {
 
     onChangeDescAreaValue =(event) => {
         event.preventDefault();
-
+        event.target.style.height = event.target.scrollHeight +"px";
         this.setState({
             descAreaValue: event.target.value
         })
@@ -182,21 +183,41 @@ export class TaskAddition extends React.Component {
         let showClass = this.state.isShow ? "task-addition-showed" : "task-addition-hided";
 
         return (
-            <div className={"task-addition " +showClass}>
-                <textarea onChange={this.onChangeNameAreaValue}
-                          value={this.state.nameAreaValue}
-                       placeholder={Localization.getLocalizedString("task_name_input_placeholder")}
-                    className={" text-area-task text-area-task-name"}
-                />
-                <textarea value={this.state.descAreaValue} onChange={this.onChangeDescAreaValue}
-                          className={"text-area-task"}
-                />
-                <DatePicker selected={this.state.completionInputValue} onChange={this.onChangeDateCompletionValue}
-                            dateFormat="dd.MM.yyyy"
-                />
+            <div className={"row task-addition " +showClass}>
+                <div className={"name-desc-blk"}>
+                    <TaskAdditionTextArea value={this.state.nameAreaValue} onChange={this.onChangeNameAreaValue}
+                                          placeholder={Localization.getLocalizedString("task_name_input_placeholder")}
+                                          classesStr={"text-area-task text-area-task-name"} />
+                    <TaskAdditionTextArea value={this.state.descAreaValue} onChange={this.onChangeDescAreaValue}
+                                          placeholder={Localization.getLocalizedString("task_desc_input_placeholder")}
+                                          classesStr={"text-area-task text-area-task-desc"} />
+                </div>
+                <div className={"date-blk"}>
+                    <DatePicker placeholderText={"Дата завершения"} selected={this.state.completionInputValue}
+                                onChange={this.onChangeDateCompletionValue}
+                                dateFormat="dd.MM.yyyy"
+                    />
+                </div>
+                <div className={"control-btns-blk"}>
+                    <TextButton btnText={"Apply"} />
+                    <TextButton btnText={"Cancel"} />
+                </div>
+
             </div>
         );
     }
+}
+
+const TaskAdditionTextArea =(props) => {
+
+    return (
+        <textarea
+            value={props.value}
+            onChange={props.onChange}
+            placeholder={props.placeholder}
+            className={props.classesStr}
+        />
+    );
 }
 
 export {AddTaskBlock};

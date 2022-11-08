@@ -5,13 +5,15 @@ const LOCALIZED_STRINGS = {
     EN: {
         no_founded_string: "[REQUIRED STRING IS NOT FOUND]",
         // ====== AddTaskBlock.js ======
-        task_name_input_placeholder: "Do financial report"
+        task_name_input_placeholder: "Task name: Do financial report",
+        task_desc_input_placeholder: "Task description: At 5:00 pm"
     },
 
     RU: {
         no_founded_string: "[ТРЕБУЕМОЕ СТРОКОВОЕ ЗНАЧЕНИЕ НЕ НАЙДЕНО]",
         // ====== AddTaskBlock.js ======
-        task_name_input_placeholder: "Сдать фининансовый отчет"
+        task_name_input_placeholder: "Имя задачи: Сдать фининансовый отчет",
+        task_desc_input_placeholder: "Описание задачи: В четверг в 17:00"
     }
 }
 
