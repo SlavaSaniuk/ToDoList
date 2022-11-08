@@ -99,3 +99,49 @@
     outline: none;
     background-color: #615f92;
 }
+
+.task-addition {
+    display: flex;
+    flex-direction: column;
+
+    transition: height .2s linear;
+}
+
+.task-addition-hided {
+    overflow: hidden;
+    height: 0;
+}
+
+.task-addition-showed {
+}
+
+.text-area-task {
+    width: 70%;
+    margin: 0 10px;
+
+    resize: none;
+    overflow: hidden;
+    outline: none;
+
+    border: none;
+    border-bottom: 1px solid #cecece
+}
+
+.text-area-task-name {
+
+    font-family: system-ui;
+
+    font-size: 1.3em;
+    height: 1.4em;
+    color: #393939;
+
+}
+
+.text-area-task-name::placeholder {
+    color: #393939;
+}
+
+.text-area-task-name:focus {
+    font-size: 1.33em;
+    color: #000000;
+}

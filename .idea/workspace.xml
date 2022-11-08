@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked and tested AdministrationRestController">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added localization support">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AdministrationPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AdministrationPanel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AdministrationPanel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AdministrationPanel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +19,8 @@
       <list>
         <option value="HTML File" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -194,11 +194,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TaskRestControllerTestsCase" />
         <item itemvalue="JUnit.AdministrationRestControllerTestsCase" />
         <item itemvalue="JUnit.AdministrationRestControllerTestsCase.userRoles_userHas4Roles_shouldReturnListWith4UserRoles" />
         <item itemvalue="JUnit.UserDetailsServiceTestsCase" />
         <item itemvalue="JUnit.RoleServiceTestsCase" />
-        <item itemvalue="JUnit.TaskRestControllerTestsCase" />
       </list>
     </recent_temporary>
   </component>
@@ -238,56 +238,13 @@
       <workItem from="1667332949571" duration="4393000" />
       <workItem from="1667419655394" duration="3949000" />
       <workItem from="1667423905766" duration="18000" />
-      <workItem from="1667499418183" duration="4281000" />
-    </task>
-    <task id="LOCAL-00003" summary="Worked updateTask method in TasksService">
-      <created>1660595888191</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1660595888191</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Worked updateTask method in TaskController">
-      <created>1660597249228</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1660597249228</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Created entity objects, but tests are not working!">
-      <created>1660676746029</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1660676746029</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Imported schema">
-      <created>1660762622544</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1660762622545</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Create DatabaseAuthenticationProvider. Need to create DatabaseAuthenticationManager, and custom UsedDetailsService">
-      <created>1660766208275</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1660766208275</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Worked and Tested DatabaseAuthenticationProvider/">
-      <created>1660845239917</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1660845239917</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Created DatabaseAuthenticationManager">
-      <created>1660847584469</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1660847584469</updated>
+      <workItem from="1667499418183" duration="4991000" />
+      <workItem from="1667581954716" duration="2942000" />
+      <workItem from="1667659164239" duration="7528000" />
+      <workItem from="1667751572371" duration="3846000" />
+      <workItem from="1667816558699" duration="3670000" />
+      <workItem from="1667834321721" duration="1335000" />
+      <workItem from="1667839567328" duration="4051000" />
     </task>
     <task id="LOCAL-00010" summary="Created SignService#loginAccount method">
       <created>1660848899871</created>
@@ -583,7 +540,56 @@
       <option name="project" value="LOCAL" />
       <updated>1667501275427</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Worked AdministrationPanel.js rendering based on application user roles.">
+      <created>1667503764379</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1667503764379</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Now TaskFilterItem can be active.">
+      <created>1667584733573</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1667584733574</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Worked filter item selection rendering.">
+      <created>1667660064100</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1667660064100</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Now TasksRestDto return Task dateCreation and dateCompletion fields.">
+      <created>1667661297779</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1667661297779</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Tested TaskRestDto">
+      <created>1667664107144</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1667664107145</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Work on AddTaskBlock.js need to set inputs for date fields">
+      <created>1667666711684</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1667666711684</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Added localization support">
+      <created>1667755407690</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1667755407691</updated>
+    </task>
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -605,13 +611,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Tested TasksOwnerChecker#isUserOwn method" />
-    <MESSAGE value="Added NotOwnerException exception. Owner checker throw NOE if user not own object." />
-    <MESSAGE value="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects." />
-    <MESSAGE value="Migrated NotFoundException to RuntimeNotFoundException" />
-    <MESSAGE value="Added TestsTaskService test service." />
-    <MESSAGE value="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task." />
-    <MESSAGE value="Moved ArgumentChecker class." />
     <MESSAGE value="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!." />
     <MESSAGE value="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto" />
     <MESSAGE value="Addde TestingUser.Authentication inner class." />
@@ -630,7 +629,14 @@
     <MESSAGE value="Added TestsUserService#testingRootAdmin method." />
     <MESSAGE value="Added application user global variables." />
     <MESSAGE value="Worked and tested AdministrationRestController" />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked and tested AdministrationRestController" />
+    <MESSAGE value="Worked AdministrationPanel.js rendering based on application user roles." />
+    <MESSAGE value="Now TaskFilterItem can be active." />
+    <MESSAGE value="Worked filter item selection rendering." />
+    <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
+    <MESSAGE value="Tested TaskRestDto" />
+    <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
+    <MESSAGE value="Added localization support" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added localization support" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

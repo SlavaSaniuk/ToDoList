@@ -1,21 +1,29 @@
 package by.beltelecom.todolist.web.dto.rest;
 
+import by.beltelecom.todolist.utilities.datetime.DateTimeUtilities;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
+/**
+ * DTO object to work with dates and time.
+ * Convert {@link LocalDate} date in JS String format date.
+ */
 @Getter @Setter
 public class DateTimeDto {
 
     // Class variables:
-    private String serverDateStr;
+    private String dateStr; // JS date string;
 
+    /**
+     * Construct new DateTimeDto of specified {@link LocalDate} date.
+     * @param aDate - date.
+     * @return - new DateTimeDto.
+     */
     public static DateTimeDto ofDate(LocalDate aDate) {
-        String jsDateStr = String.format("%d, %d, %d", aDate.getYear(), aDate.getMonthValue(), aDate.getDayOfMonth());
-
         DateTimeDto dto = new DateTimeDto();
-        dto.setServerDateStr(jsDateStr);
+        dto.setDateStr(DateTimeUtilities.dateToJsString(aDate));
         return dto;
     }
 }

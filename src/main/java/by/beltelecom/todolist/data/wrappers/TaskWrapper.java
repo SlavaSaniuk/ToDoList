@@ -8,7 +8,6 @@ import by.beltelecom.todolist.utilities.printer.ListUtils;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Wrapper for {@link Task} task object.
@@ -112,7 +111,8 @@ public class TaskWrapper implements Wrapper<Task>, Identification {
         private long taskId;
         private String taskName;
         private String taskDescription;
-        private LocalDate dateOfCreation;
+        private LocalDate dateOfCreation = LocalDate.now(); // By default, task date creation is today;
+        private LocalDate dateOfCompletion; // By default, task date completion is not initialized;
         private TaskStatus taskStatus = TaskStatus.WORKING;
 
         public Builder ofId(long aId) {
@@ -140,16 +140,21 @@ public class TaskWrapper implements Wrapper<Task>, Identification {
             return this;
         }
 
+        public Builder withDateOfCompletion(LocalDate aDate) {
+            this.dateOfCompletion = aDate;
+            return this;
+        }
+
         public Task build() {
             Task task = new Task();
+
             // Set properties:
             task.setId(this.taskId);
             task.setName(this.taskName);
             task.setDescription(this.taskDescription);
+            task.setDateCreation(this.dateOfCreation);
+            task.setDateCompletion(this.dateOfCompletion);
             task.setTaskStatus(this.taskStatus);
-
-            // Set conditional properties:
-            task.setDateCreation(Objects.requireNonNullElseGet(this.dateOfCreation, LocalDate::now));
 
             return task;
         }

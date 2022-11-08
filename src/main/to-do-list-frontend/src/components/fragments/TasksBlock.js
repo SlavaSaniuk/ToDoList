@@ -2,7 +2,7 @@ import React from "react";
 import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
 import {TaskComponent} from "./Task";
-import {AddTaskBlock} from "./AddTaskBlock";
+import {AddTaskBlock, TaskAddition} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
 import {TaskStatus} from "../dto/TaskDto";
 import {CheckmarkButton, CrossButton, PlusButton} from "../Buttons";
@@ -99,8 +99,8 @@ class TasksContentBlock extends React.Component {
     render() {
         return(
             <div>
-                <AddTaskBlock isShow={this.props.showAddTaskBlock} showAddTaskBlockFunc={this.props.showAddTaskBlockFunc}
-                              funcOnAddNewTask={this.props.funcOnAddNewTask} />
+                <TaskAddition isShow={this.props.showAddTaskBlock} />
+
                 <TasksList tasksList={this.props.tasksList}
                            funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
                            taskControlFuncs={this.props.taskControlFuncs}
@@ -113,36 +113,6 @@ class TasksContentBlock extends React.Component {
 
 }
 
-/*
-const TasksFilterTab =(props) => {
-    return(
-        <p className={"tasks-filter-tab tasks-filter-tab-text col-2"}>{props.tabText}</p>
-    );
-}
-
-const TasksFilterPanel =() => {
-    return(<div className={"tasks-filter-panel tasks-menu-panel col-4 row"}>
-        <TasksFilterTab tabText={"9"} />
-        <TasksFilterTab tabText={"10"} />
-        <TasksFilterTab tabText={"+7"} />
-        <TasksFilterTab tabText={"ALL"} />
-    </div>)
-}
-
-const TasksInfoFilterInfo =() => {
-    return(<div>
-        <p className={"tasks-info-text"}>TODAY [Current Date] </p>
-    </div>);
-}
-
-const TasksInfoPanel =() => {
-    return(<div className={"tasks-info-panel tasks-menu-panel col-4"}>
-        <TasksInfoFilterInfo />
-    </div>);
-}
-
-
- */
 
 /**
  * Edit button statuses:
@@ -258,8 +228,23 @@ const TasksEditPanel =(props) => {
     </div>)
 }
 
+/**
+ * Tasks filter item types constants.
+ * @type {{ALL: string, TODAY: string, TOMORROW: string, WEEK: string}}
+ */
+const FilterItemType = {ALL: "filter_item_type_ALL", TODAY: "filter_item_type_TODAY",
+    TOMORROW: "filter_item_type_TOMORROW", WEEK: "filter_item_type_WEEK"}
+
+/**
+ * TaskFilterItem is wrapper for {MenuItem} component.
+ * @param props - component props.
+ * @property isActive - flag indicate if this item is active now.
+ * @returns {JSX.Element}
+ * @constructor
+ */
 const TaskFilterItem =(props) => {
-    return (<MenuItem itemText={props.itemText} itemClass={"filter-item"} />)
+    let itemClass = props.isActive ? "filter-item-active" : "filter-item";
+    return (<MenuItem itemId={props.itemId} itemText={props.itemText} itemClass={itemClass} clickFunction={props.clickFunction}/>)
 }
 
 const TasksFilter =(props) => {
@@ -355,6 +340,8 @@ class TasksBlock extends React.Component {
         this.updateUserTask.bind(this);
         this.completeUserTask.bind(this);
         this.onCompleteUserTasks.bind(this);
+        this.onClickFilterItem.bind(this);
+        this.isActiveFilterItem.bind(this);
 
         // Element state:
         this.state = {
@@ -370,36 +357,29 @@ class TasksBlock extends React.Component {
             statusRemoveBtn: TasksEditBtnStatus.DISABLED, // "Remove" button status;
             // ==== FILTER =====
             filter_serverDate: new Date(2022, 0, 1), // Server date;
+            filter_activeItem: FilterItemType.TODAY, // By default, filter "TODAY" tab is active:
             filterInfoText: ""
         };
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.loadUserTasks().then();
 
         // Server date:
         let serverDate = null;
 
         // Get server date:
-        let promise = new Promise((resolve) => {
-            ReqUtilities.getRequest("/rest/info/server-date").then(result => {
-                if (result.ok) {
-                    result.json().then(dateTimeDto => {
-                        serverDate = new Date(dateTimeDto.serverDateStr);
-                        Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
-                        this.setState({
-                            filter_serverDate: serverDate
-                        })
-
-                        resolve();
+        ReqUtilities.getRequest("/rest/info/server-date").then(result => {
+            if (result.ok) {
+                result.json().then(dateTimeDto => {
+                    serverDate = new Date(dateTimeDto.dateStr);
+                    Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
+                    this.setState({
+                        filter_serverDate: serverDate
                     })
-                }
-            });
+                })
+            }
         });
-
-        promise.then(() => {
-            console.log("Server date 111: ", serverDate);
-        })
 
         // Set component state:
         this.setState({
@@ -645,6 +625,27 @@ class TasksBlock extends React.Component {
     }
 
     /**
+     * Filter item onClick action function.
+     * @param aItemType - filter item type.
+     */
+    onClickFilterItem =(aItemType) => {
+
+        // Set component state:
+        this.setState({
+            filter_activeItem: aItemType
+        })
+    }
+
+    /**
+     * Check if specified filter item is active now.
+     * @param aItemType - filter item type.
+     * @returns {boolean} - true if filter item is active now.
+     */
+    isActiveFilterItem =(aItemType) => {
+        return aItemType === this.state.filter_activeItem;
+    }
+
+    /**
      * Render TasksBlock element.
      * @returns {JSX.Element} - TasksBlock.
      */
@@ -675,16 +676,19 @@ class TasksBlock extends React.Component {
         }
 
         // ===== Render TaskTopMenuBlock ====
-        console.log("Date: ", this.state.filter_serverDate);
         const TASKS_TOP_MENU = (
             <TasksTopMenu tasksEditBtnFunctions={this.tasksEditBtnFunctions} tasksEditBtnStatuses={this.tasksEditBtnStatuses} >
                 <TasksFilterPanel>
                     <TasksFilterInfoPanel infoText={this.state.filterInfoText}/>
                     <TasksFilter>
-                        <TaskFilterItem itemText={"ALL"} />
-                        <TaskFilterItem itemText={DateTimeUtilities.dateMonthAndDayToStr(this.state.filter_serverDate)} />
-                        <TaskFilterItem itemText={DateTimeUtilities.dateMonthAndDayToStr(DateTimeUtilities.addDays(this.state.filter_serverDate,1))} />
-                        <TaskFilterItem itemText={"+7"} />
+                        <TaskFilterItem itemId={FilterItemType.ALL} itemText={"ALL"} clickFunction={this.onClickFilterItem}
+                                        isActive={this.isActiveFilterItem(FilterItemType.ALL)} />
+                        <TaskFilterItem itemId={FilterItemType.TODAY} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TODAY)}
+                                        itemText={DateTimeUtilities.dateMonthAndDayToStr(this.state.filter_serverDate)} />
+                        <TaskFilterItem itemId={FilterItemType.TOMORROW} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TOMORROW)}
+                                        itemText={DateTimeUtilities.dateMonthAndDayToStr(DateTimeUtilities.addDays(this.state.filter_serverDate,1))} />
+                        <TaskFilterItem itemId={FilterItemType.WEEK} itemText={"+7"} clickFunction={this.onClickFilterItem}
+                                        isActive={this.isActiveFilterItem(FilterItemType.WEEK)} />
                     </TasksFilter>
                 </TasksFilterPanel>
             </TasksTopMenu>

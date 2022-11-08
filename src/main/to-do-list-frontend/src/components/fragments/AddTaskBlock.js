@@ -1,5 +1,9 @@
 import React from "react";
 import '../../styles/fragments/AddTaskBlock.css'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import {Localization} from "../../js/localization/localization";
+import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 
 const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
 
@@ -113,6 +117,83 @@ class AddTaskBlock extends React.Component {
                 <input type={"text"} className={"add-task-block-name-input"} placeholder={"Do financial report."} ref={this.inputNameRef} />
                 <textarea className={"add-task-block-desc-area"} placeholder={"Description"} ref={this.areaDescRef} />
                 <AddTaskBlockControlPanel cancelFunc={this.cancelAddingTask} addFunc={this.onAddNewTask} />
+            </div>
+        );
+    }
+}
+
+
+export class TaskAddition extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // Bind functions:
+        this.onChangeNameAreaValue = this.onChangeNameAreaValue.bind(this);
+        this.onChangeDescAreaValue = this.onChangeDescAreaValue.bind(this);
+        this.onChangeDateCompletionValue = this.onChangeDateCompletionValue.bind(this);
+
+        // Component state:
+        this.state = {
+            isShow: this.props.isShow,
+            nameAreaValue: "",
+            descAreaValue: "",
+            completionInputValue: DateTimeUtilities.addDays(new Date(), 1)
+        }
+    }
+
+
+
+    static getDerivedStateFromProps(props, state) {
+        state.isShow = props.isShow;
+        return state;
+    }
+
+    /**
+     * Function calling when task name desc area value changed (onChange).
+     * Function set state nameAreaValue property to current area text value.
+     * @param event - onChange event.
+     */
+    onChangeNameAreaValue =(event) => {
+        event.preventDefault();
+        event.target.style.height = event.target.scrollHeight +"px";
+        this.setState({
+            nameAreaValue: event.target.value
+        })
+    }
+
+    onChangeDescAreaValue =(event) => {
+        event.preventDefault();
+
+        this.setState({
+            descAreaValue: event.target.value
+        })
+    }
+
+    onChangeDateCompletionValue =(aDate) => {
+        this.setState({
+            completionInputValue: aDate
+        })
+    }
+
+
+    render() {
+
+        // Check if needed to display this block:
+        let showClass = this.state.isShow ? "task-addition-showed" : "task-addition-hided";
+
+        return (
+            <div className={"task-addition " +showClass}>
+                <textarea onChange={this.onChangeNameAreaValue}
+                          value={this.state.nameAreaValue}
+                       placeholder={Localization.getLocalizedString("task_name_input_placeholder")}
+                    className={" text-area-task text-area-task-name"}
+                />
+                <textarea value={this.state.descAreaValue} onChange={this.onChangeDescAreaValue}
+                          className={"text-area-task"}
+                />
+                <DatePicker selected={this.state.completionInputValue} onChange={this.onChangeDateCompletionValue}
+                            dateFormat="dd.MM.yyyy"
+                />
             </div>
         );
     }

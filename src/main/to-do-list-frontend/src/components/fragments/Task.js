@@ -3,8 +3,6 @@ import '../../styles/fragments/Task.css'
 import "../Buttons.js";
 import {CancelButton, DoneButton, EditButton, TextButton} from "../Buttons";
 import {TaskBuilder, TaskStatus} from "../dto/TaskDto";
-import {Logging} from "../../js/utils/Logging";
-
 
 /**
  * @property taskObj - Task object.
