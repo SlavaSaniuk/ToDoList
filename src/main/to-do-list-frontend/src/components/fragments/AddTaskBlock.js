@@ -4,133 +4,21 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import {Localization} from "../../js/localization/localization";
 import {TextButton} from "../Buttons";
-
-const AddTaskBlockControlBtnTypes = {ADD: 0, CANCEL: 1}
-
-/**
- * @property btnText - button text value;
- * @property btnType - button text type (see AddTaskBlockControlBtnTypes).
- * @property btnAdClass - button additional class;
- */
-class AddTaskBlockControlBtn extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.getBtnClassName.bind(this);
-    }
-
-    getBtnClassName =() => {
-        switch (this.props.btnType) {
-            case AddTaskBlockControlBtnTypes.ADD:
-                return "add-task-block-control-btn-add";
-            case AddTaskBlockControlBtnTypes.CANCEL:
-                return "add-task-block-control-btn-cancel";
-            default:
-                return "";
-        }
-    }
-
-    render() {
-        const btnClassName = this.getBtnClassName();
-        return (
-          <input type={"button"} value={this.props.btnText} className={"add-task-block-control-btn " +btnClassName} onClick={this.props.controlFunc} />
-        );
-    }
-}
-
-const AddTaskBlockControlPanel =(props) => {
-    return (
-        <div className={"add-task-block-control-panel"}>
-            <AddTaskBlockControlBtn btnText={"Add"} btnType={AddTaskBlockControlBtnTypes.ADD}
-                                    controlFunc={props.addFunc} btnAdClass={"add-task-block-control-btn-add"} />
-            <AddTaskBlockControlBtn btnText={"Cancel"} btnType={AddTaskBlockControlBtnTypes.CANCEL}
-                                    controlFunc={props.cancelFunc} btnAdClass={"add-task-block-control-btn-cancel"} />
-        </div>
-    );
-}
+import {TaskBuilder} from "../dto/TaskDto";
 
 /**
- * @property isShow - indicate need to be this element is shown.
- * @property showAddTaskBlockFunc - function to change visible of this element.
- * @function clearUsersInputs.
- * @function cancelAddingTask.
- */
-class AddTaskBlock extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // Create refs:
-        this.inputNameRef = React.createRef(); // Input name;
-        this.areaDescRef = React.createRef(); // Textarea description;
-
-        this.state = {isShow: this.props.isShow};
-
-        // Binding functions:
-        this.clearUsersInputs.bind(this);
-        this.cancelAddingTask.bind(this);
-    }
-
-    /**
-     * Clear users inputs.
-     */
-    clearUsersInputs =() => {
-        // Clear inputs:
-        this.inputNameRef.current.value = '';
-        this.areaDescRef.current.value = '';
-    }
-
-    /**
-     * Cancel adding task. Function clear users inputs and hide this element.
-     */
-    cancelAddingTask =() => {
-
-        // Clear users inputs:
-        this.clearUsersInputs();
-
-        // Hide this block:
-        this.props.showAddTaskBlockFunc(false);
-    }
-
-    /**
-     * Add new task to task list. Function get users inputs values, clear inputs,
-     * and call TasksBlock.onAddNewTask() function with this task parameter.
-     */
-    onAddNewTask =() => {
-        const taskName = this.inputNameRef.current.value; // Get task name from user input;
-        const taskDesc = this.areaDescRef.current.value;
-
-        // Clear users inputs:
-        this.clearUsersInputs();
-
-        // Add new task:
-        this.props.funcOnAddNewTask({
-            taskId: "1",
-            taskName: taskName, // Map task name;
-            taskDesc: taskDesc
-        });
-    }
-
-    render() {
-        let addTaskBlockClassName = this.props.isShow ? "add-task-block" : "add-task-block-hide";
-        return (
-            <div className={addTaskBlockClassName}>
-                <input type={"text"} className={"add-task-block-name-input"} placeholder={"Do financial report."} ref={this.inputNameRef} />
-                <textarea className={"add-task-block-desc-area"} placeholder={"Description"} ref={this.areaDescRef} />
-                <AddTaskBlockControlPanel cancelFunc={this.cancelAddingTask} addFunc={this.onAddNewTask} />
-            </div>
-        );
-    }
-}
-
-/**
- * @property at_appearanceFunc - Task addition appearance function.
+ * TaskAddition used to add user tasks.
+ * @props - component props.
+ * @property at_appearanceFunc - Task addition appearance function (Show/Hide).
+ * @property at_addTaskFunction - Add task parent function.
  */
 export class TaskAddition extends React.Component {
+    /**
+     * Construct new TaskAddition component.
+     * @param props - component props.
+     */
     constructor(props) {
         super(props);
-
-        // Refs:
-        this.atBlock = React.createRef(); // Ref on AddingTask div (task-addition);
 
         // Bind functions:
         this.onChangeNameAreaValue = this.onChangeNameAreaValue.bind(this);
@@ -138,18 +26,23 @@ export class TaskAddition extends React.Component {
         this.onChangeDateCompletionValue = this.onChangeDateCompletionValue.bind(this);
         this.onClear.bind(this);
         this.onHide.bind(this);
+        this.onAdd.bind(this);
 
         // Component state:
         this.state = {
-            isShow: this.props.isShow,
-            nameAreaValue: "",
-            descAreaValue: "",
-            completionInputValue: ""
+            isShow: this.props.isShow, // Flag indicate if component must be showed;
+            nameAreaValue: "", // text area task name value;
+            descAreaValue: "", // text area task description value;
+            completionInputValue: "" // input task date of completion value (Date);
         }
     }
 
-
-
+    /**
+     * Update component state when component is rendered from parent.
+     * @param props - new props.
+     * @param state - component state
+     * @returns {*} - return new component state.
+     */
     static getDerivedStateFromProps(props, state) {
         state.isShow = props.isShow;
         return state;
@@ -161,21 +54,29 @@ export class TaskAddition extends React.Component {
      * @param event - onChange event.
      */
     onChangeNameAreaValue =(event) => {
-        event.preventDefault();
         event.target.style.height = event.target.scrollHeight +"px";
         this.setState({
             nameAreaValue: event.target.value
         })
     }
 
+    /**
+     * Update task description value.
+     * Function calling when onChange action is performed on description text area.
+     * If value string is too big function update text area height.
+     * @param event - onChange event.
+     */
     onChangeDescAreaValue =(event) => {
-        event.preventDefault();
         event.target.style.height = event.target.scrollHeight +"px";
         this.setState({
             descAreaValue: event.target.value
         })
     }
 
+    /**
+     * Update task date of comletion input value.
+     * @param aDate - new Date.
+     */
     onChangeDateCompletionValue =(aDate) => {
         this.setState({
             completionInputValue: aDate
@@ -204,19 +105,33 @@ export class TaskAddition extends React.Component {
         this.props.at_appearanceFunc(false);
     }
 
+    // noinspection JSUnresolvedFunction
+    /**
+     * Adding task.
+     */
+    onAdd =() => {
+
+        // Create task dto:
+        const taskDto = TaskBuilder.withName(this.state.nameAreaValue).withDescription(this.state.descAreaValue).withDateCompletion(this.state.completionInputValue).build();
+
+        // Call parent adding task func:
+        this.props.at_addTaskFunction(taskDto);
+    }
+
+    /**
+     * Render component.
+     * @returns {JSX.Element}
+     */
     render() {
 
         // Check if needed to display this block:
         let showClass = this.state.isShow ? "task-addition-showed" : "at-hidden";
 
-        // Construct AT Name/desc panel:
-
-        // Construct AT date selection panel:
-
         // Construct AT control buttons BLOCK:
         const CONTROL_BUTTONS_BLOCK = (
             <div className={"at_control-buttons-block"}>
-                <TextButton btnText={Localization.getLocalizedString("at_control_btn_add")} classes={"at_control-btn"} />
+                <TextButton btnText={Localization.getLocalizedString("at_control_btn_add")} classes={"at_control-btn"}
+                            clickFunc={this.onAdd} />
                 <TextButton btnText={Localization.getLocalizedString("at_control_btn_clear")} classes={"at_control-btn"}
                             clickFunc={this.onClear} />
                 <TextButton btnText={Localization.getLocalizedString("at_control_btn_cancel")} classes={"at_control-btn"}
@@ -247,10 +162,12 @@ export class TaskAddition extends React.Component {
     }
 }
 
-
-
+/**
+ * AT name / description text area.
+ * @param props - component props.
+ * @returns {JSX.Element}
+ */
 const TaskAdditionTextArea =(props) => {
-
     return (
         <textarea
             value={props.value}
@@ -261,4 +178,3 @@ const TaskAdditionTextArea =(props) => {
     );
 }
 
-export {AddTaskBlock};

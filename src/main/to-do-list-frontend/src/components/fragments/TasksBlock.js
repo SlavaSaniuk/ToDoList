@@ -99,7 +99,7 @@ class TasksContentBlock extends React.Component {
     render() {
         return(
             <div>
-                <TaskAddition isShow={this.props.showAddTaskBlock} at_appearanceFunc={this.props.showAddTaskBlockFunc} />
+                <TaskAddition isShow={this.props.showAddTaskBlock} at_appearanceFunc={this.props.showAddTaskBlockFunc} at_addTaskFunction={this.props.taskControlFuncs.addFunc} />
 
                 <TasksList tasksList={this.props.tasksList}
                            funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
@@ -653,6 +653,7 @@ class TasksBlock extends React.Component {
 
         // Object has references on task control functions:
         const taskControlFuncs = {
+            addFunc: this.postNewTask,
             completeFunc: this.completeUserTask,
             updateFunc: this.updateUserTask,
             removeFunc: this.removeUserTask
