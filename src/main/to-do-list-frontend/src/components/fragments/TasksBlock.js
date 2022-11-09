@@ -1,14 +1,14 @@
 import React from "react";
 import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
-import {TaskComponent} from "./Task";
-import {AddTaskBlock, TaskAddition} from "./AddTaskBlock";
+import {TaskAddition} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
 import {TaskStatus} from "../dto/TaskDto";
 import {CheckmarkButton, CrossButton, PlusButton} from "../Buttons";
 import {Logging} from "../../js/utils/Logging";
 import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
+import {TaskView, TaskViewLoadingStatus} from "./task/TaskView";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -16,8 +16,8 @@ const TasksFooter =() => {
     </div>);
 }
 
-const Task =(props) => <TaskComponent
-    taskObj={props.task} key={props.task.taskId}
+const Task =(props) => <TaskView
+    task={props.task} key={props.task.taskId} loadingStatus={props.loadingStatus}
     funcOnSelectTasks={props.funcOnSelectTasks} funcOnUnselectTask={props.funcOnUnselectTask}
     taskControlFuncs={props.taskControlFuncs} taskIsSelected={props.isTasksSelected}
 />
@@ -29,6 +29,7 @@ const Task =(props) => <TaskComponent
  * @property funcOnSelectTask - parent function on select task action.
  * @property funcOnUnselectTask - parent function on unselect task action.
  * @property taskControlFuncs - task control function in object.
+ * @property showTaskViewList - list of task view to be showed.
  */
 class TasksList extends React.Component {
     /**
@@ -64,12 +65,12 @@ class TasksList extends React.Component {
      * @returns {JSX.Element}
      */
     render() {
-        const tasks = this.props.tasksList.map((task) =>
 
-            <Task task={task} taskName={task.taskName} taskId={task.taskId} taskDesc={task.taskDesc} key={task.taskId}
-                  funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
-                  taskControlFuncs={this.props.taskControlFuncs} isTasksSelected={this.isTaskSelected(task)}
-            />
+        this.props.showedTaskViewList.push({task: {taskName: "Task#1", taskDescription: "Task N1 description", taskCreationDate: new Date(), taskCompletionDate: new Date()}, loadingStatus: TaskViewLoadingStatus.LOADED});
+        this.props.showedTaskViewList.push({task: {taskName: "Task#2", taskDescription: "Task N2 descriptionssssssssssssssssssss    sssssssssssssssssssssssssssssssssssss   sssssssssssssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss"}, loadingStatus: TaskViewLoadingStatus.LOADED});
+
+        const tasks = this.props.showedTaskViewList.map((taskView) =>
+            <Task key={Math.random()} task={taskView.task} loadingStatus={taskView.loadingStatus} />
         );
 
         return (
@@ -105,6 +106,7 @@ class TasksContentBlock extends React.Component {
                            funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
                            taskControlFuncs={this.props.taskControlFuncs}
                            selectedTasksList={this.props.selectedTasksList}
+                           showedTaskViewList={this.props.showedTaskViewList}
                 />
             </div>
         );
@@ -304,6 +306,7 @@ const TasksBlockLoadStatus = {LOADING: 1, LOADED: 2};
  * @function postNewTask;
  * @function onSelectTasks - function calls when user select task.
  * @function onUnselectTask - function calls when user unselect task.
+ * @stateProperty - showedTaskViewList - list of task views to be rendered.
  */
 class TasksBlock extends React.Component {
     // Class variables:
@@ -349,6 +352,7 @@ class TasksBlock extends React.Component {
             // ==== LIST OF USERS TASKS ====
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
             tasksList: [], // Array of users tasks;
+            showedTaskViewList: [], // List of TaskViews to be rendered; !!!!!!!
             // ==== TASKS SELECTION ====
             isTasksSelected: false, // Selected tasks flag;
             selectedTasksList: [], // List of selected tasks;
@@ -672,6 +676,7 @@ class TasksBlock extends React.Component {
                                    funcOnSelectTasks={this.onSelectTasks} funcOnUnselectTask={this.onUnselectTask}
                                    taskControlFuncs={taskControlFuncs}
                                    selectedTasksList={this.state.selectedTasksList}
+                                   showedTaskViewList={this.state.showedTaskViewList}
                 />
             );
         }

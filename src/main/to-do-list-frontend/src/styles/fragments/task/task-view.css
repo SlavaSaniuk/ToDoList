@@ -1,0 +1,130 @@
+.task-view {
+    width: 98%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.task-view-loader {
+    width: 40px;
+    aspect-ratio: 1/1;
+
+    border-width: 4px;
+    margin: 0 auto;
+}
+
+.task-view-content {
+    border-bottom: 1px solid #cdcdcd;
+
+    display: flex;
+    flex-direction: row;
+
+    padding-bottom: 5px;
+}
+
+/* =================== TaskSelector classes ====================== */
+.task-selector {
+    width: 40px;
+    position: relative;
+}
+.task-selector input {
+    appearance: none;
+    width: 30px;
+    aspect-ratio: 1/1;
+}
+.task-selector input:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    aspect-ratio: 1/1;
+    border: 3px solid #cdcdcd;
+    transition: all .2s linear;
+
+}
+.task-selector input:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    aspect-ratio: 1/1;
+    transition: all .2s linear;
+}
+.task-selector input:hover::before {
+    border-color: #7c79c9;
+}
+.task-selector input:hover::after {
+    background-color: #7c79c9;
+}
+.task-selector input:checked::before {
+    border-color: #7c79c9;
+}
+.task-selector input:checked::after {
+    background-color: #7c79c9;
+    width: 20px;
+}
+/* =================== End of TaskSelector classes ====================== */
+/* ====================== TaskPropertiesPanel classes =================== */
+.task-properties-panel {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+.task-property-area:disabled {
+
+    border: none;
+
+    color: #000000;
+
+    overflow: hidden;
+    resize: none;
+}
+
+.task-date-properties-panel {
+    display: flex;
+    flex-direction: row;
+
+    border-top: 1px solid #cdcdcd;
+}
+
+
+.task-date-properties-panel p {
+    height: max-content;
+    width: 50%;
+    margin: 0;
+}
+
+.react-datepicker-wrapper {
+    width: max-content !important;
+    margin: 0;
+}
+
+.task-property-date-input {
+    width: 100px !important;
+    border: none !important;
+}
+/* ====================== End of TaskPropertiesPanel classes =================== */
+/* ====================== TaskControlMenu classes =================== */
+.task-control-menu {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 100;
+}
+
+.control-btn {
+    width: 18px;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+    fill: #cdcdcd;
+    transition: all .2s linear;
+}
+
+.control-btn:hover {
+    fill: #000000;
+}
+/* ====================== End ofTaskControlMenu classes =================== */

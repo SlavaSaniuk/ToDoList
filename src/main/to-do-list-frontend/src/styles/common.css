@@ -53,6 +53,20 @@ a:active { text-decoration: none; }
     transform: translateZ(0);
     animation: load8 2s infinite linear;
 }
+
+.purple-loader {
+
+    border-radius: 50%;
+    border-style: solid;
+
+    border-top-color: #7c79c9;
+    border-right-color: #989c9920;
+    border-bottom-color: #989c9920;
+    border-left-color: #989c9920;
+
+    animation: load8 2s infinite linear;
+}
+
 @-webkit-keyframes load8 {
     0% {
         transform: rotate(0deg);

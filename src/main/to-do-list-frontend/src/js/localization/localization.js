@@ -9,7 +9,9 @@ const LOCALIZED_STRINGS = {
         task_desc_input_placeholder: "Task description: At 5:00 pm",
         at_control_btn_add: "Add",
         at_control_btn_clear: "Clear",
-        at_control_btn_cancel: "Hide"
+        at_control_btn_cancel: "Hide",
+        tv_task_date_creation: "Created at:",
+        tv_task_date_completion: "Complete until:"
     },
 
     RU: {
@@ -19,7 +21,9 @@ const LOCALIZED_STRINGS = {
         task_desc_input_placeholder: "Описание задачи: В четверг в 17:00",
         at_control_btn_add: "Добавить",
         at_control_btn_clear: "Очистить",
-        at_control_btn_cancel: "Скрыть"
+        at_control_btn_cancel: "Скрыть",
+        tv_task_date_creation: "Создана:",
+        tv_task_date_completion: "Выполнить до:"
     }
 }
 
