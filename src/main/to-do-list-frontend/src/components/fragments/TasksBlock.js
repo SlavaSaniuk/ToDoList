@@ -68,6 +68,7 @@ class TasksList extends React.Component {
 
         this.props.showedTaskViewList.push({task: {taskName: "Task#1", taskDescription: "Task N1 description", taskCreationDate: new Date(), taskCompletionDate: new Date()}, loadingStatus: TaskViewLoadingStatus.LOADED});
         this.props.showedTaskViewList.push({task: {taskName: "Task#2", taskDescription: "Task N2 descriptionssssssssssssssssssss    sssssssssssssssssssssssssssssssssssss   sssssssssssssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss"}, loadingStatus: TaskViewLoadingStatus.LOADED});
+        this.props.showedTaskViewList.push({task: {taskName: "Исправить ростовочную ведомость", taskDescription: "Вывод подразделений (Если не нуждается в СФО, то не выводить)",  taskCreationDate: new Date()}, loadingStatus: TaskViewLoadingStatus.LOADED});
 
         const tasks = this.props.showedTaskViewList.map((taskView) =>
             <Task key={Math.random()} task={taskView.task} loadingStatus={taskView.loadingStatus} />

@@ -1,7 +1,11 @@
 .task-view {
     width: 98%;
-    margin: 0 auto;
+    margin: 0 auto 5px;
     position: relative;
+    border-bottom: 1px solid #cdcdcd;
+
+    display: flex;
+    flex-direction: row;
 }
 
 .task-view-loader {
@@ -13,12 +17,7 @@
 }
 
 .task-view-content {
-    border-bottom: 1px solid #cdcdcd;
-
-    display: flex;
-    flex-direction: row;
-
-    padding-bottom: 5px;
+    width: 100%;
 }
 
 /* =================== TaskSelector classes ====================== */
@@ -30,6 +29,7 @@
     appearance: none;
     width: 30px;
     aspect-ratio: 1/1;
+    cursor: pointer;
 }
 .task-selector input:before {
     content: "";
@@ -71,31 +71,72 @@
 .task-properties-panel {
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
+}
+
+.task-properties-panel textarea:not(:first-child) {
+    margin-top: 5px;
+    padding: 0 2px;
+}
+
+.task-property-area {
+    border: none;
+    overflow: hidden;
+    resize: none;
+
+    background-color: #eae8e8;
 }
 
 .task-property-area:disabled {
-
-    border: none;
-
-    color: #000000;
-
-    overflow: hidden;
-    resize: none;
+    background-color: #FFFFFF;
 }
+
+.task-name-property-field {
+    font-family: Mulish, sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #000000;
+}
+
+.task-name-property-field::before {
+    content: "";
+    padding: 5px;
+}
+
+.task-desc-property-field:disabled {
+    font-family: Bitter, serif;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    line-height: 20px;
+    color: #444242;
+}
+
 
 .task-date-properties-panel {
     display: flex;
     flex-direction: row;
 
     border-top: 1px solid #cdcdcd;
+    margin-top: 5px;
 }
 
+.date-property-section {
+    display: flex;
+    flex-direction: row;
 
-.task-date-properties-panel p {
-    height: max-content;
     width: 50%;
+}
+
+.date-property-section p {
     margin: 0;
+    height: 24px;
+    font-family: Bitter, serif;
+    font-size: 14px;
+    color: #999999;
+    line-height: 28px;
+    padding-left: 2px;
 }
 
 .react-datepicker-wrapper {
@@ -104,8 +145,19 @@
 }
 
 .task-property-date-input {
-    width: 100px !important;
     border: none !important;
+    text-align: left !important;
+    background-color: #eae8e8;
+    padding-left: 0;
+    margin-left: 5px;
+    color: #999999;
+    font-family: Bitter, serif;
+    font-size: 14px;
+}
+
+.task-property-date-input:disabled {
+    background-color: #fff;
+    color: #999;
 }
 /* ====================== End of TaskPropertiesPanel classes =================== */
 /* ====================== TaskControlMenu classes =================== */
@@ -128,3 +180,29 @@
     fill: #000000;
 }
 /* ====================== End ofTaskControlMenu classes =================== */
+
+.task-editor-control-panel {
+    border-top: 1px solid #cdcdcd;
+    padding: 3px 0;
+}
+
+.task-editor-control-button {
+    background-color: #7c79c9;
+    border: none;
+    padding: 0 10px;
+
+    font-family: UZSans, sans-serif;
+    font-weight: 700;
+    font-size: 0.9em;
+    color: #fff;
+
+    transition: all .2s linear;
+}
+
+.task-editor-control-button:hover {
+    background-color: #403e66;
+}
+
+.task-editor-control-panel .task-editor-control-button:not(:first-child) {
+    margin-left: 5px;
+}

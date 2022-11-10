@@ -10,8 +10,11 @@ const LOCALIZED_STRINGS = {
         at_control_btn_add: "Add",
         at_control_btn_clear: "Clear",
         at_control_btn_cancel: "Hide",
+        // ==== TV - TaskView component =====
         tv_task_date_creation: "Created at:",
-        tv_task_date_completion: "Complete until:"
+        tv_task_date_completion: "Complete until:",
+        tv_edit_control_btn_update: "Update",
+        tv_edit_control_btn_cancel: "Cancel"
     },
 
     RU: {
@@ -22,8 +25,11 @@ const LOCALIZED_STRINGS = {
         at_control_btn_add: "Добавить",
         at_control_btn_clear: "Очистить",
         at_control_btn_cancel: "Скрыть",
+        // ==== TV - TaskView component =====
         tv_task_date_creation: "Создана:",
-        tv_task_date_completion: "Выполнить до:"
+        tv_task_date_completion: "Выполнить до:",
+        tv_edit_control_btn_update: "Обновить",
+        tv_edit_control_btn_cancel: "Отменить"
     }
 }
 
