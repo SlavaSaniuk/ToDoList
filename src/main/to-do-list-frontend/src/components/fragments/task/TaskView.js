@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import {Localization} from "../../../js/localization/localization";
 import {Menu, MenuDirection} from "../../ui/Menu";
 import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
+import {Logging} from "../../../js/utils/Logging";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -36,6 +37,8 @@ export class TaskView extends React.Component {
 
     constructor(props) {
         super(props);
+
+        Logging.log("Construct new TaskView for task:", this.props.task);
 
         // Component state:
         this.state = {

@@ -9,6 +9,7 @@ import {Logging} from "../../js/utils/Logging";
 import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
 import {TaskView, TaskViewLoadingStatus} from "./task/TaskView";
+import {TaskBuilder} from "../../js/models/Task";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -31,7 +32,7 @@ const Task =(props) => <TaskView
  * @property taskControlFuncs - task control function in object.
  * @property showTaskViewList - list of task view to be showed.
  */
-class TasksList extends React.Component {
+class TasksList1 extends React.Component {
     /**
      * Construct new TaskList component.
      * @param props
@@ -71,7 +72,7 @@ class TasksList extends React.Component {
         this.props.showedTaskViewList.push({task: {taskName: "Исправить ростовочную ведомость", taskDescription: "Вывод подразделений (Если не нуждается в СФО, то не выводить)",  taskCreationDate: new Date()}, loadingStatus: TaskViewLoadingStatus.LOADED});
 
         const tasks = this.props.showedTaskViewList.map((taskView) =>
-            <Task key={Math.random()} task={taskView.task} loadingStatus={taskView.loadingStatus} />
+            <Task key={Math.random()} task={taskView.taskObj} loadingStatus={taskView.loadingStatus} />
         );
 
         return (
@@ -79,6 +80,35 @@ class TasksList extends React.Component {
                 {tasks}
             </div>
         )
+    }
+}
+
+/**
+ *
+ * @param props - component props.
+ * @property viewsList - list of task views props.
+ * @returns {*}
+ * @constructor
+ */
+const TaskViewsList =(props) => {
+
+    Logging.log("Views list: ", props.viewsList);
+
+    const taskViewsList = props.viewsList.map(viewProps =>
+        <TaskView key={Math.random()} task={viewProps.taskObj} loadingStatus={TaskViewLoadingStatus.LOADED} />);
+
+    return (<div> {taskViewsList} </div>);
+
+}
+
+class TaskViewProps {
+    viewId; // Task view unique ID;
+    taskObj; // Wrapper task object;
+    loadStatus; // View loading status;
+
+    constructor(aTaskObj, aLoadStatus) {
+        this.taskObj = aTaskObj;
+        this.loadStatus = aLoadStatus;
     }
 }
 
@@ -91,6 +121,7 @@ class TasksList extends React.Component {
  * @property funcOnUnselectTask - parent function on unselect task action.
  * @property taskControlFuncs - task control function in object.
  * @property selectedTasksList - list of selected tasks.
+ * @property taskViewsToRender - list of TaskViewProps to be rendered.
  */
 class TasksContentBlock extends React.Component {
 
@@ -102,13 +133,7 @@ class TasksContentBlock extends React.Component {
         return(
             <div>
                 <TaskAddition isShow={this.props.showAddTaskBlock} at_appearanceFunc={this.props.showAddTaskBlockFunc} at_addTaskFunction={this.props.taskControlFuncs.addFunc} />
-
-                <TasksList tasksList={this.props.tasksList}
-                           funcOnSelectTasks={this.props.funcOnSelectTasks} funcOnUnselectTask={this.props.funcOnUnselectTask}
-                           taskControlFuncs={this.props.taskControlFuncs}
-                           selectedTasksList={this.props.selectedTasksList}
-                           showedTaskViewList={this.props.showedTaskViewList}
-                />
+                <TaskViewsList viewsList={this.props.taskViewsToRender} />
             </div>
         );
     }
@@ -262,6 +287,46 @@ const TasksFilterPanel =(props) => {
     return (<div className={"tasks-filter-panel col-8 row"}> {props.children} </div>)
 }
 
+class Filter {
+
+    // Class variables:
+    /**
+     * Filter types.
+     * @type {{ALL: 0}} - do not filter tasks (all tasks are satisfied the filter condition);
+     */
+    static FILTER_TYPE={ALL: 0}
+
+    constructor() {
+        // Bind functions:
+        this.filterTasks.bind(this);
+    }
+
+    filterTasks =(aListOfTasks, aFilterType) => {
+        Logging.log("Filter list of task by filter type:")
+        Logging.log("List of task to be filtered: ", aListOfTasks);
+        Logging.log("Filter type: ", aFilterType);
+
+        let filteredList;
+
+        // Filter task based on filter type:
+        switch (aFilterType) {
+            case Filter.FILTER_TYPE.ALL: {
+                Logging.log("Filter task by 'ALL' filter type:");
+                filteredList = aListOfTasks;
+                break;
+            }
+            default: {
+                Logging.log("No found filter of type: ", aFilterType);
+                filteredList = aListOfTasks;
+            }
+        }
+
+        Logging.log("Filter list of tasks: ", filteredList);
+        return filteredList;
+    }
+
+}
+
 /**
  * This element is menu of {TasksEditBtn} control buttons.
  * @param props - react properties.
@@ -307,15 +372,18 @@ const TasksBlockLoadStatus = {LOADING: 1, LOADED: 2};
  * @function postNewTask;
  * @function onSelectTasks - function calls when user select task.
  * @function onUnselectTask - function calls when user unselect task.
- * @stateProperty - showedTaskViewList - list of task views to be rendered.
  */
 class TasksBlock extends React.Component {
     // Class variables:
     tasksEditBtnStatuses; // Statuses of TasksEdit buttons;
-    tasksEditBtnFunctions; // TasksEdit buttons onClick action functions:
+    tasksEditBtnFunctions; // TasksEdit buttons onClick action functions;
+    tasksFilter; // User tasks filter;
 
     constructor(props) {
         super(props);
+
+        // Initialize variables:
+        this.tasksFilter = new Filter(); // Tasks filter;
 
         // Initialize TaskEdit buttons functions:
         this.tasksEditBtnFunctions = {
@@ -353,7 +421,6 @@ class TasksBlock extends React.Component {
             // ==== LIST OF USERS TASKS ====
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
             tasksList: [], // Array of users tasks;
-            showedTaskViewList: [], // List of TaskViews to be rendered; !!!!!!!
             // ==== TASKS SELECTION ====
             isTasksSelected: false, // Selected tasks flag;
             selectedTasksList: [], // List of selected tasks;
@@ -362,8 +429,10 @@ class TasksBlock extends React.Component {
             statusRemoveBtn: TasksEditBtnStatus.DISABLED, // "Remove" button status;
             // ==== FILTER =====
             filter_serverDate: new Date(2022, 0, 1), // Server date;
-            filter_activeItem: FilterItemType.TODAY, // By default, filter "TODAY" tab is active:
-            filterInfoText: ""
+            filter_activeItem: Filter.FILTER_TYPE.ALL, // Active filter item [{Filter.FILTER_TYPE}]:
+            filterInfoText: "",
+            // ===== VIEWS =====
+            taskViewPropsList: [] // List of task views;
         };
     }
 
@@ -411,10 +480,24 @@ class TasksBlock extends React.Component {
 
             }
 
+            // For each user tasks construct new TaskViewProps:
+            const taskViewPropsList = [];
+            resultTasksList.forEach((taskDto) => {
+                const taskObj = TaskBuilder.builder().ofId(taskDto.taskId)
+                    .withName(taskDto.taskName)
+                    .withDescription(taskDto.taskDesc)
+                    .withDateOfCreation(Date.parse(taskDto.dateOfCreation))
+                    .withDateOfCompletion(Date.parse(taskDto.dateOfCompletion))
+                    .withStatus(taskDto.taskStatus)
+                    .build();
+                taskViewPropsList.push(new TaskViewProps(taskObj, TaskViewLoadingStatus.LOADED));
+            })
+
             // Set state:
             this.setState(prevState => ({
                 tasksList: prevState.tasksList.concat(resultTasksList),
-                loadStatus: TasksBlockLoadStatus.LOADED
+                loadStatus: TasksBlockLoadStatus.LOADED,
+                taskViewPropsList: prevState.taskViewPropsList.concat(taskViewPropsList)
             }));
         })
 
@@ -664,6 +747,9 @@ class TasksBlock extends React.Component {
             removeFunc: this.removeUserTask
         }
 
+        // Initialize tasksToRender list based on current active filter:
+        const taskViewsToRender = this.tasksFilter.filterTasks(this.state.taskViewPropsList, this.state.filter_activeItem);
+
         // Render content block based on load status:
         let contentBlock;
         if(this.state.loadStatus === TasksBlockLoadStatus.LOADING) {
@@ -678,6 +764,7 @@ class TasksBlock extends React.Component {
                                    taskControlFuncs={taskControlFuncs}
                                    selectedTasksList={this.state.selectedTasksList}
                                    showedTaskViewList={this.state.showedTaskViewList}
+                                   taskViewsToRender={taskViewsToRender}
                 />
             );
         }
@@ -688,7 +775,7 @@ class TasksBlock extends React.Component {
                 <TasksFilterPanel>
                     <TasksFilterInfoPanel infoText={this.state.filterInfoText}/>
                     <TasksFilter>
-                        <TaskFilterItem itemId={FilterItemType.ALL} itemText={"ALL"} clickFunction={this.onClickFilterItem}
+                        <TaskFilterItem itemId={Filter.FILTER_TYPE.ALL} itemText={"ALL"} clickFunction={this.onClickFilterItem}
                                         isActive={this.isActiveFilterItem(FilterItemType.ALL)} />
                         <TaskFilterItem itemId={FilterItemType.TODAY} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TODAY)}
                                         itemText={DateTimeUtilities.dateMonthAndDayToStr(this.state.filter_serverDate)} />

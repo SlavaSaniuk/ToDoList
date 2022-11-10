@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Styling AT block">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Styling AT block #2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/AddTaskBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/AddTaskBlock.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/models/Task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/models/Task.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,14 +246,8 @@
       <workItem from="1667816558699" duration="3670000" />
       <workItem from="1667834321721" duration="1335000" />
       <workItem from="1667839567328" duration="4144000" />
-      <workItem from="1667931769428" duration="5779000" />
-    </task>
-    <task id="LOCAL-00012" summary="Customized login pape">
-      <created>1660850171847</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1660850171847</updated>
+      <workItem from="1667931769428" duration="6015000" />
+      <workItem from="1668109625163" duration="7148000" />
     </task>
     <task id="LOCAL-00013" summary="Npm worked at notebook">
       <created>1661365575261</created>
@@ -590,7 +585,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667936252600</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Styling AT block #2">
+      <created>1667937571208</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1667937571208</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -612,7 +614,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Addde TestingUser.Authentication inner class." />
     <MESSAGE value="Added SVG task control buttons icons." />
     <MESSAGE value="Worked Task.js EDIT control button (Only front)." />
     <MESSAGE value="Work on TaskEditButton transfer to SVG" />
@@ -637,7 +638,8 @@
     <MESSAGE value="Added localization support" />
     <MESSAGE value="Work on task addition block" />
     <MESSAGE value="Styling AT block" />
-    <option name="LAST_COMMIT_MESSAGE" value="Styling AT block" />
+    <MESSAGE value="Styling AT block #2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Styling AT block #2" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
