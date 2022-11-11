@@ -3,39 +3,21 @@ import '../../styles/common.css'
 import '../../styles/fragments/TasksBlock.css'
 import {TaskAddition} from "./AddTaskBlock";
 import {ReqUtilities} from "../utilities/ReqUtilities";
-import {TaskStatus} from "../dto/TaskDto";
 import {CheckmarkButton, CrossButton, PlusButton} from "../Buttons";
 import {Logging} from "../../js/utils/Logging";
 import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
 import {TaskView, TaskViewLoadingStatus} from "./task/TaskView";
-import {TaskBuilder} from "../../js/models/Task";
+import {TaskBuilder, TaskDtoBuilder, TaskStatus} from "../../js/models/Task";
 import {StringUtilities} from "../../js/utils/StringUtilities";
+import {Logger} from "../../js/logging/Logger";
+import {Properties} from "../../Properites";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
         <p className={"tasks-footer-text"}> LOAD MORE ... </p>
     </div>);
 }
-
-/**
- *
- * @param props - component props.
- * @property viewsList - list of task views props.
- * @returns {*}
- * @constructor
- */
-const TaskViewsList =(props) => {
-
-    Logging.log("Views list: ", props.viewsList);
-
-    const taskViewsList = props.viewsList.map(viewProps =>
-        <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj} loadingStatus={TaskViewLoadingStatus.LOADED} />);
-
-    return (<div> {taskViewsList} </div>);
-
-}
-
 
 /**
  * Task content block is root element that has and render the TasksList and AddTaskBlock elements.
@@ -58,7 +40,7 @@ class TasksContentBlock extends React.Component {
         return(
             <div>
                 <TaskAddition isShow={this.props.showAddTaskBlock} at_appearanceFunc={this.props.showAddTaskBlockFunc} at_addTaskFunction={this.props.taskControlFuncs.addFunc} />
-                <TaskViewsList viewsList={this.props.taskViewsToRender} />
+                <TaskViewsList viewsList={this.props.taskViewsToRender} taskControlFunctions={this.props.taskControlFunctions} />
             </div>
         );
     }
@@ -300,9 +282,11 @@ const TasksBlockLoadStatus = {LOADING: 1, LOADED: 2};
  */
 export class TasksBlock extends React.Component {
     // Class variables:
+    logger = new Logger("TasksBlock", Properties.TASKS_BLOCK_LOGGING); // Logger;
     tasksEditBtnStatuses; // Statuses of TasksEdit buttons;
     tasksEditBtnFunctions; // TasksEdit buttons onClick action functions;
     tasksFilter; // User tasks filter;
+    taskControlFunctions; // Task control functions for TaskView;
 
     constructor(props) {
         super(props);
@@ -335,6 +319,7 @@ export class TasksBlock extends React.Component {
         this.onUnselectTask.bind(this);
         this.removeUserTask.bind(this);
         this.updateUserTask.bind(this);
+        this.onUpdateUserTask.bind(this);
         this.completeUserTask.bind(this);
         this.onCompleteUserTasks.bind(this);
         this.onClickFilterItem.bind(this);
@@ -359,6 +344,13 @@ export class TasksBlock extends React.Component {
             // ===== VIEWS =====
             taskViewPropsList: [] // List of task views;
         };
+
+        // Initialize task control functions:
+        this.taskControlFunctions = {
+            doneFunction: this.completeUserTask,
+            updateFunction: this.onUpdateUserTask,
+            removeFunction: this.removeUserTask
+        }
     }
 
     componentDidMount() {
@@ -411,8 +403,8 @@ export class TasksBlock extends React.Component {
                 const taskObj = TaskBuilder.builder().ofId(taskDto.taskId)
                     .withName(taskDto.taskName)
                     .withDescription(taskDto.taskDesc)
-                    .withDateOfCreation(Date.parse(taskDto.dateOfCreation))
-                    .withDateOfCompletion(Date.parse(taskDto.dateOfCompletion))
+                    .withDateOfCreation(new Date(taskDto.dateOfCreation))
+                    .withDateOfCompletion(new Date(taskDto.dateOfCompletion))
                     .withStatus(taskDto.taskStatus)
                     .build();
                 taskViewPropsList.push(new TaskViewProps(taskObj, TaskViewLoadingStatus.LOADED));
@@ -571,14 +563,60 @@ export class TasksBlock extends React.Component {
 
     }
 
-    updateUserTask = async (aModifiedTask) => {
+    onUpdateUserTask = async (aTaskViewProps) => {
+        this.logger.log("Update TaskView[%o] view props;", [aTaskViewProps]);
 
-        const promise = await ReqUtilities.postRequest("/rest/task/update-task", JSON.stringify(aModifiedTask));
-        promise.json().then((taskRestDto) => {
-            if (taskRestDto.exception === false) {
-                console.log("Modified task: ", taskRestDto);
+        // Set loading status to modified task view:
+        this.setState(prevState => {
+            const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
+                if (viewProps.viewId === aTaskViewProps.viewId) viewProps.loadStatus = TaskViewLoadingStatus.LOADING;
+                return viewProps;
+            })
+            return {taskViewPropsList: taskViewPropsList};
+        })
+
+        // Post modified task to server:
+        const updatedTask = await this.updateUserTask(aTaskViewProps.taskObj);
+
+        // Update task in state:
+        this.setState(prevState => {
+            const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
+                if (viewProps.viewId === aTaskViewProps.viewId) {
+                    viewProps.taskObj = updatedTask;
+                    viewProps.loadStatus = TaskViewLoadingStatus.LOADED;
+                }
+                return viewProps;
+            })
+            return {taskViewPropsList: taskViewPropsList};
+        })
+    }
+
+    /**
+     * Update user task.
+     * Function set TaskView loadingStatus property loading and update component state.
+     * Then send post request to server "rest/task/update-task" url and update task in db.
+     * Then set TaskView loadingStatus to loaded and update component.
+     * @param modifiedTask -  modified task.
+     * @return - updated task.
+     */
+    updateUserTask = (modifiedTask) => {
+        this.logger.log("Try to update user task[%o];", [modifiedTask]);
+
+        // Construct taskDto form modified task:
+        const taskDto = TaskDtoBuilder.ofTask(modifiedTask);
+
+        // Post request:
+        ReqUtilities.postRequest("/rest/task/update-task", JSON.stringify(taskDto)).then(result => {
+            if (result.ok) {
+                result.json().then(taskResDto  => {
+                    // Parse DTO to task:
+                    return TaskBuilder.ofDto(taskResDto);
+                })
+            }else {
+                return null;
             }
         })
+
     }
 
     /**
@@ -690,6 +728,7 @@ export class TasksBlock extends React.Component {
                                    selectedTasksList={this.state.selectedTasksList}
                                    showedTaskViewList={this.state.showedTaskViewList}
                                    taskViewsToRender={taskViewsToRender}
+                                   taskControlFunctions={this.taskControlFunctions}
                 />
             );
         }
@@ -726,9 +765,26 @@ export class TasksBlock extends React.Component {
 }
 
 /**
+ * Component used to render {TaskViews} views.
+ * @param props - component props.
+ * @property viewsList - list of task views props to be rendered.
+ * @returns {*} - List of JSX TaskView.
+ */
+const TaskViewsList =(props) => {
+
+    // Create TaskViews:
+    const taskViewsList = props.viewsList.map(viewProps =>
+        <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj}
+                  loadingStatus={viewProps.loadStatus} parentControlFunctions={props.taskControlFunctions} />);
+
+    return (<div> {taskViewsList} </div>);
+
+}
+
+/**
  * Component props of ({TaskView}) component.
  */
-class TaskViewProps {
+export class TaskViewProps {
     /**
      * Application TaskView ID length.
      * @type {number} - id length.
@@ -749,5 +805,11 @@ class TaskViewProps {
         this.viewId = StringUtilities.uniqueString(TaskViewProps.UNIQUE_ID_LENGTH); // Generate random id;
         this.taskObj = aTaskObj;
         this.loadStatus = aLoadStatus;
+    }
+
+    static ofProps =(aViewId, aTaskObj, aLoadStatus) => {
+        const taskViewProps = new TaskViewProps(aTaskObj, aLoadStatus);
+        taskViewProps.viewId = aViewId;
+        return taskViewProps;
     }
 }

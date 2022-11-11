@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import {Localization} from "../../js/localization/localization";
 import {TextButton} from "../Buttons";
-import {TaskBuilder} from "../dto/TaskDto";
+import {TaskDtoBuilder} from "../../js/models/Task";
 
 /**
  * TaskAddition used to add user tasks.
@@ -112,7 +112,7 @@ export class TaskAddition extends React.Component {
     onAdd =() => {
 
         // Create task dto:
-        const taskDto = TaskBuilder.withName(this.state.nameAreaValue).withDescription(this.state.descAreaValue).withDateCompletion(this.state.completionInputValue).build();
+        const taskDto = TaskDtoBuilder.builder().withName(this.state.nameAreaValue).withDesc(this.state.descAreaValue).withCompletionDate(this.state.completionInputValue).build();
 
         // Call parent adding task func:
         this.props.at_addTaskFunction(taskDto);

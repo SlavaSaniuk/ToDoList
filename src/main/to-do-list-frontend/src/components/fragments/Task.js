@@ -2,7 +2,7 @@ import React from "react";
 import '../../styles/fragments/Task.css'
 import "../Buttons.js";
 import {CancelButton, DoneButton, EditButton, TextButton} from "../Buttons";
-import {TaskBuilder, TaskStatus} from "../dto/TaskDto";
+import {TaskBuilder, TaskDtoBuilder, TaskStatus} from "../../js/models/Task";
 
 /**
  * @property taskObj - Task object.
@@ -70,7 +70,7 @@ class TaskView extends React.Component {
         };
 
         // Construct new state task object:
-        const taskObj = TaskBuilder.ofId(this.state.taskObj.taskId).withName(aTaskChanges.taskName).withDescription(aTaskChanges.taskDesc).build();
+        const taskObj = TaskDtoBuilder.ofTask(this.state.taskObj).build();
 
         // Set new element state:
         this.setState({

@@ -7,6 +7,7 @@ import {Menu, MenuDirection} from "../../ui/Menu";
 import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
 import {Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
+import {TaskViewProps} from "../TasksBlock";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -14,6 +15,7 @@ import {Properties} from "../../../Properites";
  * @property - viewId - unique view identification ({String});
  * @property - task - Task model object.
  * @property - loadingStatus - task loading status ({TaskViewLoadingStatus}).
+ * @property - parentControlFunctions - parent task control function.
  * @stateProperty - task - task state model object.
  * @stateProperty - loadingStatus - loading status of this view ({TaskViewLoadingStatus}).
  * @stateProperty - inEdit - flag indicate if task is editing now.
@@ -50,7 +52,6 @@ export class TaskView extends React.Component {
         // Component state:
         this.state = {
             task: Object.assign(this.props.task), // Task property copy;
-            loadingStatus: this.props.loadingStatus, // By default task is loading;
             inEdit: false
         }
 
@@ -58,11 +59,12 @@ export class TaskView extends React.Component {
         this.onEdit.bind(this);
         this.onChange.bind(this);
         this.onCancel.bind(this);
+        this.onUpdate.bind(this);
 
         // Initialize class variables:
         this.TASK_EDIT_CONTROL_PANEL = (<TaskEditorControlPanel>
             <TextButton btnText={Localization.getLocalizedString("tv_edit_control_btn_update")}
-                        classes={"task-editor-control-button"} />
+                        classes={"task-editor-control-button"} clickFunc={this.onUpdate} />
             <TextButton btnText={Localization.getLocalizedString("tv_edit_control_btn_cancel")}
                         classes={"task-editor-control-button"} clickFunc={this.onCancel} />
         </TaskEditorControlPanel>);
@@ -73,17 +75,6 @@ export class TaskView extends React.Component {
         </TaskControlMenu>);
         this.TASK_SELECTOR = <TaskSelection />;
 
-    }
-
-    /**
-     * Update component state when props is updated.
-     * @param props - new props.
-     * @param state - state object.
-     * @returns {*} - new props.
-     */
-    static getDerivedStateFromProps(props, state) {
-        state.loadingStatus = props.loadingStatus;
-        return state;
     }
 
     /**
@@ -149,15 +140,36 @@ export class TaskView extends React.Component {
     }
 
     /**
+     *  Update current edited task.
+     *  Function calling when click on update text button in task editor.
+     *  function calling parent update function.
+     */
+    onUpdate =() => {
+        this.LOGGER.log("Update TaskView[viewId: %o] with new task properties[%o];", [this.props.viewId, this.state.task]);
+
+        // Reset state inEdit flag:
+        this.setState({
+            inEdit: false
+        });
+
+        // Create TaskViewProps:
+        const taskViewProps = TaskViewProps.ofProps(this.props.viewId, this.state.task, this.props.loadingStatus);
+
+        // Call parent function:
+         this.props.parentControlFunctions.updateFunction(taskViewProps);
+    }
+
+
+    /**
      * Render component.
      * @returns {JSX.Element}
      */
     render() {
 
-
         // If task is loading, return loader:
-        if (this.state.loadingStatus === TaskViewLoadingStatus.LOADING)
+        if (this.props.loadingStatus === TaskViewLoadingStatus.LOADING)
             return (<div className={"purple-loader task-view-loader"}></div>)
+
 
         // Check if task is in editing now:
         const task_edit_control_panel = this.state.inEdit ? this.TASK_EDIT_CONTROL_PANEL : null;
