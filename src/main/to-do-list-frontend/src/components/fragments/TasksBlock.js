@@ -312,11 +312,10 @@ export class TasksBlock extends React.Component {
         this.loadUserTasks.bind(this);
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
-        this.onRemoveTasks.bind(this);
-        this.onRemoveTask.bind(this);
         this.postNewTask.bind(this);
         this.onSelectTasks.bind(this);
         this.onUnselectTask.bind(this);
+        this.onRemoveUserTask.bind(this);
         this.removeUserTask.bind(this);
         this.updateUserTask.bind(this);
         this.onUpdateUserTask.bind(this);
@@ -349,7 +348,7 @@ export class TasksBlock extends React.Component {
         this.taskControlFunctions = {
             doneFunction: this.completeUserTask,
             updateFunction: this.onUpdateUserTask,
-            removeFunction: this.removeUserTask
+            removeFunction: this.onRemoveUserTask
         }
     }
 
@@ -445,30 +444,6 @@ export class TasksBlock extends React.Component {
     }
 
     /**
-     * Remove selected tasks.
-     * Function calling removeTask function and update state tasks list.
-     */
-    onRemoveTasks =() => {
-        this.state.selectedTasksList.forEach(aTask => {
-            this.onRemoveTask(aTask, false);
-        })
-
-        this.setState({
-            isTasksSelected: false,
-            selectedTasksList: []
-            }
-        );
-    }
-
-    /**
-     * Remove specified task.
-     * @param aTask - task to remove.
-     */
-    onRemoveTask =(aTask) => {
-        this.removeUserTask(aTask)
-    }
-
-    /**
      * Function calling when user select any task {Task.TaskSelector.checkbox selected}.
      * Function set isTasksSelected state to true and add task to state selected task list.
      * @param aTask - selected task.
@@ -544,12 +519,65 @@ export class TasksBlock extends React.Component {
     }
 
     /**
+     * OnRemoveUserTask function calling when user click on remove button in TaskView component.
+     * Function first set Loading status to removed TaskView. Then function calling removeUserTask() function to remove
+     * user task from server. And based on server response remove TaskView from state taskViewPropsList.
+     * @param aTaskViewProps - TaskViewProps which will be removed.
+     */
+    onRemoveUserTask =async(aTaskViewProps) => {
+        // log:
+        this.logger.log("Remove TaskView[%o]:", [aTaskViewProps]);
+
+        // Set "loading" status to task view which will be removed:
+        this.setState(prevState => {
+            const newTaskViewList = prevState.taskViewPropsList.map(viewProps => {
+                if (viewProps.viewId === aTaskViewProps.viewId) viewProps.loadStatus = TaskViewLoadingStatus.LOADING;
+                return viewProps;
+            })
+
+            // Return new state property:
+            return {taskViewPropsList: newTaskViewList};
+        })
+
+        // Remove user task from database:
+        const isRemoved = await this.removeUserTask(aTaskViewProps.taskObj);
+
+        // If task is removed:
+        if (isRemoved)
+            // then remove task view from list:
+            this.setState(prevState => {
+                return {taskViewPropsList: prevState.taskViewPropsList.filter((viewProps) => {
+                    return viewProps.viewId !== aTaskViewProps.viewId;
+                    })
+                }
+            });
+        else
+            // Else: log error:
+            console.error(StringUtilities.format("TaskView[%o] cannot be removed.", [aTaskViewProps]));
+
+    }
+
+    /**
      * Remove user task.
-     * Function send http get request on url /rest/task/delete-task?id=taskId. Then remove task from state tasks list.
-     * @param aTask - Task object with ID.
-     * @returns {Promise<void>} - promise.
+     * Function send post http request on "rest/task/delete-task?id=" url to remove user task.
+     * @param aTask - task to be removed.
+     * @return {Promise<boolean>} - true if task is removed.
      */
     removeUserTask =async (aTask) => {
+
+        try {
+            this.logger.log("Try to remove user task[%o];", [aTask]);
+            const result = await ReqUtilities.getRequest("/rest/task/delete-task?id=" + aTask.taskId);
+            const exceptionDto = await result.json();
+
+            this.logger.log("Task[taskId: %o] is removed - %o;", [aTask.taskId, !exceptionDto.exception]);
+            return !exceptionDto.exception;
+        }catch (e) {
+            console.error(e);
+            return false;
+        }
+
+        /*
         const promise = await ReqUtilities.getRequest("/rest/task/delete-task?id=" + aTask.taskId);
         promise.json().then((exceptionDto => {
             if (exceptionDto.exception === false) {
@@ -561,8 +589,17 @@ export class TasksBlock extends React.Component {
             }
         }));
 
+         */
+
     }
 
+    /**
+     * OmUpdateUserTask function calling by TaskView#onUpdate() function.
+     * Function set TaskView loadingStatus property loading and update component state.
+     * Then send post request to server "rest/task/update-task" url and update task in db.
+     * Then set TaskView loadingStatus to loaded and update component.
+     * @param aTaskViewProps - {TaskViewProps} which will be updated.
+     */
     onUpdateUserTask = async (aTaskViewProps) => {
         this.logger.log("Update TaskView[%o] view props;", [aTaskViewProps]);
 
@@ -593,9 +630,7 @@ export class TasksBlock extends React.Component {
 
     /**
      * Update user task.
-     * Function set TaskView loadingStatus property loading and update component state.
-     * Then send post request to server "rest/task/update-task" url and update task in db.
-     * Then set TaskView loadingStatus to loaded and update component.
+     * Function send post request to server "rest/task/update-task" url and update task in db.
      * @param modifiedTask -  modified task.
      * @return - updated task.
      */
@@ -805,11 +840,5 @@ export class TaskViewProps {
         this.viewId = StringUtilities.uniqueString(TaskViewProps.UNIQUE_ID_LENGTH); // Generate random id;
         this.taskObj = aTaskObj;
         this.loadStatus = aLoadStatus;
-    }
-
-    static ofProps =(aViewId, aTaskObj, aLoadStatus) => {
-        const taskViewProps = new TaskViewProps(aTaskObj, aLoadStatus);
-        taskViewProps.viewId = aViewId;
-        return taskViewProps;
     }
 }

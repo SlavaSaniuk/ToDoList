@@ -7,7 +7,6 @@ import {Menu, MenuDirection} from "../../ui/Menu";
 import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
 import {Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
-import {TaskViewProps} from "../TasksBlock";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -56,10 +55,12 @@ export class TaskView extends React.Component {
         }
 
         // Bind functions:
+        this.taskViewProps.bind(this);
         this.onEdit.bind(this);
         this.onChange.bind(this);
         this.onCancel.bind(this);
         this.onUpdate.bind(this);
+        this.onRemove.bind(this);
 
         // Initialize class variables:
         this.TASK_EDIT_CONTROL_PANEL = (<TaskEditorControlPanel>
@@ -70,11 +71,23 @@ export class TaskView extends React.Component {
         </TaskEditorControlPanel>);
         this.TASK_CONTROL_PANEL = (<TaskControlMenu >
             <DoneButton classes={"control-btn"} />
-            <EditButton classes={"control-btn"} clickFunc={this.onEdit}/>
-            <CrossButton classes={"control-btn"}/>
+            <EditButton classes={"control-btn"} clickFunc={this.onEdit} />
+            <CrossButton classes={"control-btn"} clickFunc={this.onRemove} />
         </TaskControlMenu>);
         this.TASK_SELECTOR = <TaskSelection />;
 
+    }
+
+    /**
+     * Construct {TaskViewProps} props from this TaskView.
+     * @return {{viewId, loadStatus, taskObj: *}} - props.
+     */
+    taskViewProps =() => {
+        return {
+            viewId: this.props.viewId,
+            taskObj: this.state.task,
+            loadStatus: this.props.loadingStatus
+        }
     }
 
     /**
@@ -153,10 +166,25 @@ export class TaskView extends React.Component {
         });
 
         // Create TaskViewProps:
-        const taskViewProps = TaskViewProps.ofProps(this.props.viewId, this.state.task, this.props.loadingStatus);
+        const taskViewProps = this.taskViewProps();
 
         // Call parent function:
          this.props.parentControlFunctions.updateFunction(taskViewProps);
+    }
+
+    /**
+     * Remove user task and task view.
+     * Function calling when user click on remove control button.
+     * Function call parent remove function.
+     */
+    onRemove =() => {
+
+        // Create task view props:
+        const props = this.taskViewProps();
+        this.LOGGER.log("Remove this TaskView[%o]:", [props]);
+
+        // Call parent remove function:
+        this.props.parentControlFunctions.removeFunction(props);
     }
 
 
