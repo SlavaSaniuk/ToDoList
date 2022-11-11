@@ -11,6 +11,7 @@ import {Properties} from "../../../Properites";
 /**
  * TaskView component user to display, edit single user task.
  * @props - component props.
+ * @property - viewId - unique view identification ({String});
  * @property - task - Task model object.
  * @property - loadingStatus - task loading status ({TaskViewLoadingStatus}).
  * @stateProperty - task - task state model object.
@@ -184,7 +185,7 @@ export class TaskView extends React.Component {
             </div>)
 
         return(
-            <div className={"task-view"}>
+            <div id={this.props.viewId} className={"task-view"}>
                 {task_selector}
                 <div className={"task-view-content"}>
                     {VIEW_CONTENT}

@@ -10,77 +10,12 @@ import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
 import {TaskView, TaskViewLoadingStatus} from "./task/TaskView";
 import {TaskBuilder} from "../../js/models/Task";
+import {StringUtilities} from "../../js/utils/StringUtilities";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
         <p className={"tasks-footer-text"}> LOAD MORE ... </p>
     </div>);
-}
-
-const Task =(props) => <TaskView
-    task={props.task} key={props.task.taskId} loadingStatus={props.loadingStatus}
-    funcOnSelectTasks={props.funcOnSelectTasks} funcOnUnselectTask={props.funcOnUnselectTask}
-    taskControlFuncs={props.taskControlFuncs} taskIsSelected={props.isTasksSelected}
-/>
-
-
-/**
- * This element render list of users tasks.
- * @property tasksList - list of users tasks.
- * @property funcOnSelectTask - parent function on select task action.
- * @property funcOnUnselectTask - parent function on unselect task action.
- * @property taskControlFuncs - task control function in object.
- * @property showTaskViewList - list of task view to be showed.
- */
-class TasksList1 extends React.Component {
-    /**
-     * Construct new TaskList component.
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-
-        // Bind functions:
-        this.isTaskSelected.bind(this);
-    }
-
-    /**
-     * Check if current 'aTask' task is selected.
-     * Function iterate props selectedTaskList and if 'aTask' is in the list - return true.
-     * @param aTask - task obj.
-     * @returns {boolean} - true - if task is selected.
-     */
-    isTaskSelected =(aTask) => {
-        let isSelected = false;
-
-        // Check if task in selected tasks list:
-        this.props.selectedTasksList.forEach(selectedTask => {
-            if(selectedTask.taskId === aTask.taskId) isSelected=true;
-        })
-
-        return isSelected;
-    }
-
-    /**
-     * Render tasks list.
-     * @returns {JSX.Element}
-     */
-    render() {
-
-        this.props.showedTaskViewList.push({task: {taskName: "Task#1", taskDescription: "Task N1 description", taskCreationDate: new Date(), taskCompletionDate: new Date()}, loadingStatus: TaskViewLoadingStatus.LOADED});
-        this.props.showedTaskViewList.push({task: {taskName: "Task#2", taskDescription: "Task N2 descriptionssssssssssssssssssss    sssssssssssssssssssssssssssssssssssss   sssssssssssssssssssssssssssssssssss ssssssssssssssssssssssssssssssssssss"}, loadingStatus: TaskViewLoadingStatus.LOADED});
-        this.props.showedTaskViewList.push({task: {taskName: "Исправить ростовочную ведомость", taskDescription: "Вывод подразделений (Если не нуждается в СФО, то не выводить)",  taskCreationDate: new Date()}, loadingStatus: TaskViewLoadingStatus.LOADED});
-
-        const tasks = this.props.showedTaskViewList.map((taskView) =>
-            <Task key={Math.random()} task={taskView.taskObj} loadingStatus={taskView.loadingStatus} />
-        );
-
-        return (
-            <div>
-                {tasks}
-            </div>
-        )
-    }
 }
 
 /**
@@ -95,22 +30,12 @@ const TaskViewsList =(props) => {
     Logging.log("Views list: ", props.viewsList);
 
     const taskViewsList = props.viewsList.map(viewProps =>
-        <TaskView key={Math.random()} task={viewProps.taskObj} loadingStatus={TaskViewLoadingStatus.LOADED} />);
+        <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj} loadingStatus={TaskViewLoadingStatus.LOADED} />);
 
     return (<div> {taskViewsList} </div>);
 
 }
 
-class TaskViewProps {
-    viewId; // Task view unique ID;
-    taskObj; // Wrapper task object;
-    loadStatus; // View loading status;
-
-    constructor(aTaskObj, aLoadStatus) {
-        this.taskObj = aTaskObj;
-        this.loadStatus = aLoadStatus;
-    }
-}
 
 /**
  * Task content block is root element that has and render the TasksList and AddTaskBlock elements.
@@ -373,7 +298,7 @@ const TasksBlockLoadStatus = {LOADING: 1, LOADED: 2};
  * @function onSelectTasks - function calls when user select task.
  * @function onUnselectTask - function calls when user unselect task.
  */
-class TasksBlock extends React.Component {
+export class TasksBlock extends React.Component {
     // Class variables:
     tasksEditBtnStatuses; // Statuses of TasksEdit buttons;
     tasksEditBtnFunctions; // TasksEdit buttons onClick action functions;
@@ -800,4 +725,29 @@ class TasksBlock extends React.Component {
     }
 }
 
-export {TasksBlock}
+/**
+ * Component props of ({TaskView}) component.
+ */
+class TaskViewProps {
+    /**
+     * Application TaskView ID length.
+     * @type {number} - id length.
+     */
+    static UNIQUE_ID_LENGTH = 10;
+
+    viewId; // Task view unique ID;
+    taskObj; // Wrapper task object;
+    loadStatus; // View loading status;
+
+    /**
+     * Construct new {TaskView} props.
+     * Constructor generate unique view ID.
+     * @param aTaskObj - task object.
+     * @param aLoadStatus - task view loading status.
+     */
+    constructor(aTaskObj, aLoadStatus) {
+        this.viewId = StringUtilities.uniqueString(TaskViewProps.UNIQUE_ID_LENGTH); // Generate random id;
+        this.taskObj = aTaskObj;
+        this.loadStatus = aLoadStatus;
+    }
+}
