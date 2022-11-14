@@ -7,6 +7,7 @@ import {Menu, MenuDirection} from "../../ui/Menu";
 import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
 import {Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
+import {TaskStatus} from "../../../js/models/Task";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -16,7 +17,6 @@ import {Properties} from "../../../Properites";
  * @property - loadingStatus - task loading status ({TaskViewLoadingStatus}).
  * @property - parentControlFunctions - parent task control function.
  * @stateProperty - task - task state model object.
- * @stateProperty - loadingStatus - loading status of this view ({TaskViewLoadingStatus}).
  * @stateProperty - inEdit - flag indicate if task is editing now.
  */
 export class TaskView extends React.Component {
@@ -208,18 +208,19 @@ export class TaskView extends React.Component {
         const VIEW_CONTENT = (
             <div className={"task-properties-panel"}>
                 <TaskPropertyArea field={PropertyField.NAME} value={this.state.task.taskName}
-                                  disabled={!this.state.inEdit} onChange={this.onChange} />
+                                  disabled={!this.state.inEdit} onChange={this.onChange} taskStatus={this.state.task.taskStatus} />
                 <TaskPropertyArea field={PropertyField.DESC} value={this.state.task.taskDescription}
-                                  disabled={!this.state.inEdit} onChange={this.onChange} />
+                                  disabled={!this.state.inEdit} onChange={this.onChange} taskStatus={this.state.task.taskStatus} />
                 <div className={"task-date-properties-panel"}>
                     <div className={"date-property-section"}>
                         <p> {Localization.getLocalizedString("tv_task_date_creation")} </p>
-                        <TaskPropertyField type={TaskPropertyFieldType.INPUT} value={this.state.task.taskCreationDate} disabled={true} />
+                        <TaskPropertyField type={TaskPropertyFieldType.INPUT} value={this.state.task.taskCreationDate}
+                                           disabled={true} taskStatus={this.state.task.taskStatus} />
                     </div>
                     <div className={"date-property-section"}>
                         <p> {Localization.getLocalizedString("tv_task_date_completion")} </p>
                         <TaskPropertyInput field={PropertyField.COMPLETION} value={this.state.task.taskCompletionDate}
-                                           disabled={!this.state.inEdit} onChange={this.onChange} />
+                                           disabled={!this.state.inEdit} onChange={this.onChange} taskStatus={this.state.task.taskStatus} />
                     </div>
                 </div>
             </div>)
@@ -294,6 +295,7 @@ class TaskSelection extends React.Component {
  * @property disabled - flag indicate if inner input is enabled.
  * @property classesStr - additional classes string.
  * @property onChange - onChange action function.
+ * @property completed - task completion flag.
  */
 const TaskPropertyField = React.memo((props) => {
 
@@ -309,12 +311,14 @@ const TaskPropertyField = React.memo((props) => {
         }
     })
 
+    const completedStyle = props.completed ? "linethrough-text " : "";
+
     // Bases on props.type return textarea or DatePicker:
     if (props.type === TaskPropertyFieldType.AREA)
         return (<textarea ref={textAreaRef} value={props.value} disabled={props.disabled}
-                         className={"task-property-area " +props.classesStr} onChange={props.onChange} />);
+                         className={"task-property-area " +completedStyle +props.classesStr} onChange={props.onChange} />);
     else
-        return <DatePicker selected={props.value} className={"task-property-date-input"} onChange={(event) => {
+        return <DatePicker selected={props.value} className={"task-property-date-input " +completedStyle} onChange={(event) => {
             props.onChange(event, "COMPLETION")}}
                            disabled={props.disabled} dateFormat={"dd.MM.yyyy"} />
 });
@@ -330,6 +334,7 @@ const PropertyField = {NAME: 0, DESC: 1, CREATION: 2, COMPLETION: 3};
  * @property value - text area value.
  * @property disabled - flag indicate if textarea is enabled/disabled.
  * @property onChange - onChange action function.
+ * @property taskStatus - task status property {TaskStatus};
  * @returns {JSX.Element} - TaskPropertyField text area.
  */
 class TaskPropertyArea extends React.Component {
@@ -355,13 +360,18 @@ class TaskPropertyArea extends React.Component {
         else if (this.props.field === PropertyField.DESC) addClass = "task-desc-property-field";
         else addClass ="";
 
+        const completedFlag = this.props.taskStatus === TaskStatus.COMPLETED;
+
 
         // Return text area:
         return <TaskPropertyField type={TaskPropertyFieldType.AREA} classesStr={addClass} value={this.props.value}
-                                  disabled={this.props.disabled} onChange={this.onChange} />
+                                  disabled={this.props.disabled} onChange={this.onChange} completed={completedFlag} />
     }
 }
 
+/**
+ * @property taskStatus - task status property {TaskStatus};
+ */
 class TaskPropertyInput extends React.Component {
     constructor(props) {
         super(props);
@@ -375,9 +385,9 @@ class TaskPropertyInput extends React.Component {
     }
 
     render() {
-
+        const completedFlag = this.props.taskStatus === TaskStatus.COMPLETED;
         return <TaskPropertyField type={TaskPropertyFieldType.INPUT} value={this.props.value}
-                                  disabled={this.props.disabled} onChange={this.onChange} />
+                                  disabled={this.props.disabled} onChange={this.onChange} completed={completedFlag} />
 
     }
 }

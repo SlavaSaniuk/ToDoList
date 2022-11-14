@@ -206,3 +206,7 @@
 .task-editor-control-panel .task-editor-control-button:not(:first-child) {
     margin-left: 5px;
 }
+
+.linethrough-text {
+    text-decoration: line-through;
+}
