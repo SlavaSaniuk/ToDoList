@@ -319,6 +319,8 @@ export class TasksBlock extends React.Component {
         this.removeUserTask.bind(this);
         this.updateUserTask.bind(this);
         this.onUpdateUserTask.bind(this);
+        // ====== Task completion functions =====
+        this.onCompleteUserTask.bind(this);
         this.completeUserTask.bind(this);
         this.onCompleteUserTasks.bind(this);
         this.onClickFilterItem.bind(this);
@@ -346,7 +348,7 @@ export class TasksBlock extends React.Component {
 
         // Initialize task control functions:
         this.taskControlFunctions = {
-            doneFunction: this.completeUserTask,
+            completeFunction: this.onCompleteUserTask,
             updateFunction: this.onUpdateUserTask,
             removeFunction: this.onRemoveUserTask
         }
@@ -577,20 +579,6 @@ export class TasksBlock extends React.Component {
             return false;
         }
 
-        /*
-        const promise = await ReqUtilities.getRequest("/rest/task/delete-task?id=" + aTask.taskId);
-        promise.json().then((exceptionDto => {
-            if (exceptionDto.exception === false) {
-                this.setState(prevState => ({
-                    tasksList:  prevState.tasksList.filter((task) => {
-                        return task.taskId !== aTask.taskId;
-                    }),
-                }));
-            }
-        }));
-
-         */
-
     }
 
     /**
@@ -654,23 +642,64 @@ export class TasksBlock extends React.Component {
 
     }
 
+    onCompleteUserTask = async(aViewProps) => {
+
+        // Set loading status to task view which task will be completed:
+        this.setState(prevState => {
+            const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
+                if (viewProps.viewId === aViewProps.viewId) viewProps.loadStatus = TaskViewLoadingStatus.LOADING;
+                return viewProps;
+            })
+            return {taskViewPropsList: taskViewPropsList};
+        });
+
+        // Complete user task:
+        const isUpdated = await this.completeUserTask(aViewProps.taskObj);
+
+        if (isUpdated) {
+            this.logger.log("Task in TaskView[%o] is not completed;", [aViewProps]);
+            this.setState(prevState => {
+                const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
+                    if (viewProps.viewId === aViewProps.viewId) {
+                        viewProps.taskObj.taskStatus = TaskStatus.COMPLETED;
+                        viewProps.loadStatus = TaskViewLoadingStatus.LOADED;
+                    }
+                    return viewProps;
+                })
+                return {taskViewPropsList: taskViewPropsList}}
+            );
+        }else {
+            this.logger.log("Task in TaskView[%o] is not completed;", [aViewProps]);
+            // Set loading status to task view which task will be completed:
+            this.setState(prevState => {
+                const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
+                    if (viewProps.viewId === aViewProps.viewId) viewProps.loadStatus = TaskViewLoadingStatus.LOADED;
+                    return viewProps;
+                })
+                return {taskViewPropsList: taskViewPropsList};
+            });
+        }
+    }
+
     /**
      * Complete user task.
      * @param aTask - task to be completed.
-     * @returns {Promise<void>}
+     * @return boolean - true, if task is completed.
      */
-    completeUserTask = (aTask) => {
-        ReqUtilities.getRequest("/rest/task/complete-task?id=" + aTask.taskId).then((response) =>
-            response.json().then((exceptionDto => {
-                if (exceptionDto.exception === false) {
-                    this.state.tasksList.forEach((task) => {
-                        if (task.taskId === aTask.taskId) {
-                            task.taskStatus = TaskStatus.COMPLETED;
-                            this.forceUpdate();
-                        }
-                    })
-                }
-            })));
+    completeUserTask = async (aTask) => {
+
+        try {
+            this.logger.log("Try to complete user task[%o];", [aTask]);
+            const result = await ReqUtilities.getRequest("/rest/task/complete-task?id=" + aTask.taskId);
+            const exceptionDto = await result.json();
+
+            this.logger.log("Task[taskId: %o] is completed - %o;", [aTask.taskId, !exceptionDto.exception]);
+            return !exceptionDto.exception;
+        }catch (e) {
+            console.error(e);
+            return false;
+        }
+
     }
 
     /**

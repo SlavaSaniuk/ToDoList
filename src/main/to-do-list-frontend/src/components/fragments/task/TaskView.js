@@ -44,6 +44,10 @@ export class TaskView extends React.Component {
      */
     LOGGER = new Logger("TaskView", Properties.TaskViewLogging);
 
+    /**
+     * Construct new TaskView react component,
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.LOGGER.log("Construct new TaskView component with props[%o];", [props]);
@@ -61,6 +65,7 @@ export class TaskView extends React.Component {
         this.onCancel.bind(this);
         this.onUpdate.bind(this);
         this.onRemove.bind(this);
+        this.onComplete.bind(this);
 
         // Initialize class variables:
         this.TASK_EDIT_CONTROL_PANEL = (<TaskEditorControlPanel>
@@ -69,8 +74,9 @@ export class TaskView extends React.Component {
             <TextButton btnText={Localization.getLocalizedString("tv_edit_control_btn_cancel")}
                         classes={"task-editor-control-button"} clickFunc={this.onCancel} />
         </TaskEditorControlPanel>);
+
         this.TASK_CONTROL_PANEL = (<TaskControlMenu >
-            <DoneButton classes={"control-btn"} />
+            <DoneButton classes={"control-btn"} clickFunc={this.onComplete} />
             <EditButton classes={"control-btn"} clickFunc={this.onEdit} />
             <CrossButton classes={"control-btn"} clickFunc={this.onRemove} />
         </TaskControlMenu>);
@@ -187,6 +193,19 @@ export class TaskView extends React.Component {
         this.props.parentControlFunctions.removeFunction(props);
     }
 
+    /**
+     * Complete user task.
+     * Function calling when user click on "DONE" control button.
+     * Function call parent complete function.
+     */
+    onComplete =async () => {
+        const viewProps = this.taskViewProps();
+        this.LOGGER.log("onComplete task in TaskView[%o];", [viewProps]);
+
+        // Call parent function:
+       await this.props.parentControlFunctions.completeFunction(viewProps);
+    }
+
 
     /**
      * Render component.
@@ -288,52 +307,12 @@ class TaskSelection extends React.Component {
 }
 
 /**
- * TaskPropertyField component represent a user task field (e.g. name, description).
- * @param props - component props.
- * @property type - type of inner input ({TaskPropertyFieldType}).
- * @property value - inner input value.
- * @property disabled - flag indicate if inner input is enabled.
- * @property classesStr - additional classes string.
- * @property onChange - onChange action function.
- * @property completed - task completion flag.
- */
-const TaskPropertyField = React.memo((props) => {
-
-    const textAreaRef = useRef(null);
-
-    /**
-     * Similar to componentDidMount, componentDidUpdate.
-     */
-    useEffect(() => {
-        if (props.type === TaskPropertyFieldType.AREA) {
-            textAreaRef.current.style.height = "1px";
-            textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
-        }
-    })
-
-    const completedStyle = props.completed ? "linethrough-text " : "";
-
-    // Bases on props.type return textarea or DatePicker:
-    if (props.type === TaskPropertyFieldType.AREA)
-        return (<textarea ref={textAreaRef} value={props.value} disabled={props.disabled}
-                         className={"task-property-area " +completedStyle +props.classesStr} onChange={props.onChange} />);
-    else
-        return <DatePicker selected={props.value} className={"task-property-date-input " +completedStyle} onChange={(event) => {
-            props.onChange(event, "COMPLETION")}}
-                           disabled={props.disabled} dateFormat={"dd.MM.yyyy"} />
-});
-
-const TaskPropertyFieldType = {AREA: 1, INPUT: 2};
-
-const PropertyField = {NAME: 0, DESC: 1, CREATION: 2, COMPLETION: 3};
-
-/**
  * Render task property text area (for task name/description).
  * @param props - component props.
- * @property field - task property ({PropertyField}).
  * @property value - text area value.
  * @property disabled - flag indicate if textarea is enabled/disabled.
  * @property onChange - onChange action function.
+ * @property field - inner task field {PropertyField}.
  * @property taskStatus - task status property {TaskStatus};
  * @returns {JSX.Element} - TaskPropertyField text area.
  */
@@ -370,7 +349,14 @@ class TaskPropertyArea extends React.Component {
 }
 
 /**
- * @property taskStatus - task status property {TaskStatus};
+ * Task property input represent a Date input for task creation and completion dates.
+ * @param props - component props.
+ * @property value - text area value.
+ * @property disabled - flag indicate if textarea is enabled/disabled.
+ * @property onChange - onChange action function.
+ * @property field - inner task field {PropertyField}.
+ * @property taskStatus - task status property {TaskStatus}.
+ * @returns {JSX.Element} - {DatePicker} date picker.
  */
 class TaskPropertyInput extends React.Component {
     constructor(props) {
@@ -392,11 +378,68 @@ class TaskPropertyInput extends React.Component {
     }
 }
 
+/**
+ * TaskPropertyField component represent a user task field (e.g. name, description).
+ * @param props - component props.
+ * @property type - type of inner input ({TaskPropertyFieldType}).
+ * @property value - inner input value.
+ * @property disabled - flag indicate if inner input is enabled.
+ * @property classesStr - additional classes string.
+ * @property onChange - onChange action function.
+ * @property completed - task completion flag.
+ */
+const TaskPropertyField = React.memo((props) => {
 
+    const textAreaRef = useRef(null);
+
+    /**
+     * Similar to componentDidMount, componentDidUpdate.
+     */
+    useEffect(() => {
+        if (props.type === TaskPropertyFieldType.AREA) {
+            textAreaRef.current.style.height = "1px";
+            textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
+        }
+    })
+
+    const completedStyle = props.completed ? "linethrough-text " : "";
+
+    // Bases on props.type return textarea or DatePicker:
+    if (props.type === TaskPropertyFieldType.AREA)
+        return (<textarea ref={textAreaRef} value={props.value} disabled={props.disabled}
+                         className={"task-property-area " +completedStyle +props.classesStr} onChange={props.onChange} />);
+    else
+        return <DatePicker selected={props.value} className={"task-property-date-input " +completedStyle} onChange={(event) => {
+            props.onChange(event, "COMPLETION")}}
+                           disabled={props.disabled} dateFormat={"dd.MM.yyyy"} />
+});
+
+/**
+ * Values for {TaskPropertyField} type property.
+ * @type {{AREA: number, INPUT: number}}
+ */
+const TaskPropertyFieldType = {AREA: 1, INPUT: 2};
+
+/**
+ * Values for {TaskPropertyArea/TaskPropertyInput} field property.
+ * @type {{CREATION: number, COMPLETION: number, DESC: number, NAME: number}}
+ */
+const PropertyField = {NAME: 0, DESC: 1, CREATION: 2, COMPLETION: 3};
+
+/**
+ * Task control menu render task control buttons: "Complete", "Edit", "Remove";
+ * @param props - component props.
+ * @returns {JSX.Element} - {Menu} horizontal menu.
+ */
 const TaskControlMenu =(props) => {
     return <Menu menuDirection={MenuDirection.HORIZONTAL} menuClass={"task-control-menu"}> {props.children} </Menu>
 }
 
+/**
+ * Editor control panel render block with task editor control buttons "Update", "Cancel".
+ * @param props - component props.
+ * @returns {JSX.Element} - {Menu} horizontal menu.
+ */
 const TaskEditorControlPanel =(props) => {
     return <Menu menuDirection={MenuDirection.HORIZONTAL} menuClass={"task-editor-control-panel"}> {props.children} </Menu>
 }
