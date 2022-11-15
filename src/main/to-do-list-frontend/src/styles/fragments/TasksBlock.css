@@ -261,3 +261,17 @@
     font-family: UZSans-Bold, sans-serif;
     font-size: 24px;
 }
+
+#list_icon_1 > * {
+    stroke: #7c79c9;
+    stroke-width: 2px;
+}
+
+#list_icon_1 > {
+    width: 24px;
+    height: 24px;
+}
+
+.task-content-block-old {
+    border: 1px solid red;
+}

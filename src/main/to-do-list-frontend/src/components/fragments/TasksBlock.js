@@ -12,6 +12,8 @@ import {TaskBuilder, TaskDtoBuilder, TaskStatus} from "../../js/models/Task";
 import {StringUtilities} from "../../js/utils/StringUtilities";
 import {Logger} from "../../js/logging/Logger";
 import {Properties} from "../../Properites";
+import {ListIcon} from "../ui/Icons";
+import {FilteredContentBlock, TasksFilterType} from "./task/FilteredContentBlock";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -38,7 +40,7 @@ class TasksContentBlock extends React.Component {
      */
     render() {
         return(
-            <div>
+            <div className={"task-content-block-old"}>
                 <TaskAddition isShow={this.props.showAddTaskBlock} at_appearanceFunc={this.props.showAddTaskBlockFunc} at_addTaskFunction={this.props.taskControlFuncs.addFunc} />
                 <TaskViewsList viewsList={this.props.taskViewsToRender} taskControlFunctions={this.props.taskControlFunctions} />
             </div>
@@ -811,6 +813,7 @@ export class TasksBlock extends React.Component {
                                         itemText={DateTimeUtilities.dateMonthAndDayToStr(DateTimeUtilities.addDays(this.state.filter_serverDate,1))} />
                         <TaskFilterItem itemId={FilterItemType.WEEK} itemText={"+7"} clickFunction={this.onClickFilterItem}
                                         isActive={this.isActiveFilterItem(FilterItemType.WEEK)} />
+                        <ListIcon id={"list_icon_1"} />
                     </TasksFilter>
                 </TasksFilterPanel>
             </TasksTopMenu>
@@ -820,6 +823,9 @@ export class TasksBlock extends React.Component {
         return (
             <div className={"tasks-block m-auto"} >
                 {TASKS_TOP_MENU}
+
+                <FilteredContentBlock activeFilter={TasksFilterType.WEEK} taskViewPropsList={this.state.taskViewPropsList}  />
+
 
                 {contentBlock}
                 <TasksFooter />

@@ -50,4 +50,28 @@ export class DateTimeUtilities {
 
         return aDate.getFullYear() +", " +month +", " +day;
     }
+
+    static compareDays(aDateFirst, aDateSecond) {
+
+        // Compare years:
+        let fYear = aDateFirst.getFullYear();
+        if (fYear > aDateSecond.getFullYear()) return 1;
+        else if (fYear < aDateSecond.getFullYear()) return -1;
+
+        // If years equals, compare months:
+        let fMonth = aDateFirst.getMonth();
+        if (fMonth > aDateSecond.getMonth())  return 1;
+        else if (fMonth < aDateSecond.getMonth()) return -1;
+
+        // If years and months equals, compare days:
+        let fDay = aDateFirst.getDay();
+        if (fDay > aDateSecond.getDay()) return 1;
+        else if (fDay < aDateSecond.getDay()) return -1;
+        else return 0;
+    }
+
+    static isDayEquals(aDateFirst, aDateSecond) {
+        return DateTimeUtilities.compareDays(aDateFirst, aDateSecond) === 0;
+    }
+
 }
