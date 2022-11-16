@@ -51,7 +51,15 @@ export class DateTimeUtilities {
         return aDate.getFullYear() +", " +month +", " +day;
     }
 
-    static compareDays(aDateFirst, aDateSecond) {
+    /**
+     * Compare two date. If first date > second date, return 1. Else if first date < second date, return -1.
+     * If two dates equals, return 0.
+     * Note: Function only compare dates year, month and day properties.
+     * @param aDateFirst - first date.
+     * @param aDateSecond - second date.
+     * @return {number} - number [-1, 0, 1];
+     */
+    static compareDates(aDateFirst, aDateSecond) {
 
         // Compare years:
         let fYear = aDateFirst.getFullYear();
@@ -70,8 +78,15 @@ export class DateTimeUtilities {
         else return 0;
     }
 
-    static isDayEquals(aDateFirst, aDateSecond) {
-        return DateTimeUtilities.compareDays(aDateFirst, aDateSecond) === 0;
+    /**
+     * Check if specified two dates is equals.
+     * Note: Function only compare dates year, month and day properties.
+     * @param aDateFirst - first date.
+     * @param aDateSecond - second date.
+     * @return {boolean} - true, if dates is equals.
+     */
+    static isDatesEquals(aDateFirst, aDateSecond) {
+        return DateTimeUtilities.compareDates(aDateFirst, aDateSecond) === 0;
     }
 
 }
