@@ -72,9 +72,9 @@ export class DateTimeUtilities {
         else if (fMonth < aDateSecond.getMonth()) return -1;
 
         // If years and months equals, compare days:
-        let fDay = aDateFirst.getDay();
-        if (fDay > aDateSecond.getDay()) return 1;
-        else if (fDay < aDateSecond.getDay()) return -1;
+        let fDay = aDateFirst.getDate();
+        if (fDay > aDateSecond.getDate()) return 1;
+        else if (fDay < aDateSecond.getDate()) return -1;
         else return 0;
     }
 
@@ -89,4 +89,21 @@ export class DateTimeUtilities {
         return DateTimeUtilities.compareDates(aDateFirst, aDateSecond) === 0;
     }
 
+    /**
+     * Check condition: If specified date in period between start and end dates.
+     * aStartDate >= aDate <= aEndDate.
+     * @param aDate - source date.
+     * @param aStartDate - start date in period.
+     * @param aEndDate - end date in period;
+     * @return {boolean} - true, if source date in period.
+     */
+    static isDateInPeriod(aDate, aStartDate, aEndDate) {
+        // Check condition: date >= start date;
+        let belowStartDate = DateTimeUtilities.compareDates(aDate, aStartDate) === -1;
+        if (belowStartDate) return false;
+
+        // Check condition: date <= end date;
+        let aboveEndDate = DateTimeUtilities.compareDates(aDate, aEndDate) === 1;
+        return !aboveEndDate;
+    }
 }

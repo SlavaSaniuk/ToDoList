@@ -9,6 +9,7 @@ import {TaskView} from "./TaskView";
 /**
  * @propsProperty activeFilter - current active filter type [{TasksFilterType}];
  * @propsProperty taskViewPropsList - list of task view properties [{TaskViewProps}];
+ * @propsProperty todayDate - today server date [{Date}];
  */
 export class FilteredContentBlock extends React.Component {
 
@@ -17,17 +18,35 @@ export class FilteredContentBlock extends React.Component {
 
     constructor(props) {
         super(props);
+
+        // Bind functions:
+        this.weekFilter.bind(this);
+    }
+
+    weekFilter =(aTodayDate, aViewPropsList) => {
+        const weekFilterCategories = [];
+        // Filter on today tasks:
+        const todayTasks = TasksFilter.dateTasks(aTodayDate, aViewPropsList);
+        weekFilterCategories.push(<FilterCategoryBlock key={"today_tasks"} categoryName={"Today"} categoryViews={todayTasks} />);
+        // Filter on tomorrow tasks:
+        const tomorrowTasks = TasksFilter.dateTasks(DateTimeUtilities.addDays(aTodayDate, 1), aViewPropsList);
+        weekFilterCategories.push(<FilterCategoryBlock key={"tomorrow_tasks"} categoryName={"Tomorrow"} categoryViews={tomorrowTasks} />);
+        // Filter on any week tasks:
+        const  anyWeekTasks = TasksFilter.betweenDateTasks(
+            DateTimeUtilities.addDays(aTodayDate, 2), DateTimeUtilities.addDays(aTodayDate, 7), aViewPropsList);
+        weekFilterCategories.push(<FilterCategoryBlock key={"week_tasks"} categoryName={"Week"} categoryViews={anyWeekTasks} />);
+
+        return weekFilterCategories;
     }
 
     render() {
 
         // Filter user task based on current active filter:
-        let renderingContent =[]; // TaskView to be rendered:
+        let renderingContent; // TaskView to be rendered:
         switch (this.props.activeFilter) {
             case TasksFilterType.WEEK: {
-                // Filter today tasks:
-                const todayTasks = TasksFilter.weekFilterTodayTasks(new Date(), this.props.taskViewPropsList);
-                renderingContent.push(<FilterCategoryBlock categoryName={"Today, 15.11"} categoryViews={todayTasks}  /> );
+                // Week tasks:
+                renderingContent = this.weekFilter(this.props.todayDate, this.props.taskViewPropsList);
                 break;
             }
             default: {
@@ -72,11 +91,24 @@ const FilterCategoryBlock =(props) => {
 
 class TasksFilter {
 
-    static weekFilterTodayTasks(aToday, aListViewProps) {
+    /**
+     * Filter specified list of task on specified completion date.
+     * @param aDate - filter date completion value.
+     * @param aListViewProps - list of task view props which will be filtered.
+     * @return {*} - filtered list of task view props.
+     */
+    static dateTasks(aDate, aListViewProps) {
         return aListViewProps.filter(viewProps => {
-            console.log("!!! aToday: ", aToday);
-            console.log("!!! aViewProps: ", viewProps);
-            return DateTimeUtilities.isDayEquals(viewProps.taskObj.taskCompletionDate, aToday);
+            return DateTimeUtilities.isDatesEquals(viewProps.taskObj.taskCompletionDate, aDate);
+        })
+    }
+
+    static betweenDateTasks(aStartDate, aFinishDate, aViewPropsList) {
+        return aViewPropsList.filter(viewProps => {
+            // Get task date completion:
+            const taskCompletion = viewProps.taskObj.taskCompletionDate;
+            // Compare date:
+            return DateTimeUtilities.isDateInPeriod(taskCompletion, aStartDate, aFinishDate);
         })
     }
 

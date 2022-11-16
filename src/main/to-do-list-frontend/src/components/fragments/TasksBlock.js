@@ -196,46 +196,6 @@ const TasksFilterPanel =(props) => {
     return (<div className={"tasks-filter-panel col-8 row"}> {props.children} </div>)
 }
 
-class Filter {
-
-    // Class variables:
-    /**
-     * Filter types.
-     * @type {{ALL: 0}} - do not filter tasks (all tasks are satisfied the filter condition);
-     */
-    static FILTER_TYPE={ALL: 0}
-
-    constructor() {
-        // Bind functions:
-        this.filterTasks.bind(this);
-    }
-
-    filterTasks =(aListOfTasks, aFilterType) => {
-        Logging.log("Filter list of task by filter type:")
-        Logging.log("List of task to be filtered: ", aListOfTasks);
-        Logging.log("Filter type: ", aFilterType);
-
-        let filteredList;
-
-        // Filter task based on filter type:
-        switch (aFilterType) {
-            case Filter.FILTER_TYPE.ALL: {
-                Logging.log("Filter task by 'ALL' filter type:");
-                filteredList = aListOfTasks;
-                break;
-            }
-            default: {
-                Logging.log("No found filter of type: ", aFilterType);
-                filteredList = aListOfTasks;
-            }
-        }
-
-        Logging.log("Filter list of tasks: ", filteredList);
-        return filteredList;
-    }
-
-}
-
 /**
  * This element is menu of {TasksEditBtn} control buttons.
  * @param props - react properties.
@@ -287,15 +247,12 @@ export class TasksBlock extends React.Component {
     logger = new Logger("TasksBlock", Properties.TASKS_BLOCK_LOGGING); // Logger;
     tasksEditBtnStatuses; // Statuses of TasksEdit buttons;
     tasksEditBtnFunctions; // TasksEdit buttons onClick action functions;
-    tasksFilter; // User tasks filter;
     taskControlFunctions; // Task control functions for TaskView;
 
     constructor(props) {
         super(props);
 
         // Initialize variables:
-        this.tasksFilter = new Filter(); // Tasks filter;
-
         // Initialize TaskEdit buttons functions:
         this.tasksEditBtnFunctions = {
             addFunction: this.showAddTaskBlock,
@@ -342,7 +299,7 @@ export class TasksBlock extends React.Component {
             statusRemoveBtn: TasksEditBtnStatus.DISABLED, // "Remove" button status;
             // ==== FILTER =====
             filter_serverDate: new Date(2022, 0, 1), // Server date;
-            filter_activeItem: Filter.FILTER_TYPE.ALL, // Active filter item [{Filter.FILTER_TYPE}]:
+            filter_activeItem: null, // Active filter item [{Filter.FILTER_TYPE}]:
             filterInfoText: "",
             // ===== VIEWS =====
             taskViewPropsList: [] // List of task views;
@@ -777,7 +734,7 @@ export class TasksBlock extends React.Component {
         }
 
         // Initialize tasksToRender list based on current active filter:
-        const taskViewsToRender = this.tasksFilter.filterTasks(this.state.taskViewPropsList, this.state.filter_activeItem);
+        const taskViewsToRender = this.state.taskViewPropsList;
 
         // Render content block based on load status:
         let contentBlock;
@@ -805,8 +762,6 @@ export class TasksBlock extends React.Component {
                 <TasksFilterPanel>
                     <TasksFilterInfoPanel infoText={this.state.filterInfoText}/>
                     <TasksFilter>
-                        <TaskFilterItem itemId={Filter.FILTER_TYPE.ALL} itemText={"ALL"} clickFunction={this.onClickFilterItem}
-                                        isActive={this.isActiveFilterItem(FilterItemType.ALL)} />
                         <TaskFilterItem itemId={FilterItemType.TODAY} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TODAY)}
                                         itemText={DateTimeUtilities.dateMonthAndDayToStr(this.state.filter_serverDate)} />
                         <TaskFilterItem itemId={FilterItemType.TOMORROW} clickFunction={this.onClickFilterItem} isActive={this.isActiveFilterItem(FilterItemType.TOMORROW)}
@@ -824,7 +779,8 @@ export class TasksBlock extends React.Component {
             <div className={"tasks-block m-auto"} >
                 {TASKS_TOP_MENU}
 
-                <FilteredContentBlock activeFilter={TasksFilterType.WEEK} taskViewPropsList={this.state.taskViewPropsList}  />
+                <FilteredContentBlock activeFilter={TasksFilterType.WEEK} taskViewPropsList={this.state.taskViewPropsList}
+                                      todayDate={this.state.filter_serverDate} />
 
 
                 {contentBlock}
