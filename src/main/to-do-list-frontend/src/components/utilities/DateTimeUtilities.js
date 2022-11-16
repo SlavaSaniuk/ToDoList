@@ -7,6 +7,10 @@ export class DateTimeUtilities {
         return aDate.toLocaleDateString("en-US", {day: 'numeric', month: 'numeric'})
     }
 
+    static dateToFormattedStr(aDate, aFormat) {
+        return JsDateFormatter.dateToStr(aDate, aFormat);
+    }
+
     static dateMonthAndDayToStr(aDate) {
 
         let day = aDate.getDate();
@@ -106,4 +110,67 @@ export class DateTimeUtilities {
         let aboveEndDate = DateTimeUtilities.compareDates(aDate, aEndDate) === 1;
         return !aboveEndDate;
     }
+}
+
+class JsDateFormatter {
+
+    static dateToStr(aDate, aFormat) {
+
+        // Get first character:
+        let sameCharsStr = aFormat[0];
+        let sameCharsStrList = [];
+        let result = "";
+
+        // Iterate of date format:
+        for (let i=1; i<aFormat.length+1; i++) {
+
+            if (sameCharsStr[0] === aFormat[i]) sameCharsStr += aFormat[i];
+            else {
+                sameCharsStrList.push(sameCharsStr);
+                sameCharsStr=aFormat[i];
+            }
+
+        }
+
+        result += JsDateFormatter.#handleSameCharsStrList(sameCharsStrList, aDate);
+
+        return result;
+    }
+
+
+    static #handleSameCharsStrList(aList, aDate) {
+        let result = "";
+        for (let i=0; i<aList.length; i++)
+        result += JsDateFormatter.#handleSameCharsStr(aList[i], aDate);
+        return result;
+
+    }
+
+
+    static #handleSameCharsStr(aSameCharsStr, aDate) {
+
+        let datePropStr;
+
+        // Check character:
+        switch (aSameCharsStr[0]) {
+            case 'd': {
+                datePropStr = aDate.getDate().toString();
+                break;
+            }
+            case 'm': {
+                datePropStr = aDate.getMonth().valueOf()+1;
+                break;
+            }
+            case 'y': {
+                datePropStr = aDate.getFullYear().valueOf();
+                break;
+            }
+            default: {
+              return aSameCharsStr[0];
+            }
+        }
+
+        return datePropStr;
+    }
+
 }

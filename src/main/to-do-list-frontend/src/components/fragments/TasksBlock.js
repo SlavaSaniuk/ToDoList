@@ -736,6 +736,7 @@ export class TasksBlock extends React.Component {
         // Initialize tasksToRender list based on current active filter:
         const taskViewsToRender = this.state.taskViewPropsList;
 
+        /*
         // Render content block based on load status:
         let contentBlock;
         if(this.state.loadStatus === TasksBlockLoadStatus.LOADING) {
@@ -755,6 +756,8 @@ export class TasksBlock extends React.Component {
                 />
             );
         }
+
+         */
 
         // ===== Render TaskTopMenuBlock ====
         const TASKS_TOP_MENU = (
@@ -780,10 +783,7 @@ export class TasksBlock extends React.Component {
                 {TASKS_TOP_MENU}
 
                 <FilteredContentBlock activeFilter={TasksFilterType.WEEK} taskViewPropsList={this.state.taskViewPropsList}
-                                      todayDate={this.state.filter_serverDate} />
-
-
-                {contentBlock}
+                                      todayDate={this.state.filter_serverDate} parentControlFunctions={this.taskControlFunctions} />
                 <TasksFooter />
             </div>
         );

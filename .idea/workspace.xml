@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added compareDates and isDateEquals methods.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked week task filter">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/filtered-content-block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/filtered-content-block.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,14 +258,7 @@
       <workItem from="1668497811444" duration="638000" />
       <workItem from="1668500561705" duration="1241000" />
       <workItem from="1668514373984" duration="4850000" />
-      <workItem from="1668578819264" duration="4386000" />
-    </task>
-    <task id="LOCAL-00017" summary="Worked configuration properties">
-      <created>1661805962765</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1661805962765</updated>
+      <workItem from="1668578819264" duration="15128000" />
     </task>
     <task id="LOCAL-00018" summary="Worked and tested CredentialsValidator#validatePassword and CredentialsValidator#validationRules methods.">
       <created>1661893196711</created>
@@ -601,7 +596,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668579944636</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Worked week task filter">
+      <created>1668583324160</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1668583324160</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -623,7 +625,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Delete TaskWrapper#TaskPrinter inner class" />
     <MESSAGE value="Worked and tested UserTasksManager#completeUserTasks method" />
     <MESSAGE value="Added Wrapper interface" />
     <MESSAGE value="Need to test TaskRestController#completeUserTasks method." />
@@ -648,7 +649,8 @@
     <MESSAGE value="Worked task completion process" />
     <MESSAGE value="Added task filtration." />
     <MESSAGE value="Added compareDates and isDateEquals methods." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added compareDates and isDateEquals methods." />
+    <MESSAGE value="Worked week task filter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked week task filter" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -7,5 +7,5 @@
 export const Properties = {
     DebugLogging: true,
     TASKS_BLOCK_LOGGING: true, // TaskBlock logging flag;
-    TaskViewLogging: true // TaskView logging flag;
+    TaskViewLogging: false // TaskView logging flag;
 }
