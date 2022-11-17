@@ -5,6 +5,7 @@ import "../../../styles/fragments/task/filtered-content-block.css"
 import {Logger} from "../../../js/logging/Logger";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
 import {TaskView} from "./TaskView";
+import {Localization} from "../../../js/localization/localization";
 
 /**
  * @propsProperty activeFilter - current active filter type [{TasksFilterType}];
@@ -56,20 +57,22 @@ const WeekFilterContent =(props) => {
     const weekFilterCategories = [];
 
     // Get only today tasks:
-    const todayCategoryName = "Today - " +DateTimeUtilities.dateToFormattedStr(props.todayDate, "dd.mm.yyyy");
+    const todayCategoryName = Localization.getLocalizedString("ftb_week_filter_category_name_today_pf")
+        +DateTimeUtilities.dateToFormattedStr(props.todayDate, "dd.mm.yyyy");
     const todayTasks = TasksFilter.dateTasks(props.todayDate, props.viewPropsList);
     weekFilterCategories.push(<FilterCategoryBlock key={"today_tasks"} categoryName={todayCategoryName}
                                                    categoryViews={todayTasks} parentControlFunctions={props.parentControlFunctions} />);
 
     // Filter on tomorrow tasks:
-    const tomorrowCategoryName = "Tomorrow - " +DateTimeUtilities.dateToFormattedStr(
+    const tomorrowCategoryName = Localization.getLocalizedString("ftb_week_filter_category_name_tomorrow_pf")
+        +DateTimeUtilities.dateToFormattedStr(
         DateTimeUtilities.addDays(props.todayDate,1), "dd.mm.yyyy");
     const tomorrowTasks = TasksFilter.dateTasks(DateTimeUtilities.addDays(props.todayDate, 1), props.viewPropsList);
     weekFilterCategories.push(<FilterCategoryBlock key={"tomorrow_tasks"} categoryName={tomorrowCategoryName}
                                                    categoryViews={tomorrowTasks} parentControlFunctions={props.parentControlFunctions} />);
     // Filter on any week tasks:
-    const weekCategoryName = "Week -  until " +DateTimeUtilities.dateToFormattedStr(
-        DateTimeUtilities.addDays(props.todayDate,7), "dd.mm.yyyy");
+    const weekCategoryName = Localization.getLocalizedString("ftb_week_filter_category_name_week_pf")
+        +DateTimeUtilities.dateToFormattedStr(DateTimeUtilities.addDays(props.todayDate,7), "dd.mm.yyyy");
     const weekTasks = TasksFilter.betweenDateTasks(
         DateTimeUtilities.addDays(props.todayDate, 2), DateTimeUtilities.addDays(props.todayDate, 7), props.viewPropsList);
     weekFilterCategories.push(<FilterCategoryBlock key={"week_tasks"} categoryName={weekCategoryName}

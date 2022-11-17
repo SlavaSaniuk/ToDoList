@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked week task filter">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Modified filtered-content-block.css">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/filtered-content-block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/filtered-content-block.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -258,21 +255,8 @@
       <workItem from="1668497811444" duration="638000" />
       <workItem from="1668500561705" duration="1241000" />
       <workItem from="1668514373984" duration="4850000" />
-      <workItem from="1668578819264" duration="15128000" />
-    </task>
-    <task id="LOCAL-00018" summary="Worked and tested CredentialsValidator#validatePassword and CredentialsValidator#validationRules methods.">
-      <created>1661893196711</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1661893196711</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Created other security configuration static class in SecurityConfiguration for REST HTTP API.">
-      <created>1662069791094</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1662069791094</updated>
+      <workItem from="1668578819264" duration="15435000" />
+      <workItem from="1668665120006" duration="336000" />
     </task>
     <task id="LOCAL-00020" summary="Worked statuses in tasks edit btns">
       <created>1665689304724</created>
@@ -603,7 +587,21 @@
       <option name="project" value="LOCAL" />
       <updated>1668583324160</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="Modified FilteredContentBlock.js">
+      <created>1668605482812</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1668605482812</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Modified filtered-content-block.css">
+      <created>1668605730931</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1668605730931</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -625,8 +623,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked and tested UserTasksManager#completeUserTasks method" />
-    <MESSAGE value="Added Wrapper interface" />
     <MESSAGE value="Need to test TaskRestController#completeUserTasks method." />
     <MESSAGE value="Worked and tested TaskRestController#completeUserTasks" />
     <MESSAGE value="Added worked and tested RoleService#findUserRoles method" />
@@ -650,7 +646,9 @@
     <MESSAGE value="Added task filtration." />
     <MESSAGE value="Added compareDates and isDateEquals methods." />
     <MESSAGE value="Worked week task filter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked week task filter" />
+    <MESSAGE value="Modified FilteredContentBlock.js" />
+    <MESSAGE value="Modified filtered-content-block.css" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified filtered-content-block.css" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

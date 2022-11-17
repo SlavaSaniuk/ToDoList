@@ -14,7 +14,10 @@ const LOCALIZED_STRINGS = {
         tv_task_date_creation: "Created at:",
         tv_task_date_completion: "Complete until:",
         tv_edit_control_btn_update: "Update",
-        tv_edit_control_btn_cancel: "Cancel"
+        tv_edit_control_btn_cancel: "Cancel",
+        ftb_week_filter_category_name_today_pf: "Today - ",
+        ftb_week_filter_category_name_tomorrow_pf: "Tomorrow - ",
+        ftb_week_filter_category_name_week_pf: "Week - until "
     },
 
     RU: {
@@ -29,7 +32,10 @@ const LOCALIZED_STRINGS = {
         tv_task_date_creation: "Создана:",
         tv_task_date_completion: "Выполнить до:",
         tv_edit_control_btn_update: "Обновить",
-        tv_edit_control_btn_cancel: "Отменить"
+        tv_edit_control_btn_cancel: "Отменить",
+        ftb_week_filter_category_name_today_pf: "Сегодня - ",
+        ftb_week_filter_category_name_tomorrow_pf: "Завтра - ",
+        ftb_week_filter_category_name_week_pf: "Неделя - до "
     }
 }
 
