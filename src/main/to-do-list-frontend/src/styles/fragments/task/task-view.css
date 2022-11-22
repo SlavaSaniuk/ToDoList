@@ -1,17 +1,18 @@
 .task-view {
     width: 98%;
-    margin: 0 auto 5px;
+    margin: 0 auto;
     position: relative;
     border-bottom: 1px solid #cdcdcd;
 
     display: flex;
     flex-direction: row;
+
+    padding: 10px 0;
 }
 
 .task-view-loader {
     width: 40px;
     aspect-ratio: 1/1;
-
     border-width: 4px;
     margin: 0 auto;
 }
@@ -21,52 +22,24 @@
 }
 
 /* =================== TaskSelector classes ====================== */
-.task-selector {
-    width: 40px;
-    position: relative;
-}
-.task-selector input {
-    appearance: none;
-    width: 30px;
-    aspect-ratio: 1/1;
+.task-selector-inp {
     cursor: pointer;
+    appearance: none;
+    border: 1px solid #cdcdcd;
+    width: 2%;
+    height: 18px;
+    margin: 0.5% 1% auto 0;
+    transition: all .1s linear;
 }
-.task-selector input:before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    aspect-ratio: 1/1;
-    border: 3px solid #cdcdcd;
-    transition: all .2s linear;
 
+.task-selector-inp:hover {
+    border: 3px solid #7c79c9;
 }
-.task-selector input:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    aspect-ratio: 1/1;
-    transition: all .2s linear;
-}
-.task-selector input:hover::before {
-    border-color: #7c79c9;
-}
-.task-selector input:hover::after {
+
+.task-selector-inp:checked {
     background-color: #7c79c9;
+    border: 3px solid #7c79c9;
 }
-.task-selector input:checked::before {
-    border-color: #7c79c9;
-}
-.task-selector input:checked::after {
-    background-color: #7c79c9;
-    width: 20px;
-}
-/* =================== End of TaskSelector classes ====================== */
 /* ====================== TaskPropertiesPanel classes =================== */
 .task-properties-panel {
     display: flex;
@@ -79,6 +52,7 @@
     padding: 0 2px;
 }
 
+/*
 .task-property-area {
     border: none;
     overflow: hidden;
@@ -86,6 +60,7 @@
 
     background-color: #eae8e8;
 }
+*/
 
 .task-property-area:disabled {
     background-color: #FFFFFF;
@@ -209,4 +184,52 @@
 
 .linethrough-text {
     text-decoration: line-through;
+}
+
+.task-property-area:disabled {
+    border: none;
+    resize: none;
+    overflow: hidden;
+}
+
+.task-name-property-area {
+    font-family: Mulish, sans-serif;
+    font-size: 12pt;
+    font-weight: 600;
+    color: #000000;
+}
+
+.task-desc-property-area {
+    font-family: Mulish, sans-serif;
+    font-size: 12pt;
+    color: #777474;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.text-task-property-p {
+    margin: 0;
+}
+
+.text-task-property-p-name {
+    font-family: Mulish, sans-serif;
+    font-weight: 700;
+    font-size: 13pt;
+    color: #000000;
+}
+
+.text-task-property-p-desc {
+    font-family: Bitter, serif;
+    font-size: 12pt;
+    color: #777474;
+    line-height: 20pt;
 }

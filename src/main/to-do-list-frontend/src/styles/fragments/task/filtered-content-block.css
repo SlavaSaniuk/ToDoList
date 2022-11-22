@@ -15,11 +15,29 @@
     flex-direction: column;
 }
 
-.filter-category-block > p {
+.category-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.category-name > p {
     font-family: Mulish, sans-serif;
     font-size: 16pt;
     font-weight: 800;
 
     height: max-content;
     margin: 0;
+}
+
+.add-task-btn {
+    fill: #cdcdcd;
+    width: 22px;
+    transition: all .1s linear;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.add-task-btn:hover {
+    fill: #000000;
 }

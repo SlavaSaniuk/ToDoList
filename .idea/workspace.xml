@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Modified filtered-content-block.css">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added localization support to FilteredContentBlock.js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/filtered-content-block.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/filtered-content-block.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,14 +258,8 @@
       <workItem from="1668500561705" duration="1241000" />
       <workItem from="1668514373984" duration="4850000" />
       <workItem from="1668578819264" duration="15435000" />
-      <workItem from="1668665120006" duration="336000" />
-    </task>
-    <task id="LOCAL-00020" summary="Worked statuses in tasks edit btns">
-      <created>1665689304724</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1665689304724</updated>
+      <workItem from="1668665120006" duration="9901000" />
+      <workItem from="1669103650234" duration="2209000" />
     </task>
     <task id="LOCAL-00021" summary="Testes getAccountByEmail method">
       <created>1665691424878</created>
@@ -601,7 +597,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668605730931</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Added localization support to FilteredContentBlock.js">
+      <created>1668665521418</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1668665521418</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -623,7 +626,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Need to test TaskRestController#completeUserTasks method." />
     <MESSAGE value="Worked and tested TaskRestController#completeUserTasks" />
     <MESSAGE value="Added worked and tested RoleService#findUserRoles method" />
     <MESSAGE value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
@@ -648,7 +650,8 @@
     <MESSAGE value="Worked week task filter" />
     <MESSAGE value="Modified FilteredContentBlock.js" />
     <MESSAGE value="Modified filtered-content-block.css" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modified filtered-content-block.css" />
+    <MESSAGE value="Added localization support to FilteredContentBlock.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added localization support to FilteredContentBlock.js" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

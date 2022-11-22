@@ -226,22 +226,8 @@ export class TaskView extends React.Component {
 
         const VIEW_CONTENT = (
             <div className={"task-properties-panel"}>
-                <TaskPropertyArea field={PropertyField.NAME} value={this.state.task.taskName}
-                                  disabled={!this.state.inEdit} onChange={this.onChange} taskStatus={this.state.task.taskStatus} />
-                <TaskPropertyArea field={PropertyField.DESC} value={this.state.task.taskDescription}
-                                  disabled={!this.state.inEdit} onChange={this.onChange} taskStatus={this.state.task.taskStatus} />
-                <div className={"task-date-properties-panel"}>
-                    <div className={"date-property-section"}>
-                        <p> {Localization.getLocalizedString("tv_task_date_creation")} </p>
-                        <TaskPropertyField type={TaskPropertyFieldType.INPUT} value={this.state.task.taskCreationDate}
-                                           disabled={true} taskStatus={this.state.task.taskStatus} />
-                    </div>
-                    <div className={"date-property-section"}>
-                        <p> {Localization.getLocalizedString("tv_task_date_completion")} </p>
-                        <TaskPropertyInput field={PropertyField.COMPLETION} value={this.state.task.taskCompletionDate}
-                                           disabled={!this.state.inEdit} onChange={this.onChange} taskStatus={this.state.task.taskStatus} />
-                    </div>
-                </div>
+                <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskName} field={PropertyField.NAME} />
+                <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskDescription} field={PropertyField.DESC} />
             </div>)
 
         return(
@@ -299,29 +285,52 @@ class TaskSelection extends React.Component {
      */
     render() {
         return (
-            <div className={"task-selector"}>
-                <input type={"checkbox"} onChange={this.onClick} checked={this.state.checked} />
-            </div>
+                <input type={"checkbox"} className={"task-selector-inp"} onChange={this.onClick} checked={this.state.checked} />
         )
     }
 }
 
 /**
- * Render task property text area (for task name/description).
+ * Component display any text {Task} task property (e.g. task name, task desc).
+ * Based on component props boolean property "inEdit" render html(if true) <p> or <textarea> element(or if else).
  * @param props - component props.
- * @property value - text area value.
- * @property disabled - flag indicate if textarea is enabled/disabled.
- * @property onChange - onChange action function.
- * @property field - inner task field {PropertyField}.
- * @property taskStatus - task status property {TaskStatus};
- * @returns {JSX.Element} - TaskPropertyField text area.
+ * @propsProperty - inEdit - {boolean} - current text property is in edit now.
+ * @propsProperty - value - {String} - <p> text or <textarea> value.
+ * @propsProperty - field - {PropertyField} - task object property.
  */
+const TextTaskProperty =(props) => {
+
+    // Additional classname based on props property field:
+    let additionalClassName = null;
+    // If field value is task name:
+    if (props.field === PropertyField.NAME) additionalClassName = "text-task-property-p-name";
+    // If field value is task desc:
+    if (props.field === PropertyField.DESC) additionalClassName = "text-task-property-p-desc";
+
+    // Render based on "inEdit" flag:
+    if (!props.inEdit || typeof props.inEdit == 'undefined') { // If property not is in edie now, then return p:
+        return <p className={"text-task-property-p " +additionalClassName}> {props.value} </p>
+    }else {
+        return <textarea value={props.value} />
+    }
+}
+
+/*
+
 class TaskPropertyArea extends React.Component {
     constructor(props) {
         super(props);
-        // bind functions:
+
+        // Refs:
+        this.areaRef = React.createRef();
+
+        // Bind functions:
         this.onChange.bind(this);
     }
+
+    componentDidMount() {
+    }
+
 
     onChange =(event) => {
         this.props.onChange(event, this.props.field);
@@ -333,20 +342,23 @@ class TaskPropertyArea extends React.Component {
 
     render() {
 
-        // Class bases on props:
+        // Class name based on task field type:
         let addClass;
-        if (this.props.field === PropertyField.NAME) addClass = "task-name-property-field";
-        else if (this.props.field === PropertyField.DESC) addClass = "task-desc-property-field";
+        if (this.props.field === PropertyField.NAME) addClass = "task-name-property-area";
+        else if (this.props.field === PropertyField.DESC) addClass = "task-desc-property-area";
         else addClass ="";
 
         const completedFlag = this.props.taskStatus === TaskStatus.COMPLETED;
 
+        return <p className={"task-property-area " +addClass}> {this.props.value} </p>
 
-        // Return text area:
-        return <TaskPropertyField type={TaskPropertyFieldType.AREA} classesStr={addClass} value={this.props.value}
-                                  disabled={this.props.disabled} onChange={this.onChange} completed={completedFlag} />
+
     }
 }
+
+ */
+
+
 
 /**
  * Task property input represent a Date input for task creation and completion dates.
