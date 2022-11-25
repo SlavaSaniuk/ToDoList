@@ -315,6 +315,44 @@ const TextTaskProperty =(props) => {
     }
 }
 
+
+// noinspection JSUnresolvedVariable
+/**
+ * @param props - component props.
+ * @propsProperty - isShow - {boolean} - flag indicate if this property must be showed to user.
+ * @propsProperty - defaultCompletionDate - {Date} - default completion date value.
+ */
+export class TaskViewAddingBlock extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // Bind functions:
+
+        // Component state:
+        this.state = {
+            completionDate: this.props.defaultCompletionDate
+        }
+    }
+
+    render() {
+
+        const showClass = this.props.isShow ? "adding-block-showed" : null;
+
+        return (
+            <div className={"task-view-adding-block " +showClass}>
+                <p> {Localization.getLocalizedString("tvab_title")} </p>
+                <textarea className={"task-name-textarea"} rows={1} placeholder={Localization.getLocalizedString("tvab_name")} />
+                <textarea className={"task-desc-textarea"} rows={1} placeholder={Localization.getLocalizedString("tvab_desc")} />
+                <DatePicker className={"task-completion-input"} selected={this.state.completionDate} dateFormat="dd/MM" />
+                <div className={"adding-block-controls"}>
+                    <TextButton btnText={Localization.getLocalizedString("tvab_btn_create")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-create"} />
+                    <TextButton btnText={Localization.getLocalizedString("tvab_btn_cancel")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-cancel"} />
+                </div>
+            </div>
+        );
+    }
+}
+
 /*
 
 class TaskPropertyArea extends React.Component {

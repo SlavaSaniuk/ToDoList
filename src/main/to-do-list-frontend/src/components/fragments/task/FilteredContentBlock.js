@@ -4,7 +4,7 @@ import React, {useState} from "react";
 import "../../../styles/fragments/task/filtered-content-block.css"
 import {Logger} from "../../../js/logging/Logger";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
-import {TaskView} from "./TaskView";
+import {TaskView, TaskViewAddingBlock} from "./TaskView";
 import {Localization} from "../../../js/localization/localization";
 import {PlusButton} from "../../Buttons";
 
@@ -94,21 +94,20 @@ const WeekFilterContent =(props) => {
 const FilterCategoryBlock =(props) => {
 
     // State hooks:
-    let [isMouseOver, onMouseOver] = useState(false);
+    let [isShowAddingBlock, setShowFlag] = useState(false);
 
     const views = props.categoryViews.map(viewProps => {
         return <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj}
                   loadingStatus={viewProps.loadStatus} parentControlFunctions={props.parentControlFunctions} />
     })
 
-    const categoryMenu = isMouseOver ? <PlusButton classes={"add-task-btn"} /> : null;
-
     return (
-        <div className={"filter-category-block"} onMouseOver={() => onMouseOver(isMouseOver=true)} onMouseOut={() => onMouseOver(isMouseOver=false)}>
+        <div className={"filter-category-block"} >
             <div className={"category-name"}>
                 <p> {props.categoryName} </p>
-                <PlusButton classes={"add-task-btn"} />
+                <PlusButton classes={"add-task-btn"} clickFunc={() => {setShowFlag(isShowAddingBlock=true)}} />
             </div>
+            <TaskViewAddingBlock isShow={isShowAddingBlock} defaultCompletionDate={new Date()}/>
             {views}
         </div>
     )

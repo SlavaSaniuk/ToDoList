@@ -233,3 +233,128 @@
     color: #777474;
     line-height: 20pt;
 }
+
+
+
+
+
+
+
+
+.task-view-adding-block {
+    height: 0;
+    overflow: hidden;
+    transition: all .2s linear;
+}
+
+.adding-block-showed {
+    width: 94%;
+    margin: auto;
+    height: 220px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #cdcdcd;
+    padding: 0 1%;
+    display: flex;
+    flex-direction: column;
+}
+
+.adding-block-showed > p {
+    font-family: Mulish, sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    margin: 10px 0 0 0;
+}
+
+.task-name-textarea, .task-name-textarea:focus, .task-name-textarea:active {
+    font-size: 13pt;
+}
+
+.task-desc-textarea, .task-desc-textarea:focus, .task-desc-textarea:active {
+    font-size: 12pt;
+}
+
+.adding-block-showed textarea, textarea:active, textarea:focus {
+
+    margin-top: 15px;
+    padding: 0 1%;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+    resize: none;
+    outline: none;
+    overflow: auto;
+
+    font-family: Bitter, serif;
+    font-weight: 500;
+    height: 20pt;
+    color: #5b5b5b;
+    transition: all .1s linear;
+}
+
+.adding-block-showed textarea:active, textarea:focus {
+    border-color: #000000;
+    color: #000000;
+}
+
+.task-completion-input {
+    border: 1px solid #cdcdcd !important;
+
+    display: block;
+
+    margin-top: 15px;
+    padding: 0;
+    text-align: left;
+
+    font-size: 11pt !important;
+    color: #777474 !important;
+    transition: all .1s linear;
+}
+
+.react-datepicker-wrapper {
+    width: 60px !important;
+}
+
+.task-completion-input:focus, .task-completion-input:active {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+}
+
+.adding-block-controls {
+    margin: 15px 0 0 0;
+    display: flex;
+}
+
+
+.add-blk-ctrl-btn {
+
+    border: none;
+    outline: none;
+
+    font-family: Mulish, sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #FFFFFF;
+    box-sizing: border-box;
+    padding: 5px 40px;
+
+    margin-left: 10px;
+    transition: all .2s linear;
+}
+.adding-block-controls .add-blk-ctrl-btn:first-child {
+    margin-left: 0;
+}
+
+.add-blk-ctrl-btn-create {
+    background-color: #7c79c9;
+}
+
+.add-blk-ctrl-btn-create:hover {
+    background-color: #403e66;
+}
+
+.add-blk-ctrl-btn-cancel {
+    background-color: #ff595e;
+}
+
+.add-blk-ctrl-btn-cancel:hover {
+    background-color: #b13639;
+}

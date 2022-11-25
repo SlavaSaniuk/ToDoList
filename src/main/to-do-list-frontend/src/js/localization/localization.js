@@ -17,7 +17,13 @@ const LOCALIZED_STRINGS = {
         tv_edit_control_btn_cancel: "Cancel",
         ftb_week_filter_category_name_today_pf: "Today - ",
         ftb_week_filter_category_name_tomorrow_pf: "Tomorrow - ",
-        ftb_week_filter_category_name_week_pf: "Week - until "
+        ftb_week_filter_category_name_week_pf: "Week - until ",
+        // ==== tvab - Task view adding block ====
+        tvab_title: "Create new task",
+        tvab_name: "TASK NAME",
+        tvab_desc: "TASK DESCRIPTION",
+        tvab_btn_create: "Create",
+        tvab_btn_cancel: "Cancel"
     },
 
     RU: {
@@ -35,7 +41,13 @@ const LOCALIZED_STRINGS = {
         tv_edit_control_btn_cancel: "Отменить",
         ftb_week_filter_category_name_today_pf: "Сегодня - ",
         ftb_week_filter_category_name_tomorrow_pf: "Завтра - ",
-        ftb_week_filter_category_name_week_pf: "Неделя - до "
+        ftb_week_filter_category_name_week_pf: "Неделя - до ",
+        // ==== tvab - Task view adding block ====
+        tvab_title: "Создать новою задачу",
+        tvab_name: "Название",
+        tvab_desc: "Описание задачи",
+        tvab_btn_create: "СОЗДАТЬ",
+        tvab_btn_cancel: "ОТМЕНИТЬ"
     }
 }
 
