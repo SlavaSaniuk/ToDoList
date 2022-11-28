@@ -8,6 +8,7 @@ import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
 import {LevelLogger, Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
 import {TaskBuilder} from "../../../js/models/Task";
+import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -209,7 +210,7 @@ export class TaskView extends React.Component {
 
     /**
      * Render component.
-     * @returns {JSX.Element}
+     * @returns {JSX.Element} - component.
      */
     render() {
 
@@ -228,6 +229,10 @@ export class TaskView extends React.Component {
             <div className={"task-properties-panel"}>
                 <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskName} field={PropertyField.NAME} />
                 <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskDescription} field={PropertyField.DESC} />
+                <div className={"date-task-properties-panel"}>
+                    <p> COMPLETE UNTIL: <DateTaskProperty value={this.state.task.taskCompletionDate} /> </p>
+                    <p> CREATED: </p>
+                </div>
             </div>)
 
         return(
@@ -315,6 +320,24 @@ const TextTaskProperty =(props) => {
     }
 }
 
+/**
+ * Date task property component.
+ * @param props - component props.
+ * @propsProperty value - {Date} - task property date value.
+ * @propsProperty - inEdit = {boolean} - flag indicate if current property can be modified.
+ */
+const DateTaskProperty =(props) => {
+    // Return element based on ieEdit prop value:
+    if (!props.inEdit) {
+        return <span> {DateTimeUtilities.dateToFormattedStr(props.value, 'tttt-dd.mm')} </span>;
+    }
+}
+
+/**
+ * Values for {TaskPropertyArea/TaskPropertyInput} field property.
+ * @type {{CREATION: number, COMPLETION: number, DESC: number, NAME: number}}
+ */
+const PropertyField = {NAME: 0, DESC: 1, CREATION: 2, COMPLETION: 3};
 
 // noinspection JSUnresolvedVariable
 /**
@@ -403,53 +426,6 @@ export class TaskViewAddingBlock extends React.Component {
         );
     }
 }
-
-/*
-
-class TaskPropertyArea extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // Refs:
-        this.areaRef = React.createRef();
-
-        // Bind functions:
-        this.onChange.bind(this);
-    }
-
-    componentDidMount() {
-    }
-
-
-    onChange =(event) => {
-        this.props.onChange(event, this.props.field);
-    }
-
-    shouldComponentUpdate =(nextProps) => {
-        return (nextProps.value !== this.props.value) || (nextProps.disabled !== this.props.disabled);
-    }
-
-    render() {
-
-        // Class name based on task field type:
-        let addClass;
-        if (this.props.field === PropertyField.NAME) addClass = "task-name-property-area";
-        else if (this.props.field === PropertyField.DESC) addClass = "task-desc-property-area";
-        else addClass ="";
-
-        const completedFlag = this.props.taskStatus === TaskStatus.COMPLETED;
-
-        return <p className={"task-property-area " +addClass}> {this.props.value} </p>
-
-
-    }
-}
-
-/**
- * Values for {TaskPropertyArea/TaskPropertyInput} field property.
- * @type {{CREATION: number, COMPLETION: number, DESC: number, NAME: number}}
- */
-const PropertyField = {NAME: 0, DESC: 1, CREATION: 2, COMPLETION: 3};
 
 /**
  * Task control menu render task control buttons: "Complete", "Edit", "Remove";

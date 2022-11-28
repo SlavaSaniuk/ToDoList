@@ -23,7 +23,15 @@ const LOCALIZED_STRINGS = {
         tvab_name: "TASK NAME",
         tvab_desc: "TASK DESCRIPTION",
         tvab_btn_create: "Create",
-        tvab_btn_cancel: "Cancel"
+        tvab_btn_cancel: "Cancel",
+        // ==== DT - Date/Time ====
+        DT_monday: "monday",
+        DT_tuesday: "tuesday",
+        DT_wednesday: "wednesday",
+        DT_thursday: "thursday",
+        DT_friday: "friday",
+        DT_saturday: "saturday",
+        DT_sunday: "sunday",
     },
 
     RU: {
@@ -47,7 +55,15 @@ const LOCALIZED_STRINGS = {
         tvab_name: "Название",
         tvab_desc: "Описание задачи",
         tvab_btn_create: "СОЗДАТЬ",
-        tvab_btn_cancel: "ОТМЕНИТЬ"
+        tvab_btn_cancel: "ОТМЕНИТЬ",
+        // ==== DT - Date/Time ====
+        DT_monday: "понедельник",
+        DT_tuesday: "вторник",
+        DT_wednesday: "среда",
+        DT_thursday: "четверг",
+        DT_friday: "пятница",
+        DT_saturday: "суббота",
+        DT_sunday: "воскресенье",
     }
 }
 
@@ -74,13 +90,5 @@ export class Localization {
 
     };
 
-    static localization = {
-        en:{
-            name: "Slava"
-        },
-        ru: {
-            name: "Вячеслав"
-        }
-    }
 }
 

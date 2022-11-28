@@ -1,6 +1,8 @@
 /**
  * DateTimeUtilities class has static method to work with JS Date object.
  */
+import {Localization} from "../../js/localization/localization";
+
 export class DateTimeUtilities {
 
     static dateToStr(aDate) {
@@ -37,6 +39,24 @@ export class DateTimeUtilities {
 
         return aDate.addDays(aDays);
     }
+
+    static dayOfWeek(aDate) {
+
+        switch (aDate.getDay()) {
+            case 0: return this.DAYS_OF_WEEK.SUNDAY;
+            case 1: return this.DAYS_OF_WEEK.MONDAY;
+            case 2: return this.DAYS_OF_WEEK.TUESDAY;
+            case 3: return this.DAYS_OF_WEEK.WEDNESDAY;
+            case 4: return this.DAYS_OF_WEEK.THURSDAY;
+            case 5: return this.DAYS_OF_WEEK.FRIDAY;
+            case 6: return this.DAYS_OF_WEEK.SATURDAY;
+            default: return null;
+        }
+    }
+
+    static DAYS_OF_WEEK = {MONDAY: 1, TUESDAY: 2, WEDNESDAY: 3, THURSDAY: 4, FRIDAY: 5, SATURDAY: 6, SUNDAY: 7};
+
+
 
     /**
      * Convert specified Date to JS Date str.
@@ -112,6 +132,11 @@ export class DateTimeUtilities {
     }
 }
 
+/**
+ *
+ * Format character: t - day of week ('t' - 1 for monday, 2 - for tuesday; 'tt' - MO (monday), - TU (TUESDAY);
+ * 'ttt' - mon, tue; 'tttt*' - monday, tuesday).
+ */
 class JsDateFormatter {
 
     static dateToStr(aDate, aFormat) {
@@ -165,12 +190,32 @@ class JsDateFormatter {
                 datePropStr = aDate.getFullYear().valueOf();
                 break;
             }
+            case 't': {
+                if (aSameCharsStr.length === 1) datePropStr = DateTimeUtilities.dayOfWeek(aDate);
+                if (aSameCharsStr.length === 2) datePropStr = JsDateFormatter.#dayOfWeekStr(DateTimeUtilities.dayOfWeek(aDate)).substring(0,2);
+                if (aSameCharsStr.length === 3) datePropStr = JsDateFormatter.#dayOfWeekStr(DateTimeUtilities.dayOfWeek(aDate)).substring(0,3);
+                if (aSameCharsStr.length >= 3) datePropStr = JsDateFormatter.#dayOfWeekStr(DateTimeUtilities.dayOfWeek(aDate));
+                break;
+            }
             default: {
               return aSameCharsStr[0];
             }
         }
 
         return datePropStr;
+    }
+
+    static #dayOfWeekStr(dayOfWeek) {
+        switch (dayOfWeek) {
+            case 1: return Localization.getLocalizedString("DT_monday");
+            case 2: return Localization.getLocalizedString("DT_tuesday");
+            case 3: return Localization.getLocalizedString("DT_wednesday");
+            case 4: return Localization.getLocalizedString("DT_thursday");
+            case 5: return Localization.getLocalizedString("DT_friday");
+            case 6: return Localization.getLocalizedString("DT_saturday");
+            case 7: return Localization.getLocalizedString("DT_sunday");
+            default: return "UNDEFINED";
+        }
     }
 
 }
