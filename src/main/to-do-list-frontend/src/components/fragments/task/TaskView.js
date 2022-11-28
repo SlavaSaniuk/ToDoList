@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React from "react";
 import '../../../styles/common.css'
 import '../../../styles/fragments/task/task-view.css'
 import DatePicker from "react-datepicker";
@@ -7,7 +7,7 @@ import {Menu, MenuDirection} from "../../ui/Menu";
 import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
 import {LevelLogger, Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
-import {TaskBuilder, TaskStatus} from "../../../js/models/Task";
+import {TaskBuilder} from "../../../js/models/Task";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -333,6 +333,7 @@ export class TaskViewAddingBlock extends React.Component {
 
         // Bind functions:
         this.onCreateTask.bind(this);
+        this.onCancel.bind(this);
 
 
         // Component state:
@@ -363,6 +364,27 @@ export class TaskViewAddingBlock extends React.Component {
         this.props.hideBlockFunction(false);
     }
 
+    /**
+     * Cancel adding task.
+     * Clear user inputs and hide this element.
+     * Function calling when user click on "Cancel" task control button.
+     */
+    onCancel =() => {
+        // Clear user inputs:
+        this.setState({
+            taskName: "", // new task name;
+            taskDesc: "", // new task description;
+            completionDate: this.props.defaultCompletionDate // new task completion date;
+        })
+
+        // Hide this block:
+        this.props.hideBlockFunction(false);
+    }
+
+    /**
+     * Render TaskViewAddingBlock component.
+     * @return {JSX.Element} - component.
+     */
     render() {
 
         const showClass = this.props.isShow ? "adding-block-showed" : null;
@@ -375,7 +397,7 @@ export class TaskViewAddingBlock extends React.Component {
                 <DatePicker className={"task-completion-input"} selected={this.state.completionDate} dateFormat="dd/MM" onChange={date => this.setState({completionDate: date})} />
                 <div className={"adding-block-controls"}>
                     <TextButton btnText={Localization.getLocalizedString("tvab_btn_create")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-create"} clickFunc={this.onCreateTask} />
-                    <TextButton btnText={Localization.getLocalizedString("tvab_btn_cancel")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-cancel"} />
+                    <TextButton btnText={Localization.getLocalizedString("tvab_btn_cancel")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-cancel"} clickFunc={this.onCancel} />
                 </div>
             </div>
         );
@@ -422,82 +444,6 @@ class TaskPropertyArea extends React.Component {
 
     }
 }
-
- */
-
-
-
-/**
- * Task property input represent a Date input for task creation and completion dates.
- * @param props - component props.
- * @property value - text area value.
- * @property disabled - flag indicate if textarea is enabled/disabled.
- * @property onChange - onChange action function.
- * @property field - inner task field {PropertyField}.
- * @property taskStatus - task status property {TaskStatus}.
- * @returns {JSX.Element} - {DatePicker} date picker.
- */
-class TaskPropertyInput extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // Bind methods:
-        this.onChange.bind(this);
-    }
-
-    onChange =(event) => {
-        this.props.onChange(event, this.props.field);
-    }
-
-    render() {
-        const completedFlag = this.props.taskStatus === TaskStatus.COMPLETED;
-        return <TaskPropertyField type={TaskPropertyFieldType.INPUT} value={this.props.value}
-                                  disabled={this.props.disabled} onChange={this.onChange} completed={completedFlag} />
-
-    }
-}
-
-/**
- * TaskPropertyField component represent a user task field (e.g. name, description).
- * @param props - component props.
- * @property type - type of inner input ({TaskPropertyFieldType}).
- * @property value - inner input value.
- * @property disabled - flag indicate if inner input is enabled.
- * @property classesStr - additional classes string.
- * @property onChange - onChange action function.
- * @property completed - task completion flag.
- */
-const TaskPropertyField = React.memo((props) => {
-
-    const textAreaRef = useRef(null);
-
-    /**
-     * Similar to componentDidMount, componentDidUpdate.
-     */
-    useEffect(() => {
-        if (props.type === TaskPropertyFieldType.AREA) {
-            textAreaRef.current.style.height = "1px";
-            textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
-        }
-    })
-
-    const completedStyle = props.completed ? "linethrough-text " : "";
-
-    // Bases on props.type return textarea or DatePicker:
-    if (props.type === TaskPropertyFieldType.AREA)
-        return (<textarea ref={textAreaRef} value={props.value} disabled={props.disabled}
-                         className={"task-property-area " +completedStyle +props.classesStr} onChange={props.onChange} />);
-    else
-        return <DatePicker selected={props.value} className={"task-property-date-input " +completedStyle} onChange={(event) => {
-            props.onChange(event, "COMPLETION")}}
-                           disabled={props.disabled} dateFormat={"dd.MM.yyyy"} />
-});
-
-/**
- * Values for {TaskPropertyField} type property.
- * @type {{AREA: number, INPUT: number}}
- */
-const TaskPropertyFieldType = {AREA: 1, INPUT: 2};
 
 /**
  * Values for {TaskPropertyArea/TaskPropertyInput} field property.
