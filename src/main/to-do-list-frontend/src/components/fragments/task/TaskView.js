@@ -5,9 +5,9 @@ import DatePicker from "react-datepicker";
 import {Localization} from "../../../js/localization/localization";
 import {Menu, MenuDirection} from "../../ui/Menu";
 import {CrossButton, DoneButton, EditButton, TextButton} from "../../Buttons";
-import {Logger} from "../../../js/logging/Logger";
+import {LevelLogger, Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
-import {TaskStatus} from "../../../js/models/Task";
+import {TaskBuilder, TaskStatus} from "../../../js/models/Task";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -319,19 +319,48 @@ const TextTaskProperty =(props) => {
 // noinspection JSUnresolvedVariable
 /**
  * @param props - component props.
- * @propsProperty - isShow - {boolean} - flag indicate if this property must be showed to user.
+ * @propsProperty - isShow - {boolean} - flag indicate if this component must be showed to user.
  * @propsProperty - defaultCompletionDate - {Date} - default completion date value.
+ * @propsProperty - addFunction - {Object[Function]} - task adding parent function.
+ * @propsProperty - hideBlockFunction - {Object[Function]} - task adding block hide function.
  */
 export class TaskViewAddingBlock extends React.Component {
     constructor(props) {
         super(props);
 
+        // Variables:
+        this.LOGGER = new LevelLogger("TaskViewAddingBlock", Properties.GLOBAL_LEVEL_LOGS);
+
         // Bind functions:
+        this.onCreateTask.bind(this);
+
 
         // Component state:
         this.state = {
-            completionDate: this.props.defaultCompletionDate
+            taskName: "", // new task name;
+            taskDesc: "", // new task description;
+            creationDate: new Date, // new task creation date;
+            completionDate: this.props.defaultCompletionDate // new task completion date;
         }
+    }
+
+    /**
+     * Create user task.
+     * Function calling when user click on "create" task control button.
+     */
+    onCreateTask =() => {
+        const taskToCreate = TaskBuilder.builder()
+            .withName(this.state.taskName)
+            .withDescription(this.state.taskDesc)
+            .withDateOfCreation(this.state.creationDate)
+            .withDateOfCompletion(this.state.completionDate).build();
+        this.LOGGER.trace("onCreateTask function with task to be created: [%o];", [taskToCreate]);
+
+        // Construct new task view props and call parent task adding function:
+        this.props.addFunction(taskToCreate);
+
+        // Hide adding block:
+        this.props.hideBlockFunction(false);
     }
 
     render() {
@@ -341,11 +370,11 @@ export class TaskViewAddingBlock extends React.Component {
         return (
             <div className={"task-view-adding-block " +showClass}>
                 <p> {Localization.getLocalizedString("tvab_title")} </p>
-                <textarea className={"task-name-textarea"} rows={1} placeholder={Localization.getLocalizedString("tvab_name")} />
-                <textarea className={"task-desc-textarea"} rows={1} placeholder={Localization.getLocalizedString("tvab_desc")} />
-                <DatePicker className={"task-completion-input"} selected={this.state.completionDate} dateFormat="dd/MM" />
+                <textarea className={"task-name-textarea"} rows={1} placeholder={Localization.getLocalizedString("tvab_name")} value={this.state.taskName} onChange={event => this.setState({taskName: event.target.value})} />
+                <textarea className={"task-desc-textarea"} rows={1} placeholder={Localization.getLocalizedString("tvab_desc")} value={this.state.taskDesc} onChange={event => this.setState({taskDesc: event.target.value})}/>
+                <DatePicker className={"task-completion-input"} selected={this.state.completionDate} dateFormat="dd/MM" onChange={date => this.setState({completionDate: date})} />
                 <div className={"adding-block-controls"}>
-                    <TextButton btnText={Localization.getLocalizedString("tvab_btn_create")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-create"} />
+                    <TextButton btnText={Localization.getLocalizedString("tvab_btn_create")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-create"} clickFunc={this.onCreateTask} />
                     <TextButton btnText={Localization.getLocalizedString("tvab_btn_cancel")} classes={"add-blk-ctrl-btn add-blk-ctrl-btn-cancel"} />
                 </div>
             </div>

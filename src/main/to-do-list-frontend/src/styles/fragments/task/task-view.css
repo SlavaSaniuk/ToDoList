@@ -244,7 +244,7 @@
 .task-view-adding-block {
     height: 0;
     overflow: hidden;
-    transition: all .2s linear;
+    transition: all .1s linear;
 }
 
 .adding-block-showed {

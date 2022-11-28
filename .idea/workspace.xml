@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added plus button to FilteredContentBlock category name">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Created TaskView adding block">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/logging/Logger.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/logging/Logger.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -260,14 +262,8 @@
       <workItem from="1668578819264" duration="15435000" />
       <workItem from="1668665120006" duration="9901000" />
       <workItem from="1669103650234" duration="5960000" />
-      <workItem from="1669366657832" duration="12414000" />
-    </task>
-    <task id="LOCAL-00022" summary="JWT filter out user entity in request attribute">
-      <created>1665691833351</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1665691833351</updated>
+      <workItem from="1669366657832" duration="12583000" />
+      <workItem from="1669619891505" duration="9502000" />
     </task>
     <task id="LOCAL-00023" summary="Worked User#equals method">
       <created>1666212026109</created>
@@ -605,7 +601,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669106003007</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Created TaskView adding block">
+      <created>1669383370172</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1669383370172</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,7 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added worked and tested RoleService#findUserRoles method" />
     <MESSAGE value="Modified and tested DatabaseUserDetailsService#loadUserByUsername method. Now method return granted user roles." />
     <MESSAGE value="Worked and tested SecurityConfiguration hasAnyRoles roles based authentication." />
     <MESSAGE value="Added TestsUserService#testingRootAdmin method." />
@@ -652,7 +654,8 @@
     <MESSAGE value="Modified filtered-content-block.css" />
     <MESSAGE value="Added localization support to FilteredContentBlock.js" />
     <MESSAGE value="Added plus button to FilteredContentBlock category name" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added plus button to FilteredContentBlock category name" />
+    <MESSAGE value="Created TaskView adding block" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created TaskView adding block" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -10,7 +10,7 @@ import {Menu, MenuDirection, MenuItem} from "../ui/Menu";
 import {TaskView, TaskViewLoadingStatus} from "./task/TaskView";
 import {TaskBuilder, TaskDtoBuilder, TaskStatus} from "../../js/models/Task";
 import {StringUtilities} from "../../js/utils/StringUtilities";
-import {Logger} from "../../js/logging/Logger";
+import {LevelLogger, Logger} from "../../js/logging/Logger";
 import {Properties} from "../../Properites";
 import {ListIcon} from "../ui/Icons";
 import {FilteredContentBlock, TasksFilterType} from "./task/FilteredContentBlock";
@@ -253,6 +253,8 @@ export class TasksBlock extends React.Component {
         super(props);
 
         // Initialize variables:
+        this.LOGGER = new LevelLogger("TasksBlock", Properties.GLOBAL_LEVEL_LOGS); // Level logger;
+
         // Initialize TaskEdit buttons functions:
         this.tasksEditBtnFunctions = {
             addFunction: this.showAddTaskBlock,
@@ -284,6 +286,9 @@ export class TasksBlock extends React.Component {
         this.onCompleteUserTasks.bind(this);
         this.onClickFilterItem.bind(this);
         this.isActiveFilterItem.bind(this);
+        // ====== Tasks adding functions =======
+        this.onAddUserTask.bind(this);
+        this.addUserTask.bind(this);
 
         // Element state:
         this.state = {
@@ -307,6 +312,7 @@ export class TasksBlock extends React.Component {
 
         // Initialize task control functions:
         this.taskControlFunctions = {
+            addFunction: this.onAddUserTask,
             completeFunction: this.onCompleteUserTask,
             updateFunction: this.onUpdateUserTask,
             removeFunction: this.onRemoveUserTask
@@ -449,6 +455,82 @@ export class TasksBlock extends React.Component {
                 removeStatus: TasksEditBtnStatus.DISABLED
             }
             this.setState({isTasksSelected: false});
+        }
+    }
+
+    /**
+     * Add new user task.
+     * @param aTask - task to be created.
+     * @return {Promise<void>} - nothing return.
+     */
+    onAddUserTask =async (aTask) => {
+        this.LOGGER.trace("onAddUserTask function with task argument: [%o]; ", [aTask]);
+
+        // Construct new task view props and add it to task view render list:
+        const newViewProps = new TaskViewProps(aTask, TaskViewLoadingStatus.LOADING);
+        this.setState(prevState => {
+            return {taskViewPropsList: [...prevState.taskViewPropsList, newViewProps]};
+        })
+
+        // Post new task to server:
+        const createdTask = await this.addUserTask(aTask);
+        // If task is not created (null), then remove it view props from list:
+        if (createdTask === null) {
+            this.LOGGER.error("Exception when adding task[%o];", [aTask]);
+
+            //Remove task view from list:
+            this.setState(prevState => {
+                return {taskViewPropsList: prevState.taskViewPropsList.filter((viewProps) => {
+                        return viewProps.viewId !== newViewProps.viewId;
+                    })
+                }
+            });
+            return;
+        }
+
+        // If task is created (not null), =>
+        // Update task status and task view:
+        this.LOGGER.debug("Created new task: [%o];", [createdTask]);
+        //Update task view from list:
+        this.setState(prevState => {
+            return {
+                taskViewPropsList: prevState.taskViewPropsList.map((taskView) => {
+                    if (taskView.viewId === newViewProps.viewId) {
+                        taskView.taskObj = createdTask;
+                        taskView.loadStatus = TaskViewLoadingStatus.LOADED;
+                    }
+                    return taskView;
+                })
+            }
+        });
+    }
+
+    /**
+     * Post new task object to server.
+     * @param aTask - new task.
+     * @return {Promise<null|*>} - task object if task is created, or null.
+     */
+    addUserTask =async (aTask) => {
+        // Trace:
+        this.LOGGER.trace("addUserTask function with task argument: [%o];", [aTask]);
+
+        // Post new task:
+        try {
+            this.LOGGER.debug("Try to post new user task[%o] to server;", [aTask]);
+            const result = await ReqUtilities.postRequest("/rest/task/create-task", JSON.stringify(TaskDtoBuilder.ofTask(aTask)));
+            const taskDto = await result.json();
+
+            this.LOGGER.debug("Task creation response json: [%o];", [taskDto]);
+            // If exception -> return null;
+            if (taskDto.exception) {
+                this.LOGGER.error("Error [code: %o, message: %o] when adding new task;", [taskDto.exceptionCode, taskDto.exceptionMessage]);
+                return null;
+            }
+
+            return TaskBuilder.ofDto(taskDto);
+        }catch (e) {
+            this.LOGGER.error(e);
+            return null;
         }
     }
 

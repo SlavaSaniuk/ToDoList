@@ -2,30 +2,35 @@
 
 import React, {useState} from "react";
 import "../../../styles/fragments/task/filtered-content-block.css"
-import {Logger} from "../../../js/logging/Logger";
+import {LevelLogger, Logger} from "../../../js/logging/Logger";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
 import {TaskView, TaskViewAddingBlock} from "./TaskView";
 import {Localization} from "../../../js/localization/localization";
 import {PlusButton} from "../../Buttons";
+import {Properties} from "../../../Properites";
 
 /**
  * @propsProperty activeFilter - current active filter type [{TasksFilterType}];
  * @propsProperty taskViewPropsList - list of task view properties [{TaskViewProps}];
  * @propsProperty todayDate - today server date [{Date}];
+ * @propsProperty parentControlFunctions - {object} - parent control functions object.
  */
 export class FilteredContentBlock extends React.Component {
 
     // Logger:
-    LOGGER = new Logger("FilteredContentBlock", true);
+    LOGGER = new LevelLogger("FilteredContentBlock", Properties.GLOBAL_LEVEL_LOGS);
 
     render() {
+
+        // debug:
+        this.LOGGER.debug("Task views to be filtered and rendered: [%o];", [this.props.taskViewPropsList]);
 
         // Filter user task based on current active filter:
         let renderingContent; // TaskView to be rendered:
         switch (this.props.activeFilter) {
             case TasksFilterType.WEEK: {
                 // Week tasks:
-                renderingContent = <WeekFilterContent todayDate={this.props.todayDate} viewPropsList={this.props.taskViewPropsList} />
+                renderingContent = <WeekFilterContent todayDate={this.props.todayDate} viewPropsList={this.props.taskViewPropsList} parentControlFunctions={this.props.parentControlFunctions} />
                 break;
             }
             default: {
@@ -105,9 +110,10 @@ const FilterCategoryBlock =(props) => {
         <div className={"filter-category-block"} >
             <div className={"category-name"}>
                 <p> {props.categoryName} </p>
-                <PlusButton classes={"add-task-btn"} clickFunc={() => {setShowFlag(isShowAddingBlock=true)}} />
+                <PlusButton classes={"add-task-btn"} clickFunc={() => {setShowFlag(true)}} />
             </div>
-            <TaskViewAddingBlock isShow={isShowAddingBlock} defaultCompletionDate={new Date()}/>
+            <TaskViewAddingBlock isShow={isShowAddingBlock} defaultCompletionDate={new Date()}
+                                 addFunction={props.parentControlFunctions.addFunction} hideBlockFunction={setShowFlag}/>
             {views}
         </div>
     )

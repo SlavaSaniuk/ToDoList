@@ -33,4 +33,47 @@ export class Logger {
     log =(aMsg, aArgArr) => {
         if (this.logFlag) console.log(this.loggerClassName +": " +StringUtilities.format(aMsg, aArgArr));
     };
+
 }
+
+export class LevelLogger {
+    constructor(aClassName, aLevelLogs) {
+        this.className = aClassName;
+        this.levelLogs = aLevelLogs;
+
+        // Bind functions:
+        this.trace.bind(this);
+        this.debug.bind(this);
+        this.info.bind(this);
+        this.warn.bind(this);
+        this.error.bind(this);
+    }
+
+    trace =(aMsg, aArgArr) => {
+        if (this.levelLogs.TRACE)
+            console.log(this.className +" TRACE: " +StringUtilities.format(aMsg, aArgArr));
+    }
+
+    debug =(aMsg, aArgArr) => {
+        if (this.levelLogs.DEBUG)
+            console.log(this.className +" DEBUG: " +StringUtilities.format(aMsg, aArgArr));
+    }
+
+    info =(aMsg, aArgArr) => {
+        if (this.levelLogs.INFO)
+            console.log(this.className +" INFO: " +StringUtilities.format(aMsg, aArgArr));
+    }
+
+    warn =(aMsg, aArgArr) => {
+        if (this.levelLogs.WARN)
+            console.log(this.className +" WARN: " +StringUtilities.format(aMsg, aArgArr));
+    }
+
+    error =(aMsg, aArgArr) => {
+        if (this.levelLogs.ERROR)
+            console.log(this.className +" ERROR: " +StringUtilities.format(aMsg, aArgArr));
+    }
+
+
+}
+
