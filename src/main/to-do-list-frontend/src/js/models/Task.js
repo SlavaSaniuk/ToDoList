@@ -185,7 +185,7 @@ export class TaskDtoBuilder {
             .withName(aTask.taskName)
             .withDesc(aTask.taskDescription)
             .withCreationDate(aTask.taskCreationDate)
-            .withCompletionDate(aTask.taskCreationDate)
+            .withCompletionDate(aTask.taskCompletionDate)
             .withStatus(aTask.taskStatus)
             .build();
     }
