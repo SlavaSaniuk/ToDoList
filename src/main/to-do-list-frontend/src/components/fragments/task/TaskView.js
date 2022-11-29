@@ -231,7 +231,7 @@ export class TaskView extends React.Component {
                 <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskName} field={PropertyField.NAME} />
                 <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskDescription} field={PropertyField.DESC} />
                 <div className={"date-task-properties-panel"}>
-                    <p> <DateTaskProperty value={this.state.task.taskCompletionDate} dateFormat={"Tt-dd.mm"} /> </p>
+                    <p> <DateTaskProperty value={this.state.task.taskCompletionDate} dateFormat={"Tt-DD.mm"} /> </p>
                     <p> {ClientLocalization.getLocalizedText("tv_created_at")} <DateTaskProperty value={this.state.task.taskCreationDate} dateFormat={"dd.mm"} /> </p>
                 </div>
             </div>)

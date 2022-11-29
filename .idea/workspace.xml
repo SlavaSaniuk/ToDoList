@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked rendering of date completion/creation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/utils/ClientUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/utils/ClientUtilities.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,14 +260,7 @@
       <workItem from="1669103650234" duration="5960000" />
       <workItem from="1669366657832" duration="12583000" />
       <workItem from="1669619891505" duration="16173000" />
-      <workItem from="1669705433278" duration="9830000" />
-    </task>
-    <task id="LOCAL-00030" summary="Added TestsTaskService test service.">
-      <created>1666307433484</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1666307433484</updated>
+      <workItem from="1669705433278" duration="11364000" />
     </task>
     <task id="LOCAL-00031" summary="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task.">
       <created>1666307484661</created>
@@ -607,7 +598,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669712227417</updated>
     </task>
-    <option name="localTasksCounter" value="79" />
+    <task id="LOCAL-00079" summary="Worked rendering of date completion/creation">
+      <created>1669721503963</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1669721503963</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -629,7 +627,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked filter item selection rendering." />
     <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
     <MESSAGE value="Tested TaskRestDto" />
     <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
@@ -654,7 +651,8 @@
     <MESSAGE value="Modified localization js class. Added new functions." />
     <MESSAGE value="Added capitilizeFirstLetter function" />
     <MESSAGE value="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function." />
+    <MESSAGE value="Worked rendering of date completion/creation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked rendering of date completion/creation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

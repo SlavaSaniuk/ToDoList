@@ -150,7 +150,10 @@ export class DateTimeUtilities {
 }
 
 /**
- *
+ * Format character: d (or D) - represent day in month (1 - 31);
+ *     If yoy use different char sequence of 'd' character you may get any day in month representation:
+ *     * 'd' - day in month (2, 10, 31);
+ *     * 'dd*' - day in month with zero prefix if day < 10 (02, 09, 31);
  * Format character: t - represent day of week;
  *     If yoy use char sequence of 't' character you may get any day of week representation:
  *     * 't' - day of week in number (1 - monday, 2 - tuesday);
@@ -206,7 +209,11 @@ class JsDateFormatter {
         // Check character:
         switch (aSameCharsStr[0]) {
             case 'd': {
-                datePropStr = aDate.getDate().toString();
+                datePropStr = this.#formattedDayInMonth(aDate.getDate(), aSameCharsStr).toString();
+                break;
+            }
+            case 'D': {
+                datePropStr = this.#formattedDayInMonth(aDate.getDate(), aSameCharsStr).toString();
                 break;
             }
             case 'm': {
@@ -231,6 +238,22 @@ class JsDateFormatter {
         }
 
         return datePropStr;
+    }
+
+    /**
+     * Format day in month with specified char sequence format.
+     * @param aDayInMonth - {number} - day in month [1-31];
+     * @param aCharSeq - char sequence format.
+     * @return {string|*} - formetted date in month string.
+     */
+    static #formattedDayInMonth(aDayInMonth, aCharSeq) {
+        // Check char sequence length:
+        // If 'dd*' add zero prefix for day in month which < 10:
+        if (aCharSeq.length >= 2) {
+            if (aDayInMonth <10) return '0' +aDayInMonth;
+            else return aDayInMonth;
+        }
+        return aDayInMonth;
     }
 
     /**
@@ -271,5 +294,4 @@ class JsDateFormatter {
             default: return "UNDEFINED";
         }
     }
-
 }
