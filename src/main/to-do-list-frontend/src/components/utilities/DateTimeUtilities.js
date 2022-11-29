@@ -1,7 +1,8 @@
 /**
  * DateTimeUtilities class has static method to work with JS Date object.
  */
-import {Localization} from "../../js/localization/localization";
+import {Localization, SUPPORTED_LOCALES} from "../../js/localization/localization";
+import {StringUtilities} from "../../js/utils/StringUtilities";
 
 export class DateTimeUtilities {
 
@@ -9,8 +10,17 @@ export class DateTimeUtilities {
         return aDate.toLocaleDateString("en-US", {day: 'numeric', month: 'numeric'})
     }
 
-    static dateToFormattedStr(aDate, aFormat) {
-        return JsDateFormatter.dateToStr(aDate, aFormat);
+    /**
+     * Print specified JS Date to String with format and locale.
+     * If "aLocale" parameter is absent or null then function used en locale.
+     * @param aDate - {Date} - source JS Date.
+     * @param aFormat - {String} - date format (See JsDateFormatter below).
+     * @param aLocale - {SUPPORTED_LOCALE} - locale property.
+     * @return {string} - formatted date.
+     */
+    static dateToFormattedStr(aDate, aFormat, aLocale= SUPPORTED_LOCALES.EN) {
+        if (aLocale === null) aLocale = SUPPORTED_LOCALES.EN;
+        return JsDateFormatter.dateToStr(aDate, aFormat, aLocale);
     }
 
     static dateMonthAndDayToStr(aDate) {
@@ -40,6 +50,11 @@ export class DateTimeUtilities {
         return aDate.addDays(aDays);
     }
 
+    /**
+     * Get day number in week of specified date.
+     * @param aDate - source date.
+     * @return {null|number} - {DAYS_OF_WEEK} day number in week (1-7, 1 - monday);
+     */
     static dayOfWeek(aDate) {
 
         switch (aDate.getDay()) {
@@ -54,9 +69,11 @@ export class DateTimeUtilities {
         }
     }
 
+    /**
+     * Days numbers of week.
+     * @type {{WEDNESDAY: number, MONDAY: number, THURSDAY: number, SUNDAY: number, TUESDAY: number, FRIDAY: number, SATURDAY: number}}
+     */
     static DAYS_OF_WEEK = {MONDAY: 1, TUESDAY: 2, WEDNESDAY: 3, THURSDAY: 4, FRIDAY: 5, SATURDAY: 6, SUNDAY: 7};
-
-
 
     /**
      * Convert specified Date to JS Date str.
@@ -134,13 +151,23 @@ export class DateTimeUtilities {
 
 /**
  *
- * Format character: t - day of week ('t' - 1 for monday, 2 - for tuesday; 'tt' - MO (monday), - TU (TUESDAY);
- * 'ttt' - mon, tue; 'tttt*' - monday, tuesday).
+ * Format character: t - represent day of week;
+ *     If yoy use char sequence of 't' character you may get any day of week representation:
+ *     * 't' - day of week in number (1 - monday, 2 - tuesday);
+ *     * 'tt' - day of week in string short format (mon (monday), - tue (TUESDAY));
+ *     * 'ttt' - day of week in string usual format (monday, tuesday);
+ *     If first 't' in sequence is in uppercase (T), then first letter in string format will be uppercase too.
  */
 class JsDateFormatter {
 
-    static dateToStr(aDate, aFormat) {
-
+    /**
+     * Convert source date to string in specified format.
+     * @param aDate - source date.
+     * @param aFormat - date format.
+     * @param aLocale - user locale.
+     * @return {string} - string.
+     */
+    static dateToStr(aDate, aFormat, aLocale) {
         // Get first character:
         let sameCharsStr = aFormat[0];
         let sameCharsStrList = [];
@@ -149,7 +176,7 @@ class JsDateFormatter {
         // Iterate of date format:
         for (let i=1; i<aFormat.length+1; i++) {
 
-            if (sameCharsStr[0] === aFormat[i]) sameCharsStr += aFormat[i];
+            if (sameCharsStr.toLowerCase()[0] === aFormat.toLowerCase()[i]) sameCharsStr += aFormat[i];
             else {
                 sameCharsStrList.push(sameCharsStr);
                 sameCharsStr=aFormat[i];
@@ -157,22 +184,22 @@ class JsDateFormatter {
 
         }
 
-        result += JsDateFormatter.#handleSameCharsStrList(sameCharsStrList, aDate);
+        result += JsDateFormatter.#handleSameCharsStrList(sameCharsStrList, aDate, aLocale);
 
         return result;
     }
 
 
-    static #handleSameCharsStrList(aList, aDate) {
+    static #handleSameCharsStrList(aList, aDate, aLocale) {
         let result = "";
         for (let i=0; i<aList.length; i++)
-        result += JsDateFormatter.#handleSameCharsStr(aList[i], aDate);
+        result += JsDateFormatter.#handleSameCharsStr(aList[i], aDate, aLocale);
         return result;
 
     }
 
 
-    static #handleSameCharsStr(aSameCharsStr, aDate) {
+    static #handleSameCharsStr(aSameCharsStr, aDate, aLocale) {
 
         let datePropStr;
 
@@ -191,10 +218,11 @@ class JsDateFormatter {
                 break;
             }
             case 't': {
-                if (aSameCharsStr.length === 1) datePropStr = DateTimeUtilities.dayOfWeek(aDate);
-                if (aSameCharsStr.length === 2) datePropStr = JsDateFormatter.#dayOfWeekStr(DateTimeUtilities.dayOfWeek(aDate)).substring(0,2);
-                if (aSameCharsStr.length === 3) datePropStr = JsDateFormatter.#dayOfWeekStr(DateTimeUtilities.dayOfWeek(aDate)).substring(0,3);
-                if (aSameCharsStr.length >= 3) datePropStr = JsDateFormatter.#dayOfWeekStr(DateTimeUtilities.dayOfWeek(aDate));
+                datePropStr = this.#formattedDayOfWeek(DateTimeUtilities.dayOfWeek(aDate), aSameCharsStr, aLocale);
+                break;
+            }
+            case 'T': {
+                datePropStr = StringUtilities.capitalizeFirstLetter(this.#formattedDayOfWeek(DateTimeUtilities.dayOfWeek(aDate), aSameCharsStr, aLocale));
                 break;
             }
             default: {
@@ -205,15 +233,41 @@ class JsDateFormatter {
         return datePropStr;
     }
 
-    static #dayOfWeekStr(dayOfWeek) {
+    /**
+     * Handle char sequence of 't' characters (day of week).
+     * Function handle length of source sequence and choose which format will be used.
+     * @param aDayOfWeek - {number} - day of week.
+     * @param aCharSeq - {string} - source char sequence.
+     * @param aLocale - {SUPPORTED_LOCALES} - supported locales.
+     * @return {*|string} - formatted day of week.
+     */
+    static #formattedDayOfWeek(aDayOfWeek, aCharSeq, aLocale) {
+        // Check sequence length:
+        // if length = 1, return day of week in number:
+        if (aCharSeq.length === 1) return aDayOfWeek;
+        // if length >= 2, return string format:
+        if (aCharSeq.length === 2) return JsDateFormatter.#dayOfWeekStr(aDayOfWeek, aLocale, true);
+        if (aCharSeq.length >= 3) return  JsDateFormatter.#dayOfWeekStr(aDayOfWeek, aLocale, false);
+
+    }
+
+    /**
+     * Get day of week localized string by its number in short or usual format.
+     * @param dayOfWeek - source day of week.
+     * @param aLocale - used locale.
+     * @param short - {boolean} - is in short format.
+     * @return {string|*} - localized day of week string.
+     */
+    static #dayOfWeekStr(dayOfWeek, aLocale, short=false) {
+        let suff = short ? "_short" : "";
         switch (dayOfWeek) {
-            case 1: return Localization.getLocalizedString("DT_monday");
-            case 2: return Localization.getLocalizedString("DT_tuesday");
-            case 3: return Localization.getLocalizedString("DT_wednesday");
-            case 4: return Localization.getLocalizedString("DT_thursday");
-            case 5: return Localization.getLocalizedString("DT_friday");
-            case 6: return Localization.getLocalizedString("DT_saturday");
-            case 7: return Localization.getLocalizedString("DT_sunday");
+            case 1: return Localization.getLocalizedText("DT_monday"+suff, aLocale);
+            case 2: return Localization.getLocalizedText("DT_tuesday"+suff, aLocale);
+            case 3: return Localization.getLocalizedText("DT_wednesday"+suff, aLocale);
+            case 4: return Localization.getLocalizedText("DT_thursday"+suff, aLocale);
+            case 5: return Localization.getLocalizedText("DT_friday"+suff, aLocale);
+            case 6: return Localization.getLocalizedText("DT_saturday"+suff, aLocale);
+            case 7: return Localization.getLocalizedText("DT_sunday"+suff, aLocale);
             default: return "UNDEFINED";
         }
     }

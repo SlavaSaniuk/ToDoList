@@ -33,6 +33,13 @@ const LOCALIZED_STRINGS = {
         DT_friday: "friday",
         DT_saturday: "saturday",
         DT_sunday: "sunday",
+        DT_monday_short: "mon",
+        DT_tuesday_short: "tue",
+        DT_wednesday_short: "wed",
+        DT_thursday_short: "thu",
+        DT_friday_short: "fri",
+        DT_saturday_short: "sat",
+        DT_sunday_short: "sun",
     },
 
     RU: {
@@ -65,6 +72,13 @@ const LOCALIZED_STRINGS = {
         DT_friday: "пятница",
         DT_saturday: "суббота",
         DT_sunday: "воскресенье",
+        DT_monday_short: "пон",
+        DT_tuesday_short: "вт",
+        DT_wednesday_short: "ср",
+        DT_thursday_short: "чт",
+        DT_friday_short: "пт",
+        DT_saturday_short: "сб",
+        DT_sunday_short: "вск",
     }
 }
 

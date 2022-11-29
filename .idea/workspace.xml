@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task view date fields.">
-      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/utils/ClientUtilities.js" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added capitilizeFirstLetter function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -261,21 +261,7 @@
       <workItem from="1669103650234" duration="5960000" />
       <workItem from="1669366657832" duration="12583000" />
       <workItem from="1669619891505" duration="16173000" />
-      <workItem from="1669705433278" duration="2583000" />
-    </task>
-    <task id="LOCAL-00027" summary="Added NotOwnerException exception. Owner checker throw NOE if user not own object.">
-      <created>1666218023034</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1666218023034</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Added TestsUserService test bean and TestingUser object. TasksOwnerCheckerTestsCase tests modified to user TestingUser objects.">
-      <created>1666220174004</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1666220174004</updated>
+      <workItem from="1669705433278" duration="6516000" />
     </task>
     <task id="LOCAL-00029" summary="Migrated NotFoundException to RuntimeNotFoundException">
       <created>1666306336217</created>
@@ -606,7 +592,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669643102357</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Modified localization js class. Added new functions.">
+      <created>1669708065215</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1669708065216</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Added capitilizeFirstLetter function">
+      <created>1669711444727</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1669711444727</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,8 +628,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked and tested AdministrationRestController" />
-    <MESSAGE value="Worked AdministrationPanel.js rendering based on application user roles." />
     <MESSAGE value="Now TaskFilterItem can be active." />
     <MESSAGE value="Worked filter item selection rendering." />
     <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
@@ -653,7 +651,9 @@
     <MESSAGE value="Task completion date properly set" />
     <MESSAGE value="Worked onCancel function when user click cancel button when adding task." />
     <MESSAGE value="Work on task view date fields." />
-    <option name="LAST_COMMIT_MESSAGE" value="Work on task view date fields." />
+    <MESSAGE value="Modified localization js class. Added new functions." />
+    <MESSAGE value="Added capitilizeFirstLetter function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added capitilizeFirstLetter function" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
