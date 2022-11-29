@@ -234,6 +234,12 @@
     line-height: 20pt;
 }
 
+.text-task-property-ta {
+    resize: none;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+}
+
 .date-task-properties-panel {
     display: flex;
     flex-direction: row;
@@ -251,7 +257,10 @@
 
 
 
-
+/* ================================================================================================================
+ * =============================== TASK VIEW ADDING BLOCK =========================================================
+ * ================================================================================================================
+ */
 
 .task-view-adding-block {
     height: 0;
@@ -353,4 +362,34 @@
 }
 .add-blk-ctrl-btn-cancel:hover {
     background-color: #b13639;
+}
+
+/* ================================================================================================================
+ * =============================== TASK VIEW EDITING BLOCK =========================================================
+ * ================================================================================================================
+ */
+.task-view-editing-block {
+    width: 94%;
+    margin: auto;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1%;
+}
+
+.task-view-editing-block p {
+    font-family: Mulish, sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    margin: 10px 0 0 0;
+}
+
+.task-view-editing-block textarea {
+    resize: none;
+    outline: none;
+    overflow: auto;
+    border: none;
+
+    font-family: Bitter, serif;
+    margin: 10px 0 0 0;
 }

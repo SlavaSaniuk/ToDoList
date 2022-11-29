@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import '../../../styles/common.css'
 import '../../../styles/fragments/task/task-view.css'
 import DatePicker from "react-datepicker";
@@ -10,6 +10,7 @@ import {Properties} from "../../../Properites";
 import {TaskBuilder} from "../../../js/models/Task";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
 import {ClientLocalization} from "../../../js/utils/ClientUtilities";
+import {ScalableTextArea} from "../../ui/InputsUi";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -221,6 +222,7 @@ export class TaskView extends React.Component {
 
 
         // Check if task is in editing now:
+        if (this.state.inEdit) return <TaskViewEditingBlock />
         const task_edit_control_panel = this.state.inEdit ? this.TASK_EDIT_CONTROL_PANEL : null;
         const task_control_panel = this.state.inEdit ? null : this.TASK_CONTROL_PANEL;
         const task_selector = this.state.inEdit ? null : this.TASK_SELECTOR;
@@ -228,8 +230,10 @@ export class TaskView extends React.Component {
 
         const VIEW_CONTENT = (
             <div className={"task-properties-panel"}>
-                <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskName} field={PropertyField.NAME} />
-                <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskDescription} field={PropertyField.DESC} />
+                <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskName} // Task name text property;
+                                  field={PropertyField.NAME} onChange={this.onChange} />
+                <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskDescription} // Task description text property;
+                                  field={PropertyField.DESC} onChange={this.onChange} />
                 <div className={"date-task-properties-panel"}>
                     <p> <DateTaskProperty value={this.state.task.taskCompletionDate} dateFormat={"Tt-DD.mm"} /> </p>
                     <p> {ClientLocalization.getLocalizedText("tv_created_at")} <DateTaskProperty value={this.state.task.taskCreationDate} dateFormat={"dd.mm"} /> </p>
@@ -303,8 +307,25 @@ class TaskSelection extends React.Component {
  * @propsProperty - inEdit - {boolean} - current text property is in edit now.
  * @propsProperty - value - {String} - <p> text or <textarea> value.
  * @propsProperty - field - {PropertyField} - task object property.
+ * @propsProperty - onChange - {Function} - onChange function.
  */
 const TextTaskProperty =(props) => {
+
+    // Refs:
+    const textAreaRef = useRef(null);
+
+    // Effects:
+    useEffect(() => {
+        // If inner text area value changed, then change its height:
+        if (props.inEdit) {
+            // Get text area element:
+            const textArea = textAreaRef.current;
+            // Set height:
+            textArea.style.height = "0px";
+            textArea.style.height = textArea.scrollHeight +"px";
+        }
+
+    })
 
     // Additional classname based on props property field:
     let additionalClassName = null;
@@ -314,10 +335,11 @@ const TextTaskProperty =(props) => {
     if (props.field === PropertyField.DESC) additionalClassName = "text-task-property-p-desc";
 
     // Render based on "inEdit" flag:
-    if (!props.inEdit || typeof props.inEdit == 'undefined') { // If property not is in edie now, then return p:
+    if (!props.inEdit || typeof props.inEdit == 'undefined') { // If property not is in edit now, then return p:
         return <p className={"text-task-property-p " +additionalClassName}> {props.value} </p>
-    }else {
-        return <textarea value={props.value} />
+    }else { // If property is in edit now, then return textarea:
+        return <textarea rows={1} ref={textAreaRef} className={"text-task-property-ta"} value={props.value}
+                         onChange={event => props.onChange(event, props.field)} />
     }
 }
 
@@ -426,6 +448,29 @@ export class TaskViewAddingBlock extends React.Component {
                 </div>
             </div>
         );
+    }
+}
+
+class TaskViewEditingBlock extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            val: ""
+        }
+    }
+
+    onNameUpdated =(event) => {
+        this.setState({val: event.target.value});
+    }
+
+    render() {
+        return (
+            <div className={"task-view-editing-block"}>
+                <p> Edit task </p>
+                <ScalableTextArea value={this.state.val} onChange={this.onNameUpdated} placeholder={"Hello world!"} />
+            </div>
+        )
     }
 }
 

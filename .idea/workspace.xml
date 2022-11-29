@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked rendering of date completion/creation">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="DateTimeUtilities: worked date in month (d) format">
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -260,14 +261,7 @@
       <workItem from="1669103650234" duration="5960000" />
       <workItem from="1669366657832" duration="12583000" />
       <workItem from="1669619891505" duration="16173000" />
-      <workItem from="1669705433278" duration="11364000" />
-    </task>
-    <task id="LOCAL-00031" summary="Tested UserTasksManager#deleteUSerTask method in case when user try to delete not own task.">
-      <created>1666307484661</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1666307484661</updated>
+      <workItem from="1669705433278" duration="17125000" />
     </task>
     <task id="LOCAL-00032" summary="Moved ArgumentChecker class.">
       <created>1666307630017</created>
@@ -605,7 +599,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669721503963</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="DateTimeUtilities: worked date in month (d) format">
+      <created>1669722934894</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1669722934894</updated>
+    </task>
+    <option name="localTasksCounter" value="81" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -627,7 +628,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
     <MESSAGE value="Tested TaskRestDto" />
     <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
     <MESSAGE value="Added localization support" />
@@ -652,7 +652,8 @@
     <MESSAGE value="Added capitilizeFirstLetter function" />
     <MESSAGE value="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function." />
     <MESSAGE value="Worked rendering of date completion/creation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked rendering of date completion/creation" />
+    <MESSAGE value="DateTimeUtilities: worked date in month (d) format" />
+    <option name="LAST_COMMIT_MESSAGE" value="DateTimeUtilities: worked date in month (d) format" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
