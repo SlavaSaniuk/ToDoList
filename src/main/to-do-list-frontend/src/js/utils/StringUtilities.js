@@ -68,4 +68,13 @@ export class StringUtilities {
             return randomStr;
         }
     }
+
+    /**
+     * Capitalize first letter in source string.
+     * @param aStr - source string.
+     * @return {string} - new string.
+     */
+    static capitalizeFirstLetter =(aStr) => {
+        return aStr.charAt(0).toUpperCase() + aStr.slice(1);
+    }
 }
