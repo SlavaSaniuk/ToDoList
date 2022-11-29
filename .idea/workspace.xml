@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked onCancel function when user click cancel button when adding task.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task view date fields.">
+      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/utils/ClientUtilities.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/Properites.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +22,8 @@
         <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -261,14 +260,8 @@
       <workItem from="1668665120006" duration="9901000" />
       <workItem from="1669103650234" duration="5960000" />
       <workItem from="1669366657832" duration="12583000" />
-      <workItem from="1669619891505" duration="16028000" />
-    </task>
-    <task id="LOCAL-00026" summary="Tested TasksOwnerChecker#isUserOwn method">
-      <created>1666215152643</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1666215152643</updated>
+      <workItem from="1669619891505" duration="16173000" />
+      <workItem from="1669705433278" duration="2583000" />
     </task>
     <task id="LOCAL-00027" summary="Added NotOwnerException exception. Owner checker throw NOE if user not own object.">
       <created>1666218023034</created>
@@ -606,7 +599,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669637129552</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Work on task view date fields.">
+      <created>1669643102357</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1669643102357</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +628,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added application user global variables." />
     <MESSAGE value="Worked and tested AdministrationRestController" />
     <MESSAGE value="Worked AdministrationPanel.js rendering based on application user roles." />
     <MESSAGE value="Now TaskFilterItem can be active." />
@@ -653,7 +652,8 @@
     <MESSAGE value="Tasks can be added, but only with completion date is today." />
     <MESSAGE value="Task completion date properly set" />
     <MESSAGE value="Worked onCancel function when user click cancel button when adding task." />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked onCancel function when user click cancel button when adding task." />
+    <MESSAGE value="Work on task view date fields." />
+    <option name="LAST_COMMIT_MESSAGE" value="Work on task view date fields." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
