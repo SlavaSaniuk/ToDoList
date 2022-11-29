@@ -243,6 +243,9 @@
 .date-task-properties-panel p {
     height: max-content;
     margin: 0;
+    font-family: Bitter, serif;
+    font-size: 12pt;
+    color: #777474;
 }
 
 

@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added capitilizeFirstLetter function">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/utilities/DateTimeUtilities.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/utils/ClientUtilities.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/utils/ClientUtilities.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -261,14 +262,7 @@
       <workItem from="1669103650234" duration="5960000" />
       <workItem from="1669366657832" duration="12583000" />
       <workItem from="1669619891505" duration="16173000" />
-      <workItem from="1669705433278" duration="6516000" />
-    </task>
-    <task id="LOCAL-00029" summary="Migrated NotFoundException to RuntimeNotFoundException">
-      <created>1666306336217</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1666306336217</updated>
+      <workItem from="1669705433278" duration="9830000" />
     </task>
     <task id="LOCAL-00030" summary="Added TestsTaskService test service.">
       <created>1666307433484</created>
@@ -606,7 +600,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669711444727</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function.">
+      <created>1669712227417</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1669712227417</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +629,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Now TaskFilterItem can be active." />
     <MESSAGE value="Worked filter item selection rendering." />
     <MESSAGE value="Now TasksRestDto return Task dateCreation and dateCompletion fields." />
     <MESSAGE value="Tested TaskRestDto" />
@@ -653,7 +653,20 @@
     <MESSAGE value="Work on task view date fields." />
     <MESSAGE value="Modified localization js class. Added new functions." />
     <MESSAGE value="Added capitilizeFirstLetter function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added capitilizeFirstLetter function" />
+    <MESSAGE value="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js</url>
+          <line>43</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

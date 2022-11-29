@@ -9,6 +9,7 @@ import {LevelLogger, Logger} from "../../../js/logging/Logger";
 import {Properties} from "../../../Properites";
 import {TaskBuilder} from "../../../js/models/Task";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
+import {ClientLocalization} from "../../../js/utils/ClientUtilities";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -230,8 +231,8 @@ export class TaskView extends React.Component {
                 <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskName} field={PropertyField.NAME} />
                 <TextTaskProperty inEdit={this.state.inEdit} value={this.state.task.taskDescription} field={PropertyField.DESC} />
                 <div className={"date-task-properties-panel"}>
-                    <p> COMPLETE UNTIL: <DateTaskProperty value={this.state.task.taskCompletionDate} /> </p>
-                    <p> CREATED: </p>
+                    <p> <DateTaskProperty value={this.state.task.taskCompletionDate} dateFormat={"Tt-dd.mm"} /> </p>
+                    <p> {ClientLocalization.getLocalizedText("tv_created_at")} <DateTaskProperty value={this.state.task.taskCreationDate} dateFormat={"dd.mm"} /> </p>
                 </div>
             </div>)
 
@@ -325,11 +326,12 @@ const TextTaskProperty =(props) => {
  * @param props - component props.
  * @propsProperty value - {Date} - task property date value.
  * @propsProperty - inEdit = {boolean} - flag indicate if current property can be modified.
+ * @propsProperty - dateFormat - {String} - date format {see JsDateFormatter}.
  */
 const DateTaskProperty =(props) => {
     // Return element based on ieEdit prop value:
     if (!props.inEdit) {
-        return <span> {DateTimeUtilities.dateToFormattedStr(props.value, 'tttt-dd.mm')} </span>;
+        return <span> {DateTimeUtilities.dateToFormattedStr(props.value, props.dateFormat, Properties.CLIENT_LOCALE)} </span>;
     }
 }
 
