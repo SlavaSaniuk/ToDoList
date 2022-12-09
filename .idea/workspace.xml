@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task editing block">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Working render of task edition block">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -267,14 +264,7 @@
       <workItem from="1670392972310" duration="325000" />
       <workItem from="1670415833326" duration="1394000" />
       <workItem from="1670565274633" duration="233000" />
-      <workItem from="1670583994061" duration="983000" />
-    </task>
-    <task id="LOCAL-00033" summary="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!.">
-      <created>1666310939142</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1666310939142</updated>
+      <workItem from="1670583994061" duration="1749000" />
     </task>
     <task id="LOCAL-00034" summary="Added 604 NOT_OWNER_EXCEPTION status code and noException method in ExceptionRestDto">
       <created>1666310983201</created>
@@ -612,7 +602,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669729042911</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Working render of task edition block">
+      <created>1670585153350</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1670585153350</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -634,7 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
     <MESSAGE value="Added localization support" />
     <MESSAGE value="Work on task addition block" />
     <MESSAGE value="Styling AT block" />
@@ -659,7 +655,8 @@
     <MESSAGE value="Worked rendering of date completion/creation" />
     <MESSAGE value="DateTimeUtilities: worked date in month (d) format" />
     <MESSAGE value="Work on task editing block" />
-    <option name="LAST_COMMIT_MESSAGE" value="Work on task editing block" />
+    <MESSAGE value="Working render of task edition block" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working render of task edition block" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

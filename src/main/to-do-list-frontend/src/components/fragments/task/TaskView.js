@@ -64,8 +64,8 @@ export class TaskView extends React.Component {
         // Bind functions:
         this.taskViewProps.bind(this);
         this.onEdit.bind(this);
+        this.onCancelEdit.bind(this);
         this.onChange.bind(this);
-        this.onCancel.bind(this);
         this.onUpdate.bind(this);
         this.onRemove.bind(this);
         this.onComplete.bind(this);
@@ -84,6 +84,9 @@ export class TaskView extends React.Component {
             <CrossButton classes={"control-btn"} clickFunc={this.onRemove} />
         </TaskControlMenu>);
         this.TASK_SELECTOR = <TaskSelection />;
+
+        // Functions to pass to task-view-edition-block:
+        this.editFunctions = {updateFunction: 1, cancelFunction: this.onCancelEdit};
 
     }
 
@@ -151,12 +154,10 @@ export class TaskView extends React.Component {
 
     /**
      * Cancel task edit.
-     * Function calling when user click on cancel text button on task editor control panel.
-     * Function reset all task changes (change task in state with task from props) and reset inEdit state flag.
+     * Function calling when user click on cancel text button in task view edit block.
      */
-    onCancel =() => {
+    onCancelEdit =() => {
         this.setState({
-            task: this.props.task,
             inEdit: false
         })
     }
@@ -180,6 +181,7 @@ export class TaskView extends React.Component {
         // Call parent function:
          this.props.parentControlFunctions.updateFunction(taskViewProps);
     }
+
 
     /**
      * Remove user task and task view.
@@ -222,7 +224,7 @@ export class TaskView extends React.Component {
 
 
         // Check if task is in editing now:
-        if (this.state.inEdit) return <TaskViewEditingBlock editableTask={this.state.task} />
+        if (this.state.inEdit) return <TaskViewEditingBlock editableTask={this.state.task} editFunctions={this.editFunctions} />
 
         const task_edit_control_panel = this.state.inEdit ? this.TASK_EDIT_CONTROL_PANEL : null;
         const task_control_panel = this.state.inEdit ? null : this.TASK_CONTROL_PANEL;
@@ -456,6 +458,7 @@ export class TaskViewAddingBlock extends React.Component {
  * TaskViewEditingBlock used to edit already existed user task.
  * @param props - component props.
  * @propsProperty editableTask - {Object[Task]} - editable task object.
+ * @propsProperty editFunctions - {Object} - object with parent edition functions.
  */
 class TaskViewEditingBlock extends React.Component {
     constructor(props) {
@@ -493,7 +496,7 @@ class TaskViewEditingBlock extends React.Component {
                 <DatePickerInput wrapperClassName={"task-editing-completion-date"} inputClassName={"task-editing-completion-date-input"} />
                 <div className={"task-edition-block-control-panel"}>
                     <TextButton btnText={ClientLocalization.getLocalizedText("tveb_update_text")} classes={"task-editing-update-btn"} />
-                    <TextButton btnText={ClientLocalization.getLocalizedText("tveb_cancel_text")} classes={"task-editing-cancel-btn"} />
+                    <TextButton btnText={ClientLocalization.getLocalizedText("tveb_cancel_text")} classes={"task-editing-cancel-btn"} clickFunc={this.props.editFunctions.cancelFunction} />
                 </div>
             </div>
         )
