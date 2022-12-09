@@ -45,7 +45,7 @@ export class TaskView extends React.Component {
      * Task view logger.
      * @type {Logger}
      */
-    LOGGER = new Logger("TaskView", Properties.TaskViewLogging);
+    LOGGER = new LevelLogger("TaskView.js", Properties.GLOBAL_LEVEL_LOGS);
 
     /**
      * Construct new TaskView react component,
@@ -53,7 +53,7 @@ export class TaskView extends React.Component {
      */
     constructor(props) {
         super(props);
-        this.LOGGER.log("Construct new TaskView component with props[%o];", [props]);
+        this.LOGGER.debug("Construct new TaskView component with props[%o];", [props]);
 
         // Component state:
         this.state = {
@@ -86,7 +86,7 @@ export class TaskView extends React.Component {
         this.TASK_SELECTOR = <TaskSelection />;
 
         // Functions to pass to task-view-edition-block:
-        this.editFunctions = {updateFunction: 1, cancelFunction: this.onCancelEdit};
+        this.editFunctions = {updateFunction: this.onUpdate, cancelFunction: this.onCancelEdit};
 
     }
 
@@ -110,6 +110,16 @@ export class TaskView extends React.Component {
     onEdit =() => {
         this.setState({
             inEdit: true
+        })
+    }
+
+    /**
+     * Cancel task edit.
+     * Function calling when user click on cancel text button in task view edit block.
+     */
+    onCancelEdit =() => {
+        this.setState({
+            inEdit: false
         })
     }
 
@@ -153,22 +163,13 @@ export class TaskView extends React.Component {
     }
 
     /**
-     * Cancel task edit.
-     * Function calling when user click on cancel text button in task view edit block.
-     */
-    onCancelEdit =() => {
-        this.setState({
-            inEdit: false
-        })
-    }
-
-    /**
      *  Update current edited task.
      *  Function calling when click on update text button in task editor.
      *  function calling parent update function.
      */
-    onUpdate =() => {
-        this.LOGGER.log("Update TaskView[viewId: %o] with new task properties[%o];", [this.props.viewId, this.state.task]);
+    onUpdate =(taskToUpdate) => {
+        this.LOGGER.debug("Update TaskView[viewId: %o] with new task properties[%o];", [this.props.viewId, this.state.task]);
+
 
         // Reset state inEdit flag:
         this.setState({
@@ -178,8 +179,10 @@ export class TaskView extends React.Component {
         // Create TaskViewProps:
         const taskViewProps = this.taskViewProps();
 
+        this.props.setLoadingStatus(true, this.props.viewId);
+
         // Call parent function:
-         this.props.parentControlFunctions.updateFunction(taskViewProps);
+        // this.props.parentControlFunctions.updateFunction(taskViewProps);
     }
 
 
@@ -458,7 +461,10 @@ export class TaskViewAddingBlock extends React.Component {
  * TaskViewEditingBlock used to edit already existed user task.
  * @param props - component props.
  * @propsProperty editableTask - {Object[Task]} - editable task object.
- * @propsProperty editFunctions - {Object} - object with parent edition functions.
+ * @propsProperty editFunctions - {Object} - object with parent task edit functions.
+ * @stateProperty - taskName - editable task name.
+ * @stateProperty - taskDescription - editable task description.
+ * @stateProperty - taskCompletionDate - editable task completion date.
  */
 class TaskViewEditingBlock extends React.Component {
     constructor(props) {
@@ -470,6 +476,8 @@ class TaskViewEditingBlock extends React.Component {
         // Bind functions:
         this.onNameUpdate.bind(this);
         this.onDescriptionUpdate.bind(this);
+        this.onDateCompletionUpdate.bind(this);
+        this.onUpdate.bind(this);
 
         // Component state:
         this.state = {
@@ -479,23 +487,63 @@ class TaskViewEditingBlock extends React.Component {
         }
     }
 
+    /**
+     * Update task name.
+     * @param event - textarea onChange event.
+     */
     onNameUpdate =(event) => {
         this.setState({taskName: event.target.value});
     }
 
+    /**
+     * Update task description.
+     * @param event - textarea onChange event.
+     */
     onDescriptionUpdate =(event) => {
         this.setState({taskDescription: event.target.value});
     }
 
+    /**
+     * Update task completion date.
+     * @param newDate - {Date} - new task completion date value.
+     */
+    onDateCompletionUpdate =(newDate) => {
+        this.setState({taskCompletionDate: newDate});
+    }
+
+    /**
+     * Update task.
+     * Function calling when user click on update control button.
+     */
+    onUpdate =() => {
+        // Construct new task object:
+        const updateTask = TaskBuilder.builder().ofId(this.props.editableTask.taskId)
+            .withName(this.state.taskName)
+            .withDescription(this.state.taskDescription)
+            .withDateOfCompletion(this.state.taskCompletionDate)
+            .withDateOfCreation(this.props.editableTask.taskCreationDate)
+            .withStatus(this.props.editableTask.taskStatus)
+            .build();
+        this.LOGGER.debug("Update task[%o];",[updateTask]);
+
+        // Call parent function:
+        this.props.editFunctions.updateFunction(updateTask);
+    }
+
+    /**
+     * Render task view editing block.
+     * @return {JSX.Element} - {TaskViewEditingBlock}.
+     */
     render() {
         return (
             <div className={"task-view-editing-block"}>
                 <p> {ClientLocalization.getLocalizedText("tveb_title")} </p>
                 <ScalableTextArea value={this.state.taskName} onChange={this.onNameUpdate} placeholder={"Hello world!"}/>
                 <ScalableTextArea value={this.state.taskDescription} onChange={this.onDescriptionUpdate} placeholder={"Hello world!"}/>
-                <DatePickerInput wrapperClassName={"task-editing-completion-date"} inputClassName={"task-editing-completion-date-input"} />
+                <DatePickerInput wrapperClassName={"task-editing-completion-date"} inputClassName={"task-editing-completion-date-input"}
+                                 date={this.state.taskCompletionDate} onChange={this.onDateCompletionUpdate} />
                 <div className={"task-edition-block-control-panel"}>
-                    <TextButton btnText={ClientLocalization.getLocalizedText("tveb_update_text")} classes={"task-editing-update-btn"} />
+                    <TextButton btnText={ClientLocalization.getLocalizedText("tveb_update_text")} classes={"task-editing-update-btn"} clickFunc={this.onUpdate} />
                     <TextButton btnText={ClientLocalization.getLocalizedText("tveb_cancel_text")} classes={"task-editing-cancel-btn"} clickFunc={this.props.editFunctions.cancelFunction} />
                 </div>
             </div>

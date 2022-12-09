@@ -33,14 +33,15 @@ export const ScalableTextArea =(props) => {
 
 /**
  * Custom react date picker.
- * @param props
+ * @param props - component props.
+ * @propertyProps date - {Date} - date picker input date.
+ * @propertyProps onChange - {Function} - date picker onChange function.
  * @propertyProps wrapperClassName - {String} - all datepicker wrapper css class.
  * @propertyProps inputClassName - {String} - datepicker input css class.
  */
 export const DatePickerInput =(props) => {
-    const [date, selectDate] = useState(new Date());
     const CustomInput = forwardRef(({value, onClick}, ref) => (
-        <button className={props.inputClassName} onClick={onClick} ref={ref} > {DateTimeUtilities.dateToFormattedStr(date, "tt-dd.mm", Properties.CLIENT_LOCALE)} </button>
+        <button className={props.inputClassName} onClick={onClick} ref={ref} > {DateTimeUtilities.dateToFormattedStr(props.date, "tt-dd.mm", Properties.CLIENT_LOCALE)} </button>
     ));
-    return (<div className={props.wrapperClassName}> <DatePicker customInput={<CustomInput />} selected={date} onChange={date => selectDate(date)} /> </div>)
+    return (<div className={props.wrapperClassName}> <DatePicker customInput={<CustomInput />} selected={props.date} onChange={props.onChange} /> </div>)
 }

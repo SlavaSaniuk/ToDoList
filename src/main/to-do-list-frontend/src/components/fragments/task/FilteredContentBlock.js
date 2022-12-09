@@ -1,10 +1,10 @@
 // noinspection JSUnresolvedVariable
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../../../styles/fragments/task/filtered-content-block.css"
-import {LevelLogger, Logger} from "../../../js/logging/Logger";
+import {LevelLogger} from "../../../js/logging/Logger";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
-import {TaskView, TaskViewAddingBlock} from "./TaskView";
+import {TaskView, TaskViewAddingBlock, TaskViewLoadingStatus} from "./TaskView";
 import {Localization} from "../../../js/localization/localization";
 import {PlusButton} from "../../Buttons";
 import {Properties} from "../../../Properites";
@@ -99,13 +99,28 @@ const WeekFilterContent =(props) => {
 const FilterCategoryBlock =(props) => {
 
     // State hooks:
+    let [renderViews, setRenderView] = useState([]);
     let [isShowAddingBlock, setShowFlag] = useState(false);
 
-    const views = props.categoryViews.map(viewProps => {
-        return <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj}
-                  loadingStatus={viewProps.loadStatus} parentControlFunctions={props.parentControlFunctions} />
+    // Initialize render views state array:
+    useEffect(() => {
+        console.log("Update");
+        setRenderView(props.categoryViews);
     })
 
+
+
+    const setLoadingStatus =(isLoad, aViewId) => {
+        setRenderView(
+            renderViews.map(view => {
+                if (view.viewId === aViewId) view.loadStatus=TaskViewLoadingStatus.LOADING;
+                return view;
+            })
+        );
+    }
+
+    // Render filter category block:
+    console.log("BBB", renderViews);
     return (
         <div className={"filter-category-block"} >
             <div className={"category-name"}>
@@ -114,7 +129,12 @@ const FilterCategoryBlock =(props) => {
             </div>
             <TaskViewAddingBlock isShow={isShowAddingBlock} defaultCompletionDate={new Date()}
                                  addFunction={props.parentControlFunctions.addFunction} hideBlockFunction={setShowFlag}/>
-            {views}
+            {
+                renderViews.map(viewProps => {
+                return <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj}
+                                 loadingStatus={viewProps.loadStatus} setLoadingStatus={setLoadingStatus} parentControlFunctions={props.parentControlFunctions} />
+            })
+            }
         </div>
     )
 }
