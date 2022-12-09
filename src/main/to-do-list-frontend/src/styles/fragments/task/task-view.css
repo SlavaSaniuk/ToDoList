@@ -371,7 +371,6 @@
 .task-view-editing-block {
     width: 94%;
     margin: auto;
-    height: 500px;
     display: flex;
     flex-direction: column;
     padding: 0 1%;
@@ -388,8 +387,79 @@
     resize: none;
     outline: none;
     overflow: auto;
+
     border: none;
+    border-bottom: 1px solid #cdcdcd;
+
+    padding: 0 1%;
 
     font-family: Bitter, serif;
-    margin: 10px 0 0 0;
+    font-size: 13pt;
+    font-weight: 500;
+    margin: 15px 0 0 0;
+    color: #8e8e8e;
+}
+
+.task-view-editing-block textarea:focus {
+    color: #000000;
+}
+
+.task-editing-completion-date {
+    margin-top: 15px;
+}
+
+.task-editing-completion-date-input {
+    border: 1px solid #cdcdcd;
+    background: none;
+    width: max-content;
+    color: #8e8e8e;
+
+    font-family: Bitter, serif;
+    font-size: 12pt;
+}
+
+.task-editing-completion-date-input:focus {
+    border: 1px solid #000000;
+    color: #000000;
+}
+
+.task-edition-block-control-panel {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.task-edition-block-control-panel input {
+    margin-left: 10px;
+    border: none;
+    outline: none;
+
+    padding: 5px 40px;
+
+    color: #FFFFFF;
+
+    transition: background-color .2s linear;
+    font-family: Mulish, sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+}
+
+.task-edition-block-control-panel input:first-child {
+    margin-left: 0;
+}
+
+.task-editing-update-btn {
+    background-color: #7c79c9;
+}
+
+.task-editing-cancel-btn {
+    background-color: #ff595e;
+}
+
+.task-editing-update-btn:hover {
+    background-color: #403e66;
+}
+
+.task-editing-cancel-btn:hover {
+    background-color: #b13639;
 }

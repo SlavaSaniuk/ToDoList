@@ -1,4 +1,7 @@
-import {useEffect, useRef} from "react";
+import {forwardRef, useEffect, useRef, useState} from "react";
+import DatePicker from "react-datepicker";
+import {Properties} from "../../Properites";
+import {DateTimeUtilities} from "../utilities/DateTimeUtilities";
 
 /**
  *
@@ -26,4 +29,18 @@ export const ScalableTextArea =(props) => {
 
     return <textarea value={props.value} onChange={props.onChange} ref={textAreaRef}
                      className={props.className}  placeholder={props.placeholder} />
+}
+
+/**
+ * Custom react date picker.
+ * @param props
+ * @propertyProps wrapperClassName - {String} - all datepicker wrapper css class.
+ * @propertyProps inputClassName - {String} - datepicker input css class.
+ */
+export const DatePickerInput =(props) => {
+    const [date, selectDate] = useState(new Date());
+    const CustomInput = forwardRef(({value, onClick}, ref) => (
+        <button className={props.inputClassName} onClick={onClick} ref={ref} > {DateTimeUtilities.dateToFormattedStr(date, "tt-dd.mm", Properties.CLIENT_LOCALE)} </button>
+    ));
+    return (<div className={props.wrapperClassName}> <DatePicker customInput={<CustomInput />} selected={date} onChange={date => selectDate(date)} /> </div>)
 }

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="DateTimeUtilities: worked date in month (d) format">
-      <change afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" afterDir="false" />
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task editing block">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/styles/fragments/task/task-view.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,7 +48,7 @@
     </option>
     <option name="myId2Visible">
       <map>
-        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
         <entry key="com.haulmont.jpb.jpaPalette" value="false" />
         <entry key="com.haulmont.jpb.jpaStructure" value="false" />
       </map>
@@ -261,14 +262,12 @@
       <workItem from="1669103650234" duration="5960000" />
       <workItem from="1669366657832" duration="12583000" />
       <workItem from="1669619891505" duration="16173000" />
-      <workItem from="1669705433278" duration="17125000" />
-    </task>
-    <task id="LOCAL-00032" summary="Moved ArgumentChecker class.">
-      <created>1666307630017</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1666307630017</updated>
+      <workItem from="1669705433278" duration="17188000" />
+      <workItem from="1669878835590" duration="8150000" />
+      <workItem from="1670392972310" duration="325000" />
+      <workItem from="1670415833326" duration="1394000" />
+      <workItem from="1670565274633" duration="233000" />
+      <workItem from="1670583994061" duration="983000" />
     </task>
     <task id="LOCAL-00033" summary="Testeed TaskRestController#deleteUserTask method. Need to comment it!!!!.">
       <created>1666310939142</created>
@@ -606,7 +605,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669722934894</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Work on task editing block">
+      <created>1669729042911</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1669729042911</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -628,7 +634,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Tested TaskRestDto" />
     <MESSAGE value="Work on AddTaskBlock.js need to set inputs for date fields" />
     <MESSAGE value="Added localization support" />
     <MESSAGE value="Work on task addition block" />
@@ -653,19 +658,8 @@
     <MESSAGE value="Added dayOfWeek method and support to formmatted print day of week in dateToFormattedStr function." />
     <MESSAGE value="Worked rendering of date completion/creation" />
     <MESSAGE value="DateTimeUtilities: worked date in month (d) format" />
-    <option name="LAST_COMMIT_MESSAGE" value="DateTimeUtilities: worked date in month (d) format" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/main/to-do-list-frontend/src/js/localization/localization.js</url>
-          <line>43</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Work on task editing block" />
+    <option name="LAST_COMMIT_MESSAGE" value="Work on task editing block" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

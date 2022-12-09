@@ -27,6 +27,10 @@ const LOCALIZED_STRINGS = {
         tvab_desc: "TASK DESCRIPTION",
         tvab_btn_create: "Create",
         tvab_btn_cancel: "Cancel",
+        // ==== tveb - Task view adding block ====
+        tveb_title: "Edit task",
+        tveb_update_text: "Update",
+        tveb_cancel_text: "Cancel",
         // ==== DT - Date/Time ====
         DT_monday: "monday",
         DT_tuesday: "tuesday",
@@ -68,6 +72,10 @@ const LOCALIZED_STRINGS = {
         tvab_desc: "Описание задачи",
         tvab_btn_create: "СОЗДАТЬ",
         tvab_btn_cancel: "ОТМЕНИТЬ",
+        // ==== tveb - Task view adding block ====
+        tveb_title: "Редактировать задачу",
+        tveb_update_text: "ОБНОВИТЬ",
+        tveb_cancel_text: "ОТМЕНИТЬ",
         // ==== DT - Date/Time ====
         DT_monday: "понедельник",
         DT_tuesday: "вторник",

@@ -10,7 +10,7 @@ import {Properties} from "../../../Properites";
 import {TaskBuilder} from "../../../js/models/Task";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
 import {ClientLocalization} from "../../../js/utils/ClientUtilities";
-import {ScalableTextArea} from "../../ui/InputsUi";
+import {DatePickerInput, ScalableTextArea} from "../../ui/InputsUi";
 
 /**
  * TaskView component user to display, edit single user task.
@@ -222,7 +222,8 @@ export class TaskView extends React.Component {
 
 
         // Check if task is in editing now:
-        if (this.state.inEdit) return <TaskViewEditingBlock />
+        if (this.state.inEdit) return <TaskViewEditingBlock editableTask={this.state.task} />
+
         const task_edit_control_panel = this.state.inEdit ? this.TASK_EDIT_CONTROL_PANEL : null;
         const task_control_panel = this.state.inEdit ? null : this.TASK_CONTROL_PANEL;
         const task_selector = this.state.inEdit ? null : this.TASK_SELECTOR;
@@ -451,24 +452,49 @@ export class TaskViewAddingBlock extends React.Component {
     }
 }
 
+/**
+ * TaskViewEditingBlock used to edit already existed user task.
+ * @param props - component props.
+ * @propsProperty editableTask - {Object[Task]} - editable task object.
+ */
 class TaskViewEditingBlock extends React.Component {
     constructor(props) {
         super(props);
 
+        // Logger:
+        this.LOGGER = new LevelLogger("TaskViewEditingBlock.js", Properties.GLOBAL_LEVEL_LOGS);
+
+        // Bind functions:
+        this.onNameUpdate.bind(this);
+        this.onDescriptionUpdate.bind(this);
+
+        // Component state:
         this.state = {
-            val: ""
+            taskName: this.props.editableTask.taskName, // task name;
+            taskDescription: this.props.editableTask.taskDescription, // task desc;
+            taskCompletionDate: this.props.editableTask.taskCompletionDate // task completion date;
         }
     }
 
-    onNameUpdated =(event) => {
-        this.setState({val: event.target.value});
+    onNameUpdate =(event) => {
+        this.setState({taskName: event.target.value});
+    }
+
+    onDescriptionUpdate =(event) => {
+        this.setState({taskDescription: event.target.value});
     }
 
     render() {
         return (
             <div className={"task-view-editing-block"}>
-                <p> Edit task </p>
-                <ScalableTextArea value={this.state.val} onChange={this.onNameUpdated} placeholder={"Hello world!"} />
+                <p> {ClientLocalization.getLocalizedText("tveb_title")} </p>
+                <ScalableTextArea value={this.state.taskName} onChange={this.onNameUpdate} placeholder={"Hello world!"}/>
+                <ScalableTextArea value={this.state.taskDescription} onChange={this.onDescriptionUpdate} placeholder={"Hello world!"}/>
+                <DatePickerInput wrapperClassName={"task-editing-completion-date"} inputClassName={"task-editing-completion-date-input"} />
+                <div className={"task-edition-block-control-panel"}>
+                    <TextButton btnText={ClientLocalization.getLocalizedText("tveb_update_text")} classes={"task-editing-update-btn"} />
+                    <TextButton btnText={ClientLocalization.getLocalizedText("tveb_cancel_text")} classes={"task-editing-cancel-btn"} />
+                </div>
             </div>
         )
     }
