@@ -264,9 +264,7 @@ export class TasksBlock extends React.Component {
 
         // Bind functions:
         this.loadUserTasks.bind(this);
-        this.showAddTaskBlock.bind(this);
-        this.onAddNewTask.bind(this);
-          this.onSelectTasks.bind(this);
+        this.onSelectTasks.bind(this);
         this.onUnselectTask.bind(this);
         this.onRemoveUserTask.bind(this);
         this.removeUserTask.bind(this);
@@ -277,7 +275,6 @@ export class TasksBlock extends React.Component {
         this.onClickFilterItem.bind(this);
         this.isActiveFilterItem.bind(this);
         // ====== Tasks adding functions =======
-        this.onAddUserTask.bind(this);
         this.addUserTask.bind(this);
 
         // Element state:
@@ -324,20 +321,13 @@ export class TasksBlock extends React.Component {
             if (result.ok) {
                 result.json().then(dateTimeDto => {
                     serverDate = new Date(dateTimeDto.dateStr);
-                    Logging.log("Server date: ", DateTimeUtilities.dateToStr(serverDate));
+                    Logging.log("Server date: ", serverDate);
                     this.setState({
                         filter_serverDate: serverDate
                     })
                 })
             }
         });
-
-        // Set component state:
-        this.setState({
-           // filter_serverDate: serverDate,
-           // filter_serverDate: serverDate,
-        });
-
 
     }
 
@@ -387,28 +377,6 @@ export class TasksBlock extends React.Component {
 
     }
 
-    /**
-     * Function rerender TasksContentBlock to show AddTaskBlock element.
-     * @param isShow - Boolean - true to show tasks block.
-     */
-    showAddTaskBlock =(isShow) => {
-        this.setState({isShowAddTaskBlock: isShow})
-    }
-
-    /**
-     * Add new users task to tasks list in element state.
-     * @param aTask - task to add.
-     */
-    onAddNewTask =(aTask) => {
-        // Post task to server:
-        this.postNewTask(aTask).then((createdTask) => {
-            // Add task to list in state and hide AddTaskBlock:
-            this.setState(prevState => ({
-            tasksList:  [createdTask, ...prevState.tasksList],
-            isShowAddTaskBlock: false
-        }));
-        });
-    }
 
     /**
      * Function calling when user select any task {Task.TaskSelector.checkbox selected}.
@@ -458,58 +426,6 @@ export class TasksBlock extends React.Component {
         }
     }
 
-
-
-
-
-
-    /**
-     * Add new user task.
-     * @param aTask - task to be created.
-     * @return {Promise<void>} - nothing return.
-     */
-    onAddUserTask =async (aTask) => {
-        this.LOGGER.trace("onAddUserTask function with task argument: [%o]; ", [aTask]);
-
-        // Construct new task view props and add it to task view render list:
-        const newViewProps = new TaskViewProps(aTask, TaskViewLoadingStatus.LOADING);
-        this.setState(prevState => {
-            return {taskViewPropsList: [...prevState.taskViewPropsList, newViewProps]};
-        })
-
-        // Post new task to server:
-        const createdTask = await this.addUserTask(aTask);
-        // If task is not created (null), then remove it view props from list:
-        if (createdTask === null) {
-            this.LOGGER.error("Exception when adding task[%o];", [aTask]);
-
-            //Remove task view from list:
-            this.setState(prevState => {
-                return {taskViewPropsList: prevState.taskViewPropsList.filter((viewProps) => {
-                        return viewProps.viewId !== newViewProps.viewId;
-                    })
-                }
-            });
-            return;
-        }
-
-        // If task is created (not null), =>
-        // Update task status and task view:
-        this.LOGGER.debug("Created new task: [%o];", [createdTask]);
-        //Update task view from list:
-        this.setState(prevState => {
-            return {
-                taskViewPropsList: prevState.taskViewPropsList.map((taskView) => {
-                    if (taskView.viewId === newViewProps.viewId) {
-                        taskView.taskObj = createdTask;
-                        taskView.loadStatus = TaskViewLoadingStatus.LOADED;
-                    }
-                    return taskView;
-                })
-            }
-        });
-    }
-
     /**
      * Post new task object to server.
      * @param aTask - new task.
@@ -538,14 +454,6 @@ export class TasksBlock extends React.Component {
             return null;
         }
     }
-
-
-
-
-
-
-
-
 
     /**
      * OnRemoveUserTask function calling when user click on remove button in TaskView component.
@@ -792,9 +700,7 @@ export class TasksBlock extends React.Component {
                 <FilteredContentBlock activeFilter={TASKS_FILTER_TYPE.WEEK}
                                       tasksToRender={this.state.userTasksList}
                                       tasksControlFuncs={this.tasksControlFuncs}
-
-                                      taskViewPropsList={this.state.taskViewPropsList}
-                                      todayDate={this.state.filter_serverDate} parentControlFunctions={this.taskControlFunctions} />
+                                      serverDate={this.state.filter_serverDate} />
                 <TasksFooter />
             </div>
         );

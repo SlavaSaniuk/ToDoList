@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task edit update method.">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Worked task adding process">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,14 +267,7 @@
       <workItem from="1670415833326" duration="1394000" />
       <workItem from="1670565274633" duration="233000" />
       <workItem from="1670583994061" duration="8378000" />
-      <workItem from="1670928870879" duration="9037000" />
-    </task>
-    <task id="LOCAL-00036" summary="Added SVG task control buttons icons.">
-      <created>1666549753120</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1666549753120</updated>
+      <workItem from="1670928870879" duration="11649000" />
     </task>
     <task id="LOCAL-00037" summary="Worked Task.js EDIT control button (Only front).">
       <created>1666647035881</created>
@@ -613,7 +605,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670594944669</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="Worked task adding process">
+      <created>1670938108878</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1670938108878</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,7 +634,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Styling AT block" />
     <MESSAGE value="Styling AT block #2" />
     <MESSAGE value="Now render completed task as completed" />
     <MESSAGE value="Worked task completion process" />
@@ -660,7 +658,8 @@
     <MESSAGE value="Working render of task edition block" />
     <MESSAGE value="Working cancel edit function" />
     <MESSAGE value="Work on task edit update method." />
-    <option name="LAST_COMMIT_MESSAGE" value="Work on task edit update method." />
+    <MESSAGE value="Worked task adding process" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked task adding process" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
