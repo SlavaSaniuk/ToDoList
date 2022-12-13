@@ -13,7 +13,7 @@ import {StringUtilities} from "../../js/utils/StringUtilities";
 import {LevelLogger, Logger} from "../../js/logging/Logger";
 import {Properties} from "../../Properites";
 import {ListIcon} from "../ui/Icons";
-import {FilteredContentBlock, TasksFilterType} from "./task/FilteredContentBlock";
+import {FilteredContentBlock, TASKS_FILTER_TYPE, TasksFilterType} from "./task/FilteredContentBlock";
 
 const TasksFooter =() => {
     return(<div className={"tasks-footer"}>
@@ -217,13 +217,6 @@ const TasksTopMenu =(props) => {
     );
 }
 
-const TasksBlockLoader =() => {
-    return (
-        <div className={"tasks-block-loading-block row"}>
-            <div className={"tasks-block-loader"} />
-        </div>
-    );
-}
 
 /**
  * Tasks block loading statuses.
@@ -273,14 +266,11 @@ export class TasksBlock extends React.Component {
         this.loadUserTasks.bind(this);
         this.showAddTaskBlock.bind(this);
         this.onAddNewTask.bind(this);
-        this.postNewTask.bind(this);
-        this.onSelectTasks.bind(this);
+          this.onSelectTasks.bind(this);
         this.onUnselectTask.bind(this);
         this.onRemoveUserTask.bind(this);
         this.removeUserTask.bind(this);
-        this.updateUserTask.bind(this);
-        this.onUpdateUserTask.bind(this);
-        // ====== Task completion functions =====
+            // ====== Task completion functions =====
         this.onCompleteUserTask.bind(this);
         this.completeUserTask.bind(this);
         this.onCompleteUserTasks.bind(this);
@@ -293,6 +283,7 @@ export class TasksBlock extends React.Component {
         // Element state:
         this.state = {
             loadStatus: TasksBlockLoadStatus.LOADING, // Default load status (because need to load user tasks list);
+            userTasksList: [], // list of user tasks to be rendered {List<Task>};
             // ==== LIST OF USERS TASKS ====
             isShowAddTaskBlock: false, // Flag to show AddTaskBlock element;
             tasksList: [], // Array of users tasks;
@@ -314,8 +305,11 @@ export class TasksBlock extends React.Component {
         this.taskControlFunctions = {
             addFunction: this.onAddUserTask,
             completeFunction: this.onCompleteUserTask,
-            updateFunction: this.onUpdateUserTask,
             removeFunction: this.onRemoveUserTask
+        };
+
+        this.tasksControlFuncs = {
+            add: this.addUserTask
         }
     }
 
@@ -365,6 +359,7 @@ export class TasksBlock extends React.Component {
 
             // For each user tasks construct new TaskViewProps:
             const taskViewPropsList = [];
+            const userTasksList = []; // Loaded user tasks:
             resultTasksList.forEach((taskDto) => {
                 const taskObj = TaskBuilder.builder().ofId(taskDto.taskId)
                     .withName(taskDto.taskName)
@@ -373,11 +368,16 @@ export class TasksBlock extends React.Component {
                     .withDateOfCompletion(new Date(taskDto.dateOfCompletion))
                     .withStatus(taskDto.taskStatus)
                     .build();
+
+                // Push to user tasks list:
+                userTasksList.push(taskObj);
+
                 taskViewPropsList.push(new TaskViewProps(taskObj, TaskViewLoadingStatus.LOADED));
             })
 
             // Set state:
             this.setState(prevState => ({
+                userTasksList: prevState.userTasksList.concat(userTasksList),
                 tasksList: prevState.tasksList.concat(resultTasksList),
                 loadStatus: TasksBlockLoadStatus.LOADED,
                 taskViewPropsList: prevState.taskViewPropsList.concat(taskViewPropsList)
@@ -458,6 +458,11 @@ export class TasksBlock extends React.Component {
         }
     }
 
+
+
+
+
+
     /**
      * Add new user task.
      * @param aTask - task to be created.
@@ -534,32 +539,13 @@ export class TasksBlock extends React.Component {
         }
     }
 
-    /**
-     * Post new task object to server.
-     * @param aTask - task to post.
-     * @returns {Promise<any>} - created task.
-     */
-    postNewTask = async(aTask) => {
-        // Post request:
-        let response = await fetch( sessionStorage.getItem('SERVER_URL') +"/rest/task/create-task", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': sessionStorage.getItem('JWT')},
-            body: JSON.stringify(aTask)
-            });
 
-        // Check task object:
-        let taskDto = await response.json();
-        if (taskDto.exception) {
-            console.log("Exception when post new task occurs. ExceptionDto: ", taskDto);
-            return;
-        }
 
-        // Return task object:
-        return taskDto;
-    }
+
+
+
+
+
 
     /**
      * OnRemoveUserTask function calling when user click on remove button in TaskView component.
@@ -619,67 +605,6 @@ export class TasksBlock extends React.Component {
             console.error(e);
             return false;
         }
-
-    }
-
-    /**
-     * OmUpdateUserTask function calling by TaskView#onUpdate() function.
-     * Function set TaskView loadingStatus property loading and update component state.
-     * Then send post request to server "rest/task/update-task" url and update task in db.
-     * Then set TaskView loadingStatus to loaded and update component.
-     * @param aTaskViewProps - {TaskViewProps} which will be updated.
-     */
-    onUpdateUserTask = async (aTaskViewProps) => {
-        this.logger.log("Update TaskView[%o] view props;", [aTaskViewProps]);
-
-        // Set loading status to modified task view:
-        this.setState(prevState => {
-            const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
-                if (viewProps.viewId === aTaskViewProps.viewId) viewProps.loadStatus = TaskViewLoadingStatus.LOADING;
-                return viewProps;
-            })
-            return {taskViewPropsList: taskViewPropsList};
-        })
-
-        // Post modified task to server:
-        const updatedTask = await this.updateUserTask(aTaskViewProps.taskObj);
-
-        // Update task in state:
-        this.setState(prevState => {
-            const taskViewPropsList = prevState.taskViewPropsList.map(viewProps => {
-                if (viewProps.viewId === aTaskViewProps.viewId) {
-                    viewProps.taskObj = updatedTask;
-                    viewProps.loadStatus = TaskViewLoadingStatus.LOADED;
-                }
-                return viewProps;
-            })
-            return {taskViewPropsList: taskViewPropsList};
-        })
-    }
-
-    /**
-     * Update user task.
-     * Function send post request to server "rest/task/update-task" url and update task in db.
-     * @param modifiedTask -  modified task.
-     * @return - updated task.
-     */
-    updateUserTask = (modifiedTask) => {
-        this.logger.log("Try to update user task[%o];", [modifiedTask]);
-
-        // Construct taskDto form modified task:
-        const taskDto = TaskDtoBuilder.ofTask(modifiedTask);
-
-        // Post request:
-        ReqUtilities.postRequest("/rest/task/update-task", JSON.stringify(taskDto)).then(result => {
-            if (result.ok) {
-                result.json().then(taskResDto  => {
-                    // Parse DTO to task:
-                    return TaskBuilder.ofDto(taskResDto);
-                })
-            }else {
-                return null;
-            }
-        })
 
     }
 
@@ -864,7 +789,11 @@ export class TasksBlock extends React.Component {
             <div className={"tasks-block m-auto"} >
                 {TASKS_TOP_MENU}
 
-                <FilteredContentBlock activeFilter={TasksFilterType.WEEK} taskViewPropsList={this.state.taskViewPropsList}
+                <FilteredContentBlock activeFilter={TASKS_FILTER_TYPE.WEEK}
+                                      tasksToRender={this.state.userTasksList}
+                                      tasksControlFuncs={this.tasksControlFuncs}
+
+                                      taskViewPropsList={this.state.taskViewPropsList}
                                       todayDate={this.state.filter_serverDate} parentControlFunctions={this.taskControlFunctions} />
                 <TasksFooter />
             </div>

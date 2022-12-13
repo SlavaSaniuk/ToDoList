@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Working cancel edit function">
+    <list default="true" id="0ab8afa7-2a1e-48e8-be25-1c25da074055" name="Changes" comment="Work on task edit update method.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/TasksBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/FilteredContentBlock.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/fragments/task/TaskView.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/to-do-list-frontend/src/components/ui/InputsUi.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,30 +76,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable": "ALL",
-    "last_directory_selection": "/home/user/IdeaProjects/ToDoList/src/main/java/by/beltelecom/todolist/utilities",
-    "last_opened_file_path": "D:/01_DEV/IdeaProjects/ToDoList/ToDoList/src/main/to-do-list-frontend/src/components/fragments/task",
-    "list.type.of.created.stylesheet": "CSS",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "79916f3936c4395971c7ad0f1ab0c480"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable&quot;: &quot;ALL&quot;,
+    &quot;last_directory_selection&quot;: &quot;/home/user/IdeaProjects/ToDoList/src/main/java/by/beltelecom/todolist/utilities&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/01_DEV/IdeaProjects/ToDoList/ToDoList/src/main/to-do-list-frontend/src/components/fragments/task&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;79916f3936c4395971c7ad0f1ab0c480&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\01_DEV\IdeaProjects\ToDoList\ToDoList\src\main\to-do-list-frontend\src\components\fragments\task" />
@@ -267,14 +267,8 @@
       <workItem from="1670392972310" duration="325000" />
       <workItem from="1670415833326" duration="1394000" />
       <workItem from="1670565274633" duration="233000" />
-      <workItem from="1670583994061" duration="8253000" />
-    </task>
-    <task id="LOCAL-00035" summary="Addde TestingUser.Authentication inner class.">
-      <created>1666311019662</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1666311019662</updated>
+      <workItem from="1670583994061" duration="8378000" />
+      <workItem from="1670928870879" duration="9037000" />
     </task>
     <task id="LOCAL-00036" summary="Added SVG task control buttons icons.">
       <created>1666549753120</created>
@@ -612,7 +606,14 @@
       <option name="project" value="LOCAL" />
       <updated>1670585845380</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Work on task edit update method.">
+      <created>1670594944669</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1670594944669</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -634,7 +635,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Work on task addition block" />
     <MESSAGE value="Styling AT block" />
     <MESSAGE value="Styling AT block #2" />
     <MESSAGE value="Now render completed task as completed" />
@@ -659,7 +659,8 @@
     <MESSAGE value="Work on task editing block" />
     <MESSAGE value="Working render of task edition block" />
     <MESSAGE value="Working cancel edit function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working cancel edit function" />
+    <MESSAGE value="Work on task edit update method." />
+    <option name="LAST_COMMIT_MESSAGE" value="Work on task edit update method." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

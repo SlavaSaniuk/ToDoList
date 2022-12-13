@@ -4,57 +4,58 @@ import React, {useEffect, useState} from "react";
 import "../../../styles/fragments/task/filtered-content-block.css"
 import {LevelLogger} from "../../../js/logging/Logger";
 import {DateTimeUtilities} from "../../utilities/DateTimeUtilities";
-import {TaskView, TaskViewAddingBlock, TaskViewLoadingStatus} from "./TaskView";
+import {TaskView, TaskViewAddingBlock} from "./TaskView";
 import {Localization} from "../../../js/localization/localization";
 import {PlusButton} from "../../Buttons";
 import {Properties} from "../../../Properites";
 
 /**
+ * All supported tasks filters.
+ * @type {{WEEK: number}} - filter task at week period.
+ */
+export const TASKS_FILTER_TYPE = {WEEK: 0};
+
+/**
+ * FilteredContentBlock is a common component that's render task object.
+ * Based on property "activeFilter" render specific filtered content.
+ * @props - component props.
  * @propsProperty activeFilter - current active filter type [{TasksFilterType}];
- * @propsProperty taskViewPropsList - list of task view properties [{TaskViewProps}];
+ * @propsProperty tasksToRender - {List<Task>} - list of users tasks to be rendered.
+ * @propsProperty tasksControlFuncs - {Object} - object with tasks control functions.
+ *
  * @propsProperty todayDate - today server date [{Date}];
  * @propsProperty parentControlFunctions - {object} - parent control functions object.
  */
-export class FilteredContentBlock extends React.Component {
+export const FilteredContentBlock =(props) => {
 
-    // Logger:
-    LOGGER = new LevelLogger("FilteredContentBlock", Properties.GLOBAL_LEVEL_LOGS);
+    const LOGGER = new LevelLogger("FilteredContentBlock", Properties.GLOBAL_LEVEL_LOGS); // Logger;
+    let renderingContent; // Filtered content to be rendered:
 
-    render() {
-
-        // debug:
-        this.LOGGER.debug("Task views to be filtered and rendered: [%o];", [this.props.taskViewPropsList]);
-
-        // Filter user task based on current active filter:
-        let renderingContent; // TaskView to be rendered:
-        switch (this.props.activeFilter) {
-            case TasksFilterType.WEEK: {
-                // Week tasks:
-                renderingContent = <WeekFilterContent todayDate={this.props.todayDate} viewPropsList={this.props.taskViewPropsList} parentControlFunctions={this.props.parentControlFunctions} />
-                break;
-            }
-            default: {
-
-            }
-
+    // Filter user task based on current active filter:
+    switch (props.activeFilter) {
+        case TASKS_FILTER_TYPE.WEEK: {
+            // Week filtered content :
+            renderingContent = <WeekFilterContent todayDate={props.todayDate}
+                                                  tasksToFilter={props.tasksToRender}
+                                                  tasksControlFuncs={props.tasksControlFuncs}  viewPropsList={props.taskViewPropsList} parentControlFunctions={props.parentControlFunctions} />
+            break;
         }
-
-
-
-        return (
-            <div className={"filtered-content-block"}>
-                {renderingContent}
-            </div>
-        )
+        default: {
+            LOGGER.error("Filter type of [%O] is not supported.", [props.activeFilter]);
+        }
     }
 
+    // Render:
+    return (<div className={"filtered-content-block"}> {renderingContent} </div>)
 
 }
 
 /**
- * Filter specified task views by {TaskFilterType.WEEK} week filter.
+ * Week filtered content component. Filter specified tasks ("tasksToFilter") list for week.
+ * Filtered content component filter user tasks and render {FilterCategoryBlock} component with task views.
  * @param props - component props.
  * @propsProperty todayDate - today {Date} date.
+ * @propsProperty tasksToFilter - {List<Task>} - tasks to be filtered and rendered;
  * @propsProperty viewPropsList - list of view props to be filtered and rendered.
  */
 const WeekFilterContent =(props) => {
@@ -65,24 +66,33 @@ const WeekFilterContent =(props) => {
     // Get only today tasks:
     const todayCategoryName = Localization.getLocalizedString("ftb_week_filter_category_name_today_pf")
         +DateTimeUtilities.dateToFormattedStr(props.todayDate, "dd.mm.yyyy");
-    const todayTasks = TasksFilter.dateTasks(props.todayDate, props.viewPropsList);
-    weekFilterCategories.push(<FilterCategoryBlock key={"today_tasks"} categoryName={todayCategoryName}
-                                                   categoryViews={todayTasks} parentControlFunctions={props.parentControlFunctions} />);
+    const todayTasks = TasksFilter.dateTasks(props.todayDate, props.tasksToFilter);
+    weekFilterCategories.push(<FilterCategoryBlock key={"today_tasks"}
+                                                   categoryName={todayCategoryName}
+                                                   tasksToRender={todayTasks}
+                                                   tasksControlFuncs={props.tasksControlFuncs}
+                                                   parentControlFunctions={props.parentControlFunctions} />);
 
     // Filter on tomorrow tasks:
     const tomorrowCategoryName = Localization.getLocalizedString("ftb_week_filter_category_name_tomorrow_pf")
         +DateTimeUtilities.dateToFormattedStr(
         DateTimeUtilities.addDays(props.todayDate,1), "dd.mm.yyyy");
-    const tomorrowTasks = TasksFilter.dateTasks(DateTimeUtilities.addDays(props.todayDate, 1), props.viewPropsList);
-    weekFilterCategories.push(<FilterCategoryBlock key={"tomorrow_tasks"} categoryName={tomorrowCategoryName}
-                                                   categoryViews={tomorrowTasks} parentControlFunctions={props.parentControlFunctions} />);
+    const tomorrowTasks = TasksFilter.dateTasks(DateTimeUtilities.addDays(props.todayDate, 1), props.tasksToFilter);
+    weekFilterCategories.push(<FilterCategoryBlock key={"tomorrow_tasks"}
+                                                   categoryName={tomorrowCategoryName}
+                                                   tasksToRender={tomorrowTasks}
+                                                   tasksControlFuncs={props.tasksControlFuncs}
+                                                   parentControlFunctions={props.parentControlFunctions} />);
     // Filter on any week tasks:
     const weekCategoryName = Localization.getLocalizedString("ftb_week_filter_category_name_week_pf")
         +DateTimeUtilities.dateToFormattedStr(DateTimeUtilities.addDays(props.todayDate,7), "dd.mm.yyyy");
     const weekTasks = TasksFilter.betweenDateTasks(
-        DateTimeUtilities.addDays(props.todayDate, 2), DateTimeUtilities.addDays(props.todayDate, 7), props.viewPropsList);
-    weekFilterCategories.push(<FilterCategoryBlock key={"week_tasks"} categoryName={weekCategoryName}
-                                                   categoryViews={weekTasks} parentControlFunctions={props.parentControlFunctions} />);
+        DateTimeUtilities.addDays(props.todayDate, 2), DateTimeUtilities.addDays(props.todayDate, 7), props.tasksToFilter);
+    weekFilterCategories.push(<FilterCategoryBlock key={"week_tasks"}
+                                                   categoryName={weekCategoryName}
+                                                   tasksToRender={weekTasks}
+                                                   tasksControlFuncs={props.tasksControlFuncs}
+                                                   parentControlFunctions={props.parentControlFunctions} />);
 
     return weekFilterCategories;
 
@@ -90,37 +100,36 @@ const WeekFilterContent =(props) => {
 }
 
 /**
- *
+ * Common filter category block.
  * @param props - component props.
- * @propsProperty categoryName - name of filter category.
+ * @propsProperty categoryName - {String} filter category name text (user to display).
  * @propsProperty categoryViews - list of category views.
- * @return {JSX.Element}
+ * @propsProperty tasksToRender - {List<Task>} - list of task to be rendered.
+ * @return {JSX.Element} - simple filter category block.
  */
 const FilterCategoryBlock =(props) => {
 
+    //const LOGGER = new LevelLogger("FilterCategoryBlock", Properties.GLOBAL_LEVEL_LOGS);
+
     // State hooks:
-    let [renderViews, setRenderView] = useState([]);
+    let [renderTasks, setRenderTasks] = useState([]); // list of tasks object to be rendered.
     let [isShowAddingBlock, setShowFlag] = useState(false);
 
     // Initialize render views state array:
     useEffect(() => {
-        console.log("Update");
-        setRenderView(props.categoryViews);
+        if (renderTasks.length === 0) {
+            setRenderTasks(props.tasksToRender);
+        }
     })
 
-
-
-    const setLoadingStatus =(isLoad, aViewId) => {
-        setRenderView(
-            renderViews.map(view => {
-                if (view.viewId === aViewId) view.loadStatus=TaskViewLoadingStatus.LOADING;
-                return view;
-            })
-        );
+    const addNewTask =async (aNewTask) => {
+        //LOGGER.debug("Add new user task: [%o];", [aNewTask]);
+        const addedTask = await props.tasksControlFuncs.add(aNewTask);
+        //LOGGER.debug("Created task: [%o];", [addedTask]);
+        setRenderTasks([...renderTasks, addedTask]);
     }
 
-    // Render filter category block:
-    console.log("BBB", renderViews);
+    //LOGGER.debug("Render filter category block: \"%o\" with tasks to render: [%o]", [props.categoryName, renderTasks]);
     return (
         <div className={"filter-category-block"} >
             <div className={"category-name"}>
@@ -128,13 +137,13 @@ const FilterCategoryBlock =(props) => {
                 <PlusButton classes={"add-task-btn"} clickFunc={() => {setShowFlag(true)}} />
             </div>
             <TaskViewAddingBlock isShow={isShowAddingBlock} defaultCompletionDate={new Date()}
-                                 addFunction={props.parentControlFunctions.addFunction} hideBlockFunction={setShowFlag}/>
+                                 addFunction={(aNewTask) => addNewTask(aNewTask)} hideBlockFunction={setShowFlag}/>
+
             {
-                renderViews.map(viewProps => {
-                return <TaskView key={viewProps.viewId} viewId={viewProps.viewId} task={viewProps.taskObj}
-                                 loadingStatus={viewProps.loadStatus} setLoadingStatus={setLoadingStatus} parentControlFunctions={props.parentControlFunctions} />
-            })
+                // Create and render task views for tasks to be rendered:
+                renderTasks.map(taskObj => { return <TaskView task={taskObj} />})
             }
+
         </div>
     )
 }
@@ -144,21 +153,19 @@ class TasksFilter {
     /**
      * Filter specified list of task on specified completion date.
      * @param aDate - filter date completion value.
-     * @param aListViewProps - list of task view props which will be filtered.
+     * @param aTasksToFilter - list of tasks objects to be filtered.
      * @return {*} - filtered list of task view props.
      */
-    static dateTasks(aDate, aListViewProps) {
-        return aListViewProps.filter(viewProps => {
-            return DateTimeUtilities.isDatesEquals(viewProps.taskObj.taskCompletionDate, aDate);
+    static dateTasks(aDate, aTasksToFilter) {
+        return aTasksToFilter.filter(taskObj => {
+            return DateTimeUtilities.isDatesEquals(taskObj.taskCompletionDate, aDate);
         })
     }
 
-    static betweenDateTasks(aStartDate, aFinishDate, aViewPropsList) {
-        return aViewPropsList.filter(viewProps => {
-            // Get task date completion:
-            const taskCompletion = viewProps.taskObj.taskCompletionDate;
-            // Compare date:
-            return DateTimeUtilities.isDateInPeriod(taskCompletion, aStartDate, aFinishDate);
+
+    static betweenDateTasks(aStartDate, aFinishDate, aTasksToFilter) {
+        return aTasksToFilter.filter(taskObj => {
+            return DateTimeUtilities.isDateInPeriod(taskObj.taskCompletionDate, aStartDate, aFinishDate);
         })
     }
 

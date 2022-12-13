@@ -13,11 +13,13 @@ import {ClientLocalization} from "../../../js/utils/ClientUtilities";
 import {DatePickerInput, ScalableTextArea} from "../../ui/InputsUi";
 
 /**
- * TaskView component user to display, edit single user task.
- * @props - component props.
- * @property - viewId - unique view identification ({String});
- * @property - task - Task model object.
- * @property - loadingStatus - task loading status ({TaskViewLoadingStatus}).
+ * TaskView component wrap user task object.
+ * Used to display, edit, complete user task.
+ * TaskView has own id (viewId) and loading status (@see TaskView.js > TaskViewLoadingStatus object).
+ * @propsProperty - viewId - unique task view identification ({String});
+ * @property - task - task model object for wrap.
+ * @property - loadingStatus - task loading status ({@see TaskView.js > TaskViewLoadingStatus object}). Used to add
+ *  animation effect when task is adding, updating, completing.
  * @property - parentControlFunctions - parent task control function.
  * @stateProperty - task - task state model object.
  * @stateProperty - inEdit - flag indicate if task is editing now.
@@ -43,7 +45,7 @@ export class TaskView extends React.Component {
 
     /**
      * Task view logger.
-     * @type {Logger}
+     * @type {LevelLogger}
      */
     LOGGER = new LevelLogger("TaskView.js", Properties.GLOBAL_LEVEL_LOGS);
 
